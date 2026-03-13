@@ -1,0 +1,26 @@
+/* ============================================================
+   SHARED LAYOUT ENTRYPOINT
+   - Imports the design system + responsive rules
+   - Provides compatibility tokens used by page-specific CSS
+   ============================================================ */
+
+@import "./main.css";
+@import "./responsive.css";
+
+/* Compatibility layer: some page CSS uses --bg-* and --text-* naming */
+:root {
+  --bg-primary: var(--color-bg);
+  --bg-secondary: var(--color-bg-2);
+  --bg-card: var(--color-bg-card);
+  --bg-glass: var(--color-bg-glass);
+
+  --text-primary: var(--color-text);
+  --text-secondary: var(--color-text-2);
+  --text-muted: var(--color-text-3);
+
+  --border-subtle: var(--color-border);
+  --border-strong: var(--color-border-2);
+
+  --shadow-main: var(--shadow-card);
+}
+

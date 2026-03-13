@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" role="img" aria-label="Abruzzo mountains and railway silhouette">
+  <defs>
+    <linearGradient id="mist" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.08"/>
+      <stop offset="0.55" stop-color="#ffffff" stop-opacity="0.02"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0.10"/>
+    </linearGradient>
+    <linearGradient id="ridge" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#000000" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0.40"/>
+    </linearGradient>
+    <filter id="soft" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="1.2"/>
+    </filter>
+  </defs>
+
+  <!-- Mist overlay -->
+  <rect width="1600" height="900" fill="url(#mist)"/>
+
+  <!-- Distant ridges -->
+  <path d="M0 520 C180 430, 380 430, 560 495 C700 545, 860 520, 1020 470 C1200 410, 1400 420, 1600 500 L1600 900 L0 900 Z"
+        fill="url(#ridge)" filter="url(#soft)"/>
+  <path d="M0 610 C220 520, 420 560, 600 610 C740 650, 920 610, 1080 560 C1240 510, 1430 530, 1600 600 L1600 900 L0 900 Z"
+        fill="#000000" fill-opacity="0.32"/>
+
+  <!-- Snow caps (very subtle) -->
+  <path d="M210 520 C260 485, 320 485, 370 520 C325 505, 260 505, 210 520 Z" fill="#ffffff" fill-opacity="0.10"/>
+  <path d="M840 505 C900 462, 980 462, 1040 505 C980 490, 900 490, 840 505 Z" fill="#ffffff" fill-opacity="0.10"/>
+  <path d="M1240 545 C1290 510, 1350 510, 1400 545 C1350 530, 1290 530, 1240 545 Z" fill="#ffffff" fill-opacity="0.08"/>
+
+  <!-- Railway line / perspective -->
+  <g opacity="0.38">
+    <path d="M160 900 C540 790, 850 760, 1440 650" stroke="#ffffff" stroke-opacity="0.35" stroke-width="2" fill="none"/>
+    <path d="M200 900 C560 810, 865 785, 1460 675" stroke="#000000" stroke-opacity="0.30" stroke-width="3" fill="none"/>
+
+    <!-- sleepers -->
+    <g stroke="#000000" stroke-opacity="0.22" stroke-width="2">
+      <path d="M470 822 L520 810"/>
+      <path d="M560 800 L620 788"/>
+      <path d="M660 780 L730 768"/>
+      <path d="M770 760 L845 748"/>
+      <path d="M890 740 L975 728"/>
+      <path d="M1020 718 L1110 706"/>
+      <path d="M1160 694 L1254 682"/>
+      <path d="M1310 668 L1400 657"/>
+    </g>
+  </g>
+
+  <!-- Train silhouette -->
+  <g transform="translate(1060 600)" opacity="0.34">
+    <rect x="0" y="12" width="260" height="54" rx="10" fill="#000000"/>
+    <rect x="24" y="0" width="120" height="38" rx="10" fill="#000000"/>
+    <rect x="160" y="12" width="76" height="30" rx="8" fill="#000000"/>
+    <g fill="#ffffff" fill-opacity="0.12">
+      <rect x="44" y="10" width="22" height="14" rx="4"/>
+      <rect x="74" y="10" width="22" height="14" rx="4"/>
+      <rect x="104" y="10" width="22" height="14" rx="4"/>
+      <rect x="170" y="22" width="18" height="10" rx="3"/>
+      <rect x="194" y="22" width="18" height="10" rx="3"/>
+    </g>
+    <g fill="#000000">
+      <circle cx="56" cy="70" r="10"/>
+      <circle cx="110" cy="70" r="10"/>
+      <circle cx="190" cy="70" r="10"/>
+      <circle cx="236" cy="70" r="10"/>
+    </g>
+  </g>
+</svg>
+

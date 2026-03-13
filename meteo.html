@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transiberiana d'Abruzzo - Meteo Live</title>
+    <link rel="stylesheet" href="/style/layout.css">
+    <link rel="stylesheet" href="/style/meteo.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-inner">
+            <a href="/" class="nav-logo">
+                <span class="logo-icon">🚂</span>
+                <span>Transiberiana<br><small>d'Abruzzo</small></span>
+            </a>
+            <div class="nav-actions">
+                <ul class="nav-links">
+                    <li><a href="/" class="nav-link" data-i18n="nav.home">Home</a></li>
+                    <li><a href="/storia.html" class="nav-link" data-i18n="nav.storia">La Storia</a></li>
+                    <li><a href="/fermate.html" class="nav-link" data-i18n="nav.fermate">Le Fermate</a></li>
+                    <li><a href="/come-salire.html" class="nav-link" data-i18n="nav.salire">Come Salire</a></li>
+                    <li><a href="/info-utili.html" class="nav-link" data-i18n="nav.info">Info Utili</a></li>
+                    <li><a href="/meteo.html" class="nav-link active" data-i18n="nav.meteo">Meteo Live</a></li>
+                </ul>
+                <div class="nav-controls">
+                    <button class="control-btn" id="theme-toggle" title="Cambia Tema">🌓</button>
+                    <button class="control-btn" id="lang-toggle" title="Switch Language">🇮🇹</button>
+                </div>
+            </div>
+            <button class="nav-toggle" type="button" aria-label="Apri menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <main class="container section">
+        <div class="section-header">
+            <h1 class="section-title">Stazione Meteo</h1>
+            <p class="section-desc">Dati live dall'Arduino + storico Open-Meteo.</p>
+        </div>
+
+        <div class="meteo-container">
+             <!-- Dashboard sections here, same as before but on its own page -->
+             <div class="live-cards" id="live-cards">
+                <div class="live-card" id="live-sulmona">
+                  <div class="live-header">
+                    <span class="live-dot live-dot--loading" id="dot-sulmona"></span>
+                    <h3>Sulmona <small>375 m</small></h3>
+                  </div>
+                  <div class="live-temp" id="temp-sulmona">—</div>
+                  <div class="live-meta">
+                    <span id="hum-sulmona">💧 —%</span>
+                    <span id="pres-sulmona">🌬️ — hPa</span>
+                  </div>
+                </div>
+                <!-- ... other cards ... -->
+                <div class="live-card live-card--arduino" id="live-castel">
+                    <div class="live-header">
+                      <span class="live-dot live-dot--loading" id="dot-castel"></span>
+                      <h3>Castel di Sangro <small>793 m</small></h3>
+                      <span class="arduino-badge">🤖 Arduino</span>
+                    </div>
+                    <div class="live-temp" id="temp-castel">—</div>
+                    <div class="live-meta">
+                      <span id="hum-castel">💧 —%</span>
+                      <span id="pres-castel">🌬️ — hPa</span>
+                    </div>
+                </div>
+                <div class="live-card" id="live-campo">
+                    <div class="live-header">
+                      <span class="live-dot live-dot--loading" id="dot-campo"></span>
+                      <h3>Campo di Giove <small>1.060 m</small></h3>
+                    </div>
+                    <div class="live-temp" id="temp-campo">—</div>
+                    <div class="live-meta">
+                      <span id="hum-campo">💧 —%</span>
+                      <span id="pres-campo">🌬️ — hPa</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bleed">
+                <section class="chart-panel" aria-label="Grafico meteo e filtri">
+                    <div class="chart-controls">
+                        <div class="control-group">
+                            <span class="control-label">Periodo:</span>
+                            <div class="chart-period-btns">
+                                <button class="period-btn active" data-period="24h">24 ore</button>
+                                <button class="period-btn" data-period="7d">7 giorni</button>
+                                <button class="period-btn" data-period="30d">30 giorni</button>
+                                <button class="period-btn" data-period="1y">1 anno</button>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <span class="control-label">Misure:</span>
+                            <div class="chart-variable-btns">
+                                <button class="var-btn active" data-var="temperature" style="--accent:#ef4444">Temperatura</button>
+                                <button class="var-btn active" data-var="humidity" style="--accent:#3b82f6">Umidità</button>
+                                <button class="var-btn active" data-var="pressure" style="--accent:#8b5cf6">Pressione</button>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <span class="control-label">Stazioni:</span>
+                            <div class="chart-station-btns">
+                                <button class="station-btn active" data-station="sulmona" style="--accent:#f97316">Sulmona</button>
+                                <button class="station-btn active" data-station="castel" style="--accent:#22d3ee">C. di Sangro</button>
+                                <button class="station-btn active" data-station="campo" style="--accent:#a78bfa">C. di Giove</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-wrapper">
+                        <div class="chart-stage" id="chart-stage" data-loading="true">
+                            <canvas id="meteoChart"></canvas>
+                            <div id="chart-loading" class="chart-loading" aria-live="polite">
+                                <div class="spinner"></div>
+                                <span>Aggiornamento dati...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="chart-status" id="chart-status" aria-live="polite"></p>
+                </section>
+            </div>
+
+            <div class="stats-table-wrapper">
+                <table class="stats-table">
+                  <thead>
+                    <tr>
+                      <th>Misura</th>
+                      <th>Sulmona</th>
+                      <th>Castel di Sangro</th>
+                      <th>Campo di Giove</th>
+                    </tr>
+                  </thead>
+                  <tbody id="stats-tbody">
+                    <tr><td colspan="4">Caricamento...</td></tr>
+                  </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 Transiberiana d'Abruzzo</p>
+            </div>
+        </div>
+    </footer>
+    <script type="module" src="/src/main.js"></script>
+</body>
+</html>

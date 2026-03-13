@@ -1,0 +1,16 @@
+{
+  "nav": {
+    "home": "Home",
+    "storia": "La Storia",
+    "fermate": "Le Fermate",
+    "salire": "Come Salire",
+    "info": "Info Utili",
+    "meteo": "Meteo Live"
+  },
+  "hero": {
+    "title": "Benvenuti sulla Transiberiana d'Abruzzo",
+    "subtitle": "Un viaggio indimenticabile attraverso il cuore verde d'Italia.",
+    "cta_start": "Inizia il Viaggio",
+    "cta_meteo": "Meteo Live"
+  }
+}

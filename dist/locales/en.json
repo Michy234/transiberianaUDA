@@ -1,0 +1,16 @@
+{
+  "nav": {
+    "home": "Home",
+    "storia": "History",
+    "fermate": "Stations",
+    "salire": "How to Board",
+    "info": "Useful Info",
+    "meteo": "Live Weather"
+  },
+  "hero": {
+    "title": "Welcome to the Transiberiana d'Abruzzo",
+    "subtitle": "An unforgettable journey through the green heart of Italy.",
+    "cta_start": "Start Journey",
+    "cta_meteo": "Live Weather"
+  }
+}

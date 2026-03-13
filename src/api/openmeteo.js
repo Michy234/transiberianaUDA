@@ -1,0 +1,119 @@
+/**
+ * openmeteo.js — Fetches weather data from Open-Meteo API
+ * Fixed date filtering and more robust error handling.
+ */
+
+const STATIONS = {
+  sulmona: { name: 'Sulmona',        lat: 42.049, lon: 13.930, altitude: 375  },
+  castel:  { name: 'Castel di Sangro', lat: 41.783, lon: 14.108, altitude: 793  },
+  campo:   { name: 'Campo di Giove',   lat: 41.998, lon: 14.057, altitude: 1060 },
+};
+
+const VARS = 'temperature_2m,relative_humidity_2m,surface_pressure,precipitation';
+const DEFAULT_TIMEOUT_MS = 12_000;
+
+async function fetchJson(url, { timeoutMs = DEFAULT_TIMEOUT_MS } = {}) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    const res = await fetch(url, {
+      signal: controller.signal,
+      headers: { accept: 'application/json' },
+    });
+    if (!res.ok) throw new Error(`Open-Meteo status ${res.status}`);
+    return await res.json();
+  } catch (err) {
+    // Normalize AbortError to a clearer message for UI flows.
+    if (err?.name === 'AbortError') throw new Error('Open-Meteo timeout');
+    throw err;
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
+function getPeriodDates(period) {
+  const now   = new Date();
+  const today = now.toISOString().split('T')[0];
+
+  const sub = (days) => {
+    const d = new Date(now);
+    d.setDate(d.getDate() - days);
+    return d.toISOString().split('T')[0];
+  };
+
+  switch (period) {
+    case '24h':  return { start: sub(1),   end: today };
+    case '7d':   return { start: sub(7),   end: today };
+    case '30d':  return { start: sub(30),  end: today };
+    case '1y':   return { start: sub(365), end: today };
+    case '2y':   return { start: sub(730), end: today };
+    default:     return { start: sub(7),   end: today };
+  }
+}
+
+export async function fetchStationData(stationKey, period) {
+  const { lat, lon } = STATIONS[stationKey];
+  const { start, end } = getPeriodDates(period);
+
+  let url;
+  const isShort = (period === '24h' || period === '7d');
+
+  if (isShort) {
+    url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}`
+      + `&hourly=${VARS}&past_days=7&forecast_days=1`
+      + `&timezone=auto`;
+  } else {
+    url = `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}`
+      + `&start_date=${start}&end_date=${end}`
+      + `&daily=temperature_2m_mean,precipitation_sum,relative_humidity_2m_max,surface_pressure_max`
+      + `&timezone=auto`;
+  }
+
+  const json = await fetchJson(url, { timeoutMs: DEFAULT_TIMEOUT_MS });
+
+  if (isShort) {
+    const h = json.hourly;
+    const startTs = new Date(start).getTime();
+    
+    // Improved filtering: keep everything the API returned as 'forecast/past' for these days
+    // to avoid edge cases with timezone offsets making it zero.
+    const indices = h.time.map((_, i) => i); 
+
+    return {
+      times:         h.time,
+      temperature:   h.temperature_2m,
+      humidity:      h.relative_humidity_2m,
+      pressure:      h.surface_pressure,
+      precipitation: h.precipitation,
+    };
+  } else {
+    const d = json.daily;
+    return {
+      times:         d.time,
+      temperature:   d.temperature_2m_mean,
+      humidity:      d.relative_humidity_2m_max,
+      pressure:      d.surface_pressure_max,
+      precipitation: d.precipitation_sum,
+    };
+  }
+}
+
+export async function fetchCurrentConditions() {
+  const results = {};
+  await Promise.allSettled(
+    Object.entries(STATIONS).map(async ([key, { lat, lon, name }]) => {
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,surface_pressure&timezone=auto`;
+      const json = await fetchJson(url, { timeoutMs: DEFAULT_TIMEOUT_MS });
+      results[key] = {
+        name,
+        temperature: json.current.temperature_2m,
+        humidity:    json.current.relative_humidity_2m,
+        pressure:    json.current.surface_pressure,
+      };
+    })
+  );
+  return results;
+}
+
+export { STATIONS };

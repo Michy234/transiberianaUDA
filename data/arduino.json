@@ -1,0 +1,8 @@
+{
+  "timestamp": "2026-03-13T10:28:00Z",
+  "station": "Castel di Sangro",
+  "temperature_c": 3.4,
+  "humidity_pct": 78,
+  "pressure_hpa": 1013.2,
+  "note": "Aggiornato ogni 60 secondi dall'Arduino"
+}

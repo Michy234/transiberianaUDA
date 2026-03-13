@@ -1,0 +1,191 @@
+/* ============================================================
+   FERMATE SECTION — Station Cards
+   ============================================================ */
+
+.fermate { background: var(--bg-primary); }
+
+.fermate-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--sp-8);
+}
+
+/* Card */
+.fermata-card {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  transition: all var(--dur-med) var(--ease-out);
+  cursor: pointer;
+  animation: cardReveal 0.6s var(--ease-out) both;
+}
+.fermata-card:nth-child(1) { animation-delay: 0.1s; }
+.fermata-card:nth-child(2) { animation-delay: 0.2s; }
+.fermata-card:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes cardReveal {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fermata-card:hover {
+  transform: translateY(-10px);
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-main);
+}
+
+/* Illustration / colour banner */
+.fermata-banner {
+  height: 180px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fermata-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--banner-img);
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.03);
+  filter: saturate(1.12) contrast(1.05);
+  opacity: 0.45;
+  z-index: 0;
+}
+
+[data-theme="light"] .fermata-banner::before {
+  opacity: 0.65;
+}
+
+.fermata-banner-sulmona {
+  background:
+    radial-gradient(900px 240px at 12% 20%, rgba(39,174,96,0.45), transparent 60%),
+    radial-gradient(700px 240px at 88% 10%, rgba(243,156,18,0.30), transparent 60%),
+    linear-gradient(135deg, color-mix(in srgb, var(--bg-card) 85%, transparent), var(--bg-card));
+}
+.fermata-banner-castel {
+  background:
+    radial-gradient(900px 240px at 18% 20%, rgba(41,128,185,0.42), transparent 60%),
+    radial-gradient(700px 260px at 90% 15%, rgba(192,57,43,0.26), transparent 62%),
+    linear-gradient(135deg, color-mix(in srgb, var(--bg-card) 86%, transparent), var(--bg-card));
+}
+.fermata-banner-campo {
+  background:
+    radial-gradient(900px 240px at 16% 18%, rgba(243,156,18,0.45), transparent 62%),
+    radial-gradient(700px 240px at 92% 10%, rgba(39,174,96,0.22), transparent 64%),
+    linear-gradient(135deg, color-mix(in srgb, var(--bg-card) 84%, transparent), var(--bg-card));
+}
+
+/* Scenery SVG placeholder inside banner */
+.fermata-scenery {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.fermata-altitude-badge {
+  position: absolute;
+  top: var(--sp-4);
+  right: var(--sp-4);
+  background: color-mix(in srgb, var(--bg-card) 72%, transparent);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-full);
+  padding: var(--sp-1) var(--sp-3);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--text-secondary);
+  backdrop-filter: blur(8px);
+  z-index: 2;
+}
+
+/* Live temperature chip */
+.fermata-live-chip {
+  position: absolute;
+  bottom: var(--sp-4);
+  left: var(--sp-4);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  background: color-mix(in srgb, var(--bg-card) 72%, transparent);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  padding: var(--sp-2) var(--sp-4);
+  backdrop-filter: blur(8px);
+  transition: border-color var(--dur-med);
+  z-index: 2;
+}
+.fermata-live-chip.loaded { border-color: rgba(39,174,96,0.4); }
+.live-chip-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--color-green);
+  animation: livePulse 2s ease-in-out infinite;
+}
+@keyframes livePulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(39,174,96,0.7); }
+  50%       { opacity: 0.7; box-shadow: 0 0 0 5px rgba(39,174,96,0); }
+}
+.live-chip-temp {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: #fff;
+}
+.live-chip-label {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+}
+
+/* Card body */
+.fermata-body {
+  padding: var(--sp-8);
+}
+.fermata-tag {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: var(--sp-2);
+}
+.fermata-name {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--sp-4);
+  line-height: 1.1;
+}
+.fermata-desc {
+  color: var(--text-secondary);
+  font-size: var(--text-base);
+  line-height: 1.75;
+  margin-bottom: var(--sp-6);
+}
+
+.fermata-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+}
+.fermata-fact {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  border-radius: var(--radius-full);
+  padding: var(--sp-1) var(--sp-3);
+}
