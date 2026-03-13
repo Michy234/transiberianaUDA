@@ -1,24 +1,24 @@
-# 🚂 Transiberiana d'Abruzzo — Sito Web
+# Transiberiana d'Abruzzo — Sito Web
 
 Sito web didattico per il progetto di **Educazione Civica** a.s. 2025/26.  
 Introduce gli utenti alla Transiberiana d'Abruzzo, le sue fermate, informazioni pratiche per il viaggio e una **dashboard meteorologica live** con dati Open-Meteo e sensori Arduino.
 
 ---
 
-## 📋 Funzionalità
+## Funzionalità
 
 | Funzione | Dettaglio |
 |---|---|
-| 🏔️ Presentazione | Storia, fermate, come salire, info utili |
-| 🌡️ Meteo live | Dati attuali dalle 3 stazioni (Open-Meteo API) |
-| 📊 Grafico interattivo | Chart.js multi-linea, toggle per stazione/variabile/periodo |
-| 🤖 Arduino | Polling ogni 30s di `/data/arduino.json` aggiornato dal sensore |
-| 📈 Statistiche | Media, Mediana, Moda calcolate su tutti i periodi |
-| 📱 Responsive | Layout ottimizzato per mobile, tablet e desktop |
+| Presentazione | Storia, fermate, come salire, info utili |
+| Meteo live | Dati attuali dalle 3 stazioni (Open-Meteo API) |
+| Grafico interattivo | Chart.js multi-linea, toggle per stazione/variabile/periodo |
+| Arduino | Polling ogni 30s di `/data/arduino.json` aggiornato dal sensore |
+| Statistiche | Media, Mediana, Moda calcolate su tutti i periodi |
+| Responsive | Layout ottimizzato per mobile, tablet e desktop |
 
 ---
 
-## 🗂️ Struttura del Progetto
+## Struttura del Progetto
 
 ```
 EDUCAZIONE CIVICA TRANSIBERIANA/
@@ -36,7 +36,7 @@ EDUCAZIONE CIVICA TRANSIBERIANA/
 │   ├── api/
 │   │   ├── openmeteo.js    ← Fetch API Open-Meteo (storico + corrente)
 │   │   └── arduino.js      ← Polling /data/arduino.json ogni 30s
-## 🏗️ Struttura del Progetto
+## Struttura del Progetto
 
 Il sito è configurato come una **Multi-Page Application (MPA)** per massimizzare il contenuto di ogni sezione.
 
@@ -47,7 +47,7 @@ Il sito è configurato come una **Multi-Page Application (MPA)** per massimizzar
 - `info-utili.html`: Consigli pratici per i viaggiatori.
 - `meteo.html`: Dashboard interattiva con Chart.js.
 
-## 🚀 Installazione e Sviluppo
+## Installazione e Sviluppo
 
 1. Clona la repository.
 2. Installa le dipendenze:
@@ -63,7 +63,7 @@ Il sito è configurato come una **Multi-Page Application (MPA)** per massimizzar
    npm run build
    ```
 
-## 🛠️ Tecnologie Utilizzate
+## Tecnologie Utilizzate
 
 - **Vite**: Bundler ultra-veloce configurato per MPA.
 - **Chart.js v4**: Visualizzazione dati meteo con toggle dinamici.
@@ -90,7 +90,7 @@ Per modificare le stazioni, edita `src/api/openmeteo.js` → costante `STATIONS`
 
 ---
 
-## 🤖 Configurazione Arduino
+## Configurazione Arduino
 
 ### Hardware necessario
 
@@ -184,7 +184,7 @@ node server.js
 
 ---
 
-## 📊 Statistiche (Media, Mediana, Moda)
+## Statistiche (Media, Mediana, Moda)
 
 Le funzioni statistiche sono implementate in `src/stats/calculator.js`:
 
@@ -198,7 +198,7 @@ I valori `null` e `NaN` vengono ignorati automaticamente.
 
 ---
 
-## 🔧 Personalizzazione
+## Personalizzazione
 
 ### Aggiungere nuovi sensori Arduino
 
@@ -217,7 +217,7 @@ Modifica le variabili CSS in `style/main.css` → sezione `:root`:
 
 ---
 
-## 📜 Licenza e Credits
+## Licenza e Credits
 
 - **Dati meteo:** [Open-Meteo](https://open-meteo.com) — CC BY 4.0
 - **Chart.js:** [chartjs.org](https://chartjs.org) — MIT
