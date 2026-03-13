@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stazione Meteo — San Salvo</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@200;300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky:    #0b1622;
+    --mid:    #112236;
+    --card:   rgba(255,255,255,0.045);
+    --border: rgba(255,255,255,0.08);
+    --text:   #e8f4fd;
+    --muted:  #6b8fa8;
+    --accent: #4fc3f7;
+    --warm:   #ffb74d;
+    --rain:   #81d4fa;
+    --green:  #80cbc4;
+    --red:    #ef9a9a;
+    --glow:   rgba(79,195,247,0.15);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--sky);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ---- SKY BACKGROUND ---- */
+  .sky-bg {
+    position: fixed; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% -10%, #1a3a5c 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 20%, #0d2d4a 0%, transparent 50%),
+      linear-gradient(180deg, #080f18 0%, #0b1622 40%, #0d1f30 100%);
+  }
+
+  /* Stars */
+  .stars {
+    position: fixed; inset: 0; z-index: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 25% 35%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 10%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 75% 25%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 5%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 40% 50%, rgba(255,255,255,0.2) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 15% 60%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 85% 45%, rgba(255,255,255,0.3) 0%, transparent 100%);
+  }
+
+  /* ---- LAYOUT ---- */
+  .container {
+    position: relative; z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  /* ---- HEADER ---- */
+  header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+    animation: fadeDown 0.8s ease both;
+  }
+
+  .station-name {
+    font-size: 0.65rem;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.25em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 0.35rem;
+  }
+
+  .site-title {
+    font-size: clamp(1.6rem, 4vw, 2.6rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    background: linear-gradient(135deg, #e8f4fd 0%, #4fc3f7 60%, #81d4fa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .last-update {
+    text-align: right;
+    font-size: 0.7rem;
+    font-family: 'Space Mono', monospace;
+    color: var(--muted);
+  }
+
+  #update-time { color: var(--accent); }
+
+  .live-dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #4caf50;
+    margin-right: 0.4rem;
+    animation: pulse 2s infinite;
+  }
+
+  /* ---- HERO CARD (temperatura principale) ---- */
+  .hero-card {
+    background: linear-gradient(135deg, rgba(79,195,247,0.08) 0%, rgba(17,34,54,0.6) 100%);
+    border: 1px solid rgba(79,195,247,0.2);
+    border-radius: 24px;
+    padding: 2.5rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1.5rem;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 0 60px var(--glow), inset 0 1px 0 rgba(255,255,255,0.06);
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+
+  .weather-icon {
+    font-size: clamp(4rem, 10vw, 7rem);
+    line-height: 1;
+    text-align: center;
+    animation: float 4s ease-in-out infinite;
+    filter: drop-shadow(0 0 30px rgba(79,195,247,0.4));
+  }
+
+  .temp-display {
+    font-size: clamp(3.5rem, 10vw, 7rem);
+    font-weight: 200;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: #fff;
+  }
+
+  .temp-display sup {
+    font-size: 0.35em;
+    font-weight: 400;
+    color: var(--muted);
+    vertical-align: super;
+  }
+
+  .condition-label {
+    font-size: 1rem;
+    font-weight: 300;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    text-transform: capitalize;
+    margin-top: 0.5rem;
+  }
+
+  .hero-date {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-top: 0.3rem;
+  }
+
+  /* ---- CARDS GRID ---- */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.4rem 1.6rem;
+    backdrop-filter: blur(8px);
+    transition: border-color 0.3s, transform 0.2s, box-shadow 0.3s;
+    cursor: default;
+  }
+
+  .card:hover {
+    border-color: rgba(79,195,247,0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.3), 0 0 20px var(--glow);
+  }
+
+  .card-icon {
+    font-size: 1.6rem;
+    margin-bottom: 0.6rem;
+    display: block;
+  }
+
+  .card-label {
+    font-size: 0.65rem;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+
+  .card-value {
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  .card-unit {
+    font-size: 0.75rem;
+    font-weight: 300;
+    color: var(--muted);
+    margin-left: 0.2rem;
+  }
+
+  .card-sub {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 0.4rem;
+  }
+
+  /* Colori per card specifiche */
+  .card-umidita   .card-value { color: var(--rain); }
+  .card-vento     .card-value { color: #b0bec5; }
+  .card-pressione .card-value { color: var(--green); }
+  .card-pioggia   .card-value { color: var(--rain); }
+  .card-luce      .card-value { color: var(--warm); }
+
+  /* ---- BARRA PROGRESS ---- */
+  .progress-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px;
+    margin-top: 0.7rem;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 1s ease;
+    background: linear-gradient(90deg, var(--accent), #81d4fa);
+  }
+
+  .card-umidita   .progress-fill { background: linear-gradient(90deg, #4fc3f7, #81d4fa); }
+  .card-luce      .progress-fill { background: linear-gradient(90deg, #ffb74d, #fff176); }
+  .card-pioggia   .progress-fill { background: linear-gradient(90deg, #4fc3f7, #b3e5fc); }
+
+  /* ---- GRAFICO STORICO ---- */
+  .chart-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 1.8rem 2rem;
+    margin-bottom: 1.5rem;
+    backdrop-filter: blur(8px);
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .chart-title {
+    font-size: 0.65rem;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .chart-tabs {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .tab-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.3rem 0.8rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.1em;
+  }
+
+  .tab-btn.active, .tab-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(79,195,247,0.08);
+  }
+
+  canvas#chart { width: 100% !important; height: 200px !important; }
+
+  /* ---- FOOTER ---- */
+  footer {
+    text-align: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+
+  /* ---- STATUS BAR ---- */
+  .status-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1.8rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    animation: fadeDown 0.8s 0.05s ease both;
+  }
+
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(76,175,80,0.1);
+    border: 1px solid rgba(76,175,80,0.3);
+    border-radius: 20px;
+    padding: 0.25rem 0.75rem;
+    color: #81c784;
+  }
+
+  .status-pill.error {
+    background: rgba(239,154,154,0.1);
+    border-color: rgba(239,154,154,0.3);
+    color: var(--red);
+  }
+
+  /* ---- ANIMATIONS ---- */
+  @keyframes fadeUp   { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:none; } }
+  @keyframes fadeDown { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:none; } }
+  @keyframes float    { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  @keyframes pulse    { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 600px) {
+    .hero-card { grid-template-columns: 1fr; text-align: center; }
+    .weather-icon { order: -1; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sky-bg"></div>
+<div class="stars"></div>
+
+<div class="container">
+
+  <header>
+    <div>
+      <div class="station-name">🌡 Stazione Meteo Arduino</div>
+      <div class="site-title">San Salvo Meteo</div>
+    </div>
+    <div class="last-update">
+      <div><span class="live-dot"></span>LIVE</div>
+      <div>Aggiornato: <span id="update-time">—</span></div>
+    </div>
+  </header>
+
+  <div class="status-bar">
+    <span id="status-pill" class="status-pill">
+      <span class="live-dot" style="background:#81c784"></span>
+      <span id="status-text">Connessione in corso...</span>
+    </span>
+    <span>Ricarica ogni 60s</span>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero-card">
+    <div>
+      <div class="temp-display" id="temperatura">--<sup>°C</sup></div>
+      <div class="condition-label" id="condizione">—</div>
+      <div class="hero-date" id="hero-date">—</div>
+    </div>
+    <div class="weather-icon" id="weather-icon">🌤</div>
+  </div>
+
+  <!-- CARDS -->
+  <div class="cards">
+
+    <div class="card card-umidita">
+      <span class="card-icon">💧</span>
+      <div class="card-label">Umidità</div>
+      <div class="card-value" id="umidita">--<span class="card-unit">%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="umidita-bar" style="width:0%"></div></div>
+    </div>
+
+    <div class="card card-vento">
+      <span class="card-icon">💨</span>
+      <div class="card-label">Vento</div>
+      <div class="card-value" id="vento">--<span class="card-unit">km/h</span></div>
+      <div class="card-sub" id="vento-desc">—</div>
+    </div>
+
+    <div class="card card-pressione">
+      <span class="card-icon">🔵</span>
+      <div class="card-label">Pressione</div>
+      <div class="card-value" id="pressione">--<span class="card-unit">hPa</span></div>
+      <div class="card-sub" id="pressione-desc">—</div>
+    </div>
+
+    <div class="card card-pioggia">
+      <span class="card-icon">🌧</span>
+      <div class="card-label">Precipitazioni</div>
+      <div class="card-value" id="pioggia-val">--<span class="card-unit">%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="pioggia-bar" style="width:0%"></div></div>
+    </div>
+
+    <div class="card card-luce">
+      <span class="card-icon">☀️</span>
+      <div class="card-label">Luminosità</div>
+      <div class="card-value" id="luce">--<span class="card-unit">%</span></div>
+      <div class="progress-bar"><div class="progress-fill" id="luce-bar" style="width:0%"></div></div>
+    </div>
+
+  </div>
+
+  <!-- GRAFICO -->
+  <div class="chart-section">
+    <div class="chart-header">
+      <div class="chart-title">Storico ultime ore</div>
+      <div class="chart-tabs">
+        <button class="tab-btn active" onclick="switchChart('temperatura', this)">TEMP</button>
+        <button class="tab-btn" onclick="switchChart('umidita', this)">UMID</button>
+        <button class="tab-btn" onclick="switchChart('vento_kmh', this)">VENTO</button>
+      </div>
+    </div>
+    <canvas id="chart"></canvas>
+  </div>
+
+  <footer>
+    ARDUINO METEO STATION — SAN SALVO (CH) — ABRUZZO, ITALY<br>
+    Sensori: DHT22 · BMP280 · Anemometro · LDR
+  </footer>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+// ==============================
+// CONFIGURAZIONE
+// ==============================
+const JSON_URL      = "weather_data.json"; // Cambia con l'URL del tuo server
+const REFRESH_MS    = 60000;               // Aggiorna ogni 60 secondi
+let chart           = null;
+let chartField      = "temperatura";
+let storicoData     = [];
+
+// ==============================
+// ICONE METEO
+// ==============================
+const ICONS = {
+  soleggiato:              "☀️",
+  parzialmente_nuvoloso:   "⛅",
+  nuvoloso:                "☁️",
+  pioggia:                 "🌧",
+  temporale:               "⛈",
+  ventoso:                 "🌬",
+  default:                 "🌤"
+};
+
+const CONDIZIONI = {
+  soleggiato:              "Soleggiato",
+  parzialmente_nuvoloso:   "Parzialmente Nuvoloso",
+  nuvoloso:                "Nuvoloso",
+  pioggia:                 "Pioggia",
+  temporale:               "Temporale",
+  ventoso:                 "Ventoso",
+};
+
+function getWindDesc(kmh) {
+  if (kmh < 5)   return "Calma";
+  if (kmh < 20)  return "Brezza leggera";
+  if (kmh < 40)  return "Vento moderato";
+  if (kmh < 60)  return "Vento forte";
+  return "Tempesta";
+}
+
+function getPressureDesc(hpa) {
+  if (hpa < 1000) return "Bassa pressione ↓";
+  if (hpa > 1020) return "Alta pressione ↑";
+  return "Stabile →";
+}
+
+// ==============================
+// FETCH E AGGIORNAMENTO UI
+// ==============================
+async function fetchWeather() {
+  try {
+    const res = await fetch(JSON_URL + "?t=" + Date.now());
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const data = await res.json();
+    updateUI(data);
+    setStatus("ok", "Arduino connesso");
+  } catch (e) {
+    setStatus("error", "Dati non disponibili: " + e.message);
+    console.warn("Fetch error:", e);
+  }
+}
+
+function updateUI(data) {
+  const c = data.corrente;
+  storicoData = data.storico || [];
+
+  // Header
+  document.getElementById("update-time").textContent = c.ora || "--";
+
+  // Hero
+  document.getElementById("temperatura").innerHTML =
+    `${c.temperatura}<sup>°C</sup>`;
+  document.getElementById("condizione").textContent =
+    CONDIZIONI[c.condizione] || c.condizione || "—";
+  document.getElementById("hero-date").textContent =
+    `${c.data || ""} — ${c.ora || ""}`;
+  document.getElementById("weather-icon").textContent =
+    ICONS[c.condizione] || ICONS.default;
+
+  // Cards
+  document.getElementById("umidita").innerHTML =
+    `${c.umidita}<span class="card-unit">%</span>`;
+  document.getElementById("umidita-bar").style.width = `${c.umidita}%`;
+
+  document.getElementById("vento").innerHTML =
+    `${c.vento_kmh}<span class="card-unit">km/h</span>`;
+  document.getElementById("vento-desc").textContent = getWindDesc(c.vento_kmh);
+
+  document.getElementById("pressione").innerHTML =
+    `${c.pressione}<span class="card-unit">hPa</span>`;
+  document.getElementById("pressione-desc").textContent = getPressureDesc(c.pressione);
+
+  document.getElementById("pioggia-val").innerHTML =
+    `${Math.round(c.pioggia_pct)}<span class="card-unit">%</span>`;
+  document.getElementById("pioggia-bar").style.width = `${c.pioggia_pct}%`;
+
+  document.getElementById("luce").innerHTML =
+    `${Math.round(c.luce_pct)}<span class="card-unit">%</span>`;
+  document.getElementById("luce-bar").style.width = `${c.luce_pct}%`;
+
+  // Aggiorna grafico
+  updateChart();
+}
+
+function setStatus(type, msg) {
+  const pill = document.getElementById("status-pill");
+  const text = document.getElementById("status-text");
+  pill.className = "status-pill" + (type === "error" ? " error" : "");
+  text.textContent = msg;
+}
+
+// ==============================
+// GRAFICO
+// ==============================
+const CHART_COLORS = {
+  temperatura: { line: "#4fc3f7", fill: "rgba(79,195,247,0.12)" },
+  umidita:     { line: "#81d4fa", fill: "rgba(129,212,250,0.12)" },
+  vento_kmh:   { line: "#b0bec5", fill: "rgba(176,190,197,0.12)" },
+};
+
+function buildChart() {
+  const ctx = document.getElementById("chart").getContext("2d");
+  chart = new Chart(ctx, {
+    type: "line",
+    data: { labels: [], datasets: [{ data: [], tension: 0.4, pointRadius: 2, pointHoverRadius: 5 }] },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 600, easing: "easeInOutQuart" },
+      interaction: { mode: "index", intersect: false },
+      scales: {
+        x: {
+          ticks: { color: "#6b8fa8", font: { family: "Space Mono", size: 10 }, maxTicksLimit: 8 },
+          grid:  { color: "rgba(255,255,255,0.04)" },
+        },
+        y: {
+          ticks: { color: "#6b8fa8", font: { family: "Space Mono", size: 10 } },
+          grid:  { color: "rgba(255,255,255,0.06)" },
+        }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: "rgba(11,22,34,0.95)",
+          borderColor: "rgba(79,195,247,0.3)",
+          borderWidth: 1,
+          titleFont: { family: "Space Mono" },
+          bodyFont:  { family: "Outfit" },
+          titleColor: "#4fc3f7",
+          bodyColor:  "#e8f4fd",
+        }
+      }
+    }
+  });
+}
+
+function updateChart() {
+  if (!chart || storicoData.length === 0) return;
+
+  const labels = storicoData.map(d => d.ora);
+  const values = storicoData.map(d => d[chartField]);
+  const col    = CHART_COLORS[chartField] || CHART_COLORS.temperatura;
+
+  chart.data.labels = labels;
+  chart.data.datasets[0].data  = values;
+  chart.data.datasets[0].borderColor = col.line;
+  chart.data.datasets[0].backgroundColor = col.fill;
+  chart.data.datasets[0].fill = true;
+  chart.update();
+}
+
+function switchChart(field, btn) {
+  chartField = field;
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  updateChart();
+}
+
+// ==============================
+// AVVIO
+// ==============================
+buildChart();
+fetchWeather();
+setInterval(fetchWeather, REFRESH_MS);
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+{
+  "corrente": {
+    "temperatura": 22.4,
+    "umidita": 63,
+    "vento_kmh": 14,
+    "pioggia": false,
+    "pioggia_pct": 8,
+    "luce_pct": 78,
+    "pressione": 1018,
+    "condizione": "soleggiato",
+    "timestamp": "2026-03-13T15:30:00",
+    "ora": "15:30",
+    "data": "13/03/2026"
+  },
+  "storico": [
+    { "ora": "09:00", "temperatura": 16.2, "umidita": 75, "vento_kmh": 8 },
+    { "ora": "09:30", "temperatura": 16.8, "umidita": 73, "vento_kmh": 9 },
+    { "ora": "10:00", "temperatura": 17.5, "umidita": 71, "vento_kmh": 10 },
+    { "ora": "10:30", "temperatura": 18.1, "umidita": 69, "vento_kmh": 11 },
+    { "ora": "11:00", "temperatura": 19.0, "umidita": 67, "vento_kmh": 12 },
+    { "ora": "11:30", "temperatura": 19.8, "umidita": 66, "vento_kmh": 13 },
+    { "ora": "12:00", "temperatura": 20.5, "umidita": 65, "vento_kmh": 12 },
+    { "ora": "12:30", "temperatura": 21.2, "umidita": 64, "vento_kmh": 11 },
+    { "ora": "13:00", "temperatura": 21.9, "umidita": 63, "vento_kmh": 13 },
+    { "ora": "13:30", "temperatura": 22.1, "umidita": 63, "vento_kmh": 14 },
+    { "ora": "14:00", "temperatura": 22.6, "umidita": 62, "vento_kmh": 15 },
+    { "ora": "14:30", "temperatura": 22.9, "umidita": 62, "vento_kmh": 14 },
+    { "ora": "15:00", "temperatura": 22.6, "umidita": 63, "vento_kmh": 14 },
+    { "ora": "15:30", "temperatura": 22.4, "umidita": 63, "vento_kmh": 14 }
+  ],
+  "meta": {
+    "stazione": "San Salvo - Stazione Meteo Arduino",
+    "ultimo_update": "2026-03-13T15:30:00",
+    "versione": "1.0"
+  }
+}
