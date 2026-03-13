@@ -42,20 +42,30 @@
         </div>
 
         <section class="journey-full" id="journey" aria-label="Viaggio interattivo (scroll)">
-            <div class="journey-full-bg" aria-hidden="true"></div>
+            <div class="journey-full-bg" aria-hidden="true">
+                <div class="journey-full-bg-layer is-active" data-stop="sulmona" style="--journey-bg:url('/photos/fermate/sulmona.jpg')"></div>
+                <div class="journey-full-bg-layer" data-stop="castel" style="--journey-bg:url('/photos/fermate/castel-di-sangro.jpg')"></div>
+                <div class="journey-full-bg-layer" data-stop="campo" style="--journey-bg:url('/photos/fermate/campo-di-giove.jpg')"></div>
+            </div>
             <div class="journey-full-vignette" aria-hidden="true"></div>
+            <div class="journey-blur-lines" aria-hidden="true"></div>
 
             <div class="journey-full-ui" aria-hidden="true">
                 <div class="journey-path">
-                    <svg class="journey-path-svg" viewBox="0 0 200 720" preserveAspectRatio="none">
+                    <svg class="journey-path-svg" viewBox="0 0 1000 1400" preserveAspectRatio="xMidYMid meet">
+                        <path id="journey-rail-left-shadow" class="journey-rail-shadow" fill="none" stroke="rgba(0,0,0,0.42)" stroke-width="20" stroke-linecap="round"/>
+                        <path id="journey-rail-right-shadow" class="journey-rail-shadow" fill="none" stroke="rgba(0,0,0,0.42)" stroke-width="20" stroke-linecap="round"/>
+                        <path id="journey-rail-left" class="journey-rail-metal" fill="none" stroke="rgba(238,238,238,0.92)" stroke-width="10" stroke-linecap="round"/>
+                        <path id="journey-rail-right" class="journey-rail-metal" fill="none" stroke="rgba(238,238,238,0.92)" stroke-width="10" stroke-linecap="round"/>
+                        <g id="journey-rail-ties" class="journey-rail-ties" aria-hidden="true"></g>
                         <path id="journey-path-line"
-                              d="M110 20 C70 110, 150 210, 92 300 C35 390, 135 470, 80 560 C25 650, 95 695, 120 705"
-                              fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="3" stroke-linecap="round"/>
+                              d="M170 40 C300 110, 500 120, 700 200 C860 265, 900 370, 800 480 C700 590, 460 620, 300 720 C180 795, 180 930, 320 1020 C460 1110, 720 1130, 780 1260 C820 1340, 700 1385, 550 1392"
+                              fill="none" stroke="transparent" stroke-width="2"/>
                     </svg>
                     <div class="journey-marker" data-stop="sulmona"></div>
                     <div class="journey-marker" data-stop="castel"></div>
                     <div class="journey-marker" data-stop="campo"></div>
-                    <div class="journey-walker" id="journey-walker">🚶</div>
+                    <div class="journey-walker" id="journey-walker" aria-hidden="true"><span class="journey-train-icon"></span></div>
                 </div>
 
                 <div class="journey-overlay" id="journey-popup" aria-live="polite">
