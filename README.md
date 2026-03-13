@@ -1,7 +1,7 @@
 # Transiberiana d'Abruzzo — Sito Web
 
-Sito web didattico per il progetto di **Educazione Civica** a.s. 2025/26.  
-Introduce gli utenti alla Transiberiana d'Abruzzo, le sue fermate, informazioni pratiche per il viaggio e una **dashboard meteorologica live** con dati Open-Meteo e sensori Arduino.
+Sito web didattico come progetto di **Educazione Civica** a.s. 2025/26.  
+Introduce gli utenti alla Transiberiana d'Abruzzo, le sue fermate, informazioni pratiche per il viaggio e una **dashboard meteorologica live** con dati Open-Meteo e sensori Arduino (utilizzati durante la gita alla medesima).
 
 ---
 
@@ -222,8 +222,8 @@ Modifica le variabili CSS in `style/main.css` → sezione `:root`:
 - **Dati meteo:** [Open-Meteo](https://open-meteo.com) — CC BY 4.0
 - **Chart.js:** [chartjs.org](https://chartjs.org) — MIT
 - **Fondazione FS:** Informazioni storiche sulla Transiberiana d'Abruzzo
-- **Progetto didattico:** Istituto Tecnico Informatico, Educazione Civica 2025/26
+- **Progetto didattico:** IIS Mattei Vasto, Educazione Civica 2025/26
 
 ---
 
-*Progetto realizzato come componente del percorso di Educazione Civica — Classe V, a.s. 2025/26.*
+*Progetto realizzato come componente del percorso di Educazione Civica — Classe 4BIN, a.s. 2025/26.*
