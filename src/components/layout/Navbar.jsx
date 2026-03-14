@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useLayoutEffect, useRef, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Train, Translate, List, X, Sun, Moon } from '@phosphor-icons/react';
+import { Train, Translate, List, X, Sun, Moon, CloudRain } from '@phosphor-icons/react';
 import { useTheme } from '../ThemeContext';
 
 const navLinks = [
@@ -122,6 +122,7 @@ export default function Navbar() {
             )}
             {navLinks.map((link) => {
               const isActive = location.pathname === link.path;
+              const isMeteoLive = link.path === '/meteo';
               return (
                 <Link
                   key={link.path}
@@ -129,8 +130,19 @@ export default function Navbar() {
                   ref={setLinkRef(link.path)}
                   className={`relative z-10 px-4 py-2 rounded-xl text-sm font-semibold transition-colors duration-200 ${
                     isActive ? 'text-primary-foreground' : 'text-foreground/60 hover:text-foreground'
-                  }`}
+                  } ${isMeteoLive ? 'bg-gradient-to-r from-primary/20 to-primary/10 border border-primary/30' : ''}`}
                 >
+<<<<<<< HEAD
+=======
+                  {isActive && (
+                    <motion.div
+                      layoutId="nav-pill"
+                      className="absolute inset-0 bg-primary rounded-xl -z-10 shadow-[var(--shadow-subtle)]"
+                      transition={{ type: 'spring', stiffness: 200, damping: 25 }}
+                    />
+                  )}
+                  {isMeteoLive && <CloudRain size={16} weight="fill" className={`inline-block mr-1.5 ${isDark ? 'text-black' : 'text-white'}`} />}
+>>>>>>> f657764 (feat: finished live weather page, small button adjustments)
                   {link.label}
                 </Link>
               );

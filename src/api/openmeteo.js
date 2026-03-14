@@ -4,9 +4,9 @@
  */
 
 const STATIONS = {
-  sulmona: { name: 'Sulmona',        lat: 42.049, lon: 13.930, altitude: 375  },
-  castel:  { name: 'Castel di Sangro', lat: 41.783, lon: 14.108, altitude: 793  },
-  campo:   { name: 'Campo di Giove',   lat: 41.998, lon: 14.057, altitude: 1060 },
+  sulmona: { name: 'Sulmona', lat: 42.049, lon: 13.930, altitude: 375, weatherUrl: 'https://www.3bmeteo.com/meteo/sulmona' },
+  castel:  { name: 'Castel di Sangro', lat: 41.783, lon: 14.108, altitude: 793, weatherUrl: 'https://www.3bmeteo.com/meteo/castel+di+sangro' },
+  campo:   { name: 'Campo di Giove', lat: 41.998, lon: 14.057, altitude: 1060, weatherUrl: 'https://www.3bmeteo.com/meteo/campo+di+giove' },
 };
 
 const VARS = 'temperature_2m,relative_humidity_2m,surface_pressure,precipitation';
@@ -58,10 +58,12 @@ export async function fetchStationData(stationKey, period) {
 
   let url;
   const isShort = (period === '24h' || period === '7d');
+  const windowHours = period === '24h' ? 24 : 7 * 24;
 
   if (isShort) {
+    const pastDays = period === '24h' ? 2 : 8;
     url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}`
-      + `&hourly=${VARS}&past_days=7&forecast_days=1`
+      + `&hourly=${VARS}&past_days=${pastDays}&forecast_days=1`
       + `&timezone=auto`;
   } else {
     url = `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}`
@@ -74,18 +76,32 @@ export async function fetchStationData(stationKey, period) {
 
   if (isShort) {
     const h = json.hourly;
-    const startTs = new Date(start).getTime();
-    
-    // Improved filtering: keep everything the API returned as 'forecast/past' for these days
-    // to avoid edge cases with timezone offsets making it zero.
-    const indices = h.time.map((_, i) => i); 
+    const endTime = new Date();
+    endTime.setMinutes(0, 0, 0);
+    const startTime = new Date(endTime);
+    startTime.setHours(startTime.getHours() - windowHours);
+
+    const indices = [];
+    for (let i = 0; i < h.time.length; i++) {
+      const t = new Date(h.time[i]);
+      if (!Number.isFinite(t.getTime())) continue;
+      if (t >= startTime && t <= endTime) indices.push(i);
+    }
+
+    // Fallback if timezone parsing/rounding ever yields an empty slice.
+    if (!indices.length) {
+      const count = Math.min(h.time.length, windowHours + 1);
+      for (let i = h.time.length - count; i < h.time.length; i++) {
+        if (i >= 0) indices.push(i);
+      }
+    }
 
     return {
-      times:         h.time,
-      temperature:   h.temperature_2m,
-      humidity:      h.relative_humidity_2m,
-      pressure:      h.surface_pressure,
-      precipitation: h.precipitation,
+      times:         indices.map(i => h.time[i]),
+      temperature:   indices.map(i => h.temperature_2m[i]),
+      humidity:      indices.map(i => h.relative_humidity_2m[i]),
+      pressure:      indices.map(i => h.surface_pressure[i]),
+      precipitation: indices.map(i => h.precipitation[i]),
     };
   } else {
     const d = json.daily;

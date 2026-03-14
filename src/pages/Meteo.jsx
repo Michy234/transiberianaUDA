@@ -1,10 +1,79 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CloudRain, Wind, Thermometer, MapPin, Leaf, CloudSlash, MoonStars, Campfire } from '@phosphor-icons/react';
+import { CloudRain, Wind, Thermometer, MapPin, Leaf, CloudSun, Sun, Cloud, Snowflake } from '@phosphor-icons/react';
 import { useTheme } from '../components/ThemeContext';
+import WeatherChart from '../components/WeatherChart';
+import { fetchCurrentConditions, STATIONS } from '../api/openmeteo';
 
 /* ——— States ——— */
 const STATES = { LOADING: 'loading', READY: 'ready', ERROR: 'error', EMPTY: 'empty' };
+
+const CITY_PHOTOS = {
+  sulmona: '/photos/fermate/sulmona.jpg',
+  castel: '/photos/fermate/castel-di-sangro.jpg',
+  campo: '/photos/fermate/campo-di-giove.jpg',
+};
+
+function getWeatherIcon(code) {
+  if (code <= 0) return <Sun size={48} weight="duotone" className="text-amber-500" />;
+  if (code <= 3) return <CloudSun size={48} weight="duotone" className="text-blue-400" />;
+  if (code <= 48) return <Cloud size={48} weight="duotone" className="text-slate-400" />;
+  if (code <= 67) return <CloudRain size={48} weight="duotone" className="text-blue-500" />;
+  return <Snowflake size={48} weight="duotone" className="text-cyan-300" />;
+}
+
+function CityWeatherCard({ city, data, delay }) {
+  const weatherCode = data?.weatherCode ?? 0;
+  const photoSrc = CITY_PHOTOS[city.key];
+  
+  return (
+    <motion.a
+      href={city.weatherUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay, type: 'spring', stiffness: 100, damping: 20 }}
+      className="bg-card p-6 rounded-3xl shadow-[var(--shadow-card)] relative overflow-hidden group hover:shadow-[var(--shadow-card-hover)] hover:scale-[1.02] transition-all duration-300 block"
+      role="region"
+    >
+      {photoSrc && (
+        <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+          <img
+            src={photoSrc}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover scale-110 blur-[2px] opacity-30"
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/60 to-background/25" />
+        </div>
+      )}
+      <div className="relative z-10">
+        <div className="flex items-center gap-2 mb-3">
+          <MapPin size={16} className="text-primary" weight="fill" />
+          <h3 className="font-serif font-bold text-lg text-foreground">{city.name}</h3>
+        </div>
+        <div className="flex items-center gap-3 mb-4">
+          <div className="text-5xl">
+            {getWeatherIcon(weatherCode)}
+          </div>
+          <div className="text-4xl font-bold tracking-tighter text-foreground" style={{ fontVariantNumeric: 'tabular-nums' }}>
+            {data?.temperature ? `${data.temperature.toFixed(1)}°C` : '—'}
+          </div>
+        </div>
+        <div className="flex gap-4 text-sm text-muted-foreground">
+          <span className="flex items-center gap-1">
+            <CloudRain size={14} /> {data?.humidity ?? '—'}%
+          </span>
+          <span className="flex items-center gap-1">
+            <Wind size={14} /> {data?.pressure ?? '—'} hPa
+          </span>
+        </div>
+        <p className="text-xs text-muted-foreground mt-2">{city.altitude}m • Clicca per previsioni complete</p>
+      </div>
+    </motion.a>
+  );
+}
 
 function LoadingState({ isDark }) {
   return (
@@ -125,23 +194,47 @@ function MeteoCard({ delay, title, value, icon, desc, className = '' }) {
 }
 
 export default function Meteo() {
-  const [temp, setTemp] = useState('—');
+  const [weatherData, setWeatherData] = useState({});
   const [state, setState] = useState(STATES.LOADING);
   const { isDark } = useTheme();
-  
+
+  const cities = [
+    { key: 'sulmona', ...STATIONS.sulmona },
+    { key: 'castel', ...STATIONS.castel },
+    { key: 'campo', ...STATIONS.campo },
+  ];
+
   useEffect(() => {
+    const loadData = async () => {
+      try {
+        const data = await fetchCurrentConditions();
+        setWeatherData(data);
+        setState(STATES.READY);
+      } catch (err) {
+        setState(STATES.ERROR);
+      }
+    };
+
     const loadTimer = setTimeout(() => {
-      setTemp('8.4');
-      setState(STATES.READY);
-    }, 1500);
+      loadData();
+    }, 1000);
+
     return () => clearTimeout(loadTimer);
   }, []);
 
+  const updateLoop = () => {
+    const interval = setInterval(async () => {
+      try {
+        const data = await fetchCurrentConditions();
+        setWeatherData(data);
+      } catch (e) {}
+    }, 60000);
+    return interval;
+  };
+
   useEffect(() => {
     if (state !== STATES.READY) return;
-    const interval = setInterval(() => {
-      setTemp((7.8 + Math.random() * 1.4).toFixed(1));
-    }, 5000);
+    const interval = updateLoop();
     return () => clearInterval(interval);
   }, [state]);
 
@@ -149,22 +242,14 @@ export default function Meteo() {
     <div className="min-h-[100dvh] pt-32 pb-24 px-6 md:px-12 max-w-[1400px] mx-auto">
       
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+      <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
         <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-primary/8 text-primary text-sm font-semibold mb-4">
             <span className="w-2 h-2 rounded-full bg-primary animate-gentle-pulse" aria-hidden="true"></span>
-            Sensori IoT attivi
+            Dati live
           </div>
           <h1 className="text-4xl md:text-6xl font-serif font-bold tracking-[-0.03em] text-foreground mb-2">Meteo live</h1>
-          <p className="text-lg text-muted-foreground max-w-[55ch]">Dati rilevati in tempo reale alla stazione di Castel di Sangro.</p>
-        </motion.div>
-
-        <motion.div
-           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}
-           className="flex items-center gap-3 px-5 py-3 bg-card rounded-2xl border border-border/50 shadow-[var(--shadow-subtle)]"
-        >
-          <MapPin size={20} className="text-primary" weight="fill" />
-          <span className="font-semibold text-sm">Castel di Sangro (793m)</span>
+          <p className="text-lg text-muted-foreground max-w-[55ch]">Condizioni meteorologiche in tempo reale lungo la Transiberiana d'Abruzzo.</p>
         </motion.div>
       </div>
 
@@ -190,46 +275,28 @@ export default function Meteo() {
 
         {state === STATES.READY && (
           <motion.div key="ready" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            {/* 2+1 Masonry Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <MeteoCard 
-                delay={0.1} 
-                title="Temperatura" 
-                value={`${temp}°C`} 
-                desc="Aggiornamento ogni 5s"
-                icon={<Thermometer size={100} weight="duotone" />} 
-              />
-              <MeteoCard 
-                delay={0.2} 
-                title="Umidità" 
-                value="72%" 
-                desc="Tendenza stabile"
-                icon={<CloudRain size={100} weight="duotone" />} 
-              />
-              <MeteoCard 
-                delay={0.3} 
-                title="Vento" 
-                value="12 km/h" 
-                desc="Direzione NE"
-                icon={<Wind size={100} weight="duotone" />} 
-                className="md:col-span-2"
-              />
+            {/* City Weather Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+              {cities.map((city, index) => (
+                <CityWeatherCard 
+                  key={city.key} 
+                  city={city} 
+                  data={weatherData[city.key]} 
+                  delay={0.1 + index * 0.1}
+                />
+              ))}
             </div>
 
-            {/* Forecast Panel */}
+            {/* Weather Chart */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, type: 'spring', stiffness: 100 }}
-              className="mt-6 w-full rounded-3xl bg-gradient-to-br from-primary/5 via-background to-primary-light/8 relative overflow-hidden p-10 md:p-12"
+              transition={{ delay: 0.5, type: 'spring', stiffness: 100 }}
+              className="w-full"
             >
-              <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/4 pointer-events-none" aria-hidden="true" />
-              
-              <div className="max-w-lg relative z-10">
-                <h2 className="font-serif font-bold text-2xl mb-3 text-foreground">Previsione prossime 24h</h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  Previsto lieve abbassamento delle temperature nelle ore notturne, con possibilità di precipitazioni nevose oltre i 1.200m. Venti moderati da nord-est.
-                </p>
+              <div className="bg-card rounded-3xl p-6 shadow-[var(--shadow-card)] border border-border/30">
+                <h2 className="font-serif text-2xl font-bold mb-6 text-foreground">Andamento meteo</h2>
+                <WeatherChart />
               </div>
             </motion.div>
           </motion.div>
