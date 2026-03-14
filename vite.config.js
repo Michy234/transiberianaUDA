@@ -1,7 +1,13 @@
 import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 import { resolve } from 'path';
 
 export default defineConfig({
+  plugins: [
+    tailwindcss(),
+    react()
+  ],
   publicDir: 'public',
   server: {
     port: 5173,
@@ -13,16 +19,6 @@ export default defineConfig({
     },
   },
   build: {
-    rollupOptions: {
-      input: {
-        main: resolve(__dirname, 'index.html'),
-        storia: resolve(__dirname, 'storia.html'),
-        fermate: resolve(__dirname, 'fermate.html'),
-        salire: resolve(__dirname, 'come-salire.html'),
-        info: resolve(__dirname, 'info-utili.html'),
-        meteo: resolve(__dirname, 'meteo.html'),
-      },
-    },
     outDir: 'dist',
     emptyOutDir: true,
   },
