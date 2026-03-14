@@ -8,6 +8,39 @@ import Journey from './Journey';
 
 gsap.registerPlugin(ScrollToPlugin);
 
+const sponsorLogos = [
+  {
+    src: '/photos/sponsors/silente.png',
+    alt: 'Parco Sirente Velino',
+    href: 'https://www.parcosirentevelino.it/',
+  },
+  {
+    src: '/photos/sponsors/tua.png',
+    alt: 'TUA Abruzzo',
+    href: 'https://www.tuabruzzo.it/',
+  },
+  {
+    src: '/photos/sponsors/fs.webp',
+    alt: 'Fondazione FS',
+    href: 'https://www.fondazionefs.it/',
+  },
+  {
+    src: '/photos/sponsors/tti.png',
+    alt: 'FS Treni Turistici Italiani',
+    href: 'https://www.fstrenituristici.it/',
+  },
+  {
+    src: '/photos/sponsors/maiella.png',
+    alt: 'Parco Nazionale della Maiella',
+    href: 'https://www.parcomajella.it/',
+  },
+  {
+    src: '/photos/sponsors/abruzzo.png',
+    alt: 'Parco Nazionale d’Abruzzo, Lazio e Molise',
+    href: 'https://www.parcoabruzzo.it/',
+  },
+];
+
 function getNavOffset() {
   if (typeof window === 'undefined') return 0;
   const nav = document.querySelector('nav');
@@ -142,9 +175,55 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="py-6 md:py-8 px-0 bg-background">
+        <div className="w-full text-center">
+          <div className="text-sm font-semibold text-muted-foreground uppercase tracking-[0.28em] mb-6">
+            PARTNER E SPONSOR
+          </div>
+          <div className="relative overflow-hidden border-y border-border/60 bg-card/60 backdrop-blur-xl shadow-[var(--shadow-card)] px-6 py-6">
+            <div
+              className="sponsor-marquee"
+              aria-label="Partner e sponsor della Transiberiana d'Abruzzo"
+            >
+              <div className="sponsor-track">
+                <div className="sponsor-track-inner">
+                  {sponsorLogos.map((logo) => (
+                    <a
+                      key={logo.src}
+                      href={logo.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="sponsor-item sponsor-link"
+                    >
+                      <img src={logo.src} alt={logo.alt} loading="lazy" />
+                    </a>
+                  ))}
+                </div>
+                <div className="sponsor-track-inner" aria-hidden="true">
+                  {sponsorLogos.map((logo) => (
+                    <a
+                      key={`${logo.src}-dup`}
+                      href={logo.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="sponsor-item sponsor-link"
+                      tabIndex={-1}
+                      aria-hidden="true"
+                    >
+                      <img src={logo.src} alt="" loading="lazy" />
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section ref={journeyRef} aria-label="Journey scroll">
         <Journey />
       </section>
+
     </div>
   );
 }
