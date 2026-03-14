@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, CloudRain, MapPin, Tree, Mountains } from '@phosphor-icons/react';
+import { ArrowRight, CloudRain, MapPin, Tree } from '@phosphor-icons/react';
 import { Link } from 'react-router-dom';
 
 export default function Home() {
@@ -36,14 +36,14 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
               <Link 
                 to="/storia" 
-                className="px-8 py-4 bg-primary text-primary-foreground rounded-2xl font-semibold flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 shadow-[0_8px_24px_rgba(107,158,126,0.3)]"
+                className="px-8 py-4 bg-primary text-primary-foreground rounded-2xl font-semibold flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 shadow-[var(--shadow-button)]"
               >
                 Inizia il viaggio
                 <ArrowRight weight="bold" size={18} />
               </Link>
               <Link 
                 to="/fermate" 
-                className="px-8 py-4 bg-card text-foreground rounded-2xl font-semibold flex items-center justify-center hover:shadow-[0_8px_20px_rgba(107,158,126,0.12)] transition-all duration-300 border border-border/60"
+                className="px-8 py-4 bg-card text-foreground rounded-2xl font-semibold flex items-center justify-center hover:shadow-[var(--shadow-card)] transition-all duration-300 border border-border/60"
               >
                 Scopri l'itinerario
               </Link>
@@ -57,7 +57,7 @@ export default function Home() {
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
-            className="w-full h-full relative rounded-3xl overflow-hidden shadow-[0_20px_60px_rgba(107,158,126,0.15)] lg:-ml-12"
+            className="w-full h-full relative rounded-3xl overflow-hidden shadow-[var(--shadow-elevated)] lg:-ml-12"
           >
             <img 
               src="/photos/storia/transiberiana.jpg" 
@@ -71,7 +71,7 @@ export default function Home() {
               initial={{ y: 40, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.9, type: 'spring', stiffness: 100, damping: 20 }}
-              className="absolute bottom-6 left-6 right-6 z-20 bg-card/90 backdrop-blur-lg p-5 rounded-2xl shadow-[0_12px_32px_rgba(45,74,56,0.12)] border border-border/40"
+              className="absolute bottom-6 left-6 right-6 z-20 bg-card/90 backdrop-blur-lg p-5 rounded-2xl shadow-[var(--shadow-card)] border border-border/40"
             >
               <div className="grid grid-cols-3 gap-4 text-foreground">
                 <div>
@@ -84,14 +84,14 @@ export default function Home() {
                 <div>
                   <div className="text-muted-foreground text-xs font-semibold mb-1" style={{ fontVariant: 'small-caps' }}>Meteo live</div>
                   <div className="text-xl font-bold flex items-center gap-1.5" style={{ fontVariantNumeric: 'tabular-nums' }}>
-                    <CloudRain weight="fill" className="text-[#B0D8E8]" size={18} />
+                    <CloudRain weight="fill" className="text-primary-light" size={18} />
                     8°C
                   </div>
                 </div>
                 <div>
                   <div className="text-muted-foreground text-xs font-semibold mb-1" style={{ fontVariant: 'small-caps' }}>Fermate</div>
                   <div className="text-xl font-bold flex items-center gap-1.5" style={{ fontVariantNumeric: 'tabular-nums' }}>
-                    <MapPin weight="fill" className="text-[#D4A574]" size={18} />
+                    <MapPin weight="fill" className="text-wood" size={18} />
                     21
                   </div>
                 </div>

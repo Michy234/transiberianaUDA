@@ -9,7 +9,7 @@ function StepCard({ number, title, desc, icon, delay = 0 }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay, type: 'spring', stiffness: 100, damping: 20 }}
-      className="p-8 rounded-3xl bg-card shadow-[0_8px_28px_rgba(107,158,126,0.08)] flex flex-col items-start gap-4 hover:shadow-[0_12px_36px_rgba(107,158,126,0.14)] hover:scale-[1.01] transition-all duration-300"
+      className="p-8 rounded-3xl bg-card shadow-[var(--shadow-card)] flex flex-col items-start gap-4 hover:shadow-[var(--shadow-card-hover)] hover:scale-[1.01] transition-all duration-300"
     >
       <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center font-bold text-lg mb-2" style={{ fontVariantNumeric: 'tabular-nums' }}>
         {number}
@@ -35,7 +35,6 @@ export default function ComeSalire() {
          </p>
        </div>
 
-       {/* Staggered 2-col masonry (not 3-col equal) */}
        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
          <StepCard 
            number="01" 
@@ -62,16 +61,15 @@ export default function ComeSalire() {
          />
        </div>
 
-       {/* CTA Card */}
        <motion.div 
          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
-         className="mt-16 max-w-3xl mx-auto bg-card rounded-3xl p-10 flex items-center justify-between flex-col sm:flex-row gap-6 text-center sm:text-left shadow-[0_12px_36px_rgba(107,158,126,0.1)]"
+         className="mt-16 max-w-3xl mx-auto bg-card rounded-3xl p-10 flex items-center justify-between flex-col sm:flex-row gap-6 text-center sm:text-left shadow-[var(--shadow-card)]"
        >
          <div>
            <div className="font-serif font-bold text-2xl mb-2 text-foreground">Pronto a viaggiare?</div>
            <div className="text-muted-foreground text-sm max-w-sm">Verifica le disponibilità aggiornate per le partenze dei prossimi mesi.</div>
          </div>
-         <button className="px-8 py-4 rounded-2xl bg-primary text-primary-foreground font-semibold whitespace-nowrap hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center gap-2 shadow-[0_8px_24px_rgba(107,158,126,0.3)] focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
+         <button className="px-8 py-4 rounded-2xl bg-primary text-primary-foreground font-semibold whitespace-nowrap hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center gap-2 shadow-[var(--shadow-button)] focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
            Acquista ora <ArrowRight weight="bold" size={18} />
          </button>
        </motion.div>

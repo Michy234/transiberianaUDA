@@ -30,8 +30,13 @@
   --radius: 0.5rem;
 }
 
+/* ═══════════════════════════════════════
+   LIGHT THEME — Cozy Nature
+   ═══════════════════════════════════════ */
 @layer base {
-  :root {
+
+  :root,
+  :root[data-theme="light"] {
     --background: #FAF9F6;
     --foreground: #2D4A38;
     --card: #FFFFFF;
@@ -55,9 +60,59 @@
     --border: #E2DDD5;
     --input: #E2DDD5;
     --ring: #6B9E7E;
+
+    /* Shadow tints */
+    --shadow-color: 0, 0, 0;
+    --shadow-card: 0 12px 32px rgba(var(--shadow-color), 0.1);
+    --shadow-card-hover: 0 16px 40px rgba(var(--shadow-color), 0.16);
+    --shadow-elevated: 0 20px 60px rgba(var(--shadow-color), 0.15);
+    --shadow-button: 0 8px 24px rgba(var(--shadow-color), 0.3);
+    --shadow-subtle: 0 4px 12px rgba(var(--shadow-color), 0.06);
+    --shadow-nav: 0 4px 20px rgba(var(--shadow-color), 0.08);
+  }
+
+  /* ═══════════════════════════════════════
+     DARK THEME — Marroncino Cozy
+     ═══════════════════════════════════════ */
+  :root[data-theme="dark"] {
+    --background: #1a1919;
+    --foreground: #F5EDE5;
+    --card: #37353E;
+    --card-foreground: #F5EDE5;
+    --popover: #3A2F2A;
+    --popover-foreground: #F5EDE5;
+    --primary: #84B179;
+    --primary-foreground: #F5EDE5;
+    --primary-light: #D4A574;
+    --secondary: #3A2F2A;
+    --secondary-foreground: #F5EDE5;
+    --muted: #453832;
+    --muted-foreground: #D9C6B3;
+    --accent: #453832;
+    --accent-foreground: #F5EDE5;
+    --accent-warm: #D4A574;
+    --accent-pink: #E8B4A2;
+    --wood: #D4A574;
+    --destructive: #CC6B5A;
+    --destructive-foreground: #F5EDE5;
+    --border: #4A3D36;
+    --input: #4A3D36;
+    --ring: #A87C5F;
+
+    /* Green-tinted shadows */
+    --shadow-color: 132, 177, 121;
+    --shadow-card: 0 12px 32px rgba(var(--shadow-color), 0.2);
+    --shadow-card-hover: 0 16px 40px rgba(var(--shadow-color), 0.28);
+    --shadow-elevated: 0 20px 60px rgba(var(--shadow-color), 0.25);
+    --shadow-button: 0 8px 24px rgba(var(--shadow-color), 0.35);
+    --shadow-subtle: 0 4px 12px rgba(var(--shadow-color), 0.1);
+    --shadow-nav: 0 4px 20px rgba(var(--shadow-color), 0.12);
   }
 }
 
+/* ═══════════════════════════════════════
+   BASE STYLES
+   ═══════════════════════════════════════ */
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -76,9 +131,10 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     position: relative;
+    transition: background-color 0.4s ease, color 0.3s ease;
   }
 
-  /* Subtle grain texture overlay */
+  /* Grain texture — lighter in dark mode */
   body::after {
     content: '';
     position: fixed;
@@ -91,38 +147,128 @@
     background-size: 256px 256px;
   }
 
-  ::selection {
-    background-color: rgba(107, 158, 126, 0.25);
+  [data-theme="dark"] body::after {
+    opacity: 0.05;
   }
 
-  /* Focus ring for accessibility */
+  ::selection {
+    background-color: rgba(var(--shadow-color), 0.25);
+  }
+
   :focus-visible {
     outline: 2px solid var(--primary);
     outline-offset: 2px;
   }
 }
 
-/* Cozy loading animation — gentle floating snowflakes */
+/* ═══════════════════════════════════════
+   NATURE ANIMATIONS
+   ═══════════════════════════════════════ */
 @keyframes snowfall {
-  0% { transform: translateY(-10px) rotate(0deg); opacity: 0; }
-  20% { opacity: 0.8; }
-  100% { transform: translateY(100px) rotate(360deg); opacity: 0; }
+  0% {
+    transform: translateY(-10px) rotate(0deg);
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: translateY(100px) rotate(360deg);
+    opacity: 0;
+  }
 }
 
 @keyframes gentle-bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
 }
 
 @keyframes leaf-fall {
-  0% { transform: translateY(-10px) rotate(-15deg); opacity: 0; }
-  30% { opacity: 1; }
-  100% { transform: translateY(30px) rotate(25deg); opacity: 0; }
+  0% {
+    transform: translateY(-10px) rotate(-15deg);
+    opacity: 0;
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(30px) rotate(25deg);
+    opacity: 0;
+  }
 }
 
 @keyframes gentle-pulse {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 1; }
+
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes fireplace-flicker {
+
+  0%,
+  100% {
+    transform: translateY(0) scaleY(1);
+    opacity: 0.7;
+  }
+
+  25% {
+    transform: translateY(-4px) scaleY(1.1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: translateY(-2px) scaleY(0.95);
+    opacity: 0.85;
+  }
+
+  75% {
+    transform: translateY(-6px) scaleY(1.05);
+    opacity: 0.9;
+  }
+}
+
+@keyframes candle-flicker {
+
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: scale(1.15);
+  }
+}
+
+/* Theme toggle rotation */
+@keyframes theme-rotate-in {
+  from {
+    transform: rotate(-180deg) scale(0.5);
+    opacity: 0;
+  }
+
+  to {
+    transform: rotate(0deg) scale(1);
+    opacity: 1;
+  }
 }
 
 .animate-snowfall {
@@ -139,4 +285,24 @@
 
 .animate-gentle-pulse {
   animation: gentle-pulse 2.5s ease-in-out infinite;
+}
+
+.animate-fireplace {
+  animation: fireplace-flicker 1.5s ease-in-out infinite;
+}
+
+.animate-candle {
+  animation: candle-flicker 2s ease-in-out infinite;
+}
+
+.animate-theme-icon {
+  animation: theme-rotate-in 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ═══════════════════════════════════════
+   TRANSITION HELPERS
+   ═══════════════════════════════════════ */
+.theme-transition,
+.theme-transition * {
+  transition: background-color 0.3s ease, color 0.2s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
 }

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Train, Translate, List, X } from '@phosphor-icons/react';
+import { Train, Translate, List, X, Sun, Moon } from '@phosphor-icons/react';
+import { useTheme } from '../ThemeContext';
 
 const navLinks = [
   { path: '/', label: 'Home' },
@@ -15,6 +16,7 @@ const navLinks = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { theme, isDark, toggle } = useTheme();
   const location = useLocation();
 
   useEffect(() => {
@@ -38,7 +40,7 @@ export default function Navbar() {
         transition={{ type: 'spring', stiffness: 100, damping: 20 }}
         className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
           scrolled 
-            ? 'py-3 bg-card/80 backdrop-blur-xl border-b border-border/50 shadow-[0_4px_20px_rgba(107,158,126,0.08)]' 
+            ? 'py-3 bg-card/80 backdrop-blur-xl border-b border-border/50 shadow-[var(--shadow-nav)]' 
             : 'py-5 bg-transparent'
         }`}
         role="navigation"
@@ -56,7 +58,7 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center gap-1 bg-card/70 p-1.5 rounded-2xl backdrop-blur-md border border-border/50 shadow-[0_2px_12px_rgba(107,158,126,0.06)]">
+          <div className="hidden lg:flex items-center gap-1 bg-card/70 p-1.5 rounded-2xl backdrop-blur-md border border-border/50 shadow-[var(--shadow-subtle)]">
             {navLinks.map((link) => {
               const isActive = location.pathname === link.path;
               return (
@@ -70,7 +72,7 @@ export default function Navbar() {
                   {isActive && (
                     <motion.div
                       layoutId="nav-pill"
-                      className="absolute inset-0 bg-primary rounded-xl -z-10 shadow-[0_4px_12px_rgba(107,158,126,0.25)]"
+                      className="absolute inset-0 bg-primary rounded-xl -z-10 shadow-[var(--shadow-subtle)]"
                       transition={{ type: 'spring', stiffness: 200, damping: 25 }}
                     />
                   )}
@@ -81,6 +83,37 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center gap-2">
+            {/* Theme Toggle — Sun/Moon animated */}
+            <button
+              onClick={toggle}
+              className="w-10 h-10 rounded-xl bg-card/70 border border-border/50 flex items-center justify-center text-primary hover:bg-card hover:scale-105 active:scale-95 transition-all duration-300 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 relative overflow-hidden"
+              aria-label={isDark ? 'Passa al tema chiaro' : 'Passa al tema scuro'}
+            >
+              <AnimatePresence mode="wait">
+                {isDark ? (
+                  <motion.div
+                    key="moon"
+                    initial={{ rotate: -180, scale: 0.5, opacity: 0 }}
+                    animate={{ rotate: 0, scale: 1, opacity: 1 }}
+                    exit={{ rotate: 180, scale: 0.5, opacity: 0 }}
+                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                  >
+                    <Moon size={18} weight="fill" />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="sun"
+                    initial={{ rotate: -180, scale: 0.5, opacity: 0 }}
+                    animate={{ rotate: 0, scale: 1, opacity: 1 }}
+                    exit={{ rotate: 180, scale: 0.5, opacity: 0 }}
+                    transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                  >
+                    <Sun size={18} weight="fill" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </button>
+
             <button
               className="w-10 h-10 rounded-xl bg-card/70 border border-border/50 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-card transition-all duration-200 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               aria-label="Cambia lingua"

@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
+import { ThemeProvider } from './components/ThemeContext';
 import Navbar from './components/layout/Navbar';
 import Home from './pages/Home';
 import Storia from './pages/Storia';
@@ -28,14 +29,16 @@ function MainRoutes() {
 
 function App() {
   return (
-    <Router>
-      <div className="flex min-h-[100dvh] flex-col overflow-x-hidden bg-background">
-        <Navbar />
-        <main className="flex-1 w-full relative">
-          <MainRoutes />
-        </main>
-      </div>
-    </Router>
+    <ThemeProvider>
+      <Router>
+        <div className="flex min-h-[100dvh] flex-col overflow-x-hidden bg-background">
+          <Navbar />
+          <main className="flex-1 w-full relative">
+            <MainRoutes />
+          </main>
+        </div>
+      </Router>
+    </ThemeProvider>
   );
 }
 

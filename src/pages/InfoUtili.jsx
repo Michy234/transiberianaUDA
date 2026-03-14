@@ -13,7 +13,6 @@ export default function InfoUtili() {
   return (
     <div className="min-h-[100dvh] pt-32 pb-24 px-6 md:px-12 max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
        
-       {/* Left Sticky Panel */}
        <div className="lg:col-span-5 h-full">
          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="sticky top-32">
            <h1 className="text-5xl md:text-7xl font-serif font-bold tracking-[-0.03em] mb-8 text-foreground">
@@ -23,8 +22,8 @@ export default function InfoUtili() {
              Tutto quello che c'è da sapere prima di imbarcarsi in questa avventura retrò tra le montagne abruzzesi.
            </p>
            
-           {/* Rules Card */}
-           <div className="p-8 rounded-3xl bg-accent-warm/20 border border-accent-warm/30 shadow-[0_8px_24px_rgba(212,165,116,0.08)]">
+           {/* Rules Card — amber in light, warm wood in dark */}
+           <div className="p-8 rounded-3xl bg-accent-warm/20 border border-accent-warm/30 shadow-[var(--shadow-subtle)]">
              <div className="flex items-center gap-3 mb-4">
                <div className="w-10 h-10 rounded-xl bg-accent-warm/30 flex items-center justify-center">
                  <Warning size={20} className="text-wood" weight="fill" />
@@ -38,7 +37,6 @@ export default function InfoUtili() {
          </motion.div>
        </div>
 
-       {/* FAQ Cards */}
        <div className="lg:col-span-7 flex flex-col gap-5" role="list" aria-label="Domande frequenti">
          {faq.map((item, i) => (
            <motion.article 
@@ -46,7 +44,7 @@ export default function InfoUtili() {
              initial={{ opacity: 0, x: 20 }}
              animate={{ opacity: 1, x: 0 }}
              transition={{ delay: i * 0.1, type: 'spring', stiffness: 120, damping: 22 }}
-             className="bg-card p-8 rounded-3xl shadow-[0_8px_28px_rgba(107,158,126,0.08)] flex gap-5 group hover:shadow-[0_12px_36px_rgba(107,158,126,0.14)] hover:scale-[1.01] transition-all duration-300"
+             className="bg-card p-8 rounded-3xl shadow-[var(--shadow-card)] flex gap-5 group hover:shadow-[var(--shadow-card-hover)] hover:scale-[1.01] transition-all duration-300"
              role="listitem"
            >
              <div className="w-11 h-11 rounded-xl bg-primary/8 text-primary shrink-0 flex items-center justify-center" aria-hidden="true">

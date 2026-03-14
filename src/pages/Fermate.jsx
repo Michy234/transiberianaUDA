@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, ArrowRight, Train, Tree, NavigationArrow, Leaf } from '@phosphor-icons/react';
+import { MapPin, ArrowRight, Train, Tree, NavigationArrow } from '@phosphor-icons/react';
 
 const stations = [
   { id: 1, name: 'Sulmona', alt: '328m', type: 'Partenza', desc: 'La città dei confetti e di Ovidio. Punto di partenza dell\'itinerario storico.' },
@@ -19,18 +19,17 @@ function StationButton({ station, isActive, onClick, index }) {
       transition={{ delay: index * 0.08, type: 'spring', stiffness: 120, damping: 22 }}
       className={`w-full text-left p-5 rounded-2xl transition-all duration-300 relative overflow-hidden flex items-center justify-between group focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2
         ${isActive 
-          ? 'bg-primary/10 shadow-[0_8px_24px_rgba(107,158,126,0.12)]' 
-          : 'bg-card hover:bg-card hover:shadow-[0_4px_16px_rgba(107,158,126,0.08)] hover:scale-[1.01]'
+          ? 'bg-primary/10 shadow-[var(--shadow-card)]' 
+          : 'bg-card hover:shadow-[var(--shadow-subtle)] hover:scale-[1.01]'
         }
       `}
       aria-pressed={isActive}
       aria-label={`Stazione di ${station.name}, ${station.type}, altitudine ${station.alt}`}
     >
       <div className="flex items-center gap-4 z-10 relative">
-        {/* Station icon with connecting line */}
         <div className={`w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300 ${
           isActive 
-            ? 'bg-primary text-primary-foreground shadow-[0_4px_12px_rgba(107,158,126,0.3)]' 
+            ? 'bg-primary text-primary-foreground shadow-[var(--shadow-subtle)]' 
             : 'bg-secondary text-muted-foreground'
         }`}>
           <MapPin weight={isActive ? "fill" : "regular"} size={20} />
@@ -55,11 +54,7 @@ export default function Fermate() {
 
   return (
     <div className="min-h-[100dvh] pt-32 pb-24 px-6 md:px-12 max-w-[1400px] mx-auto">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mb-16"
-      >
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-16">
         <h1 className="text-4xl md:text-6xl font-serif font-bold tracking-[-0.03em] mb-4 text-foreground">Le fermate</h1>
         <p className="text-lg text-muted-foreground max-w-[65ch] leading-relaxed">
           Esplora le stazioni storiche lungo la ferrovia più alta e panoramica d'Italia, un nastro d'acciaio che cuce parchi nazionali e riserve naturali.
@@ -67,14 +62,10 @@ export default function Fermate() {
       </motion.div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        
-        {/* Station List */}
         <div className="lg:col-span-5 flex flex-col gap-2" role="listbox" aria-label="Lista delle stazioni">
-          {/* Vertical line connector */}
           <div className="relative">
             {stations.map((station, i) => (
               <div key={station.id} className="relative">
-                {/* Connecting line between items */}
                 {i < stations.length - 1 && (
                   <div className="absolute left-[1.85rem] top-[3.5rem] w-0.5 h-[calc(100%-1rem)] bg-border/60 z-0" aria-hidden="true" />
                 )}
@@ -91,7 +82,6 @@ export default function Fermate() {
           </div>
         </div>
 
-        {/* Detail Card */}
         <div className="lg:col-span-7">
           <AnimatePresence mode="wait">
             <motion.article
@@ -100,7 +90,7 @@ export default function Fermate() {
               animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
               exit={{ opacity: 0, y: -20, filter: 'blur(8px)' }}
               transition={{ type: 'spring', stiffness: 120, damping: 22 }}
-              className="h-full bg-card rounded-3xl p-8 md:p-12 shadow-[0_16px_48px_rgba(107,158,126,0.1)] flex flex-col justify-between"
+              className="h-full bg-card rounded-3xl p-8 md:p-12 shadow-[var(--shadow-elevated)] flex flex-col justify-between"
               aria-live="polite"
               aria-label={`Dettagli stazione: ${selectedStation.name}`}
             >
@@ -139,7 +129,6 @@ export default function Fermate() {
             </motion.article>
           </AnimatePresence>
         </div>
-
       </div>
     </div>
   );
