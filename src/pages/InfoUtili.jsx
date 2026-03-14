@@ -1,6 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Question, Warning } from '@phosphor-icons/react';
+import { Question, Warning, Star, ArrowSquareOut } from '@phosphor-icons/react';
+
+const TRIPADVISOR_URL =
+  'https://www.tripadvisor.it/Attraction_Review-g194928-d12914784-Reviews-Transiberiana_d_Italia-Sulmona_Province_of_L_Aquila_Abruzzo.html';
 
 const faq = [
   { q: "Il treno è riscaldato in inverno?", a: "Sì, tutte le carrozze d'epoca sono dotate di riscaldamento a vapore e termosifoni originali restaurati e funzionanti." },
@@ -21,6 +24,23 @@ export default function InfoUtili() {
            <p className="text-xl text-muted-foreground leading-relaxed mb-12 max-w-[40ch]">
              Tutto quello che c'è da sapere prima di imbarcarsi in questa avventura retrò tra le montagne abruzzesi.
            </p>
+
+           <a
+             href={TRIPADVISOR_URL}
+             target="_blank"
+             rel="noopener noreferrer"
+             className="inline-flex items-center gap-3 px-5 py-3 rounded-full bg-[#00AA6C] text-white font-bold shadow-[var(--shadow-button)] hover:brightness-110 active:brightness-95 transition-all duration-200"
+             aria-label="Apri le recensioni su TripAdvisor (si apre in una nuova scheda)"
+           >
+             <span className="w-9 h-9 rounded-full bg-white/95 flex items-center justify-center shrink-0" aria-hidden="true">
+               <span className="text-[#00AA6C] font-extrabold text-sm tracking-tight">TA</span>
+             </span>
+             <span className="flex items-center gap-2">
+               <Star size={18} weight="fill" />
+               Recensioni TripAdvisor
+             </span>
+             <ArrowSquareOut size={18} className="opacity-90" aria-hidden="true" />
+           </a>
            
            {/* Rules Card — amber in light, warm wood in dark */}
            <div className="p-8 rounded-3xl bg-accent-warm/20 border border-accent-warm/30 shadow-[var(--shadow-subtle)]">
