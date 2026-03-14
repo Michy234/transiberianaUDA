@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ArrowRight, MapPin } from '@phosphor-icons/react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -88,8 +88,6 @@ function TimelineItem({ year, title, desc, reverse, imageId, stepId, reduceMotio
 }
 
 export default function Journey() {
-  const { scrollYProgress } = useScroll();
-  const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
   const journeyRootRef = useRef(null);
   const [email, setEmail] = useState('');
   const [formStatus, setFormStatus] = useState({ error: '', success: '' });
@@ -113,27 +111,6 @@ export default function Journey() {
     const stored = window.localStorage.getItem(EMAIL_STORAGE_KEY);
     if (stored) setEmail(stored);
   }, []);
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const root = journeyRootRef.current;
-    if (!root) return;
-    const target = root.querySelector('[data-journey-step="storia-intro"]');
-    if (!target) return;
-
-    const offset = getNavOffset();
-    if (reduceMotion) {
-      const top = target.getBoundingClientRect().top + window.scrollY - offset;
-      window.scrollTo({ top, behavior: 'auto' });
-      return;
-    }
-
-    gsap.to(window, {
-      duration: 0.8,
-      scrollTo: { y: target, offsetY: offset },
-      ease: 'power2.out',
-    });
-  }, [reduceMotion]);
 
   useLayoutEffect(() => {
     if (typeof window === 'undefined') return;
@@ -256,12 +233,6 @@ export default function Journey() {
 
   return (
     <div className="min-h-[100dvh] bg-background relative selection:bg-primary/20" ref={journeyRootRef}>
-      <motion.div 
-        className="fixed top-0 left-0 right-0 h-1 bg-primary z-50 origin-left"
-        style={{ scaleX }}
-        aria-hidden="true"
-      />
-
       <section
         className="pt-40 pb-20 px-6 max-w-4xl mx-auto text-center"
         data-journey-step="storia-intro"

@@ -1,9 +1,44 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, CloudRain, MapPin, Tree } from '@phosphor-icons/react';
+import { ArrowDown, ArrowRight, CloudRain, MapPin, Tree } from '@phosphor-icons/react';
 import { Link } from 'react-router-dom';
+import { gsap } from 'gsap';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
+import Journey from './Journey';
+
+gsap.registerPlugin(ScrollToPlugin);
+
+function getNavOffset() {
+  if (typeof window === 'undefined') return 0;
+  const nav = document.querySelector('nav');
+  return nav ? nav.offsetHeight + 8 : 0;
+}
+
+function prefersReducedMotion() {
+  return typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
 
 export default function Home() {
+  const journeyRef = useRef(null);
+
+  const handleStartJourney = () => {
+    const target = journeyRef.current;
+    if (!target || typeof window === 'undefined') return;
+
+    const offset = getNavOffset();
+    if (prefersReducedMotion()) {
+      const top = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: 'auto' });
+      return;
+    }
+
+    gsap.to(window, {
+      duration: 0.9,
+      scrollTo: { y: target, offsetY: offset },
+      ease: 'power2.out',
+    });
+  };
+
   return (
     <div className="w-full relative overflow-hidden bg-background">
       {/* Asymmetric Hero */}
@@ -24,9 +59,8 @@ export default function Home() {
             </div>
             
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-bold tracking-[-0.03em] leading-[1.08] text-foreground mb-8">
-              Il viaggio nel <br />
-              <span className="text-primary italic">cuore verde</span> <br />
-              d'Italia
+              La <span className="text-primary italic">Transiberiana</span> <br />
+              d'Abruzzo
             </h1>
             
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-[50ch] mb-10">
@@ -34,19 +68,26 @@ export default function Home() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-              <Link 
-                to="/viaggio" 
+              <button 
+                type="button"
+                onClick={handleStartJourney}
                 className="px-8 py-4 bg-primary text-primary-foreground rounded-2xl font-semibold flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 shadow-[var(--shadow-button)]"
               >
                 Inizia il viaggio
                 <ArrowRight weight="bold" size={18} />
-              </Link>
+              </button>
               <Link 
                 to="/fermate" 
                 className="px-8 py-4 bg-card text-foreground rounded-2xl font-semibold flex items-center justify-center hover:shadow-[var(--shadow-card)] transition-all duration-300 border border-border/60"
               >
                 Scopri l'itinerario
               </Link>
+            </div>
+            <div className="mt-[1.75rem] flex items-start gap-2 text-sm text-muted-foreground">
+              <span className="relative top-1 inline-flex text-primary animate-journey-arrow motion-reduce:animate-none" aria-hidden="true">
+                <ArrowDown size={16} />
+              </span>
+              <span>Scorri per iniziare il viaggio</span>
             </div>
           </motion.div>
         </div>
@@ -99,6 +140,10 @@ export default function Home() {
             </motion.div>
           </motion.div>
         </div>
+      </section>
+
+      <section ref={journeyRef} aria-label="Journey scroll">
+        <Journey />
       </section>
     </div>
   );
