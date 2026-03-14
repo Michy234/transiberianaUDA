@@ -175,12 +175,12 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-6 md:py-8 px-0 bg-background">
+      <section className="py-4 md:py-5 px-0 bg-background">
         <div className="w-full text-center">
           <div className="text-sm font-semibold text-muted-foreground uppercase tracking-[0.28em] mb-6">
             PARTNER E SPONSOR
           </div>
-          <div className="relative overflow-hidden border-y border-border/60 bg-card/60 backdrop-blur-xl shadow-[var(--shadow-card)] px-6 py-6">
+          <div className="relative overflow-hidden border-y border-border/60 bg-card/60 backdrop-blur-xl px-6 py-5">
             <div
               className="sponsor-marquee"
               aria-label="Partner e sponsor della Transiberiana d'Abruzzo"
@@ -220,7 +220,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section ref={journeyRef} aria-label="Journey scroll">
+      <section ref={journeyRef} aria-label="Journey scroll" className="pt-2">
         <Journey />
       </section>
 
