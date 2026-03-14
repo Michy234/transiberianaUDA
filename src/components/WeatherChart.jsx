@@ -52,7 +52,7 @@ export default function WeatherChart() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedCity, setSelectedCity] = useState('all');
-  const [selectedMetrics, setSelectedMetrics] = useState(['temperature']);
+  const [selectedMetric, setSelectedMetric] = useState('temperature');
   const [selectedPeriod, setSelectedPeriod] = useState('24h');
   const [chartData, setChartData] = useState(null);
 
@@ -179,37 +179,35 @@ export default function WeatherChart() {
       if (selectedCity !== 'all' && cityData.key !== selectedCity) return;
       const cityColor = CITY_COLORS[cityData.key];
       
-      selectedMetrics.forEach((metric) => {
-        const metricConfig = METRIC_OPTIONS.find(m => m.value === metric);
-        const rawData = cityData[metric];
+      const metricConfig = METRIC_OPTIONS.find(m => m.value === selectedMetric);
+      const rawData = cityData[selectedMetric];
         
-        const dataPoints = cityData.times.map((time, i) => ({
-          x: new Date(time),
-          y: rawData[i]
-        }));
+      const dataPoints = cityData.times.map((time, i) => ({
+        x: new Date(time),
+        y: rawData[i]
+      }));
 
-        const cityLabel = STATIONS[cityData.key]?.name || cityData.key;
-        const label = selectedCity === 'all' 
-          ? `${cityLabel} - ${metricConfig.label}`
-          : metricConfig.label;
+      const cityLabel = STATIONS[cityData.key]?.name || cityData.key;
+      const label = selectedCity === 'all' 
+        ? `${cityLabel} - ${metricConfig.label}`
+        : metricConfig.label;
 
-        datasets.push({
-          label,
-          data: dataPoints,
-          borderColor: selectedCity === 'all' ? cityColor.border : metricConfig.color,
-          backgroundColor: selectedCity === 'all' ? cityColor.bg : `${metricConfig.color}20`,
-          borderWidth: 2.5,
-          clip: 0,
-          pointRadius: 0,
-          pointHoverRadius: 0,
-          pointHitRadius: 6,
-          tension: 0.25,
-          cubicInterpolationMode: 'monotone',
-          capBezierPoints: true,
-          borderCapStyle: 'round',
-          borderJoinStyle: 'round',
-          fill: true,
-        });
+      datasets.push({
+        label,
+        data: dataPoints,
+        borderColor: selectedCity === 'all' ? cityColor.border : metricConfig.color,
+        backgroundColor: selectedCity === 'all' ? cityColor.bg : `${metricConfig.color}20`,
+        borderWidth: 2.5,
+        clip: 0,
+        pointRadius: 0,
+        pointHoverRadius: 0,
+        pointHitRadius: 6,
+        tension: 0.25,
+        cubicInterpolationMode: 'monotone',
+        capBezierPoints: true,
+        borderCapStyle: 'round',
+        borderJoinStyle: 'round',
+        fill: true,
       });
     });
 
@@ -286,15 +284,7 @@ export default function WeatherChart() {
         chartRef.current.destroy();
       }
     };
-  }, [chartData, selectedMetrics, selectedPeriod, selectedCity]);
-
-  const toggleMetric = (metric) => {
-    setSelectedMetrics(prev => 
-      prev.includes(metric) 
-        ? prev.filter(m => m !== metric)
-        : [...prev, metric]
-    );
-  };
+  }, [chartData, selectedMetric, selectedPeriod, selectedCity]);
 
   return (
     <div className="w-full">
@@ -323,13 +313,13 @@ export default function WeatherChart() {
           {METRIC_OPTIONS.map(metric => (
             <button
               key={metric.value}
-              onClick={() => toggleMetric(metric.value)}
+              onClick={() => setSelectedMetric(metric.value)}
               className={`px-3 py-2 rounded-xl text-xs font-bold transition-all duration-200 ${
-                selectedMetrics.includes(metric.value)
+                selectedMetric === metric.value
                   ? 'text-white shadow-md'
                   : 'bg-card border border-border text-muted-foreground hover:bg-muted'
               }`}
-              style={selectedMetrics.includes(metric.value) ? { backgroundColor: metric.color } : {}}
+              style={selectedMetric === metric.value ? { backgroundColor: metric.color } : {}}
             >
               {metric.label.split(' (')[0]}
             </button>
