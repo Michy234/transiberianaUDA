@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import Journey from './Journey';
+import TripAdvisorReviews from '../components/TripAdvisorReviews';
 
 gsap.registerPlugin(ScrollToPlugin);
 
@@ -141,6 +142,8 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
+
+      <TripAdvisorReviews />
 
       <section ref={journeyRef} aria-label="Journey scroll">
         <Journey />
