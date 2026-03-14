@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Info, Question, Warning, MapTrifold } from '@phosphor-icons/react';
+import { Question, Warning } from '@phosphor-icons/react';
 
 const faq = [
   { q: "Il treno è riscaldato in inverno?", a: "Sì, tutte le carrozze d'epoca sono dotate di riscaldamento a vapore e termosifoni originali restaurati e funzionanti." },
@@ -13,38 +13,50 @@ export default function InfoUtili() {
   return (
     <div className="min-h-[100dvh] pt-32 pb-24 px-6 md:px-12 max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
        
+       {/* Left Sticky Panel */}
        <div className="lg:col-span-5 h-full">
          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="sticky top-32">
-           <h1 className="text-5xl md:text-7xl font-bold tracking-tighter mb-8 text-foreground">Info<span className="text-primary italic">Utili</span></h1>
-           <p className="text-xl text-foreground/70 leading-relaxed mb-12">Tutto quello che c'è da sapere prima di imbarcarsi in questa avventura retrò tra le montagne abruzzesi.</p>
+           <h1 className="text-5xl md:text-7xl font-serif font-bold tracking-[-0.03em] mb-8 text-foreground">
+             Info <span className="text-primary italic">utili</span>
+           </h1>
+           <p className="text-xl text-muted-foreground leading-relaxed mb-12 max-w-[40ch]">
+             Tutto quello che c'è da sapere prima di imbarcarsi in questa avventura retrò tra le montagne abruzzesi.
+           </p>
            
-           <div className="p-8 rounded-[2rem] bg-secondary border border-border">
+           {/* Rules Card */}
+           <div className="p-8 rounded-3xl bg-accent-warm/20 border border-accent-warm/30 shadow-[0_8px_24px_rgba(212,165,116,0.08)]">
              <div className="flex items-center gap-3 mb-4">
-               <Warning size={24} className="text-amber-500" weight="duotone" />
-               <h3 className="font-bold text-lg">Regole a bordo</h3>
+               <div className="w-10 h-10 rounded-xl bg-accent-warm/30 flex items-center justify-center">
+                 <Warning size={20} className="text-wood" weight="fill" />
+               </div>
+               <h3 className="font-bold text-lg text-foreground">Regole a bordo</h3>
              </div>
-             <p className="text-foreground/70 text-sm leading-relaxed">I treni storici richiedono attenzione. Non sporgersi dai finestrini durante la marcia, non gettare rifiuti dal treno, e mantenere comportamenti rispettosi dei materiali d'epoca e degli altri viaggiatori.</p>
+             <p className="text-muted-foreground text-sm leading-relaxed">
+               I treni storici richiedono attenzione. Non sporgersi dai finestrini durante la marcia, non gettare rifiuti dal treno, e mantenere comportamenti rispettosi dei materiali d'epoca e degli altri viaggiatori.
+             </p>
            </div>
          </motion.div>
        </div>
 
-       <div className="lg:col-span-7 flex flex-col gap-6">
+       {/* FAQ Cards */}
+       <div className="lg:col-span-7 flex flex-col gap-5" role="list" aria-label="Domande frequenti">
          {faq.map((item, i) => (
-           <motion.div 
+           <motion.article 
              key={i}
              initial={{ opacity: 0, x: 20 }}
              animate={{ opacity: 1, x: 0 }}
-             transition={{ delay: i * 0.1 }}
-             className="bg-card border border-border p-8 rounded-[2rem] shadow-sm flex gap-6 group hover:border-primary/50 transition-colors"
+             transition={{ delay: i * 0.1, type: 'spring', stiffness: 120, damping: 22 }}
+             className="bg-card p-8 rounded-3xl shadow-[0_8px_28px_rgba(107,158,126,0.08)] flex gap-5 group hover:shadow-[0_12px_36px_rgba(107,158,126,0.14)] hover:scale-[1.01] transition-all duration-300"
+             role="listitem"
            >
-             <div className="w-12 h-12 rounded-full bg-secondary text-foreground/50 shrink-0 flex items-center justify-center inline-flex">
-               <Question size={24} weight="duotone" />
+             <div className="w-11 h-11 rounded-xl bg-primary/8 text-primary shrink-0 flex items-center justify-center" aria-hidden="true">
+               <Question size={20} weight="duotone" />
              </div>
              <div>
-               <h3 className="text-xl font-bold tracking-tight mb-3 group-hover:text-primary transition-colors">{item.q}</h3>
-               <p className="text-foreground/70 leading-relaxed">{item.a}</p>
+               <h3 className="text-lg font-bold tracking-tight mb-2 text-foreground group-hover:text-primary transition-colors duration-200">{item.q}</h3>
+               <p className="text-muted-foreground leading-relaxed">{item.a}</p>
              </div>
-           </motion.div>
+           </motion.article>
          ))}
        </div>
 
