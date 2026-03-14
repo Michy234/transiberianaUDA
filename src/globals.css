@@ -192,6 +192,38 @@
   }
 }
 
+@keyframes journey-arrow {
+  0% {
+    transform: translateY(0);
+    opacity: 0.65;
+  }
+
+  12% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+
+  24% {
+    transform: translateY(0);
+    opacity: 0.85;
+  }
+
+  38% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+
+  52% {
+    transform: translateY(0);
+    opacity: 0.85;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 0.65;
+  }
+}
+
 @keyframes leaf-fall {
   0% {
     transform: translateY(-10px) rotate(-15deg);
@@ -277,6 +309,10 @@
 
 .animate-gentle-bounce {
   animation: gentle-bounce 2s ease-in-out infinite;
+}
+
+.animate-journey-arrow {
+  animation: journey-arrow 1.4s ease-in-out infinite;
 }
 
 .animate-leaf-fall {

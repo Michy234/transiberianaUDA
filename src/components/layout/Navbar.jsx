@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useLayoutEffect, useRef, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Train, Translate, List, X, Sun, Moon, CloudRain } from '@phosphor-icons/react';
+import { Subway, Translate, List, X, Sun, Moon, CloudRain } from '@phosphor-icons/react';
 import { useTheme } from '../ThemeContext';
 
 const navLinks = [
@@ -92,13 +92,13 @@ export default function Navbar() {
         aria-label="Navigazione principale"
       >
         <div className="max-w-[1400px] mx-auto px-6 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-3 group" aria-label="Transiberiana d'Abruzzo - Torna alla home">
-            <div className="w-10 h-10 rounded-2xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-105 group-hover:bg-primary/15 transition-all duration-300">
-              <Train size={22} weight="fill" />
-            </div>
-            <div className="flex flex-col">
-              <span className="font-bold text-lg leading-none tracking-tight text-foreground">Transiberiana</span>
-              <span className="text-xs text-muted-foreground leading-none mt-0.5 font-medium">d'Abruzzo</span>
+	          <Link to="/" className="flex items-center gap-3 group" aria-label="Transiberiana d'Abruzzo - Torna alla home">
+	            <div className="w-10 h-10 rounded-2xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-105 group-hover:bg-primary/15 transition-all duration-300">
+	              <Subway size={22} weight="fill" />
+	            </div>
+	            <div className="flex flex-col">
+	              <span className="font-bold text-lg leading-none tracking-tight text-foreground">Transiberiana</span>
+	              <span className="text-xs text-muted-foreground leading-none mt-0.5 font-medium">d'Abruzzo</span>
             </div>
           </Link>
 
