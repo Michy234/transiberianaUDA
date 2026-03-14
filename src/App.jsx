@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { ThemeProvider } from './components/ThemeContext';
 import Navbar from './components/layout/Navbar';
+import CookiePopup from './components/CookiePopup';
 import Home from './pages/Home';
 import Storia from './pages/Storia';
 import Fermate from './pages/Fermate';
@@ -29,16 +30,39 @@ function MainRoutes() {
   );
 }
 
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useLayoutEffect(() => {
+    if (typeof window === 'undefined') return;
+    const root = document.documentElement;
+    const body = document.body;
+
+    const reset = () => {
+      root.scrollTop = 0;
+      body.scrollTop = 0;
+      window.scrollTo(0, 0);
+    };
+
+    reset();
+    requestAnimationFrame(reset);
+  }, [pathname]);
+
+  return null;
+}
+
 function App() {
   return (
     <ThemeProvider>
       <Router>
+        <ScrollToTop />
         <div className="flex min-h-[100dvh] flex-col overflow-x-hidden bg-background">
           <Navbar />
           <main className="flex-1 w-full relative">
             <MainRoutes />
           </main>
         </div>
+        <CookiePopup />
       </Router>
     </ThemeProvider>
   );
