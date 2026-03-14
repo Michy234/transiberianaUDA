@@ -9,6 +9,7 @@ import Fermate from './pages/Fermate';
 import Meteo from './pages/Meteo';
 import ComeSalire from './pages/ComeSalire';
 import InfoUtili from './pages/InfoUtili';
+import NotFound from './pages/NotFound';
 import './globals.css';
 
 function MainRoutes() {
@@ -22,6 +23,7 @@ function MainRoutes() {
         <Route path="/meteo" element={<Meteo />} />
         <Route path="/come-salire" element={<ComeSalire />} />
         <Route path="/info-utili" element={<InfoUtili />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </AnimatePresence>
   );
