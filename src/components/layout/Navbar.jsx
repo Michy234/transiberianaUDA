@@ -120,30 +120,23 @@ export default function Navbar() {
                 transition={{ type: 'spring', stiffness: 200, damping: 25 }}
               />
             )}
-            {navLinks.map((link) => {
-              const isActive = location.pathname === link.path;
-              const isMeteoLive = link.path === '/meteo';
-              return (
-                <Link
-                  key={link.path}
-                  to={link.path}
-                  ref={setLinkRef(link.path)}
-	                  className={`relative z-10 px-4 py-2 rounded-xl text-sm font-semibold transition-colors duration-200 ${
-	                    isActive ? 'text-primary-foreground' : 'text-foreground/60 hover:text-foreground'
-	                  } ${isMeteoLive ? 'bg-gradient-to-r from-primary/20 to-primary/10 border border-primary/30' : ''}`}
-	                >
-	                  {isActive && (
-	                    <motion.div
-	                      layoutId="nav-pill"
-	                      className="absolute inset-0 bg-primary rounded-xl -z-10 shadow-[var(--shadow-subtle)]"
-	                      transition={{ type: 'spring', stiffness: 200, damping: 25 }}
-	                    />
-	                  )}
-	                  {isMeteoLive && <CloudRain size={16} weight="fill" className={`inline-block mr-1.5 ${isDark ? 'text-black' : 'text-white'}`} />}
-	                  {link.label}
-	                </Link>
-	              );
-	            })}
+	            {navLinks.map((link) => {
+	              const isActive = location.pathname === link.path;
+	              const isMeteoLive = link.path === '/meteo';
+	              return (
+	                <Link
+	                  key={link.path}
+	                  to={link.path}
+	                  ref={setLinkRef(link.path)}
+		                  className={`relative z-10 px-4 py-2 rounded-xl text-sm font-semibold transition-colors duration-200 ${
+		                    isActive ? 'text-primary-foreground' : 'text-foreground/60 hover:text-foreground'
+		                  } ${isMeteoLive ? 'bg-gradient-to-r from-primary/20 to-primary/10 border border-primary/30' : ''}`}
+		                >
+		                  {isMeteoLive && <CloudRain size={16} weight="fill" className={`inline-block mr-1.5 ${isDark ? 'text-black' : 'text-white'}`} />}
+		                  {link.label}
+		                </Link>
+		              );
+		            })}
           </div>
 
           <div className="flex items-center gap-2">
