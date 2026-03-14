@@ -3,11 +3,51 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, ArrowRight, Train, Tree, NavigationArrow } from '@phosphor-icons/react';
 
 const stations = [
-  { id: 1, name: 'Sulmona', alt: '328m', type: 'Partenza', desc: 'La città dei confetti e di Ovidio. Punto di partenza dell\'itinerario storico.' },
-  { id: 2, name: 'Campo di Giove', alt: '1.064m', type: 'Sosta', desc: 'Ai piedi della Majella, incorniciata da fitti boschi e paesaggi mozzafiato.' },
-  { id: 3, name: 'Palena', alt: '1.258m', type: 'Punto panoramico', desc: 'Stazione isolata nel Quarto Santa Chiara, regno della natura selvaggia.' },
-  { id: 4, name: 'Roccaraso', alt: '1.268m', type: 'Sosta', desc: 'La stazione più alta della linea, rinomata per il turismo montano invernale ed estivo.' },
-  { id: 5, name: 'Castel di Sangro', alt: '793m', type: 'Capolinea', desc: 'Città dell\'acqua e della pesca a mosca, nodo cruciale dell\'Alta Valle del Sangro.' }
+  {
+    id: 1,
+    name: 'Sulmona',
+    alt: '328m',
+    type: 'Partenza',
+    desc: 'La città dei confetti e di Ovidio. Punto di partenza dell\'itinerario storico.',
+    photo: '/photos/fermate/sulmona-fermata.jpg',
+    glow: 'rgba(34, 197, 94, 0.35)',
+  },
+  {
+    id: 2,
+    name: 'Campo di Giove',
+    alt: '1.064m',
+    type: 'Sosta',
+    desc: 'Ai piedi della Majella, incorniciata da fitti boschi e paesaggi mozzafiato.',
+    photo: '/photos/fermate/campo-di-giove.jpg',
+    glow: 'rgba(59, 130, 246, 0.35)',
+  },
+  {
+    id: 3,
+    name: 'Palena',
+    alt: '1.258m',
+    type: 'Punto panoramico',
+    desc: 'Stazione isolata nel Quarto Santa Chiara, regno della natura selvaggia.',
+    photo: '/photos/fermate/palena.jpg',
+    glow: 'rgba(16, 185, 129, 0.32)',
+  },
+  {
+    id: 4,
+    name: 'Roccaraso',
+    alt: '1.268m',
+    type: 'Sosta',
+    desc: 'La stazione più alta della linea, rinomata per il turismo montano invernale ed estivo.',
+    photo: '/photos/fermate/roccaraso.jpg',
+    glow: 'rgba(59, 130, 246, 0.32)',
+  },
+  {
+    id: 5,
+    name: 'Castel di Sangro',
+    alt: '793m',
+    type: 'Capolinea',
+    desc: 'Città dell\'acqua e della pesca a mosca, nodo cruciale dell\'Alta Valle del Sangro.',
+    photo: '/photos/fermate/castel-di-sangro.jpg',
+    glow: 'rgba(14, 116, 144, 0.32)',
+  }
 ];
 
 function StationButton({ station, isActive, onClick, index }) {
@@ -17,15 +57,29 @@ function StationButton({ station, isActive, onClick, index }) {
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: index * 0.08, type: 'spring', stiffness: 120, damping: 22 }}
-      className={`w-full text-left p-5 rounded-2xl transition-all duration-300 relative overflow-hidden flex items-center justify-between group focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2
+      style={{ '--station-glow': station.glow }}
+      className={`w-full text-left p-5 rounded-2xl transition-all duration-300 relative overflow-hidden flex items-center justify-between group focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-background
         ${isActive 
-          ? 'bg-primary/10 shadow-[var(--shadow-card)]' 
-          : 'bg-card hover:shadow-[var(--shadow-subtle)] hover:scale-[1.01]'
+          ? 'bg-card/70 backdrop-blur-xl border border-border/70 shadow-[0_12px_32px_-18px_var(--station-glow)] shadow-[var(--shadow-card)]' 
+          : 'bg-card/55 backdrop-blur-lg border border-border/60 hover:shadow-[var(--shadow-subtle)] hover:scale-[1.01]'
         }
       `}
       aria-pressed={isActive}
       aria-label={`Stazione di ${station.name}, ${station.type}, altitudine ${station.alt}`}
     >
+      <div
+        className="absolute inset-0 z-0"
+        style={{
+          backgroundImage: `url(${station.photo})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          filter: 'blur(6px)',
+          transform: 'scale(1.08)',
+          opacity: isActive ? 0.5 : 0.25,
+        }}
+        aria-hidden="true"
+      />
+      <div className="absolute inset-0 z-0 bg-gradient-to-r from-card/85 via-card/65 to-card/40" aria-hidden="true" />
       <div className="flex items-center gap-4 z-10 relative">
         <div className={`w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300 ${
           isActive 
@@ -89,26 +143,44 @@ export default function Fermate() {
               initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
               animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
               exit={{ opacity: 0, y: -20, filter: 'blur(8px)' }}
-              transition={{ type: 'spring', stiffness: 120, damping: 22 }}
-              className="h-full bg-card rounded-3xl p-8 md:p-12 shadow-[var(--shadow-elevated)] flex flex-col justify-between"
+              transition={{ type: 'spring', stiffness: 200, damping: 22 }}
+              className="h-full bg-card rounded-3xl p-0 shadow-[var(--shadow-elevated)] flex flex-col justify-between overflow-hidden border border-border/60"
               aria-live="polite"
               aria-label={`Dettagli stazione: ${selectedStation.name}`}
             >
-              <div>
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-primary/8 text-primary font-semibold text-sm mb-8">
+              <div className="relative h-56 md:h-64 w-full overflow-hidden">
+                <img
+                  src={selectedStation.photo}
+                  alt={`Stazione di ${selectedStation.name}`}
+                  className="h-full w-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+              <motion.div
+                className="px-8 md:px-12 pt-8"
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.22, delay: 0.06, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-card/80 border border-border text-primary font-semibold text-sm mb-8">
                   <Tree weight="fill" size={16} />
                   Altitudine: {selectedStation.alt}
                 </div>
                 
-                <h2 className="text-4xl md:text-5xl font-serif font-bold tracking-tight mb-6 text-foreground">
+                <h2 className="text-3xl md:text-4xl font-serif font-bold tracking-tight mb-5 text-foreground">
                   {selectedStation.name}
                 </h2>
-                <p className="text-lg leading-relaxed text-muted-foreground max-w-[45ch]">
+                <p className="text-[0.98rem] leading-relaxed text-foreground/85 max-w-[50ch]">
                   {selectedStation.desc}
                 </p>
-              </div>
+              </motion.div>
 
-              <div className="mt-12 pt-10 border-t border-border/50 grid grid-cols-2 gap-8">
+              <motion.div
+                className="mt-10 px-8 md:px-12 pb-10 pt-8 border-t border-border/50 grid grid-cols-2 gap-8"
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.22, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              >
                 <div>
                   <div className="text-sm font-semibold text-muted-foreground mb-3 italic">Connessioni</div>
                   <div className="flex items-center gap-3">
@@ -120,12 +192,12 @@ export default function Fermate() {
                 </div>
                 <div>
                   <div className="text-sm font-semibold text-muted-foreground mb-3 italic">Esplora</div>
-                  <button className="flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all duration-300 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-lg px-1">
+                  <button className="flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all duration-300 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-background rounded-lg px-1">
                     Vedi disponibilità
                     <NavigationArrow size={16} weight="bold" />
                   </button>
                 </div>
-              </div>
+              </motion.div>
             </motion.article>
           </AnimatePresence>
         </div>

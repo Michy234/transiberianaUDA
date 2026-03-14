@@ -2,7 +2,7 @@
 
 Le immagini in `public/photos/` provengono da Wikimedia Commons e sono riutilizzate secondo le rispettive licenze.
 
-- `public/photos/fermate/sulmona.jpg`
+- `public/photos/fermate/sulmona-fermata.jpg`
   - Fonte: https://commons.wikimedia.org/wiki/File:Stazione_di_Sulmona_2011_by-RaBoe_11.jpg
   - Autore: Raimond Spekking (RaBoe)
   - Licenza: CC BY-SA 3.0
@@ -21,4 +21,3 @@ Le immagini in `public/photos/` provengono da Wikimedia Commons e sono riutilizz
   - Fonte: https://commons.wikimedia.org/wiki/File:La_Transiberiana_d%27Italia.jpg
   - Autore: Davide Papalini
   - Licenza: CC BY-SA 3.0
-

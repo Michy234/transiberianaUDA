@@ -2,7 +2,7 @@
 
 Le immagini in `public/photos/` provengono da Wikimedia Commons e sono riutilizzate secondo le rispettive licenze.
 
-- `public/photos/fermate/sulmona.jpg`
+- `public/photos/fermate/sulmona-fermata.jpg`
   - Fonte: https://commons.wikimedia.org/wiki/File:Stazione_di_Sulmona_2011_by-RaBoe_11.jpg
   - Autore: Raimond Spekking (RaBoe)
   - Licenza: CC BY-SA 3.0
@@ -17,8 +17,17 @@ Le immagini in `public/photos/` provengono da Wikimedia Commons e sono riutilizz
   - Autore: Dario Riccio
   - Licenza: CC BY-SA 3.0 / CC BY 2.5 / GFDL 1.2
 
+- `public/photos/fermate/palena.jpg`
+  - Fonte: https://commons.wikimedia.org/wiki/File:Stazione_Palena.jpg
+  - Autore: Giorgio Stagni
+  - Licenza: CC BY-SA 3.0
+
+- `public/photos/fermate/roccaraso.jpg`
+  - Fonte: https://commons.wikimedia.org/wiki/File:Roccaraso_-_stazione_ferroviaria.jpg
+  - Autore: Giorgio Stagni
+  - Licenza: CC BY-SA 3.0
+
 - `public/photos/storia/transiberiana.jpg`
   - Fonte: https://commons.wikimedia.org/wiki/File:La_Transiberiana_d%27Italia.jpg
   - Autore: Davide Papalini
   - Licenza: CC BY-SA 3.0
-

@@ -9,7 +9,7 @@ import { fetchCurrentConditions, STATIONS } from '../api/openmeteo';
 const STATES = { LOADING: 'loading', READY: 'ready', ERROR: 'error', EMPTY: 'empty' };
 
 const CITY_PHOTOS = {
-  sulmona: '/photos/fermate/sulmona.jpg',
+  sulmona: '/photos/fermate/sulmona-fermata.jpg',
   castel: '/photos/fermate/castel-di-sangro.jpg',
   campo: '/photos/fermate/campo-di-giove.jpg',
 };

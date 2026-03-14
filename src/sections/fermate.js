@@ -12,7 +12,7 @@ export const STATIONS_DATA = [
     desc: 'Città natale di Ovidio e capitale dei confetti, Sulmona è la porta del Parco Nazionale della Majella. Stazione di partenza del treno storico, offre un centro storico medievale ricchissimo di arte e gastronomia.',
     emoji: '🌿',
     facts: ['🏛️ Centro medievale', '🍬 Capitale dei confetti', '🏔️ Parco Majella', '🚉 Stazione di partenza'],
-    photo: '/photos/fermate/sulmona.jpg',
+    photo: '/photos/fermate/sulmona-fermata.jpg',
     tempId: 'temp-sulmona',
     dotId: 'dot-sulmona',
   },
