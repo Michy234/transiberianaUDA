@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Train, Translate, List, X, Sun, Moon } from '@phosphor-icons/react';
@@ -18,6 +18,41 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { theme, isDark, toggle } = useTheme();
   const location = useLocation();
+  const navPillRef = useRef(null);
+  const linkRefs = useRef(new Map());
+  const [pill, setPill] = useState(null);
+
+  const setLinkRef = useCallback((path) => (node) => {
+    if (node) {
+      linkRefs.current.set(path, node);
+    } else {
+      linkRefs.current.delete(path);
+    }
+  }, []);
+
+  const updatePill = useCallback(() => {
+    const container = navPillRef.current;
+    const activeLink = linkRefs.current.get(location.pathname);
+
+    if (!container || !activeLink) {
+      setPill(null);
+      return;
+    }
+
+    if (container.offsetWidth === 0 || container.offsetHeight === 0) {
+      return;
+    }
+
+    const containerRect = container.getBoundingClientRect();
+    const linkRect = activeLink.getBoundingClientRect();
+
+    setPill({
+      left: linkRect.left - containerRect.left,
+      top: linkRect.top - containerRect.top,
+      width: linkRect.width,
+      height: linkRect.height,
+    });
+  }, [location.pathname]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,6 +66,16 @@ export default function Navbar() {
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [location.pathname]);
+
+  useLayoutEffect(() => {
+    updatePill();
+  }, [updatePill, scrolled]);
+
+  useEffect(() => {
+    const handleResize = () => updatePill();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [updatePill]);
 
   return (
     <>
@@ -58,24 +103,34 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center gap-1 bg-card/70 p-1.5 rounded-2xl backdrop-blur-md border border-border/50 shadow-[var(--shadow-subtle)]">
+          <div
+            ref={navPillRef}
+            className="hidden lg:flex items-center gap-1 bg-card/70 p-1.5 rounded-2xl backdrop-blur-md border border-border/50 shadow-[var(--shadow-subtle)] relative"
+          >
+            {pill && (
+              <motion.div
+                className="absolute left-0 top-0 bg-primary rounded-xl shadow-[var(--shadow-subtle)] pointer-events-none"
+                initial={false}
+                animate={{
+                  x: pill.left,
+                  y: pill.top,
+                  width: pill.width,
+                  height: pill.height,
+                }}
+                transition={{ type: 'spring', stiffness: 200, damping: 25 }}
+              />
+            )}
             {navLinks.map((link) => {
               const isActive = location.pathname === link.path;
               return (
                 <Link
                   key={link.path}
                   to={link.path}
-                  className={`relative px-4 py-2 rounded-xl text-sm font-semibold transition-colors duration-200 ${
+                  ref={setLinkRef(link.path)}
+                  className={`relative z-10 px-4 py-2 rounded-xl text-sm font-semibold transition-colors duration-200 ${
                     isActive ? 'text-primary-foreground' : 'text-foreground/60 hover:text-foreground'
                   }`}
                 >
-                  {isActive && (
-                    <motion.div
-                      layoutId="nav-pill"
-                      className="absolute inset-0 bg-primary rounded-xl -z-10 shadow-[var(--shadow-subtle)]"
-                      transition={{ type: 'spring', stiffness: 200, damping: 25 }}
-                    />
-                  )}
                   {link.label}
                 </Link>
               );

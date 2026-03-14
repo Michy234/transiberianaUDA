@@ -35,7 +35,7 @@ export default function Home() {
 
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
               <Link 
-                to="/storia" 
+                to="/viaggio" 
                 className="px-8 py-4 bg-primary text-primary-foreground rounded-2xl font-semibold flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 shadow-[var(--shadow-button)]"
               >
                 Inizia il viaggio

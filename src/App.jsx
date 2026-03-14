@@ -5,6 +5,7 @@ import { ThemeProvider } from './components/ThemeContext';
 import Navbar from './components/layout/Navbar';
 import Home from './pages/Home';
 import Storia from './pages/Storia';
+import Journey from './pages/Journey';
 import Fermate from './pages/Fermate';
 import Meteo from './pages/Meteo';
 import ComeSalire from './pages/ComeSalire';
@@ -17,6 +18,7 @@ function MainRoutes() {
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Home />} />
+        <Route path="/viaggio" element={<Journey />} />
         <Route path="/storia" element={<Storia />} />
         <Route path="/fermate" element={<Fermate />} />
         <Route path="/meteo" element={<Meteo />} />
