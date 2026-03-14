@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, ArrowRight, Train, Tree, NavigationArrow } from '@phosphor-icons/react';
 
@@ -6,6 +6,8 @@ const stations = [
   {
     id: 1,
     name: 'Sulmona',
+    viaggiaName: 'Sulmona',
+    trainlineCode: '20737',
     alt: '328m',
     type: 'Partenza',
     desc: 'La città dei confetti e di Ovidio. Punto di partenza dell\'itinerario storico.',
@@ -15,6 +17,8 @@ const stations = [
   {
     id: 2,
     name: 'Campo di Giove',
+    viaggiaName: 'Campo di Giove',
+    trainlineCode: '21214',
     alt: '1.064m',
     type: 'Sosta',
     desc: 'Ai piedi della Majella, incorniciata da fitti boschi e paesaggi mozzafiato.',
@@ -24,6 +28,8 @@ const stations = [
   {
     id: 3,
     name: 'Palena',
+    viaggiaName: 'Palena',
+    trainlineCode: '21371',
     alt: '1.258m',
     type: 'Punto panoramico',
     desc: 'Stazione isolata nel Quarto Santa Chiara, regno della natura selvaggia.',
@@ -33,6 +39,8 @@ const stations = [
   {
     id: 4,
     name: 'Roccaraso',
+    viaggiaName: 'Roccaraso',
+    trainlineCode: '20655',
     alt: '1.268m',
     type: 'Sosta',
     desc: 'La stazione più alta della linea, rinomata per il turismo montano invernale ed estivo.',
@@ -42,6 +50,8 @@ const stations = [
   {
     id: 5,
     name: 'Castel di Sangro',
+    viaggiaName: 'Castel di Sangro',
+    trainlineCode: '19856',
     alt: '793m',
     type: 'Capolinea',
     desc: 'Città dell\'acqua e della pesca a mosca, nodo cruciale dell\'Alta Valle del Sangro.',
@@ -49,6 +59,74 @@ const stations = [
     glow: 'rgba(14, 116, 144, 0.32)',
   }
 ];
+
+const TRAINLINE_BASE = 'https://www.thetrainline.com/book/results';
+const TRAINLINE_DEFAULTS = {
+  journeySearchType: 'single',
+  outwardDateType: 'departAfter',
+  selectedTab: 'train',
+  splitSave: 'true',
+  lang: 'it',
+  transportModes: 'mixed',
+  passengerDob: '1990-01-01',
+};
+
+const TRAINLINE_ROUTE_OVERRIDES = [
+  {
+    origin: 'Campo di Giove',
+    destination: 'Palena',
+    selectedTab: 'coach',
+    transportModes: 'coach',
+  },
+];
+
+function normalizeStationName(value) {
+  return value.toLowerCase().replace(/\s+/g, ' ').trim();
+}
+
+function formatTime(timeValue) {
+  if (!timeValue) return '';
+  if (typeof timeValue === 'string') return timeValue;
+  if (typeof timeValue === 'number') {
+    const date = new Date(timeValue);
+    return date.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
+  }
+  return '';
+}
+
+function buildDepartureDate(departure) {
+  if (!departure) return new Date();
+  if (departure.datetime) return new Date(departure.datetime);
+  if (departure.date && departure.time) {
+    return new Date(`${departure.date}T${departure.time}:00`);
+  }
+  return new Date();
+}
+
+function buildTrainlineLink({ originCode, destinationCode, departure, originName, destinationName }) {
+  if (!originCode || !destinationCode) {
+    return 'https://www.thetrainline.com/journey-planner/';
+  }
+  const when = buildDepartureDate(departure);
+  const outwardDate = when.toISOString().slice(0, 19);
+  const override =
+    TRAINLINE_ROUTE_OVERRIDES.find(
+      (item) => item.origin === originName && item.destination === destinationName
+    ) || {};
+  const params = new URLSearchParams({
+    journeySearchType: TRAINLINE_DEFAULTS.journeySearchType,
+    origin: `urn:trainline:generic:loc:${originCode}`,
+    destination: `urn:trainline:generic:loc:${destinationCode}`,
+    outwardDate,
+    outwardDateType: TRAINLINE_DEFAULTS.outwardDateType,
+    selectedTab: override.selectedTab || TRAINLINE_DEFAULTS.selectedTab,
+    splitSave: TRAINLINE_DEFAULTS.splitSave,
+    lang: TRAINLINE_DEFAULTS.lang,
+    'transportModes[]': override.transportModes || TRAINLINE_DEFAULTS.transportModes,
+    'passengers[0]': TRAINLINE_DEFAULTS.passengerDob,
+  });
+  return `${TRAINLINE_BASE}?${params.toString()}`;
+}
 
 function StationButton({ station, isActive, onClick, index }) {
   return (
@@ -105,6 +183,70 @@ function StationButton({ station, isActive, onClick, index }) {
 
 export default function Fermate() {
   const [selectedStation, setSelectedStation] = useState(stations[0]);
+  const [origin, setOrigin] = useState(stations[0].name);
+  const [destination, setDestination] = useState(stations[stations.length - 1].name);
+  const [schedule, setSchedule] = useState([]);
+  const [selectedDeparture, setSelectedDeparture] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const destinationOptions = useMemo(() => {
+    return stations.map((station) => station.name);
+  }, []);
+
+  const originCodes = useMemo(() => {
+    return stations.reduce((acc, station) => {
+      acc[station.name] = station.trainlineCode;
+      return acc;
+    }, {});
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function loadSchedule() {
+      setIsLoading(true);
+      setError(null);
+      try {
+        if (isMounted) {
+          const response = await fetch('/data/orari.json');
+          if (!response.ok) throw new Error('Impossibile caricare gli orari.');
+          const json = await response.json();
+          setSchedule(json.stations || []);
+        }
+      } catch (err) {
+        if (isMounted) {
+          setError(err.message || 'Errore durante il recupero degli orari.');
+          setSchedule([]);
+        }
+      } finally {
+        if (isMounted) setIsLoading(false);
+      }
+    }
+
+    loadSchedule();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const departures = useMemo(() => {
+    const originEntry = schedule.find((station) => station.name === origin);
+    if (!originEntry) return [];
+    return originEntry.departures.filter((departure) =>
+      normalizeStationName(departure.to).includes(normalizeStationName(destination))
+    );
+  }, [schedule, origin, destination]);
+
+  useEffect(() => {
+    if (departures.length === 0) {
+      setSelectedDeparture(null);
+      return;
+    }
+    if (!selectedDeparture || !departures.includes(selectedDeparture)) {
+      setSelectedDeparture(departures[0]);
+    }
+  }, [departures, selectedDeparture]);
 
   return (
     <div className="min-h-[100dvh] pt-32 pb-24 px-6 md:px-12 max-w-[1400px] mx-auto">
@@ -176,26 +318,115 @@ export default function Fermate() {
               </motion.div>
 
               <motion.div
-                className="mt-10 px-8 md:px-12 pb-10 pt-8 border-t border-border/50 grid grid-cols-2 gap-8"
+                className="mt-10 px-8 md:px-12 pb-12 pt-8 border-t border-border/50"
                 initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.22, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
               >
-                <div>
-                  <div className="text-sm font-semibold text-muted-foreground mb-3 italic">Connessioni</div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center">
-                      <Train className="text-primary" size={18} />
+                <div className="rounded-3xl border border-border/60 bg-card/70 backdrop-blur-xl p-6 shadow-[var(--shadow-card)]">
+                  <div className="flex items-center justify-between gap-4 mb-6">
+                    <div>
+                      <div className="text-sm font-semibold text-muted-foreground italic">
+                        Orari, biglietti e disponibilita
+                      </div>
+                      <div className="mt-2 flex items-center gap-3 text-sm font-semibold text-foreground">
+                        <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center">
+                          <Train className="text-primary" size={18} />
+                        </div>
+                        Linea storica
+                      </div>
                     </div>
-                    <span className="font-semibold">Linea storica</span>
+                    <a
+                      href={buildTrainlineLink({
+                        originCode: originCodes[origin],
+                        destinationCode: originCodes[destination],
+                        departure: selectedDeparture,
+                        originName: origin,
+                        destinationName: destination,
+                      })}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-3 rounded-2xl bg-primary px-5 py-3 text-sm md:text-base font-semibold text-primary-foreground shadow-[var(--shadow-elevated)] transition-all duration-300 hover:translate-y-[-1px] hover:shadow-[0_18px_48px_-26px_rgba(0,0,0,0.35)] focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-background"
+                    >
+                      Acquista su Trainline
+                      <NavigationArrow size={16} weight="bold" />
+                    </a>
                   </div>
-                </div>
-                <div>
-                  <div className="text-sm font-semibold text-muted-foreground mb-3 italic">Esplora</div>
-                  <button className="flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all duration-300 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-background rounded-lg px-1">
-                    Vedi disponibilità
-                    <NavigationArrow size={16} weight="bold" />
-                  </button>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <label className="flex flex-col gap-2 text-sm font-semibold text-foreground">
+                      Partenza
+                      <select
+                        className="h-11 rounded-2xl border border-border/60 bg-background/70 px-4 text-sm font-medium text-foreground focus-visible:ring-2 focus-visible:ring-primary"
+                        value={origin}
+                        onChange={(event) => setOrigin(event.target.value)}
+                      >
+                        {stations.map((station) => (
+                          <option key={station.id} value={station.name}>
+                            {station.name}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    <label className="flex flex-col gap-2 text-sm font-semibold text-foreground">
+                      Arrivo
+                      <select
+                        className="h-11 rounded-2xl border border-border/60 bg-background/70 px-4 text-sm font-medium text-foreground focus-visible:ring-2 focus-visible:ring-primary"
+                        value={destination}
+                        onChange={(event) => setDestination(event.target.value)}
+                      >
+                        {destinationOptions.map((option) => (
+                          <option key={option} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                  </div>
+
+                  <div className="mt-6 space-y-3">
+                    {isLoading && (
+                      <div className="text-sm text-muted-foreground">Caricamento orari...</div>
+                    )}
+                    {!isLoading && error && (
+                      <div className="text-sm text-red-500">{error}</div>
+                    )}
+                    {!isLoading && !error && departures.length === 0 && (
+                      <div className="text-sm text-muted-foreground">
+                        Nessuna partenza trovata per la tratta selezionata.
+                      </div>
+                    )}
+                    {!isLoading &&
+                      !error &&
+                      departures.slice(0, 6).map((departure) => {
+                        const isActive = selectedDeparture?.numeroTreno === departure.numeroTreno;
+                        return (
+                          <button
+                            key={`${departure.numeroTreno}-${departure.orarioPartenza}`}
+                            type="button"
+                            onClick={() => setSelectedDeparture(departure)}
+                            className={`w-full text-left rounded-2xl border px-4 py-3 transition-all ${
+                              isActive
+                                ? 'border-primary/60 bg-primary/10 text-foreground'
+                                : 'border-border/60 bg-background/70 text-muted-foreground hover:text-foreground'
+                            }`}
+                          >
+                            <div className="flex items-center justify-between">
+                              <div className="text-sm font-semibold">
+                              {formatTime(departure.time)}
+                            </div>
+                            <div className="text-xs font-semibold">
+                              Treno {departure.trainNo || '—'}
+                            </div>
+                          </div>
+                          <div className="text-xs mt-1">
+                              Destinazione: {departure.to || destination}
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+
                 </div>
               </motion.div>
             </motion.article>

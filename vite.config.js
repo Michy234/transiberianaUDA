@@ -16,6 +16,20 @@ export default defineConfig({
         target: 'http://localhost:3000',
         changeOrigin: true,
       },
+      '/api/viaggiatreno': {
+        target: 'https://www.viaggiatreno.it/infomobilita/resteasy/viaggiatreno',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/viaggiatreno/, ''),
+      },
+    },
+  },
+  preview: {
+    proxy: {
+      '/api/viaggiatreno': {
+        target: 'https://www.viaggiatreno.it/infomobilita/resteasy/viaggiatreno',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/viaggiatreno/, ''),
+      },
     },
   },
   build: {

@@ -132,7 +132,13 @@ export default function Navbar() {
 		                    isActive ? 'text-primary-foreground' : 'text-foreground/60 hover:text-foreground'
 		                  } ${isMeteoLive ? 'bg-gradient-to-r from-primary/20 to-primary/10 border border-primary/30' : ''}`}
 		                >
-		                  {isMeteoLive && <CloudRain size={16} weight="fill" className={`inline-block mr-1.5 ${isDark ? 'text-black' : 'text-white'}`} />}
+		                  {isMeteoLive && (
+                        <CloudRain
+                          size={16}
+                          weight="fill"
+                          className={`inline-block mr-1.5 ${isActive ? 'text-primary-foreground' : 'text-primary'}`}
+                        />
+                      )}
 		                  {link.label}
 		                </Link>
 		              );

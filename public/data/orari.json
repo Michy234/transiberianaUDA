@@ -1,0 +1,39 @@
+{
+  "lastUpdated": "2026-03-15",
+  "stations": [
+    {
+      "name": "Sulmona",
+      "departures": [
+        { "to": "Campo di Giove", "date": "2026-03-15", "time": "08:10", "trainNo": "R1201" },
+        { "to": "Roccaraso", "date": "2026-03-15", "time": "10:05", "trainNo": "R1203" },
+        { "to": "Castel di Sangro", "date": "2026-03-15", "time": "12:00", "trainNo": "R1205" }
+      ]
+    },
+    {
+      "name": "Campo di Giove",
+      "departures": [
+        { "to": "Palena", "date": "2026-03-16", "time": "12:00", "trainNo": "R2101" },
+        { "to": "Roccaraso", "date": "2026-03-16", "time": "15:10", "trainNo": "R2103" }
+      ]
+    },
+    {
+      "name": "Palena",
+      "departures": [
+        { "to": "Roccaraso", "date": "2026-03-16", "time": "12:00", "trainNo": "R3101" },
+        { "to": "Castel di Sangro", "date": "2026-03-16", "time": "16:20", "trainNo": "R3103" }
+      ]
+    },
+    {
+      "name": "Roccaraso",
+      "departures": [
+        { "to": "Castel di Sangro", "date": "2026-03-16", "time": "13:15", "trainNo": "R4101" }
+      ]
+    },
+    {
+      "name": "Castel di Sangro",
+      "departures": [
+        { "to": "Sulmona", "date": "2026-03-16", "time": "18:00", "trainNo": "R5101" }
+      ]
+    }
+  ]
+}
