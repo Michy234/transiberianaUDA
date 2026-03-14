@@ -8,7 +8,7 @@ const navLinks = [
   { path: '/', label: 'Home' },
   { path: '/storia', label: 'La Storia' },
   { path: '/fermate', label: 'Le Fermate' },
-  { path: '/come-salire', label: 'Come Salire' },
+  { path: '/come-salire', label: 'Attività' },
   { path: '/info-utili', label: 'Info Utili' },
   { path: '/meteo', label: 'Meteo Live' },
 ];
