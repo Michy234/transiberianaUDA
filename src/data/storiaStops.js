@@ -3,55 +3,65 @@ const storiaStops = [
     id: 1,
     label: 'Capitolo 01',
     title: 'Sulmona',
-    summary: "La soglia narrativa del viaggio: Ovidio, confetti artigianali e 21 arcate che incidono il cuore della città.",
+    summary:
+      'Città medievale della Valle Peligna famosa per i confetti artigianali e per l’acquedotto medievale con 21 arcate che attraversa il centro storico.',
     story:
-      "Nella Valle Peligna, Sulmona intreccia origini peligne e romane, segni medievali e riti pubblici ancora vivissimi. È il punto da cui la Transiberiana parte con un'identità precisa: colta, scenica, popolare.",
+      'La città di Sulmona ha origini molto antiche. In epoca preromana il territorio era abitato dal popolo italico dei Peligni e con la conquista romana divenne un municipium. Oggi conserva un centro storico ricco di monumenti, tradizioni popolari, gastronomia e testimonianze artistiche.',
     image: '/photos/storia/sulmona.webp',
     experience: {
-      eyebrow: 'Capitolo inaugurale',
-      intro: 'La città dei confetti e di Ovidio non introduce soltanto il viaggio: lo mette in scena.',
+      eyebrow: 'Sulmona',
+      intro:
+        'Città della Valle Peligna con origini preromane e romane, famosa per i confetti artigianali e per l’acquedotto medievale con 21 arcate.',
       body:
-        "Tra Peligni, Roma e Medioevo, Sulmona compone un paesaggio urbano in cui l'acquedotto, Piazza Garibaldi, i confetti e le grandi celebrazioni pubbliche danno alla storia una forma visibile.",
-      quote: 'Qui la storia non resta sullo sfondo: diventa scenografia urbana.',
-      heroBadges: ['Valle Peligna', 'Publio Ovidio Nasone', '21 arcate medievali', 'Confetti artigianali'],
+        'Il borgo conserva chiese e palazzi storici e ogni anno ospita eventi culturali e tradizionali che celebrano la sua storia e l’artigianato locale.',
+      quote: 'Sulmona unisce storia antica, tradizioni popolari, gastronomia e patrimonio artistico.',
+      heroBadges: ['Valle Peligna', 'San Panfilo', '21 arcate medievali', 'Confetti artigianali'],
       stats: [
-        { label: 'Origini', value: 'Peligni e Roma' },
-        { label: 'Segno urbano', value: '21 arcate' },
+        { label: 'Origini', value: 'Peligni e municipium romano' },
         { label: 'Patrono', value: 'San Panfilo' },
-        { label: 'Riti celebri', value: 'Due feste iconiche' },
+        { label: 'Monumenti', value: 'Acquedotto medievale e Piazza Garibaldi' },
+        { label: 'Tradizioni', value: 'Giostra Cavalleresca e Madonna che Scappa in Piazza' },
       ],
       chapters: [
         {
           id: 'radici',
-          title: 'Radici peligne e romane',
+          title: 'Origini',
           body:
-            "Prima di diventare una delle città più riconoscibili d'Abruzzo, Sulmona fu un centro dei Peligni e poi un municipium romano. La sua posizione, tra Adriatico e interno appenninico, la rese un nodo naturale di passaggio, commercio e influenza culturale.",
-          pullout: 'Da questo tessuto antico nasce anche il nome di Ovidio, la voce letteraria più celebre legata alla città.',
+            'In epoca preromana il territorio era abitato dal popolo italico dei Peligni. Con la conquista romana la città divenne un municipium e si sviluppò grazie alla sua posizione strategica tra l’Adriatico e l’interno dell’Appennino.',
+          pullout: 'Qui nacque Publio Ovidio Nasone, uno dei più importanti autori della letteratura romana.',
           callouts: ['Popolo dei Peligni', 'Municipium romano', 'Nascita di Publio Ovidio Nasone'],
         },
         {
-          id: 'simboli',
-          title: 'Simboli che disegnano la città',
+          id: 'patrono-monumenti',
+          title: 'Patrono e monumenti',
           body:
-            "L'immagine di Sulmona si riconosce subito: l'Acquedotto medievale attraversa Piazza Garibaldi con una sequenza di arcate che scandisce lo spazio pubblico, mentre la Cattedrale di San Panfilo, le chiese storiche e i palazzi antichi costruiscono un centro compatto, materico e monumentale.",
-          pullout: 'Anche i confetti, lavorati artigianalmente e spesso composti in forme floreali, sono architettura identitaria: piccoli oggetti che raccontano la città quanto le sue pietre.',
-          callouts: ['Acquedotto medievale del XIII secolo', 'Piazza Garibaldi', 'Cattedrale di San Panfilo', 'Tradizione artigianale dei confetti'],
+            'Il simbolo della città è l’Acquedotto medievale di Sulmona, costruito nel XIII secolo e formato da una lunga serie di arcate che attraversano Piazza Garibaldi, la piazza principale. Tra gli edifici religiosi più importanti si trova la Cattedrale di San Panfilo, dedicata al patrono della città, insieme a numerose chiese storiche e palazzi antichi.',
+          pullout: 'Il centro storico conserva monumenti e testimonianze artistiche tra i più rappresentativi della città.',
+          callouts: ['San Panfilo', 'Cattedrale di San Panfilo', 'Acquedotto medievale', 'Piazza Garibaldi'],
         },
         {
           id: 'riti',
-          title: 'Riti che accendono la piazza',
+          title: 'Tradizioni',
           body:
-            "Sulmona non conserva soltanto il passato: lo riattiva. La Giostra Cavalleresca trasforma l'estate in una rievocazione urbana fatta di quartieri, sfida e ritualità, mentre la Madonna che Scappa in Piazza rinnova ogni Pasqua un gesto collettivo potentissimo, in cui la piazza diventa il centro emotivo della città.",
-          pullout: 'La memoria qui è pubblica, condivisa e spettacolare: accade davanti a tutti.',
-          callouts: ['Giostra Cavalleresca', 'Madonna che Scappa in Piazza', 'Ritualità civica e religiosa'],
+            'Tra le tradizioni più importanti c’è la Giostra Cavalleresca di Sulmona, una rievocazione storica che si svolge ogni estate e vede i cavalieri dei vari quartieri della città sfidarsi in un torneo ispirato al Medioevo. Un’altra celebrazione molto famosa è la Madonna che Scappa in Piazza, che si svolge la mattina di Pasqua.',
+          pullout: 'Ogni anno la città ospita eventi culturali e tradizionali che ne celebrano la storia e l’artigianato locale.',
+          callouts: ['Giostra Cavalleresca', 'Madonna che Scappa in Piazza', 'Celebrazioni cittadine'],
         },
         {
-          id: 'porta',
-          title: "Porta d'Abruzzo",
+          id: 'sapori',
+          title: 'Sapori',
           body:
-            "Grazie alla posizione nella Valle Peligna e alla vicinanza con montagne e parchi dell'Appennino, Sulmona è anche una soglia geografica: da qui si entra in un paesaggio di escursioni, altipiani e natura. Per questo è il punto giusto da cui far iniziare il racconto della ferrovia.",
-          pullout: "Sulmona unisce città e orizzonte: pietra nel centro, rilievi tutt'intorno.",
-          callouts: ['Valle Peligna', 'Accesso all’Appennino', 'Partenza ideale della Transiberiana'],
+            'Sulmona è famosa in tutta Italia per la produzione dei confetti, dolci a base di mandorla ricoperta di zucchero realizzati artigianalmente e spesso disposti in composizioni decorative a forma di fiore. La cucina locale comprende anche piatti a base di legumi come lenticchie e ceci, maccheroni alla chitarra, carni di agnello e pecora e dolci tipici come torcinelli e calcionetti abruzzesi.',
+          pullout: 'Questi sapori riflettono una tradizione rurale che combina semplicità, ingredienti locali e tecniche di preparazione antiche.',
+          callouts: ['Confetti artigianali', 'Maccheroni alla chitarra', 'Agnello e pecora', 'Torcinelli e calcionetti'],
+        },
+        {
+          id: 'posizione',
+          title: 'Posizione',
+          body:
+            'Grazie alla sua posizione nella Valle Peligna e alla vicinanza con montagne e parchi naturali dell’Appennino, Sulmona è oggi anche un importante punto di partenza per escursioni e turismo naturalistico.',
+          pullout: 'La posizione tra Valle Peligna e Appennino rende Sulmona una tappa naturale tra città, montagne e percorsi nel paesaggio.',
+          callouts: ['Valle Peligna', 'Montagne dell’Appennino', 'Escursioni e turismo naturalistico'],
         },
       ],
       gallery: [
@@ -59,42 +69,42 @@ const storiaStops = [
           id: 'aq1',
           src: '/photos/storia/sulmona.webp',
           alt: 'Veduta di Sulmona con atmosfera urbana storica',
-          caption: 'Una città da leggere per strati: pietra, luce, memoria.',
+          caption: 'Acquedotto medievale e Piazza Garibaldi.',
         },
         {
           id: 'aq2',
           src: '/photos/storia/sulmona.webp',
           alt: 'Dettaglio placeholder per artigianato o architettura di Sulmona',
-          caption: 'Spazio per un dettaglio di acquedotto, bottega o facciata.',
+          caption: 'Confetti artigianali e composizioni decorative a forma di fiore.',
         },
         {
           id: 'aq3',
           src: '/photos/storia/sulmona.webp',
           alt: 'Placeholder per scena di piazza o rito pubblico a Sulmona',
-          caption: 'Spazio per una scena collettiva: piazza, festa, presenza.',
+          caption: 'Tradizioni cittadine e celebrazioni pubbliche.',
         },
       ],
       rituals: [
         {
           title: 'Giostra Cavalleresca',
           tag: 'Estate',
-          desc: 'I quartieri della città si affrontano in una rievocazione storica che trasforma Sulmona in un palcoscenico medievale.',
+          desc: 'Rievocazione storica estiva in cui i cavalieri dei quartieri della città si sfidano in un torneo ispirato al Medioevo.',
         },
         {
           title: 'Madonna che Scappa in Piazza',
           tag: 'Pasqua',
-          desc: 'Il rito più famoso della città mette in scena l’incontro tra la Madonna e il Cristo risorto davanti a una piazza gremita.',
+          desc: 'Celebrazione pasquale in cui la statua della Madonna corre incontro alla statua del Cristo risorto tra la folla radunata nella piazza.',
         },
         {
           title: 'Confetti artigianali',
           tag: 'Identità',
-          desc: 'Più che un prodotto tipico, sono un segno culturale: memoria materiale, gesto artigiano e immagine immediata della città.',
+          desc: 'Tradizione artigianale antica legata a mandorle ricoperte di zucchero e a composizioni decorative a forma di fiore.',
         },
       ],
       closing: {
-        title: 'Perché partire da qui',
+        title: 'Storia, tradizioni, gastronomia e territorio',
         body:
-          'Sulmona tiene insieme eredità classica, segni medievali, artigianato e ritualità pubblica. Per questo, nel tab La Storia, non deve sembrare una semplice descrizione: deve comportarsi come una soglia narrativa.',
+          'Sulmona unisce storia antica, tradizioni popolari, gastronomia e patrimonio artistico, che la rendono uno dei centri culturali più interessanti d’Abruzzo.',
       },
     },
   },

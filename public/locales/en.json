@@ -171,43 +171,43 @@
         "id": 1,
         "label": "Chapter 01",
         "title": "Sulmona",
-        "summary": "The narrative threshold of the journey: Ovid, artisanal sugared almonds and 21 arches cutting through the city's core.",
-        "story": "In the Peligna Valley, Sulmona weaves together Pelignian and Roman origins, medieval landmarks and still-vibrant public rituals. It is where the Transiberiana departs with a precise identity: cultured, theatrical and popular.",
+        "summary": "A medieval town in the Peligna Valley, famous for its artisanal sugared almonds and for the medieval aqueduct with 21 arches crossing the historic center.",
+        "story": "Sulmona has very ancient origins. In pre-Roman times the area was inhabited by the Italic people of the Peligni and with the Roman conquest it became a municipium. Today it preserves a historic center rich in monuments, popular traditions, gastronomy and artistic heritage.",
         "experience": {
-          "eyebrow": "Opening chapter",
-          "intro": "The city of sugared almonds and Ovid does not simply introduce the journey: it stages it.",
-          "body": "Between the Peligni, Rome and the Middle Ages, Sulmona builds an urban landscape where the aqueduct, Piazza Garibaldi, sugared almonds and major public celebrations give history a visible form.",
-          "quote": "Here history does not stay in the background: it becomes urban scenography.",
+          "eyebrow": "Sulmona",
+          "intro": "A town in the Peligna Valley with pre-Roman and Roman origins, famous for artisanal sugared almonds and for the medieval aqueduct with 21 arches.",
+          "body": "The town preserves historic churches and palaces and each year hosts cultural and traditional events celebrating its history and local craftsmanship.",
+          "quote": "Sulmona brings together ancient history, popular traditions, gastronomy and artistic heritage.",
           "heroBadges": [
             "Peligna Valley",
-            "Publius Ovidius Naso",
+            "San Panfilo",
             "21 medieval arches",
             "Artisanal sugared almonds"
           ],
           "stats": [
             {
               "label": "Origins",
-              "value": "Peligni and Rome"
-            },
-            {
-              "label": "Urban mark",
-              "value": "21 arches"
+              "value": "Peligni and Roman municipium"
             },
             {
               "label": "Patron saint",
               "value": "San Panfilo"
             },
             {
-              "label": "Iconic rites",
-              "value": "Two major festivals"
+              "label": "Monuments",
+              "value": "Medieval aqueduct and Piazza Garibaldi"
+            },
+            {
+              "label": "Traditions",
+              "value": "Giostra Cavalleresca and Madonna che Scappa in Piazza"
             }
           ],
           "chapters": [
             {
               "id": "radici",
-              "title": "Pelignian and Roman roots",
-              "body": "Long before becoming one of Abruzzo's most recognizable cities, Sulmona was a Peligni center and later a Roman municipium. Its position, between the Adriatic and the Apennine interior, made it a natural node for movement, trade and cultural influence.",
-              "pullout": "From this ancient urban fabric also emerges the name of Ovid, the city's most famous literary voice.",
+              "title": "Origins",
+              "body": "In pre-Roman times the area was inhabited by the Italic people of the Peligni. With the Roman conquest, the city became a municipium and developed thanks to its strategic position between the Adriatic and the inner Apennines.",
+              "pullout": "Publius Ovidius Naso, one of the most important authors of Roman literature, was born here.",
               "callouts": [
                 "People of the Peligni",
                 "Roman municipium",
@@ -215,37 +215,50 @@
               ]
             },
             {
-              "id": "simboli",
-              "title": "Symbols that draw the city",
-              "body": "Sulmona's image is instantly recognizable: the medieval aqueduct crosses Piazza Garibaldi with a sequence of arches that sets the rhythm of public space, while San Panfilo Cathedral, historic churches and old palaces shape a compact, material and monumental center.",
-              "pullout": "Even sugared almonds, handmade and often arranged as flowers, act as identity architecture: small objects that tell the city as much as its stone does.",
+              "id": "patrono-monumenti",
+              "title": "Patron saint and monuments",
+              "body": "The symbol of the city is Sulmona's medieval aqueduct, built in the thirteenth century and formed by a long series of arches crossing Piazza Garibaldi, the main square. Among the most important religious buildings is San Panfilo Cathedral, dedicated to the patron saint of the city, together with numerous historic churches and old palaces.",
+              "pullout": "The historic center preserves monuments and artistic evidence among the most representative of the city.",
               "callouts": [
-                "13th-century medieval aqueduct",
-                "Piazza Garibaldi",
+                "San Panfilo",
                 "San Panfilo Cathedral",
-                "Artisanal sugared almond tradition"
+                "Medieval aqueduct",
+                "Piazza Garibaldi",
+                "Historic churches and old palaces"
               ]
             },
             {
               "id": "riti",
-              "title": "Rites that ignite the square",
-              "body": "Sulmona does not only preserve the past: it reactivates it. The Giostra Cavalleresca turns summer into an urban reenactment of districts, challenge and ritual, while the Madonna che Scappa in Piazza renews every Easter a powerful collective gesture in which the square becomes the city's emotional center.",
-              "pullout": "Memory here is public, shared and spectacular: it happens in front of everyone.",
+              "title": "Traditions",
+              "body": "Among the most important traditions is the Giostra Cavalleresca of Sulmona, a historical reenactment held every summer in which the riders of the city's districts compete in a tournament inspired by the Middle Ages. Another very famous celebration is the Madonna che Scappa in Piazza, held on Easter morning.",
+              "pullout": "Each year the city hosts cultural and traditional events celebrating its history and local craftsmanship.",
               "callouts": [
                 "Giostra Cavalleresca",
                 "Madonna che Scappa in Piazza",
-                "Civic and religious ritual life"
+                "City celebrations"
               ]
             },
             {
-              "id": "porta",
-              "title": "Gateway to Abruzzo",
-              "body": "Thanks to its position in the Peligna Valley and its proximity to mountains and Apennine parks, Sulmona is also a geographical threshold: from here you enter a landscape of hikes, plateaus and open nature. That is why it is the right place from which to begin the railway's story.",
-              "pullout": "Sulmona holds city and horizon together: stone in the center, ridgelines all around.",
+              "id": "sapori",
+              "title": "Flavors",
+              "body": "Sulmona is famous throughout Italy for the production of sugared almonds, sweets made of almonds covered in sugar, produced by hand and often arranged in decorative flower compositions. Local cuisine also includes dishes based on legumes such as lentils and chickpeas, maccheroni alla chitarra, lamb and sheep meat, and traditional desserts such as torcinelli and calcionetti abruzzesi.",
+              "pullout": "These flavors reflect a rural tradition that combines simplicity, local ingredients and ancient preparation techniques.",
+              "callouts": [
+                "Artisanal sugared almonds",
+                "Maccheroni alla chitarra",
+                "Lamb and sheep",
+                "Torcinelli and calcionetti"
+              ]
+            },
+            {
+              "id": "posizione",
+              "title": "Location",
+              "body": "Thanks to its position in the Peligna Valley and its proximity to the mountains and natural parks of the Apennines, Sulmona is today also an important starting point for excursions and nature tourism.",
+              "pullout": "Its location between the Peligna Valley and the Apennines makes Sulmona a natural stop between the city, the mountains and routes through the landscape.",
               "callouts": [
                 "Peligna Valley",
-                "Access to the Apennines",
-                "Ideal departure point of the Transiberiana"
+                "Apennine mountains",
+                "Excursions and nature tourism"
               ]
             }
           ],
@@ -254,41 +267,41 @@
               "id": "aq1",
               "src": "/photos/storia/sulmona.webp",
               "alt": "View of Sulmona with a historic urban atmosphere",
-              "caption": "A city to read in layers: stone, light and memory."
+              "caption": "Medieval aqueduct and Piazza Garibaldi."
             },
             {
               "id": "aq2",
               "src": "/photos/storia/sulmona.webp",
               "alt": "Placeholder detail for Sulmona architecture or craftsmanship",
-              "caption": "Space for an aqueduct, workshop or facade detail."
+              "caption": "Artisanal sugared almonds and decorative flower compositions."
             },
             {
               "id": "aq3",
               "src": "/photos/storia/sulmona.webp",
               "alt": "Placeholder for a public square or ritual scene in Sulmona",
-              "caption": "Space for a collective scene: square, festivity, presence."
+              "caption": "City traditions and public celebrations."
             }
           ],
           "rituals": [
             {
               "title": "Giostra Cavalleresca",
               "tag": "Summer",
-              "desc": "The city's districts compete in a historical reenactment that turns Sulmona into a medieval stage set."
+              "desc": "Summer historical reenactment in which the riders of the city's districts compete in a tournament inspired by the Middle Ages."
             },
             {
               "title": "Madonna che Scappa in Piazza",
               "tag": "Easter",
-              "desc": "The city's most famous rite stages the encounter between the Madonna and the risen Christ before a packed square."
+              "desc": "Easter celebration in which the statue of the Madonna runs toward the statue of the risen Christ among the crowd gathered in the square."
             },
             {
               "title": "Artisanal sugared almonds",
               "tag": "Identity",
-              "desc": "More than a local product, they are a cultural sign: material memory, crafted gesture and the city's most immediate image."
+              "desc": "Ancient artisanal tradition linked to sugar-coated almonds and decorative compositions shaped like flowers."
             }
           ],
           "closing": {
-            "title": "Why begin here",
-            "body": "Sulmona holds together classical heritage, medieval landmarks, craftsmanship and public ritual life. That is why, in the History tab, it should not feel like a simple description: it should behave like a narrative threshold."
+            "title": "History, traditions, gastronomy and landscape",
+            "body": "Sulmona brings together ancient history, popular traditions, gastronomy and artistic heritage, making it one of the most interesting cultural centers in Abruzzo."
           }
         }
       },
