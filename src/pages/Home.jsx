@@ -103,7 +103,7 @@ export default function Home() {
               initial={{ y: 24, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.45, type: 'spring', stiffness: 90, damping: 18 }}
-              className="mb-8 bg-card/85 backdrop-blur-xl p-5 rounded-2xl shadow-[var(--shadow-card)] border border-border/40"
+              className="mb-8 bg-card/85 backdrop-blur-xl p-5 rounded-2xl shadow-[var(--shadow-card)] border border-border/40 lg:hidden"
             >
               <div className="grid grid-cols-3 gap-4 text-foreground">
                 <div>
@@ -164,11 +164,43 @@ export default function Home() {
             className="w-full h-full max-w-[560px] lg:max-w-none relative rounded-3xl overflow-hidden shadow-[var(--shadow-elevated)] lg:-ml-12"
           >
             <img 
-              src="/photos/storia/transiberiana.jpg" 
+              src="/photos/storia/transiberiana.webp" 
               alt="Treno storico che attraversa un viadotto immerso nella vegetazione delle montagne abruzzesi" 
               className="object-cover w-full h-full"
               loading="eager"
             />
+
+            {/* Warm Floating Stats Card (desktop) */}
+            <motion.div 
+              initial={{ y: 40, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.9, type: 'spring', stiffness: 100, damping: 20 }}
+              className="hidden lg:block absolute bottom-6 left-6 right-6 z-20 bg-card/90 backdrop-blur-lg p-5 rounded-2xl shadow-[var(--shadow-card)] border border-border/40"
+            >
+              <div className="grid grid-cols-3 gap-4 text-foreground">
+                <div>
+                  <div className="text-muted-foreground text-xs font-semibold mb-1" style={{ fontVariant: 'small-caps' }}>Altitudine max</div>
+                  <div className="text-xl font-bold flex items-center gap-1.5" style={{ fontVariantNumeric: 'tabular-nums' }}>
+                    <Tree weight="fill" className="text-primary" size={18} />
+                    1.268m
+                  </div>
+                </div>
+                <div>
+                  <div className="text-muted-foreground text-xs font-semibold mb-1" style={{ fontVariant: 'small-caps' }}>Meteo live</div>
+                  <div className="text-xl font-bold flex items-center gap-1.5" style={{ fontVariantNumeric: 'tabular-nums' }}>
+                    <CloudRain weight="fill" className="text-primary-light" size={18} />
+                    8°C
+                  </div>
+                </div>
+                <div>
+                  <div className="text-muted-foreground text-xs font-semibold mb-1" style={{ fontVariant: 'small-caps' }}>Fermate</div>
+                  <div className="text-xl font-bold flex items-center gap-1.5" style={{ fontVariantNumeric: 'tabular-nums' }}>
+                    <MapPin weight="fill" className="text-wood" size={18} />
+                    21
+                  </div>
+                </div>
+              </div>
+            </motion.div>
           </motion.div>
         </div>
       </section>
