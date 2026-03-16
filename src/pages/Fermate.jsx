@@ -12,6 +12,7 @@ const stations = [
     type: 'Partenza',
     desc: 'La città dei confetti e di Ovidio. Punto di partenza dell\'itinerario storico.',
     photo: '/photos/fermate/sulmona-fermata.jpg',
+    mapQuery: 'Stazione di Sulmona, Sulmona, Abruzzo',
     glow: 'rgba(34, 197, 94, 0.35)',
   },
   {
@@ -23,6 +24,7 @@ const stations = [
     type: 'Sosta',
     desc: 'Ai piedi della Majella, incorniciata da fitti boschi e paesaggi mozzafiato.',
     photo: '/photos/fermate/campo-di-giove.jpg',
+    mapQuery: 'Stazione di Campo di Giove, Campo di Giove, Abruzzo',
     glow: 'rgba(59, 130, 246, 0.35)',
   },
   {
@@ -34,6 +36,7 @@ const stations = [
     type: 'Punto panoramico',
     desc: 'Stazione isolata nel Quarto Santa Chiara, regno della natura selvaggia.',
     photo: '/photos/fermate/palena.jpg',
+    mapQuery: 'Stazione di Palena, Palena, Abruzzo',
     glow: 'rgba(16, 185, 129, 0.32)',
   },
   {
@@ -45,6 +48,7 @@ const stations = [
     type: 'Sosta',
     desc: 'La stazione più alta della linea, rinomata per il turismo montano invernale ed estivo.',
     photo: '/photos/fermate/roccaraso.jpg',
+    mapQuery: 'Stazione di Roccaraso, Roccaraso, Abruzzo',
     glow: 'rgba(59, 130, 246, 0.32)',
   },
   {
@@ -56,6 +60,7 @@ const stations = [
     type: 'Capolinea',
     desc: 'Città dell\'acqua e della pesca a mosca, nodo cruciale dell\'Alta Valle del Sangro.',
     photo: '/photos/fermate/castel-di-sangro.jpg',
+    mapQuery: 'Stazione di Castel di Sangro, Castel di Sangro, Abruzzo',
     glow: 'rgba(14, 116, 144, 0.32)',
   }
 ];
@@ -103,6 +108,10 @@ function buildTrainlineLink({ originCode, destinationCode, originName, destinati
     'passengers[0]': TRAINLINE_DEFAULTS.passengerDob,
   });
   return `${TRAINLINE_BASE}?${params.toString()}`;
+}
+
+function buildMapEmbedUrl(query) {
+  return `https://www.google.com/maps?output=embed&q=${encodeURIComponent(query)}`;
 }
 
 function StationButton({ station, isActive, onClick, index }) {
@@ -241,6 +250,32 @@ export default function Fermate() {
                 <p className="text-[0.98rem] leading-relaxed text-foreground/85 max-w-[50ch]">
                   {selectedStation.desc}
                 </p>
+              </motion.div>
+
+              <motion.div
+                className="mt-8 px-8 md:px-12"
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.22, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <div className="rounded-3xl border border-border/60 bg-card/70 backdrop-blur-xl p-6 shadow-[var(--shadow-card)]">
+                  <div className="flex items-center justify-between gap-3 mb-4">
+                    <div className="text-sm font-semibold text-muted-foreground italic">
+                      Locali e punti di interesse nei dintorni
+                    </div>
+                    <div className="text-xs font-semibold text-foreground/70">Google Maps</div>
+                  </div>
+                  <div className="relative w-full overflow-hidden rounded-2xl border border-border/60 bg-background">
+                    <iframe
+                      title={`Mappa della stazione di ${selectedStation.name}`}
+                      src={buildMapEmbedUrl(selectedStation.mapQuery || selectedStation.name)}
+                      className="h-64 w-full md:h-72"
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      allowFullScreen
+                    />
+                  </div>
+                </div>
               </motion.div>
 
               <motion.div
