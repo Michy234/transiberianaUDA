@@ -81,7 +81,7 @@ export default function WeatherChart() {
       humidity: (v) => Math.round(v),
       airQuality: (v) => Math.round(v),
       co2: (v) => Math.round(v),
-      ammonia: (v) => Math.round(v),
+      ammonia: (v) => Math.round(v * 10) / 10,
     };
 
     const collect = (metric) => {
@@ -90,7 +90,8 @@ export default function WeatherChart() {
         const series = cityData?.[metric];
         if (!Array.isArray(series)) return;
         series.forEach((v) => {
-          if (Number.isFinite(v)) values.push(v);
+          const num = typeof v === 'string' ? Number(v) : v;
+          if (Number.isFinite(num)) values.push(num);
         });
       });
       return values;
@@ -154,7 +155,7 @@ export default function WeatherChart() {
       case 'co2':
         return `${Math.round(value)} ppm`;
       case 'ammonia':
-        return `${Math.round(value)} µg/m³`;
+        return `${(Math.round(value * 10) / 10).toFixed(1)} µg/m³`;
       default:
         return String(value);
     }
