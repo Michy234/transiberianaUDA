@@ -101,7 +101,7 @@ export default function Home() {
               Prossima partenza: Sulmona
             </div>
             
-            <div className="inline-block mb-8 rounded-[28px] bg-white/18 backdrop-blur-md border border-white/35 shadow-[0_10px_28px_-26px_rgba(0,0,0,0.28)] px-5 py-4 lg:mb-8 lg:bg-transparent lg:border-0 lg:shadow-none lg:px-0 lg:py-0">
+            <div className="inline-block mb-8 rounded-[28px] bg-white/10 backdrop-blur-md border border-white/25 shadow-[0_8px_22px_-26px_rgba(0,0,0,0.22)] px-5 py-4 lg:mb-8 lg:bg-transparent lg:border-0 lg:shadow-none lg:px-0 lg:py-0">
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-bold tracking-[-0.03em] leading-[1.08] text-foreground">
                 La <span className="text-primary italic">Transiberiana</span> <br />
                 d'Abruzzo
