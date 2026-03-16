@@ -11,6 +11,7 @@ const navLinks = [
   { path: '/fermate', key: 'nav.fermate', label: 'Le Fermate' },
   { path: '/come-salire', key: 'nav.attivita', label: 'Attività' },
   { path: '/info-utili', key: 'nav.info', label: 'Info Utili' },
+  { path: '/decalogo-ambientale', key: 'nav.decalogo', label: 'Decalogo ambientale' },
   { path: '/meteo', key: 'nav.meteo', label: 'Meteo Live' },
 ];
 

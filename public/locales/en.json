@@ -5,6 +5,7 @@
     "fermate": "Stops",
     "attivita": "Activities",
     "info": "Useful Info",
+    "decalogo": "Environmental Decalogue",
     "meteo": "Live Weather",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
@@ -17,6 +18,16 @@
   "theme": {
     "light": "Switch to light theme",
     "dark": "Switch to dark theme"
+  },
+  "decalogo": {
+    "kicker": "Responsibility, care, awareness",
+    "title": "Environmental decalogue",
+    "subtitle": "Two lists of best practices to reduce our impact: one for the natural environment around us and one for the digital world we use every day.",
+    "card": {
+      "kicker": "Small actions",
+      "title": "Real impact",
+      "body": "Reduce waste, choose thoughtfully, and share good habits: every daily gesture can become a concrete step toward a cleaner future."
+    }
   },
   "home": {
     "badge": "Next departure: {{city}}",
