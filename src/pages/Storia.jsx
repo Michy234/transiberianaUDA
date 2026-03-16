@@ -73,7 +73,6 @@ export default function Storia() {
                 />
               </div>
               <div className="p-6">
-                <div className="text-primary font-serif text-xl font-bold italic mb-2">{stop.label}</div>
                 <h3 className="text-2xl font-bold tracking-tight text-foreground mb-3">{stop.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{stop.summary}</p>
                 <div className="mt-4 inline-flex items-center gap-2 text-xs font-semibold text-primary/90">
@@ -125,7 +124,6 @@ export default function Storia() {
                 </button>
               </div>
               <div className="p-8 md:p-10">
-                <div className="text-primary font-serif text-2xl font-bold italic mb-3">{activeStop.label}</div>
                 <h3 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-6">
                   {activeStop.title}
                 </h3>
