@@ -10,12 +10,12 @@ gsap.registerPlugin(ScrollToPlugin);
 
 const sponsorLogos = [
   {
-    src: '/photos/sponsors/silente.png',
+    src: '/photos/sponsors/silente.webp',
     alt: 'Parco Sirente Velino',
     href: 'https://www.parcosirentevelino.it/',
   },
   {
-    src: '/photos/sponsors/tua.png',
+    src: '/photos/sponsors/tua.webp',
     alt: 'TUA Abruzzo',
     href: 'https://www.tuabruzzo.it/',
   },
@@ -25,17 +25,17 @@ const sponsorLogos = [
     href: 'https://www.fondazionefs.it/',
   },
   {
-    src: '/photos/sponsors/tti.png',
+    src: '/photos/sponsors/tti.webp',
     alt: 'FS Treni Turistici Italiani',
     href: 'https://www.fstrenituristici.it/',
   },
   {
-    src: '/photos/sponsors/maiella.png',
+    src: '/photos/sponsors/maiella.webp',
     alt: 'Parco Nazionale della Maiella',
     href: 'https://www.parcomajella.it/',
   },
   {
-    src: '/photos/sponsors/abruzzo.png',
+    src: '/photos/sponsors/abruzzo.webp',
     alt: 'Parco Nazionale d’Abruzzo, Lazio e Molise',
     href: 'https://www.parcoabruzzo.it/',
   },
