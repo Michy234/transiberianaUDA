@@ -17,7 +17,7 @@ const CITY_OPTIONS = [
 const METRIC_OPTIONS = [
   { value: 'temperature', label: 'Temperatura (°C)', color: '#e63946' },
   { value: 'humidity', label: 'Umidità (%)', color: '#457b9d' },
-  { value: 'pressure', label: 'Pressione (hPa)', color: '#2a9d8f' },
+  { value: 'airQuality', label: "Qualità dell'aria (AQI)", color: '#2a9d8f' },
 ];
 
 const PERIOD_OPTIONS = [
@@ -66,7 +66,7 @@ export default function WeatherChart() {
     const metricBins = {
       temperature: (v) => Math.round(v * 10) / 10,
       humidity: (v) => Math.round(v),
-      pressure: (v) => Math.round(v),
+      airQuality: (v) => Math.round(v),
     };
 
     const collect = (metric) => {
@@ -134,8 +134,8 @@ export default function WeatherChart() {
         return `${value.toFixed(1)}°C`;
       case 'humidity':
         return `${Math.round(value)}%`;
-      case 'pressure':
-        return `${Math.round(value)} hPa`;
+      case 'airQuality':
+        return `${Math.round(value)} AQI`;
       default:
         return String(value);
     }

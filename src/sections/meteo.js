@@ -17,9 +17,9 @@ import { updateFermataTemp }                            from './fermate.js';
 
 const STATION_KEYS = ['sulmona', 'castel', 'campo'];
 const STATION_NAMES = { sulmona: 'Sulmona', castel: 'Castel di Sangro', campo: 'Campo di Giove' };
-const VAR_KEYS   = ['temperature', 'humidity', 'pressure'];
-const VAR_LABELS = { temperature: 'Temperatura', humidity: 'Umidità', pressure: 'Pressione' };
-const VAR_UNITS  = { temperature: '°C', humidity: '%', pressure: 'hPa' };
+const VAR_KEYS   = ['temperature', 'humidity', 'airQuality'];
+const VAR_LABELS = { temperature: 'Temperatura', humidity: 'Umidità', airQuality: "Qualità dell'aria" };
+const VAR_UNITS  = { temperature: '°C', humidity: '%', airQuality: 'AQI' };
 
 // State
 let currentPeriod = '7d';

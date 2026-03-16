@@ -10,6 +10,7 @@ const STATIONS = {
 };
 
 const VARS = 'temperature_2m,relative_humidity_2m,surface_pressure,precipitation';
+const AIR_QUALITY_VAR = 'european_aqi';
 const DEFAULT_TIMEOUT_MS = 12_000;
 
 async function fetchJson(url, { timeoutMs = DEFAULT_TIMEOUT_MS } = {}) {
@@ -57,6 +58,7 @@ export async function fetchStationData(stationKey, period) {
   const { start, end } = getPeriodDates(period);
 
   let url;
+  let airUrl;
   const isShort = (period === '24h' || period === '7d');
   const windowHours = period === '24h' ? 24 : 7 * 24;
 
@@ -65,17 +67,27 @@ export async function fetchStationData(stationKey, period) {
     url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}`
       + `&hourly=${VARS}&past_days=${pastDays}&forecast_days=1`
       + `&timezone=auto`;
+    airUrl = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}`
+      + `&hourly=${AIR_QUALITY_VAR}&past_days=${pastDays}&forecast_days=1`
+      + `&timezone=auto`;
   } else {
     url = `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}`
       + `&start_date=${start}&end_date=${end}`
       + `&daily=temperature_2m_mean,precipitation_sum,relative_humidity_2m_max,surface_pressure_max`
       + `&timezone=auto`;
+    airUrl = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}`
+      + `&hourly=${AIR_QUALITY_VAR}&start_date=${start}&end_date=${end}`
+      + `&timezone=auto`;
   }
 
-  const json = await fetchJson(url, { timeoutMs: DEFAULT_TIMEOUT_MS });
+  const [json, airJson] = await Promise.all([
+    fetchJson(url, { timeoutMs: DEFAULT_TIMEOUT_MS }),
+    fetchJson(airUrl, { timeoutMs: DEFAULT_TIMEOUT_MS }).catch(() => null),
+  ]);
 
   if (isShort) {
     const h = json.hourly;
+    const airHourly = airJson?.hourly ?? null;
     const endTime = new Date();
     endTime.setMinutes(0, 0, 0);
     const startTime = new Date(endTime);
@@ -96,20 +108,49 @@ export async function fetchStationData(stationKey, period) {
       }
     }
 
+    const airByTime = new Map();
+    if (airHourly?.time?.length && Array.isArray(airHourly[AIR_QUALITY_VAR])) {
+      for (let i = 0; i < airHourly.time.length; i++) {
+        airByTime.set(airHourly.time[i], airHourly[AIR_QUALITY_VAR][i]);
+      }
+    }
+    const airQuality = indices.map((i) => airByTime.get(h.time[i]) ?? null);
+
     return {
       times:         indices.map(i => h.time[i]),
       temperature:   indices.map(i => h.temperature_2m[i]),
       humidity:      indices.map(i => h.relative_humidity_2m[i]),
-      pressure:      indices.map(i => h.surface_pressure[i]),
+      airQuality,
       precipitation: indices.map(i => h.precipitation[i]),
     };
   } else {
     const d = json.daily;
+    const airHourly = airJson?.hourly ?? null;
+    const dailyBuckets = new Map();
+
+    if (airHourly?.time?.length && Array.isArray(airHourly[AIR_QUALITY_VAR])) {
+      for (let i = 0; i < airHourly.time.length; i++) {
+        const time = airHourly.time[i];
+        const value = airHourly[AIR_QUALITY_VAR][i];
+        if (!Number.isFinite(value)) continue;
+        const day = time.split('T')[0];
+        if (!dailyBuckets.has(day)) dailyBuckets.set(day, []);
+        dailyBuckets.get(day).push(value);
+      }
+    }
+
+    const airQuality = d.time.map((day) => {
+      const values = dailyBuckets.get(day);
+      if (!values || !values.length) return null;
+      const sum = values.reduce((acc, v) => acc + v, 0);
+      return sum / values.length;
+    });
+
     return {
       times:         d.time,
       temperature:   d.temperature_2m_mean,
       humidity:      d.relative_humidity_2m_max,
-      pressure:      d.surface_pressure_max,
+      airQuality,
       precipitation: d.precipitation_sum,
     };
   }

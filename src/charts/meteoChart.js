@@ -9,16 +9,16 @@ import { it } from 'date-fns/locale';
 
 // Color palette per station - Refined for both light and dark themes
 export const STATION_COLORS = {
-  sulmona: { temp: '#f97316', humidity: '#fb923c', pressure: '#f97316' }, // Orange
-  castel:  { temp: '#0ea5e9', humidity: '#38bdf8', pressure: '#0ea5e9' }, // Cyan/Blue
-  campo:   { temp: '#8b5cf6', humidity: '#a78bfa', pressure: '#8b5cf6' }, // Purple
+  sulmona: { temp: '#f97316', humidity: '#fb923c', airQuality: '#f97316' }, // Orange
+  castel:  { temp: '#0ea5e9', humidity: '#38bdf8', airQuality: '#0ea5e9' }, // Cyan/Blue
+  campo:   { temp: '#8b5cf6', humidity: '#a78bfa', airQuality: '#8b5cf6' }, // Purple
 };
 
 // Variable config
 export const VAR_CONFIG = {
   temperature: { label: 'Temperatura (°C)',   unit: '°C',  yAxisId: 'yTemp' },
   humidity:    { label: 'Umidità (%)',         unit: '%',   yAxisId: 'yHum'  },
-  pressure:    { label: 'Pressione (hPa)',     unit: ' hPa', yAxisId: 'yPres' },
+  airQuality:  { label: "Qualità dell'aria (AQI)", unit: ' AQI', yAxisId: 'yAqi' },
 };
 
 let chartInstance = null;
@@ -81,7 +81,7 @@ export function renderChart(allData, visibility, period) {
   const datasets = [];
   for (const [stKey, stData] of Object.entries(allData)) {
     if (!stData) continue;
-    for (const varKey of ['temperature', 'humidity', 'pressure']) {
+    for (const varKey of ['temperature', 'humidity', 'airQuality']) {
       const visible = visibility.stations.has(stKey) && visibility.vars.has(varKey);
       datasets.push(
         makeDataset(stKey, varKey, stData.times, stData[varKey] ?? [], visible)
@@ -124,7 +124,7 @@ export function renderChart(allData, visibility, period) {
             label: item => {
               const [stKey, varKey] = item.dataset.label.split('_');
               const names = { sulmona: 'Sulmona', castel: 'Castel di Sangro', campo: 'Campo di Giove' };
-              const units = { temperature: '°C', humidity: '%', pressure: ' hPa' };
+              const units = { temperature: '°C', humidity: '%', airQuality: ' AQI' };
               return ` ${names[stKey]} ${varKey}: ${item.parsed.y?.toFixed(1) ?? '—'}${units[varKey]}`;
             },
           },
@@ -154,12 +154,12 @@ export function renderChart(allData, visibility, period) {
           border: { color: 'rgba(34,211,238,0.2)' },
           title: { display: true, text: '%', color: '#22d3ee' },
         },
-        yPres: {
+        yAqi: {
           type: 'linear', position: 'right',
           ticks: { color: '#a78bfa', callback: v => v.toFixed(0) },
           grid: { drawOnChartArea: false },
           border: { color: 'rgba(167,139,250,0.2)' },
-          title: { display: true, text: 'hPa', color: '#a78bfa' },
+          title: { display: true, text: 'AQI', color: '#a78bfa' },
         },
       },
     },
