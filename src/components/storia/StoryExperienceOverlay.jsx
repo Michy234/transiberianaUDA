@@ -13,11 +13,12 @@ import {
 } from '@phosphor-icons/react';
 import ImageCredit from '../ImageCredit';
 
-const CHAPTER_ICONS = [Scroll, Buildings, Sparkle, Mountains];
+const CHAPTER_ICONS = [Scroll, Buildings, Sparkle, StarFour, Mountains];
 const CHAPTER_ACCENTS = [
   'rgba(212, 165, 116, 0.24)',
   'rgba(107, 158, 126, 0.2)',
   'rgba(242, 196, 196, 0.22)',
+  'rgba(212, 165, 116, 0.18)',
   'rgba(107, 158, 126, 0.16)',
 ];
 
@@ -79,7 +80,7 @@ function ChapterSection({ chapter, index, stopId, t }) {
 
           <div className="relative">
             <p className="text-sm font-semibold uppercase tracking-[0.24em] text-muted-foreground">
-              {t('storia.overlay.focus', 'Curiosità')}
+              {t('storia.overlay.focus', 'Snodi')}
             </p>
             <p className="mt-3 max-w-[24ch] text-base leading-relaxed text-foreground">{chapter.pullout}</p>
 
@@ -300,7 +301,7 @@ function ImmersiveExperience({ stop, t }) {
                     {t('storia.overlay.gallery', 'Scene da valorizzare')}
                   </p>
                   <h3 className="text-2xl font-serif font-bold tracking-tight text-foreground">
-                    {t('storia.overlay.galleryTitle', 'Materia visiva di Sulmona')}
+                    {t('storia.overlay.galleryTitle', 'Materia visiva di {{city}}', { city: stop.title })}
                   </h3>
                 </div>
               </div>

@@ -34,7 +34,8 @@ function mergeStop(base, localized = {}) {
 }
 
 function StoryCard({ stop, index, onOpen, t }) {
-  const isFeatured = Boolean(stop.experience);
+  const isImmersive = Boolean(stop.experience);
+  const isFeatured = index === 0;
 
   return (
     <motion.button
@@ -71,7 +72,7 @@ function StoryCard({ stop, index, onOpen, t }) {
           <span className="inline-flex items-center gap-2 rounded-full border border-white/18 bg-white/10 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/82">
             {stop.label}
           </span>
-          {isFeatured ? (
+          {isImmersive ? (
             <span className="inline-flex items-center gap-2 rounded-full border border-white/18 bg-[#f5dfb2]/20 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-white">
               <Sparkle size={12} weight="fill" />
               {t('storia.featured', 'Esperienza immersiva')}
@@ -165,7 +166,7 @@ export default function Storia() {
             <p className="mx-auto mt-6 max-w-[58ch] text-lg leading-relaxed text-muted-foreground md:text-xl">
               {t(
                 'storia.subtitle',
-                "Ogni tappa non si legge soltanto: si apre come un capitolo narrativo, visivo e immersivo della Transiberiana d'Abruzzo. Inizia da Sulmona, poi estenderemo lo stesso linguaggio al resto del percorso.",
+                "Ogni tappa si apre come un capitolo narrativo, visivo e immersivo della Transiberiana d'Abruzzo. Da Sulmona a Isernia, il percorso diventa una sequenza di città, paesaggi, tradizioni e sapori locali.",
               )}
             </p>
           </motion.div>

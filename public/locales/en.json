@@ -160,10 +160,10 @@
       "tail": "city by city"
     },
     "badge": "Narrative atlas",
-    "subtitle": "Each stop is no longer just a description: it opens as a visual, narrative and immersive chapter of the Transiberiana d'Abruzzo. Sulmona is the first complete prototype, and the same language will extend to the rest of the route.",
+    "subtitle": "Each stop opens as a visual, narrative and immersive chapter of the Transiberiana d'Abruzzo. From Sulmona to Isernia, the route becomes a sequence of towns, landscapes, traditions and local flavors.",
     "panelLabel": "Creative direction",
     "panelTitle": "Click, open, immerse",
-    "panelBody": "The redesign replaces the classic descriptive window with a full experience: editorial hero, chapters, visual cues and a narrative rhythm. Sulmona is the first fully built chapter.",
+    "panelBody": "The redesign replaces the classic descriptive window with a full experience: editorial hero, chapters, visual cues and a narrative rhythm across the towns of the route.",
     "enterCta": "Enter the city",
     "featured": "Immersive experience",
     "cards": [
@@ -255,11 +255,7 @@
               "title": "Location",
               "body": "Thanks to its position in the Peligna Valley and its proximity to the mountains and natural parks of the Apennines, Sulmona is today also an important starting point for excursions and nature tourism.",
               "pullout": "Its location between the Peligna Valley and the Apennines makes Sulmona a natural stop between the city, the mountains and routes through the landscape.",
-              "callouts": [
-                "Peligna Valley",
-                "Apennine mountains",
-                "Excursions and nature tourism"
-              ]
+              "callouts": ["Peligna Valley", "Apennine mountains", "Excursions and nature tourism"]
             }
           ],
           "gallery": [
@@ -309,40 +305,538 @@
         "id": 2,
         "label": "Chapter 02",
         "title": "Campo di Giove",
-        "summary": "Mountain village in the Majella Park, among beech woods, stone and wide-open Apennine views.",
-        "story": "At the heart of the Majella, Campo di Giove grew along ancient routes tied to trade and transhumance. Rebuilt after the 1706 earthquake, it now balances historic memory, mountain landscape and the slow identity of the Ferrovia dei Parchi."
+        "summary": "Mountain village in the Majella Park, around 1100 meters above sea level, among beech woods, trails and wide-open Apennine views.",
+        "story": "Campo di Giove has medieval origins and developed as a mountain center linked to transhumance and commercial routes. Today it preserves stone architecture, local celebrations and a strong bond with the landscape of the Majella.",
+        "experience": {
+          "eyebrow": "Campo di Giove",
+          "intro": "A mountain village in the Majella Park, around 1100 meters above sea level, among beech woods, trails and Apennine landscapes.",
+          "body": "Campo di Giove has medieval origins and developed as a mountain center tied to transhumance. Today it preserves paved streets, stone houses, small squares and a strong natural vocation.",
+          "quote": "Campo di Giove brings together mountain memory, local traditions and the landscapes of the Majella.",
+          "heroBadges": ["Majella Park", "Around 1100 meters", "Transhumance", "Beech woods and trekking"],
+          "stats": [
+            {
+              "label": "Origins",
+              "value": "A medieval mountain village"
+            },
+            {
+              "label": "Landscape",
+              "value": "Majella, beech woods and trails"
+            },
+            {
+              "label": "Monuments",
+              "value": "San Vincenzo church and local stone"
+            },
+            {
+              "label": "Traditions",
+              "value": "Patron feasts, processions and fairs"
+            }
+          ],
+          "chapters": [
+            {
+              "id": "origini",
+              "title": "Origins",
+              "body": "Campo di Giove has medieval origins and developed as a mountain center along routes linked to trade and transhumance. Its history is closely tied to pastoral life and to the landscape of the Majella.",
+              "pullout": "The village grew along routes of exchange and pastoral movement between mountain slopes and valleys."
+            },
+            {
+              "id": "monumenti",
+              "title": "Historic center and monuments",
+              "body": "The village preserves paved streets, stone houses and small squares that retain the character of a mountain settlement. Among the most important religious buildings is San Vincenzo church, alongside smaller chapels scattered through the historic fabric.",
+              "pullout": "The urban fabric preserves the compact scale of the mountain centers of the Majella."
+            },
+            {
+              "id": "tradizioni",
+              "title": "Traditions",
+              "body": "Village life is marked by patron feasts, processions and local fairs that keep community gatherings alive. These celebrations accompany the civil and religious calendar of the village.",
+              "pullout": "The local calendar brings together devotion, public gathering and the memory of the village."
+            },
+            {
+              "id": "sapori",
+              "title": "Flavors",
+              "body": "Local cuisine includes sheep and goat cheeses, cured meats, honey and mountain sweets. Among the best-known dishes are homemade maccheroni, gnocchi, legume soups, roasted lamb and goat and bread baked in a wood-fired oven.",
+              "pullout": "Mountain cooking comes from livestock, simple products and domestic preparation."
+            },
+            {
+              "id": "posizione",
+              "title": "Location",
+              "body": "Thanks to its position in the Majella Park, Campo di Giove is today a point of reference for trekking, walks and nature itineraries through woods and mountains.",
+              "pullout": "The Majella, the beech woods and the trails make the village a natural gateway to hiking."
+            }
+          ],
+          "gallery": [
+            {
+              "id": "campo-di-giove-1",
+              "src": "/photos/storia/campo-di-giove.webp",
+              "alt": "Mountain view of Campo di Giove in the Majella Park",
+              "caption": "Mountain landscape and beech woods of the Majella Park."
+            },
+            {
+              "id": "campo-di-giove-2",
+              "src": "/photos/storia/campo-di-giove.webp",
+              "alt": "Detail of the historic fabric of Campo di Giove",
+              "caption": "Paved streets, stone houses and village squares."
+            },
+            {
+              "id": "campo-di-giove-3",
+              "src": "/photos/storia/campo-di-giove.webp",
+              "alt": "Placeholder for traditions or cuisine in Campo di Giove",
+              "caption": "Local traditions and mountain cooking."
+            }
+          ],
+          "rituals": [
+            {
+              "title": "Patron feasts",
+              "tag": "Calendar",
+              "desc": "The religious celebrations gather the community at the main moments of the year."
+            },
+            {
+              "title": "Processions",
+              "tag": "Rite",
+              "desc": "Processions accompany celebrations and keep the religious dimension of the village alive."
+            },
+            {
+              "title": "Local fairs",
+              "tag": "Community",
+              "desc": "Public gatherings connect tradition, encounter and mountain village life."
+            }
+          ],
+          "closing": {
+            "title": "Majella, stone and mountain life",
+            "body": "Campo di Giove preserves the memory of transhumance, stone architecture, local traditions and a strong vocation for the landscape of the Majella."
+          }
+        }
       },
       {
         "id": 3,
         "label": "Chapter 03",
         "title": "Palena",
-        "summary": "Mountain village near the Forchetta pass, close to one of the line's most panoramic stretches.",
-        "story": "Palena developed around a medieval stronghold overlooking the Aventino valley. Today it combines its Ducal Castle, the geo-palaeontological museum and the wild scenery of the Majella along one of the Sulmona-Isernia's most scenic passages."
+        "summary": "Mountain village near the Forchetta pass, between the Majella, the high plateaus and one of the route's most panoramic railway points.",
+        "story": "Palena has ancient and medieval origins and developed as a pastoral and agricultural center. Today it maintains a strong bond with San Falco, with its railway station and with the upland landscape around the village.",
+        "experience": {
+          "eyebrow": "Palena",
+          "intro": "A mountain village tied to the Majella and the high plateaus, near the Forchetta pass and one of the most panoramic railway points on the route.",
+          "body": "Palena has ancient and medieval origins and developed as a pastoral and agricultural center. Today it maintains a close link with San Falco, with the railway station and with the high-altitude landscape.",
+          "quote": "Palena brings together devotion, mountain landscape and railway memory.",
+          "heroBadges": ["Majella", "San Falco", "High plateaus", "Forchetta pass"],
+          "stats": [
+            {
+              "label": "Origins",
+              "value": "Ancient and medieval center"
+            },
+            {
+              "label": "Patron saint",
+              "value": "San Falco"
+            },
+            {
+              "label": "Monuments",
+              "value": "San Falco church and the station"
+            },
+            {
+              "label": "Landscape",
+              "value": "Majella and the high plateaus"
+            }
+          ],
+          "chapters": [
+            {
+              "id": "origini",
+              "title": "Origins",
+              "body": "Palena has ancient and medieval origins and developed as a mountain center tied to pastoral life and agriculture. Its history is linked to pastures, trails and upland rural activity.",
+              "pullout": "The village grew within a mountain economy shaped by livestock and agricultural work."
+            },
+            {
+              "id": "patrono-monumenti",
+              "title": "Patron saint and monuments",
+              "body": "Among the most important places is San Falco church, linked to the patron saint of the town. Another identity landmark is the railway station on the high plateaus, connected to one of the most panoramic stretches of the journey.",
+              "pullout": "San Falco and the station tell the religious and railway identity of Palena."
+            },
+            {
+              "id": "tradizioni",
+              "title": "Traditions",
+              "body": "Village life is still marked by patron feasts, processions and historical reenactments that keep alive the relationship between community, religious memory and the story of the town.",
+              "pullout": "Public celebrations renew the link between the community and its history."
+            },
+            {
+              "id": "sapori",
+              "title": "Flavors",
+              "body": "Local flavors include homemade maccheroni, legume soups, roasts, cheeses, honey and chestnuts. Traditional sweets include mountain zeppole, almond and walnut sweets and bread baked in a wood-fired oven.",
+              "pullout": "Palena's table reflects the mountain landscape and its simplest and most enduring products."
+            },
+            {
+              "id": "posizione",
+              "title": "Location",
+              "body": "Its proximity to the Majella, to the plateaus and to mountain trails makes Palena a starting point for excursions, walks and upland nature routes.",
+              "pullout": "Majella, plateaus and trails make Palena a stop of landscape and mountain breathing space."
+            }
+          ],
+          "gallery": [
+            {
+              "id": "palena-1",
+              "src": "/photos/storia/palena.webp",
+              "alt": "View of Palena between mountains and plateaus",
+              "caption": "Palena between the Majella, the plateaus and the railway landscape."
+            },
+            {
+              "id": "palena-2",
+              "src": "/photos/storia/palena.webp",
+              "alt": "Placeholder detail for church or station in Palena",
+              "caption": "San Falco church and the memory of the station on the high plateaus."
+            },
+            {
+              "id": "palena-3",
+              "src": "/photos/storia/palena.webp",
+              "alt": "Placeholder for traditions or cuisine in Palena",
+              "caption": "Local traditions and the flavors of the mountain village."
+            }
+          ],
+          "rituals": [
+            {
+              "title": "Patron feasts",
+              "tag": "Calendar",
+              "desc": "Patron celebrations mark the most felt moments of village life."
+            },
+            {
+              "title": "Processions",
+              "tag": "Rite",
+              "desc": "Processions keep alive the religious and public dimension of the community."
+            },
+            {
+              "title": "Historical reenactments",
+              "tag": "Memory",
+              "desc": "Historical events bring episodes and symbols of local history back into the present."
+            }
+          ],
+          "closing": {
+            "title": "Palena between devotion and landscape",
+            "body": "Palena brings together mountain roots, local faith, railway memory and a cuisine tied to upland life."
+          }
+        }
       },
       {
         "id": 4,
         "label": "Chapter 04",
         "title": "Roccaraso",
-        "summary": "The line's alpine threshold and the main access point to Alto Sangro's lifts and landscapes.",
-        "story": "Roccaraso is one of Abruzzo's mountain tourism icons. On the railway it marks the transition to a higher, brighter landscape, visited in winter for snow and in summer for cool air, forests and plateaus."
+        "summary": "A mountain town in Alto Sangro, between winter sports, summer trails and high-altitude open landscapes.",
+        "story": "Roccaraso has medieval origins and developed as a mountain center linked to commerce and local activity. Today it is one of the main tourist destinations of the Apennines, visited in winter and in summer.",
+        "experience": {
+          "eyebrow": "Roccaraso",
+          "intro": "A mountain town in Alto Sangro, known for winter tourism and for outdoor activities that animate the town in summer too.",
+          "body": "Roccaraso has medieval origins and developed as a mountain center linked to commerce. Today it combines religious and civil architecture, village traditions and a strong tourist vocation.",
+          "quote": "Roccaraso brings together mountain architecture, village traditions and upland tourism.",
+          "heroBadges": ["Alto Sangro", "Santa Maria Assunta", "Winter sports", "Trekking and mountain bike"],
+          "stats": [
+            {
+              "label": "Origins",
+              "value": "A medieval mountain village"
+            },
+            {
+              "label": "Monuments",
+              "value": "Santa Maria Assunta church"
+            },
+            {
+              "label": "Traditions",
+              "value": "Religious feasts and village festivals"
+            },
+            {
+              "label": "Tourism",
+              "value": "Skiing, trekking and mountain bike"
+            }
+          ],
+          "chapters": [
+            {
+              "id": "origini",
+              "title": "Origins",
+              "body": "Roccaraso has medieval origins and developed as a mountain center linked to local trade and the activities of the territory. Its growth is connected to upland life and to the routes of Alto Sangro.",
+              "pullout": "The history of the town begins from the encounter between mountain settlement, exchange and high-altitude life."
+            },
+            {
+              "id": "monumenti",
+              "title": "Monuments",
+              "body": "Among the most important buildings is Santa Maria Assunta church, together with noble palaces that testify to the urban history of the town. These places define the historic face of Roccaraso.",
+              "pullout": "Church and palaces tell the passage between religious, civil and architectural memory."
+            },
+            {
+              "id": "tradizioni",
+              "title": "Traditions",
+              "body": "Religious feasts and village festivals keep Roccaraso's community calendar alive. In these moments, typical local products also take center stage, linked to local culture and conviviality.",
+              "pullout": "The town's celebrations bring together the religious dimension, public gathering and products of the territory."
+            },
+            {
+              "id": "sapori",
+              "title": "Flavors",
+              "body": "Local cuisine includes homemade pasta, soups, roasts and stews, cheeses and honey. Among the sweets are zeppole, dried-fruit tarts and bread baked in a wood-fired oven, in a table shaped by the mountains and by seasonality.",
+              "pullout": "Roccaraso's cuisine comes from simple ingredients, slow time and mountain flavors."
+            },
+            {
+              "id": "posizione",
+              "title": "Location",
+              "body": "Roccaraso occupies a central position in the landscapes of Alto Sangro and today is one of the main bases for winter sports, summer trekking and mountain-bike routes.",
+              "pullout": "The geography of Alto Sangro makes Roccaraso a natural stop for the mountains in every season."
+            }
+          ],
+          "gallery": [
+            {
+              "id": "roccaraso-1",
+              "src": "/photos/storia/roccaraso.webp",
+              "alt": "View of Roccaraso between architecture and mountain landscape",
+              "caption": "Roccaraso between mountain town and the landscapes of Alto Sangro."
+            },
+            {
+              "id": "roccaraso-2",
+              "src": "/photos/storia/roccaraso.webp",
+              "alt": "Placeholder detail for architecture or monuments of Roccaraso",
+              "caption": "Santa Maria Assunta church and the architectural traces of the town."
+            },
+            {
+              "id": "roccaraso-3",
+              "src": "/photos/storia/roccaraso.webp",
+              "alt": "Placeholder for sports or seasonal life in Roccaraso",
+              "caption": "Mountain tourism between winter and summer."
+            }
+          ],
+          "rituals": [
+            {
+              "title": "Religious feasts",
+              "tag": "Calendar",
+              "desc": "Religious celebrations keep the collective dimension of the town alive."
+            },
+            {
+              "title": "Village festivals",
+              "tag": "Community",
+              "desc": "Festivals bring together public gathering, local cuisine and mountain identity."
+            },
+            {
+              "title": "Typical products",
+              "tag": "Identity",
+              "desc": "Products of the territory accompany festivities and moments of local conviviality."
+            }
+          ],
+          "closing": {
+            "title": "Roccaraso between architecture and tourism",
+            "body": "Roccaraso weaves together mountain history, local architecture, village traditions and activities tied to the seasons of Alto Sangro."
+          }
+        }
       },
       {
         "id": 5,
         "label": "Chapter 05",
         "title": "Castel di Sangro",
-        "summary": "A center of the Alto Sangro between medieval streets, art collections and strong tourist energy.",
-        "story": "Born as a fortified passage between Abruzzo and Molise, Castel di Sangro preserves a historic stone center, Santa Maria Assunta Basilica, the Civic Museum and the Patiniana Gallery. Today it remains a cultural and tourist hub of the valley."
+        "summary": "A center of Alto Sangro between fortified origins, stone streets, places of art and a strong cultural vocation.",
+        "story": "Castel di Sangro was born as a fortified medieval settlement around the castle and developed as the center of the valley. Today it preserves lanes, squares, religious monuments and a strong cultural life.",
+        "experience": {
+          "eyebrow": "Castel di Sangro",
+          "intro": "A center of Alto Sangro with fortified origins, stone streets, religious monuments and one of the main cultural poles of the valley.",
+          "body": "Castel di Sangro was born as a medieval nucleus around the castle and developed as the center of the valley. Today it combines lanes, squares, sacred art, a museum and cultural activity.",
+          "quote": "Castel di Sangro interweaves medieval memory, cultural life and the cuisine of Alto Sangro.",
+          "heroBadges": ["Upper Sangro Valley", "Santa Maria Assunta", "Patiniana Gallery", "Stone-built historic center"],
+          "stats": [
+            {
+              "label": "Origins",
+              "value": "Fortified medieval nucleus"
+            },
+            {
+              "label": "Monuments",
+              "value": "Santa Maria Assunta and the gallery"
+            },
+            {
+              "label": "Traditions",
+              "value": "Patron feasts and local fairs"
+            },
+            {
+              "label": "Flavors",
+              "value": "Maccheroni alla chitarra and tacconelli"
+            }
+          ],
+          "chapters": [
+            {
+              "id": "origini",
+              "title": "Origins",
+              "body": "Castel di Sangro was born as a fortified medieval settlement developed around the castle. From this nucleus the center of the valley took shape, becoming a place of passage and urban life in Alto Sangro.",
+              "pullout": "The first layout of the town is linked to defensive functions and control of the territory."
+            },
+            {
+              "id": "monumenti",
+              "title": "Monuments and historic center",
+              "body": "The historic center preserves lanes, squares and stone architecture that define the face of the town. Among the most important places are Santa Maria Assunta church and the Patiniana Gallery, a cultural reference for the city.",
+              "pullout": "Among stone lanes and places of art, the center tells the urban role of Castel di Sangro."
+            },
+            {
+              "id": "tradizioni",
+              "title": "Traditions",
+              "body": "The life of the town is accompanied by patron feasts, historical reenactments and local fairs that renew collective memory and the link with the territory.",
+              "pullout": "Public celebrations keep civic identity, local history and community participation together."
+            },
+            {
+              "id": "sapori",
+              "title": "Flavors",
+              "body": "Local cuisine includes maccheroni alla chitarra with lamb or wild boar sauce, tacconelli, pecorini, guanciale and other cured meats. Among the sweets are ricotta and chestnut zeppole, together with local bread and honey.",
+              "pullout": "The table of Castel di Sangro combines traditional pasta, meats, cheeses and sweets of the valley."
+            },
+            {
+              "id": "posizione",
+              "title": "Location",
+              "body": "Its position in the upper Sangro Valley and its proximity to the mountains make Castel di Sangro a reference center for tourism and for the cultural life of the valley.",
+              "pullout": "Between valley, mountain and town, Castel di Sangro keeps a hinge role in the territory."
+            }
+          ],
+          "gallery": [
+            {
+              "id": "castel-di-sangro-1",
+              "src": "/photos/storia/castel-di-sangro.webp",
+              "alt": "View of Castel di Sangro between architecture and valley",
+              "caption": "Stone-built historic center and the landscape of Alto Sangro."
+            },
+            {
+              "id": "castel-di-sangro-2",
+              "src": "/photos/storia/castel-di-sangro.webp",
+              "alt": "Placeholder detail for monuments or collections in Castel di Sangro",
+              "caption": "Santa Maria Assunta and the Patiniana Gallery."
+            },
+            {
+              "id": "castel-di-sangro-3",
+              "src": "/photos/storia/castel-di-sangro.webp",
+              "alt": "Placeholder for traditions or cuisine in Castel di Sangro",
+              "caption": "Local traditions and the cuisine of the valley."
+            }
+          ],
+          "rituals": [
+            {
+              "title": "Patron feasts",
+              "tag": "Calendar",
+              "desc": "Patron celebrations continue to mark the public rhythm of the town."
+            },
+            {
+              "title": "Historical reenactments",
+              "tag": "Memory",
+              "desc": "Reenactment events bring episodes and atmospheres of local history back to the center."
+            },
+            {
+              "title": "Local fairs",
+              "tag": "Community",
+              "desc": "Fairs keep alive the relationship between town, territory and local production."
+            }
+          ],
+          "closing": {
+            "title": "Castel di Sangro between culture and valley",
+            "body": "Castel di Sangro preserves medieval origins, places of art, urban traditions and a cuisine that reflects the landscape of Alto Sangro."
+          }
+        }
+      },
+      {
+        "id": 6,
+        "label": "Chapter 06",
+        "title": "Isernia",
+        "summary": "An ancient city of Molise, between the Paleolithic site of Isernia La Pineta, historic monuments and a strong urban identity.",
+        "story": "Isernia sinks its roots into the Paleolithic and crosses the Samnite, Roman and medieval eras. Today it is a cultural and administrative center that brings together monuments, traditions, craftsmanship and gastronomy.",
+        "image": "/photos/storia/transiberiana.webp",
+        "experience": {
+          "eyebrow": "Isernia",
+          "intro": "An ancient city of Molise, known for the Paleolithic site of Isernia La Pineta and for its historic center with churches, palaces, museums and monumental fountains.",
+          "body": "Isernia crosses the Samnite, Roman and medieval eras and today keeps a strategic role from a cultural and administrative point of view, together with a strong artisanal and gastronomic identity.",
+          "quote": "Isernia brings together millenary roots, monuments, traditions and the flavors of inland Molise.",
+          "heroBadges": ["Isernia La Pineta", "Fontana Fraterna", "San Pietro Apostolo", "Inland Molise"],
+          "stats": [
+            {
+              "label": "Origins",
+              "value": "Paleolithic, Samnites and Rome"
+            },
+            {
+              "label": "Monuments",
+              "value": "Fontana Fraterna and the cathedral"
+            },
+            {
+              "label": "Traditions",
+              "value": "Holy Week and the feast of Saint Peter"
+            },
+            {
+              "label": "Flavors",
+              "value": "Cavatelli, cured meats and honey sweets"
+            }
+          ],
+          "chapters": [
+            {
+              "id": "origini",
+              "title": "Origins",
+              "body": "Isernia sinks its roots into the Paleolithic, as shown by the site of Isernia La Pineta. This earliest phase is followed by the Samnite and Roman eras, while in the Middle Ages the city developed as a religious and commercial center.",
+              "pullout": "From prehistory to the Middle Ages, Isernia preserves one of the broadest historical stratifications of the route."
+            },
+            {
+              "id": "monumenti",
+              "title": "Monuments and historic center",
+              "body": "Among the most important places are San Pietro Apostolo Cathedral, San Francesco church, Palazzo San Francesco, Fontana Fraterna and Piazza Andrea d'Isernia. These spaces define the urban identity of the city.",
+              "pullout": "Cathedral, fountain, palaces and squares compose the historic profile of the city center."
+            },
+            {
+              "id": "tradizioni",
+              "title": "Traditions",
+              "body": "Among the most deeply felt traditions are the Holy Week processions, the feast of Saint Peter and summer food fairs. Alongside them are iron craftsmanship, textiles and markets that keep the urban character of the city alive.",
+              "pullout": "The traditions of Isernia connect devotion, markets and artisanal knowledge."
+            },
+            {
+              "id": "sapori",
+              "title": "Flavors",
+              "body": "Local cuisine includes cavatelli with turnip greens or sausage sauce, potato-and-ricotta gnocchi, tagliatelle with lamb or goat ragout, Molise pecorino, soppressata and capocollo. Among the sweets are ricotta fritters, zeppole, almond-and-honey biscuits, homemade bread and mountain honey.",
+              "pullout": "The table of Isernia brings together traditional pasta, cured meats, dairy products and sweets of inland Molise."
+            },
+            {
+              "id": "ruolo",
+              "title": "Current role",
+              "body": "Today Isernia is a strategic city from the cultural and administrative point of view. Its contemporary identity brings together millenary history, medieval and baroque architecture, living traditions and gastronomy.",
+              "pullout": "In the present, Isernia is recognized as a city of history, urban functions and widespread memory."
+            }
+          ],
+          "gallery": [
+            {
+              "id": "isernia-1",
+              "src": "/photos/storia/transiberiana.webp",
+              "alt": "Panoramic placeholder for Isernia",
+              "caption": "Isernia between urban history, monuments and the memory of the route."
+            },
+            {
+              "id": "isernia-2",
+              "src": "/photos/storia/transiberiana.webp",
+              "alt": "Placeholder for monuments or fountains of Isernia",
+              "caption": "Fontana Fraterna, the cathedral and the historic center."
+            },
+            {
+              "id": "isernia-3",
+              "src": "/photos/storia/transiberiana.webp",
+              "alt": "Placeholder for traditions or cuisine in Isernia",
+              "caption": "Traditions, craftsmanship and the flavors of the city."
+            }
+          ],
+          "rituals": [
+            {
+              "title": "Holy Week",
+              "tag": "Rite",
+              "desc": "The Holy Week processions are among the most deeply felt moments of the city's calendar."
+            },
+            {
+              "title": "Feast of Saint Peter",
+              "tag": "Calendar",
+              "desc": "The feast dedicated to Saint Peter accompanies one of the most recognizable religious events of the city."
+            },
+            {
+              "title": "Markets and craftsmanship",
+              "tag": "Identity",
+              "desc": "Ironwork, textiles and markets keep the artisanal and commercial tradition of Isernia alive."
+            }
+          ],
+          "closing": {
+            "title": "Isernia between prehistory and historic city",
+            "body": "Isernia brings together the Paleolithic site, monuments of the center, city traditions and a cuisine that tells the story of inland Molise."
+          }
+        }
       }
     ],
     "openAria": "Open story of {{title}}",
     "closeOverlay": "Close dialog",
     "overlay": {
       "startJourney": "Start the chapter",
-      "focus": "Focus",
+      "focus": "Key note",
       "chapters": "Chapters",
       "cityPulse": "Living signs",
       "gallery": "Scenes to elevate",
-      "galleryTitle": "Sulmona's visual material",
+      "galleryTitle": "Visual material of {{city}}",
       "rituals": "Rituals and identity markers",
       "ritualsTitle": "What the city puts back on stage",
       "finalNote": "The first chapter is a threshold: from here history gains rhythm, material and landscape.",
