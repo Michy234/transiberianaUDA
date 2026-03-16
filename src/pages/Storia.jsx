@@ -1,11 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion, useScroll, useTransform } from 'framer-motion';
 import storiaStops from '../data/storiaStops';
+import { useI18n } from '../i18n/index.jsx';
 
 export default function Storia() {
   const [activeStop, setActiveStop] = useState(null);
   const { scrollYProgress } = useScroll();
   const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  const { t, tm } = useI18n();
+  const stops = tm('storia.cards', storiaStops);
+
+  useEffect(() => {
+    if (!activeStop) return;
+    setActiveStop(stops.find((stop) => stop.id === activeStop.id) || null);
+  }, [activeStop, stops]);
 
   return (
     <div className="min-h-[100dvh] bg-background relative selection:bg-primary/20">
@@ -22,7 +30,7 @@ export default function Storia() {
           animate={{ opacity: 1, y: 0 }}
           className="text-5xl md:text-7xl font-serif font-bold tracking-[-0.03em] mb-8 text-foreground"
         >
-          Un secolo di <span className="italic text-primary/70">storia</span> attraverso gli Appennini
+          {t('storia.title.lead', 'Un secolo di')} <span className="italic text-primary/70">{t('storia.title.accent', 'storia')}</span> {t('storia.title.tail', 'attraverso gli Appennini')}
         </motion.h1>
         <motion.p 
           initial={{ opacity: 0 }}
@@ -30,13 +38,16 @@ export default function Storia() {
           transition={{ delay: 0.2 }}
           className="text-xl text-muted-foreground leading-relaxed max-w-[60ch] mx-auto"
         >
-          Progettata a fine Ottocento, la ferrovia Sulmona-Isernia è un capolavoro di ingegneria civile che ha unito le popolazioni montane prima di diventare la linea turistica più iconica d'Italia.
+          {t(
+            'storia.subtitle',
+            "Progettata a fine Ottocento, la ferrovia Sulmona-Isernia è un capolavoro di ingegneria civile che ha unito le popolazioni montane prima di diventare la linea turistica più iconica d'Italia.",
+          )}
         </motion.p>
       </section>
 
       <section className="py-24 px-6 max-w-6xl mx-auto relative">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {storiaStops.map((stop, index) => (
+          {stops.map((stop, index) => (
             <motion.button
               key={stop.id}
               type="button"
@@ -45,8 +56,8 @@ export default function Storia() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ delay: index * 0.05, type: 'spring', stiffness: 120, damping: 18 }}
-              className="group text-left rounded-3xl border border-border/70 bg-card/70 backdrop-blur-xl shadow-[var(--shadow-card)] overflow-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-background hover:shadow-[var(--shadow-elevated)] hover:-translate-y-0.5 transition-all cursor-pointer"
-              aria-label={`Apri storia di ${stop.title}`}
+              className="group cursor-pointer overflow-hidden rounded-3xl border border-border/70 bg-card/70 text-left shadow-[var(--shadow-card)] backdrop-blur-xl transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-elevated)] focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-background"
+              aria-label={t('storia.openAria', 'Apri storia di {{title}}', { title: stop.title })}
             >
               <div className="relative h-40 w-full overflow-hidden">
                 <img
@@ -84,7 +95,7 @@ export default function Storia() {
               type="button"
               className="absolute inset-0 bg-background/70 backdrop-blur-sm"
               onClick={() => setActiveStop(null)}
-              aria-label="Chiudi finestra"
+              aria-label={t('storia.closeOverlay', 'Chiudi finestra')}
             />
             <motion.div
               initial={{ y: 24, scale: 0.98, opacity: 0 }}
@@ -105,7 +116,7 @@ export default function Storia() {
                   onClick={() => setActiveStop(null)}
                   className="absolute top-4 right-4 rounded-full bg-background/80 border border-border/70 px-4 py-2 text-sm font-semibold text-foreground hover:bg-background transition"
                 >
-                  Chiudi
+                  {t('storia.close', 'Chiudi')}
                 </button>
               </div>
               <div className="p-8 md:p-10">

@@ -4,6 +4,7 @@ import { CloudRain, Wind, Thermometer, MapPin, Leaf, CloudSun, Sun, Cloud, Snowf
 import { useTheme } from '../components/ThemeContext';
 import WeatherChart from '../components/WeatherChart';
 import { fetchCurrentConditions, STATIONS } from '../api/openmeteo';
+import { useI18n } from '../i18n/index.jsx';
 
 /* ——— States ——— */
 const STATES = { LOADING: 'loading', READY: 'ready', ERROR: 'error', EMPTY: 'empty' };
@@ -22,7 +23,7 @@ function getWeatherIcon(code) {
   return <Snowflake size={48} weight="duotone" className="text-cyan-300" />;
 }
 
-function CityWeatherCard({ city, data, delay }) {
+function CityWeatherCard({ city, data, delay, t }) {
   const weatherCode = data?.weatherCode ?? 0;
   const photoSrc = CITY_PHOTOS[city.key];
   
@@ -69,15 +70,17 @@ function CityWeatherCard({ city, data, delay }) {
             <Wind size={14} /> {data?.pressure ?? '—'} hPa
           </span>
         </div>
-        <p className="text-xs text-muted-foreground mt-2">{city.altitude}m • Clicca per previsioni complete</p>
+        <p className="text-xs text-muted-foreground mt-2">
+          {city.altitude}m • {t('meteo.cards.forecastCta', 'Clicca per previsioni complete')}
+        </p>
       </div>
     </motion.a>
   );
 }
 
-function LoadingState({ isDark }) {
+function LoadingState({ isDark, t }) {
   return (
-    <div className="min-h-[60vh] flex flex-col items-center justify-center gap-6 text-muted-foreground" role="status" aria-label="Caricamento dati meteo">
+    <div className="min-h-[60vh] flex flex-col items-center justify-center gap-6 text-muted-foreground" role="status" aria-label={t('meteo.loading.aria', 'Caricamento dati meteo')}>
       <div className="relative w-24 h-24">
         {isDark ? (
           /* Dark: Fireplace flames */
@@ -115,7 +118,7 @@ function LoadingState({ isDark }) {
         )}
       </div>
       <p className="font-medium text-lg">
-        {isDark ? 'Riscaldando i sensori...' : 'Raccogliendo i dati dai sensori...'}
+        {isDark ? t('meteo.loading.dark', 'Riscaldando i sensori...') : t('meteo.loading.light', 'Raccogliendo i dati dai sensori...')}
       </p>
       <div className="flex gap-3">
         {[0, 1, 2].map((i) => (
@@ -126,22 +129,22 @@ function LoadingState({ isDark }) {
   );
 }
 
-function EmptyState({ isDark }) {
+function EmptyState({ isDark, t }) {
   return (
     <div className="min-h-[40vh] flex flex-col items-center justify-center gap-4 text-center px-6" role="status">
       <div className="text-5xl mb-2" aria-hidden="true">{isDark ? '🦉' : '🐰'}</div>
-      <h3 className="text-xl font-bold text-foreground">Nessun dato disponibile</h3>
+      <h3 className="text-xl font-bold text-foreground">{t('meteo.empty.title', 'Nessun dato disponibile')}</h3>
       <p className="text-muted-foreground max-w-md leading-relaxed">
         {isDark 
-          ? 'I sensori della stazione dormono profondamente. Il gufo meteorologo sta sorvegliando. Riprova tra qualche minuto.'
-          : 'I sensori della stazione stanno dormendo. Riprova tra qualche minuto, il coniglietto meteorologo è al lavoro.'
+          ? t('meteo.empty.dark', 'I sensori della stazione dormono profondamente. Il gufo meteorologo sta sorvegliando. Riprova tra qualche minuto.')
+          : t('meteo.empty.light', 'I sensori della stazione stanno dormendo. Riprova tra qualche minuto, il coniglietto meteorologo è al lavoro.')
         }
       </p>
     </div>
   );
 }
 
-function ErrorState({ isDark, onRetry }) {
+function ErrorState({ isDark, onRetry, t }) {
   return (
     <div className="min-h-[40vh] flex flex-col items-center justify-center gap-4 text-center px-6" role="alert">
       <div className="relative">
@@ -151,11 +154,11 @@ function ErrorState({ isDark, onRetry }) {
           <Leaf size={48} className="text-destructive/60 animate-leaf-fall" weight="duotone" />
         )}
       </div>
-      <h3 className="text-xl font-bold text-foreground">Connessione persa</h3>
+      <h3 className="text-xl font-bold text-foreground">{t('meteo.error.title', 'Connessione persa')}</h3>
       <p className="text-muted-foreground max-w-md leading-relaxed">
         {isDark 
-          ? 'La candela si è spenta, non riusciamo a raggiungere i sensori. Controlla la connessione e riprova.'
-          : 'Non riusciamo a raggiungere i sensori IoT. Controlla la connessione e riprova.'
+          ? t('meteo.error.dark', 'La candela si è spenta, non riusciamo a raggiungere i sensori. Controlla la connessione e riprova.')
+          : t('meteo.error.light', 'Non riusciamo a raggiungere i sensori IoT. Controlla la connessione e riprova.')
         }
       </p>
       {onRetry && (
@@ -163,7 +166,7 @@ function ErrorState({ isDark, onRetry }) {
           onClick={onRetry}
           className="mt-2 px-6 py-3 bg-primary text-primary-foreground rounded-2xl font-semibold hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-[var(--shadow-button)]"
         >
-          Riprova
+          {t('meteo.retry', 'Riprova')}
         </button>
       )}
     </div>
@@ -197,6 +200,7 @@ export default function Meteo() {
   const [weatherData, setWeatherData] = useState({});
   const [state, setState] = useState(STATES.LOADING);
   const { isDark } = useTheme();
+  const { t } = useI18n();
 
   const cities = [
     { key: 'sulmona', ...STATIONS.sulmona },
@@ -246,10 +250,10 @@ export default function Meteo() {
         <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-primary/8 text-primary text-sm font-semibold mb-4">
             <span className="w-2 h-2 rounded-full bg-primary animate-gentle-pulse" aria-hidden="true"></span>
-            Dati live
+            {t('meteo.badge', 'Dati live')}
           </div>
-          <h1 className="text-4xl md:text-6xl font-serif font-bold tracking-[-0.03em] text-foreground mb-2">Meteo live</h1>
-          <p className="text-lg text-muted-foreground max-w-[55ch]">Condizioni meteorologiche in tempo reale lungo la Transiberiana d'Abruzzo.</p>
+          <h1 className="text-4xl md:text-6xl font-serif font-bold tracking-[-0.03em] text-foreground mb-2">{t('meteo.title', 'Meteo live')}</h1>
+          <p className="text-lg text-muted-foreground max-w-[55ch]">{t('meteo.subtitle', "Condizioni meteorologiche in tempo reale lungo la Transiberiana d'Abruzzo.")}</p>
         </motion.div>
       </div>
 
@@ -257,19 +261,19 @@ export default function Meteo() {
       <AnimatePresence mode="wait">
         {state === STATES.LOADING && (
           <motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            <LoadingState isDark={isDark} />
+            <LoadingState isDark={isDark} t={t} />
           </motion.div>
         )}
         
         {state === STATES.ERROR && (
           <motion.div key="error" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            <ErrorState isDark={isDark} onRetry={() => { setState(STATES.LOADING); setTimeout(() => setState(STATES.READY), 1500); }} />
+            <ErrorState isDark={isDark} t={t} onRetry={() => { setState(STATES.LOADING); setTimeout(() => setState(STATES.READY), 1500); }} />
           </motion.div>
         )}
 
         {state === STATES.EMPTY && (
           <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            <EmptyState isDark={isDark} />
+            <EmptyState isDark={isDark} t={t} />
           </motion.div>
         )}
 
@@ -283,6 +287,7 @@ export default function Meteo() {
                   city={city} 
                   data={weatherData[city.key]} 
                   delay={0.1 + index * 0.1}
+                  t={t}
                 />
               ))}
             </div>
@@ -295,7 +300,7 @@ export default function Meteo() {
               className="w-full"
             >
               <div className="bg-card rounded-3xl p-6 shadow-[var(--shadow-card)] border border-border/30">
-                <h2 className="font-serif text-2xl font-bold mb-6 text-foreground">Andamento meteo</h2>
+                <h2 className="font-serif text-2xl font-bold mb-6 text-foreground">{t('meteo.chart.title', 'Andamento meteo')}</h2>
                 <WeatherChart />
               </div>
             </motion.div>

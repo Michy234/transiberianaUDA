@@ -4,15 +4,59 @@ import { ArrowRight, MapPin } from '@phosphor-icons/react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
+import { useI18n } from '../i18n/index.jsx';
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
-const STATIONS = [
+const DEFAULT_STATIONS = [
   { id: 1, name: 'Sulmona', alt: '328m', type: 'Partenza', desc: "La città dei confetti e di Ovidio. Punto di partenza dell'itinerario storico." },
   { id: 2, name: 'Campo di Giove', alt: '1.064m', type: 'Sosta', desc: 'Ai piedi della Majella, incorniciata da fitti boschi e paesaggi mozzafiato.' },
   { id: 3, name: 'Palena', alt: '1.258m', type: 'Punto panoramico', desc: 'Stazione isolata nel Quarto Santa Chiara, regno della natura selvaggia.' },
   { id: 4, name: 'Roccaraso', alt: '1.268m', type: 'Sosta', desc: 'La stazione più alta della linea, rinomata per il turismo montano invernale ed estivo.' },
   { id: 5, name: 'Castel di Sangro', alt: '793m', type: 'Capolinea', desc: "Città dell'acqua e della pesca a mosca, nodo cruciale dell'Alta Valle del Sangro." }
+];
+
+const DEFAULT_TIMELINE = [
+  {
+    year: '1892',
+    title: "L'inizio dei lavori",
+    desc: "Iniziano i lavori per la costruzione della Sulmona-Isernia. La sfida ingegneristica è colossale: bisogna superare dislivelli enormi scavando gallerie nella roccia viva dell'Appennino.",
+    reverse: false,
+    imageId: '1474487548417-781cb71495f3',
+    stepId: 'storia-1892',
+  },
+  {
+    year: '1897',
+    title: "L'inaugurazione",
+    desc: "Viene inaugurato il tratto fino a Cansano e Campo di Giove. La ferrovia diventa subito il principale mezzo di trasporto per merci e persone tra l'Abruzzo e il Molise.",
+    reverse: true,
+    imageId: '1506260408121-e353d10b87c7',
+    stepId: 'storia-1897',
+  },
+  {
+    year: '1943',
+    title: 'Distruzione e rinascita',
+    desc: "Durante la Seconda Guerra Mondiale la linea subisce gravissimi danni a causa della Linea Gustav. Negli anni '50 viene ricostruita e ammodernata, riprendendo il suo ruolo di collante vitale.",
+    reverse: false,
+    imageId: '1475924156734-496f6cac6ec1',
+    stepId: 'storia-1943',
+  },
+  {
+    year: '2011',
+    title: 'La sospensione',
+    desc: "Il servizio ordinario passeggeri viene sospeso per via degli elevati costi di gestione. Si teme l'abbandono definitivo della linea storica.",
+    reverse: true,
+    imageId: '1465146344425-f00d5f5c8f07',
+    stepId: 'storia-2011',
+  },
+  {
+    year: 'Oggi',
+    title: 'La Transiberiana',
+    desc: "Rinata come ferrovia turistica grazie alla Fondazione FS Italiane, oggi offre l'esperienza magica di viaggiare su treni d'epoca attraverso i paesaggi immacolati dell'Appennino.",
+    reverse: false,
+    imageId: '1494515843206-f3117d3f51b7',
+    stepId: 'storia-oggi',
+  },
 ];
 
 const EMAIL_STORAGE_KEY = 'transiberiana_ticket_interest_email';
@@ -88,10 +132,13 @@ function TimelineItem({ year, title, desc, reverse, imageId, stepId, reduceMotio
 }
 
 export default function Journey() {
+  const { t, tm } = useI18n();
   const journeyRootRef = useRef(null);
   const [email, setEmail] = useState('');
   const [formStatus, setFormStatus] = useState({ error: '', success: '' });
   const [reduceMotion, setReduceMotion] = useState(false);
+  const stations = tm('journey.stations', DEFAULT_STATIONS);
+  const timeline = tm('journey.timeline', DEFAULT_TIMELINE);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -196,12 +243,12 @@ export default function Journey() {
     const trimmed = email.trim();
 
     if (!trimmed) {
-      setFormStatus({ error: 'Inserisci la tua email per proseguire.', success: '' });
+      setFormStatus({ error: t('journey.form.errors.empty', 'Inserisci la tua email per proseguire.'), success: '' });
       return;
     }
 
     if (!isValidEmail(trimmed)) {
-      setFormStatus({ error: 'Inserisci un indirizzo email valido.', success: '' });
+      setFormStatus({ error: t('journey.form.errors.invalid', 'Inserisci un indirizzo email valido.'), success: '' });
       return;
     }
 
@@ -213,7 +260,7 @@ export default function Journey() {
 
     setFormStatus({
       error: '',
-      success: 'Grazie! Ti avviseremo appena aprono le prenotazioni.',
+      success: t('journey.form.success', 'Grazie! Ti avviseremo appena aprono le prenotazioni.'),
     });
   };
 
@@ -243,7 +290,7 @@ export default function Journey() {
           transition={introMotion.transition}
           className="text-5xl md:text-7xl font-serif font-bold tracking-[-0.03em] mb-8 text-foreground"
         >
-          Un secolo di <span className="italic text-primary/70">storia</span> attraverso gli Appennini
+          {t('journey.hero.title.lead', 'Un secolo di')} <span className="italic text-primary/70">{t('journey.hero.title.accent', 'storia')}</span> {t('journey.hero.title.tail', 'attraverso gli Appennini')}
         </motion.h1>
         <motion.p 
           initial={introTextMotion.initial}
@@ -251,44 +298,57 @@ export default function Journey() {
           transition={introTextMotion.transition}
           className="text-xl text-muted-foreground leading-relaxed max-w-[60ch] mx-auto"
         >
-          Progettata a fine Ottocento, la ferrovia Sulmona-Isernia è un capolavoro di ingegneria civile che ha unito le popolazioni montane prima di diventare la linea turistica più iconica d'Italia.
+          {t(
+            'journey.hero.subtitle',
+            "Progettata a fine Ottocento, la ferrovia Sulmona-Isernia è un capolavoro di ingegneria civile che ha unito le popolazioni montane prima di diventare la linea turistica più iconica d'Italia.",
+          )}
         </motion.p>
       </section>
 
       <section className="py-24 px-6 max-w-6xl mx-auto relative">
         <div className="absolute top-0 bottom-0 left-6 md:left-1/2 w-0.5 bg-border -translate-x-1/2 hidden md:block" aria-hidden="true" />
-        
-        <TimelineItem year="1892" title="L'inizio dei lavori" desc="Iniziano i lavori per la costruzione della Sulmona-Isernia. La sfida ingegneristica è colossale: bisogna superare dislivelli enormi scavando gallerie nella roccia viva dell'Appennino." reverse={false} imageId="1474487548417-781cb71495f3" stepId="storia-1892" reduceMotion={reduceMotion} />
-        <TimelineItem year="1897" title="L'inaugurazione" desc="Viene inaugurato il tratto fino a Cansano e Campo di Giove. La ferrovia diventa subito il principale mezzo di trasporto per merci e persone tra l'Abruzzo e il Molise." reverse={true} imageId="1506260408121-e353d10b87c7" stepId="storia-1897" reduceMotion={reduceMotion} />
-        <TimelineItem year="1943" title="Distruzione e rinascita" desc="Durante la Seconda Guerra Mondiale la linea subisce gravissimi danni a causa della Linea Gustav. Negli anni '50 viene ricostruita e ammodernata, riprendendo il suo ruolo di collante vitale." reverse={false} imageId="1475924156734-496f6cac6ec1" stepId="storia-1943" reduceMotion={reduceMotion} />
-        <TimelineItem year="2011" title="La sospensione" desc="Il servizio ordinario passeggeri viene sospeso per via degli elevati costi di gestione. Si teme l'abbandono definitivo della linea storica." reverse={true} imageId="1465146344425-f00d5f5c8f07" stepId="storia-2011" reduceMotion={reduceMotion} />
-        <TimelineItem year="Oggi" title="La Transiberiana" desc="Rinata come ferrovia turistica grazie alla Fondazione FS Italiane, oggi offre l'esperienza magica di viaggiare su treni d'epoca attraverso i paesaggi immacolati dell'Appennino." reverse={false} imageId="1494515843206-f3117d3f51b7" stepId="storia-oggi" reduceMotion={reduceMotion} />
+
+        {timeline.map((item) => (
+          <TimelineItem
+            key={item.stepId}
+            year={item.year}
+            title={item.title}
+            desc={item.desc}
+            reverse={item.reverse}
+            imageId={item.imageId}
+            stepId={item.stepId}
+            reduceMotion={reduceMotion}
+          />
+        ))}
       </section>
 
       <section className="py-24 px-6 max-w-6xl mx-auto">
         <div className="max-w-3xl mx-auto text-center mb-16" data-journey-step="fermate-intro">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-primary/8 text-primary font-semibold text-sm mb-6">
-            Le fermate
+            {t('journey.stops.badge', 'Le fermate')}
           </div>
           <h2 className="text-4xl md:text-5xl font-serif font-bold tracking-[-0.03em] mb-6 text-foreground">
-            Le stazioni lungo il viaggio
+            {t('journey.stops.title', 'Le stazioni lungo il viaggio')}
           </h2>
           <p className="text-lg text-muted-foreground leading-relaxed max-w-[60ch] mx-auto">
-            Dopo la storia, il percorso prosegue tra borghi e altopiani: ogni fermata è una tappa da vivere con calma.
+            {t(
+              'journey.stops.subtitle',
+              'Dopo la storia, il percorso prosegue tra borghi e altopiani: ogni fermata è una tappa da vivere con calma.',
+            )}
           </p>
         </div>
 
         <div className="flex flex-col gap-8">
-          {STATIONS.map((station) => (
+          {stations.map((station) => (
             <article
               key={station.id}
               data-journey-step={`fermata-${station.id}`}
               data-journey-fade
               className="bg-card rounded-3xl p-8 md:p-12 shadow-[var(--shadow-elevated)] border border-border/40"
             >
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-primary/8 text-primary font-semibold text-sm mb-6">
-                <MapPin weight="fill" size={16} />
-                {station.type} · {station.alt}
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-primary/8 text-primary font-semibold text-sm mb-6">
+                  <MapPin weight="fill" size={16} />
+                  {station.type} · {station.alt}
               </div>
               <h3 className="text-3xl md:text-4xl font-serif font-bold tracking-tight mb-4 text-foreground">
                 {station.name}
@@ -311,19 +371,22 @@ export default function Journey() {
             <div className="flex flex-col lg:flex-row items-start gap-8">
               <div className="flex-1">
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-primary/8 text-primary font-semibold text-sm mb-6">
-                  Ultima tappa
+                  {t('journey.cta.badge', 'Ultima tappa')}
                 </div>
                 <h2 className="text-4xl md:text-5xl font-serif font-bold tracking-[-0.03em] mb-4 text-foreground">
-                  Compra il biglietto
+                  {t('journey.cta.title', 'Compra il biglietto')}
                 </h2>
                 <p className="text-lg text-muted-foreground leading-relaxed max-w-[50ch]">
-                  Lascia la tua email e ti avvisiamo appena aprono le prenotazioni per le prossime partenze.
+                  {t(
+                    'journey.cta.body',
+                    'Lascia la tua email e ti avvisiamo appena aprono le prenotazioni per le prossime partenze.',
+                  )}
                 </p>
               </div>
 
               <form className="w-full lg:max-w-sm" onSubmit={handleSubmit} noValidate>
                 <label htmlFor="journey-email" className="text-sm font-semibold text-muted-foreground">
-                  Email
+                  {t('journey.form.label', 'Email')}
                 </label>
                 <input
                   id="journey-email"
@@ -337,13 +400,13 @@ export default function Journey() {
                   className={`mt-2 w-full rounded-2xl border px-4 py-3 bg-background text-foreground placeholder:text-muted-foreground/70 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 transition-all duration-200 ${
                     formStatus.error ? 'border-destructive' : 'border-border/60'
                   }`}
-                  placeholder="nome@email.com"
+                  placeholder={t('journey.form.placeholder', 'nome@email.com')}
                 />
                 <button
                   type="submit"
                   className="mt-4 px-6 py-3 rounded-2xl bg-primary text-primary-foreground font-semibold w-full hover:scale-[1.01] active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 shadow-[var(--shadow-button)] focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
                 >
-                  Avvisami
+                  {t('journey.form.submit', 'Avvisami')}
                   <ArrowRight weight="bold" size={18} />
                 </button>
                 <div className="mt-3 min-h-[1.5rem] text-sm" aria-live="polite">

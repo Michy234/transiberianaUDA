@@ -2,39 +2,20 @@ import { useEffect, useRef, useState, useCallback, useMemo, Fragment } from 'rea
 import { Chart, registerables } from 'chart.js';
 import 'chartjs-adapter-date-fns';
 import { format } from 'date-fns';
-import { it as itLocale } from 'date-fns/locale';
+import { enUS, it as itLocale } from 'date-fns/locale';
 import { fetchStationData, STATIONS } from '../api/openmeteo';
+import { useI18n } from '../i18n/index.jsx';
 
 Chart.register(...registerables);
-
-const CITY_OPTIONS = [
-  { value: 'all', label: 'Tutte le città' },
-  { value: 'sulmona', label: 'Sulmona' },
-  { value: 'castel', label: 'Castel di Sangro' },
-  { value: 'campo', label: 'Campo di Giove' },
-];
-
-const METRIC_OPTIONS = [
-  { value: 'temperature', label: 'Temperatura (°C)', color: '#e63946' },
-  { value: 'humidity', label: 'Umidità (%)', color: '#457b9d' },
-  { value: 'airQuality', label: "Qualità dell'aria (AQI)", color: '#2a9d8f' },
-];
-
-const PERIOD_OPTIONS = [
-  { value: '24h', label: '24 ore' },
-  { value: '7d', label: '7 giorni' },
-  { value: '30d', label: '30 giorni' },
-];
-
 const CITY_COLORS = {
   sulmona: { border: '#6b9e7e', bg: 'rgba(107, 158, 126, 0.1)' },
   castel: { border: '#c9a227', bg: 'rgba(201, 162, 39, 0.1)' },
   campo: { border: '#e07a5f', bg: 'rgba(224, 122, 95, 0.1)' },
 };
 
-function LoadingBubbles() {
+function LoadingBubbles({ label }) {
   return (
-    <div className="flex gap-2" aria-label="Caricamento" role="status">
+    <div className="flex gap-2" aria-label={label} role="status">
       {[0, 1, 2].map((i) => (
         <div
           key={i}
@@ -47,6 +28,7 @@ function LoadingBubbles() {
 }
 
 export default function WeatherChart() {
+  const { lang, t } = useI18n();
   const canvasRef = useRef(null);
   const chartRef = useRef(null);
   const [loading, setLoading] = useState(true);
@@ -55,6 +37,35 @@ export default function WeatherChart() {
   const [selectedMetric, setSelectedMetric] = useState('temperature');
   const [selectedPeriod, setSelectedPeriod] = useState('24h');
   const [chartData, setChartData] = useState(null);
+
+  const dateLocale = lang === 'en' ? enUS : itLocale;
+  const cityOptions = useMemo(
+    () => [
+      { value: 'all', label: t('meteo.chart.cities.all', 'Tutte le città') },
+      { value: 'sulmona', label: 'Sulmona' },
+      { value: 'castel', label: 'Castel di Sangro' },
+      { value: 'campo', label: 'Campo di Giove' },
+    ],
+    [t],
+  );
+
+  const metricOptions = useMemo(
+    () => [
+      { value: 'temperature', label: t('meteo.chart.metrics.temperature', 'Temperatura (°C)'), color: '#e63946' },
+      { value: 'humidity', label: t('meteo.chart.metrics.humidity', 'Umidità (%)'), color: '#457b9d' },
+      { value: 'airQuality', label: t('meteo.chart.metrics.airQuality', "Qualità dell'aria (AQI)"), color: '#2a9d8f' },
+    ],
+    [t],
+  );
+
+  const periodOptions = useMemo(
+    () => [
+      { value: '24h', label: t('meteo.chart.periods.24h', '24 ore') },
+      { value: '7d', label: t('meteo.chart.periods.7d', '7 giorni') },
+      { value: '30d', label: t('meteo.chart.periods.30d', '30 giorni') },
+    ],
+    [t],
+  );
 
   const stats = useMemo(() => {
     if (!chartData?.length) return null;
@@ -116,7 +127,7 @@ export default function WeatherChart() {
     };
 
     const byMetric = {};
-    METRIC_OPTIONS.forEach(({ value: metric }) => {
+    metricOptions.forEach(({ value: metric }) => {
       const values = collect(metric);
       const m = mean(values);
       const med = median(values);
@@ -125,7 +136,7 @@ export default function WeatherChart() {
     });
 
     return byMetric;
-  }, [chartData, selectedCity]);
+  }, [chartData, metricOptions, selectedCity]);
 
   const formatStat = (metric, value) => {
     if (value === null || value === undefined || !Number.isFinite(value)) return '—';
@@ -179,7 +190,7 @@ export default function WeatherChart() {
       if (selectedCity !== 'all' && cityData.key !== selectedCity) return;
       const cityColor = CITY_COLORS[cityData.key];
       
-      const metricConfig = METRIC_OPTIONS.find(m => m.value === selectedMetric);
+      const metricConfig = metricOptions.find((m) => m.value === selectedMetric);
       const rawData = cityData[selectedMetric];
         
       const dataPoints = cityData.times.map((time, i) => ({
@@ -246,15 +257,15 @@ export default function WeatherChart() {
                 if (x === null || x === undefined) return '';
                 const date = new Date(x);
                 return selectedPeriod === '24h'
-                  ? format(date, 'HH:mm', { locale: itLocale })
-                  : format(date, 'dd MMM', { locale: itLocale });
+                  ? format(date, 'HH:mm', { locale: dateLocale })
+                  : format(date, 'dd MMM', { locale: dateLocale });
               },
             },
           }
         },
         adapters: {
           date: {
-            locale: itLocale,
+            locale: dateLocale,
           },
         },
         scales: {
@@ -284,7 +295,7 @@ export default function WeatherChart() {
         chartRef.current.destroy();
       }
     };
-  }, [chartData, selectedMetric, selectedPeriod, selectedCity]);
+  }, [chartData, dateLocale, metricOptions, selectedMetric, selectedPeriod, selectedCity]);
 
   return (
     <div className="w-full">
@@ -294,7 +305,7 @@ export default function WeatherChart() {
           onChange={(e) => setSelectedCity(e.target.value)}
           className="px-4 py-2.5 rounded-xl bg-card border border-border font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
         >
-          {CITY_OPTIONS.map(opt => (
+          {cityOptions.map((opt) => (
             <option key={opt.value} value={opt.value}>{opt.label}</option>
           ))}
         </select>
@@ -304,13 +315,13 @@ export default function WeatherChart() {
           onChange={(e) => setSelectedPeriod(e.target.value)}
           className="px-4 py-2.5 rounded-xl bg-card border border-border font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
         >
-          {PERIOD_OPTIONS.map(opt => (
+          {periodOptions.map((opt) => (
             <option key={opt.value} value={opt.value}>{opt.label}</option>
           ))}
         </select>
 
         <div className="flex gap-2 items-center">
-          {METRIC_OPTIONS.map(metric => (
+          {metricOptions.map((metric) => (
             <button
               key={metric.value}
               onClick={() => setSelectedMetric(metric.value)}
@@ -330,15 +341,15 @@ export default function WeatherChart() {
       <div className="relative h-[400px] w-full">
         {loading && (
           <div className="absolute inset-0 flex items-center justify-center bg-background/80 z-10">
-            <LoadingBubbles />
+            <LoadingBubbles label={t('meteo.chart.loading', 'Caricamento')} />
           </div>
         )}
         
         {error && (
           <div className="absolute inset-0 flex items-center justify-center bg-background/80 z-10">
             <div className="text-center">
-              <p className="text-destructive font-medium mb-2">Errore: {error}</p>
-              <button onClick={loadData} className="text-sm text-primary hover:underline">Riprova</button>
+              <p className="text-destructive font-medium mb-2">{t('meteo.chart.error', 'Errore')}: {error}</p>
+              <button onClick={loadData} className="text-sm text-primary hover:underline">{t('meteo.retry', 'Riprova')}</button>
             </div>
           </div>
         )}
@@ -349,24 +360,24 @@ export default function WeatherChart() {
       <div className="mt-6 bg-muted/30 border border-border rounded-2xl p-4 relative" aria-busy={loading ? 'true' : 'false'}>
         {loading && (
           <div className="absolute inset-0 flex items-center justify-center bg-background/80 z-10 rounded-2xl">
-            <LoadingBubbles />
+            <LoadingBubbles label={t('meteo.chart.loading', 'Caricamento')} />
           </div>
         )}
 
         <div className="flex items-baseline justify-between gap-4 mb-3">
           <h3 className="font-semibold text-sm text-foreground">
-            Statistiche ({selectedCity === 'all' ? 'tutte le città' : (STATIONS[selectedCity]?.name ?? selectedCity)})
+            {t('meteo.chart.stats.title', 'Statistiche')} ({selectedCity === 'all' ? t('meteo.chart.cities.allLower', 'tutte le città') : (STATIONS[selectedCity]?.name ?? selectedCity)})
           </h3>
-          <div className="text-xs text-muted-foreground">Periodo: {PERIOD_OPTIONS.find(p => p.value === selectedPeriod)?.label ?? selectedPeriod}</div>
+          <div className="text-xs text-muted-foreground">{t('meteo.chart.period', 'Periodo')}: {periodOptions.find((p) => p.value === selectedPeriod)?.label ?? selectedPeriod}</div>
         </div>
 
         <div className="grid grid-cols-4 gap-3 text-xs">
-          <div className="text-muted-foreground font-semibold">Valore</div>
-          <div className="text-muted-foreground font-semibold">Moda</div>
-          <div className="text-muted-foreground font-semibold">Media</div>
-          <div className="text-muted-foreground font-semibold">Mediana</div>
+          <div className="text-muted-foreground font-semibold">{t('meteo.chart.stats.value', 'Valore')}</div>
+          <div className="text-muted-foreground font-semibold">{t('meteo.chart.stats.mode', 'Moda')}</div>
+          <div className="text-muted-foreground font-semibold">{t('meteo.chart.stats.mean', 'Media')}</div>
+          <div className="text-muted-foreground font-semibold">{t('meteo.chart.stats.median', 'Mediana')}</div>
 
-          {METRIC_OPTIONS.map((m) => (
+          {metricOptions.map((m) => (
             <Fragment key={m.value}>
               <div className="font-semibold text-foreground">{m.label.split(' (')[0]}</div>
               <div className="text-foreground/90">{formatStat(m.value, stats?.[m.value]?.mode)}</div>

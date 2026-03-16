@@ -1,8 +1,9 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, ArrowRight, Train, Tree, NavigationArrow } from '@phosphor-icons/react';
+import { useI18n } from '../i18n/index.jsx';
 
-const stations = [
+const DEFAULT_STATIONS = [
   {
     id: 1,
     name: 'Sulmona',
@@ -85,7 +86,7 @@ const TRAINLINE_ROUTE_OVERRIDES = [
   },
 ];
 
-function buildTrainlineLink({ originCode, destinationCode, originName, destinationName }) {
+function buildTrainlineLink({ originCode, destinationCode, originName, destinationName, interfaceLang }) {
   if (!originCode || !destinationCode) {
     return 'https://www.thetrainline.com/journey-planner/';
   }
@@ -103,7 +104,7 @@ function buildTrainlineLink({ originCode, destinationCode, originName, destinati
     outwardDateType: TRAINLINE_DEFAULTS.outwardDateType,
     selectedTab: override.selectedTab || TRAINLINE_DEFAULTS.selectedTab,
     splitSave: TRAINLINE_DEFAULTS.splitSave,
-    lang: TRAINLINE_DEFAULTS.lang,
+    lang: interfaceLang || TRAINLINE_DEFAULTS.lang,
     'transportModes[]': override.transportModes || TRAINLINE_DEFAULTS.transportModes,
     'passengers[0]': TRAINLINE_DEFAULTS.passengerDob,
   });
@@ -115,6 +116,8 @@ function buildMapEmbedUrl(query) {
 }
 
 function StationButton({ station, isActive, onClick, index }) {
+  const { t } = useI18n();
+
   return (
     <motion.button
       onClick={onClick}
@@ -129,7 +132,11 @@ function StationButton({ station, isActive, onClick, index }) {
         }
       `}
       aria-pressed={isActive}
-      aria-label={`Stazione di ${station.name}, ${station.type}, altitudine ${station.alt}`}
+      aria-label={t('stops.stationAria', 'Stazione di {{name}}, {{type}}, altitudine {{alt}}', {
+        name: station.name,
+        type: station.type,
+        alt: station.alt,
+      })}
     >
       <div
         className="absolute inset-0 z-0"
@@ -168,32 +175,41 @@ function StationButton({ station, isActive, onClick, index }) {
 }
 
 export default function Fermate() {
+  const { t, tm } = useI18n();
+  const stations = tm('stops.stations', DEFAULT_STATIONS);
   const [selectedStation, setSelectedStation] = useState(stations[0]);
   const [origin, setOrigin] = useState(stations[0].name);
   const [destination, setDestination] = useState(stations[stations.length - 1].name);
 
   const destinationOptions = useMemo(() => {
     return stations.map((station) => station.name);
-  }, []);
+  }, [stations]);
 
   const originCodes = useMemo(() => {
     return stations.reduce((acc, station) => {
       acc[station.name] = station.trainlineCode;
       return acc;
     }, {});
-  }, []);
+  }, [stations]);
+
+  useEffect(() => {
+    setSelectedStation((current) => stations.find((station) => station.id === current.id) || stations[0]);
+  }, [stations]);
 
   return (
     <div className="min-h-[100dvh] pt-32 pb-24 px-6 md:px-12 max-w-[1400px] mx-auto">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-16">
-        <h1 className="text-4xl md:text-6xl font-serif font-bold tracking-[-0.03em] mb-4 text-foreground">Le fermate</h1>
+        <h1 className="text-4xl md:text-6xl font-serif font-bold tracking-[-0.03em] mb-4 text-foreground">{t('stops.title', 'Le fermate')}</h1>
         <p className="text-lg text-muted-foreground max-w-[65ch] leading-relaxed">
-          Esplora le stazioni storiche lungo la ferrovia più alta e panoramica d'Italia, un nastro d'acciaio che cuce parchi nazionali e riserve naturali.
+          {t(
+            'stops.subtitle',
+            "Esplora le stazioni storiche lungo la ferrovia più alta e panoramica d'Italia, un nastro d'acciaio che cuce parchi nazionali e riserve naturali.",
+          )}
         </p>
       </motion.div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        <div className="lg:col-span-5 flex flex-col gap-2" role="listbox" aria-label="Lista delle stazioni">
+        <div className="lg:col-span-5 flex flex-col gap-2" role="listbox" aria-label={t('stops.listAria', 'Lista delle stazioni')}>
           <div className="relative">
             {stations.map((station, i) => (
               <div key={station.id} className="relative">
@@ -223,12 +239,12 @@ export default function Fermate() {
               transition={{ type: 'spring', stiffness: 200, damping: 22 }}
               className="h-full bg-card rounded-3xl p-0 shadow-[var(--shadow-elevated)] flex flex-col justify-between overflow-hidden border border-border/60"
               aria-live="polite"
-              aria-label={`Dettagli stazione: ${selectedStation.name}`}
+              aria-label={t('stops.detailAria', 'Dettagli stazione: {{name}}', { name: selectedStation.name })}
             >
               <div className="relative h-56 md:h-64 w-full overflow-hidden">
                 <img
                   src={selectedStation.photo}
-                  alt={`Stazione di ${selectedStation.name}`}
+                  alt={t('stops.imageAlt', 'Stazione di {{name}}', { name: selectedStation.name })}
                   className="h-full w-full object-cover"
                   loading="lazy"
                 />
@@ -241,7 +257,7 @@ export default function Fermate() {
               >
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-card/80 border border-border text-primary font-semibold text-sm mb-8">
                   <Tree weight="fill" size={16} />
-                  Altitudine: {selectedStation.alt}
+                  {t('stops.altitude', 'Altitudine')}: {selectedStation.alt}
                 </div>
                 
                 <h2 className="text-3xl md:text-4xl font-serif font-bold tracking-tight mb-5 text-foreground">
@@ -288,13 +304,13 @@ export default function Fermate() {
                   <div className="flex items-center justify-between gap-4 mb-6">
                     <div>
                       <div className="text-sm font-semibold text-muted-foreground italic">
-                        Orari, biglietti e disponibilita
+                        {t('stops.trainline.eyebrow', 'Orari, biglietti e disponibilita')}
                       </div>
                       <div className="mt-2 flex items-center gap-3 text-sm font-semibold text-foreground">
                         <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center">
                           <Train className="text-primary" size={18} />
                         </div>
-                        Linea storica
+                        {t('stops.trainline.line', 'Linea storica')}
                       </div>
                     </div>
                     <a
@@ -303,19 +319,20 @@ export default function Fermate() {
                         destinationCode: originCodes[destination],
                         originName: origin,
                         destinationName: destination,
+                        interfaceLang: t('stops.trainline.lang', 'it'),
                       })}
                       target="_blank"
                       rel="noreferrer"
                       className="inline-flex items-center gap-3 rounded-2xl bg-primary px-5 py-3 text-sm md:text-base font-semibold text-primary-foreground shadow-[var(--shadow-elevated)] transition-all duration-300 hover:translate-y-[-1px] hover:shadow-[0_18px_48px_-26px_rgba(0,0,0,0.35)] focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-background"
                     >
-                      Acquista su Trainline
+                      {t('stops.trainline.cta', 'Acquista su Trainline')}
                       <NavigationArrow size={16} weight="bold" />
                     </a>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <label className="flex flex-col gap-2 text-sm font-semibold text-foreground">
-                      Partenza
+                      {t('stops.trainline.origin', 'Partenza')}
                       <select
                         className="h-11 rounded-2xl border border-border/60 bg-background/70 px-4 text-sm font-medium text-foreground focus-visible:ring-2 focus-visible:ring-primary"
                         value={origin}
@@ -329,7 +346,7 @@ export default function Fermate() {
                       </select>
                     </label>
                     <label className="flex flex-col gap-2 text-sm font-semibold text-foreground">
-                      Arrivo
+                      {t('stops.trainline.destination', 'Arrivo')}
                       <select
                         className="h-11 rounded-2xl border border-border/60 bg-background/70 px-4 text-sm font-medium text-foreground focus-visible:ring-2 focus-visible:ring-primary"
                         value={destination}
@@ -346,7 +363,7 @@ export default function Fermate() {
 
                   <div className="mt-6 flex items-center justify-between gap-4 rounded-2xl border border-border/60 bg-background/70 px-4 py-3">
                     <div className="text-sm font-semibold text-muted-foreground">
-                      Servizio biglietti fornito da
+                      {t('stops.trainline.poweredBy', 'Servizio biglietti fornito da')}
                     </div>
                     <div className="flex items-center gap-2 rounded-full border border-border/60 bg-background px-4 py-1.5 text-sm font-bold tracking-[0.08em] text-foreground">
                       trainline

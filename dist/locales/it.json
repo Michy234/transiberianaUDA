@@ -3,14 +3,33 @@
     "home": "Home",
     "storia": "La Storia",
     "fermate": "Le Fermate",
-    "salire": "Come Salire",
+    "attivita": "Attività",
     "info": "Info Utili",
     "meteo": "Meteo Live"
   },
-  "hero": {
-    "title": "Benvenuti sulla Transiberiana d'Abruzzo",
-    "subtitle": "Un viaggio indimenticabile attraverso il cuore verde d'Italia.",
-    "cta_start": "Inizia il Viaggio",
-    "cta_meteo": "Meteo Live"
+  "home": {
+    "badge": "Prossima partenza: {{city}}",
+    "title": {
+      "lead": "La",
+      "brand": "Transiberiana",
+      "tail": "d'Abruzzo"
+    },
+    "subtitle": "Un'esperienza autentica a bordo di carrozze d'epoca. Attraversa i Parchi Nazionali e i borghi più belli dell'Appennino Centrale.",
+    "cta": {
+      "start": "Inizia il viaggio",
+      "itinerary": "Scopri l'itinerario"
+    },
+    "scrollHint": "Scorri per iniziare il viaggio",
+    "stats": {
+      "altitude": "Altitudine max",
+      "weather": "Meteo live",
+      "stops": "Fermate"
+    },
+    "sponsors": "PARTNER E SPONSOR",
+    "heroImageAlt": "Treno storico che attraversa un viadotto immerso nella vegetazione delle montagne abruzzesi"
+  },
+  "lang": {
+    "toggle": "Cambia lingua",
+    "label": "Seleziona lingua"
   }
 }

@@ -2,15 +2,718 @@
   "nav": {
     "home": "Home",
     "storia": "History",
-    "fermate": "Stations",
-    "salire": "How to Board",
+    "fermate": "Stops",
+    "attivita": "Activities",
     "info": "Useful Info",
-    "meteo": "Live Weather"
+    "meteo": "Live Weather",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "aria": {
+      "main": "Main navigation",
+      "homeLink": "Transiberiana d'Abruzzo - Back to home",
+      "mobile": "Navigation menu"
+    }
   },
-  "hero": {
-    "title": "Welcome to the Transiberiana d'Abruzzo",
-    "subtitle": "An unforgettable journey through the green heart of Italy.",
-    "cta_start": "Start Journey",
-    "cta_meteo": "Live Weather"
+  "theme": {
+    "light": "Switch to light theme",
+    "dark": "Switch to dark theme"
+  },
+  "home": {
+    "badge": "Next departure: {{city}}",
+    "title": {
+      "lead": "La",
+      "brand": "Transiberiana",
+      "tail": "d'Abruzzo"
+    },
+    "subtitle": "An authentic experience aboard vintage carriages. Travel through National Parks and the most beautiful villages of the Central Apennines.",
+    "cta": {
+      "start": "Start the journey",
+      "itinerary": "Explore the itinerary"
+    },
+    "scrollHint": "Scroll to start the journey",
+    "stats": {
+      "altitude": "Max altitude",
+      "weather": "Live weather",
+      "stops": "Stops"
+    },
+    "sponsors": "PARTNERS AND SPONSORS",
+    "sponsorsAria": "Partners and sponsors of Transiberiana d'Abruzzo",
+    "heroImageAlt": "Historic train crossing a viaduct among the green mountains of Abruzzo"
+  },
+  "lang": {
+    "toggle": "Change language",
+    "label": "Select language"
+  },
+  "journey": {
+    "hero": {
+      "title": {
+        "lead": "A century of",
+        "accent": "history",
+        "tail": "through the Apennines"
+      },
+      "subtitle": "Designed in the late nineteenth century, the Sulmona-Isernia railway is a masterpiece of civil engineering that connected mountain communities before becoming Italy's most iconic tourist rail line."
+    },
+    "timeline": [
+      {
+        "year": "1892",
+        "title": "Work begins",
+        "desc": "Construction starts on the Sulmona-Isernia line. The engineering challenge is enormous: the route must overcome steep gradients by carving tunnels through the solid rock of the Apennines.",
+        "reverse": false,
+        "imageId": "1474487548417-781cb71495f3",
+        "stepId": "storia-1892"
+      },
+      {
+        "year": "1897",
+        "title": "The inauguration",
+        "desc": "The section as far as Cansano and Campo di Giove is inaugurated. The railway immediately becomes the main transport link for goods and passengers between Abruzzo and Molise.",
+        "reverse": true,
+        "imageId": "1506260408121-e353d10b87c7",
+        "stepId": "storia-1897"
+      },
+      {
+        "year": "1943",
+        "title": "Destruction and rebirth",
+        "desc": "During the Second World War the line suffers severe damage because of the Gustav Line. In the 1950s it is rebuilt and modernized, returning to its role as a vital connector.",
+        "reverse": false,
+        "imageId": "1475924156734-496f6cac6ec1",
+        "stepId": "storia-1943"
+      },
+      {
+        "year": "2011",
+        "title": "The suspension",
+        "desc": "Regular passenger service is suspended because of high operating costs. People fear the definitive abandonment of the historic line.",
+        "reverse": true,
+        "imageId": "1465146344425-f00d5f5c8f07",
+        "stepId": "storia-2011"
+      },
+      {
+        "year": "Today",
+        "title": "The Transiberiana",
+        "desc": "Reborn as a tourist railway thanks to Fondazione FS Italiane, it now offers the magic of travelling on vintage trains through the untouched landscapes of the Apennines.",
+        "reverse": false,
+        "imageId": "1494515843206-f3117d3f51b7",
+        "stepId": "storia-oggi"
+      }
+    ],
+    "stations": [
+      {
+        "id": 1,
+        "name": "Sulmona",
+        "alt": "328m",
+        "type": "Departure",
+        "desc": "The city of sugared almonds and Ovid. Starting point of the historic itinerary."
+      },
+      {
+        "id": 2,
+        "name": "Campo di Giove",
+        "alt": "1.064m",
+        "type": "Stop",
+        "desc": "At the foot of the Majella, framed by dense woods and breathtaking landscapes."
+      },
+      {
+        "id": 3,
+        "name": "Palena",
+        "alt": "1.258m",
+        "type": "Scenic stop",
+        "desc": "An isolated station in Quarto Santa Chiara, a realm of untamed nature."
+      },
+      {
+        "id": 4,
+        "name": "Roccaraso",
+        "alt": "1.268m",
+        "type": "Stop",
+        "desc": "The highest station on the line, famous for mountain tourism in both winter and summer."
+      },
+      {
+        "id": 5,
+        "name": "Castel di Sangro",
+        "alt": "793m",
+        "type": "Terminus",
+        "desc": "Town of water and fly fishing, a key hub of the upper Sangro Valley."
+      }
+    ],
+    "stops": {
+      "badge": "Stops",
+      "title": "Stations along the journey",
+      "subtitle": "After the history, the route continues through villages and plateaus: every stop is a moment to enjoy slowly."
+    },
+    "cta": {
+      "badge": "Final stop",
+      "title": "Buy your ticket",
+      "body": "Leave your email and we will let you know as soon as bookings open for the next departures."
+    },
+    "form": {
+      "label": "Email",
+      "placeholder": "name@email.com",
+      "submit": "Notify me",
+      "success": "Thanks! We will let you know as soon as bookings open.",
+      "errors": {
+        "empty": "Enter your email to continue.",
+        "invalid": "Enter a valid email address."
+      }
+    }
+  },
+  "storia": {
+    "title": {
+      "lead": "A century of",
+      "accent": "history",
+      "tail": "through the Apennines"
+    },
+    "subtitle": "Designed in the late nineteenth century, the Sulmona-Isernia railway is a masterpiece of civil engineering that connected mountain communities before becoming Italy's most iconic tourist rail line.",
+    "cards": [
+      {
+        "id": 1,
+        "label": "Stop 01",
+        "title": "Sulmona",
+        "summary": "This is where the railway project took shape, linking the Apennine interior with the main hubs of central Italy.",
+        "story": "Sulmona is the threshold of the Transiberiana d'Abruzzo: a railway, commercial and cultural town from which the idea of connecting mountain territories that were once difficult to reach first emerged. The station quickly became a strategic point for freight, passengers and exchanges with the wider national network, marking the beginning of an economic and social transformation for the whole area.",
+        "image": "https://placehold.co/1200x900?text=Sulmona"
+      },
+      {
+        "id": 2,
+        "label": "Stop 02",
+        "title": "Campo di Giove",
+        "summary": "Between tunnels, steep gradients and snow, this section tells the most ambitious technical challenge of the entire line.",
+        "story": "Campo di Giove represents one of the toughest tests faced by the engineers of the Sulmona-Isernia line. Here the railway climbs in altitude across exposed slopes, harsh winters and strong temperature swings. Bringing the tracks this high required complex structural solutions, but it made a stable connection possible for communities that until then had lived in relative isolation.",
+        "image": "https://placehold.co/1200x900?text=Campo+di+Giove"
+      },
+      {
+        "id": 3,
+        "label": "Stop 03",
+        "title": "Palena",
+        "summary": "In the heart of the mountains, the line reveals its most spectacular and at the same time most fragile side.",
+        "story": "Palena, with its rugged and open landscape, is one of the places where the Transiberiana d'Abruzzo shows its full scenic power. But it is also one of the most delicate points: climate, altitude and maintenance have always demanded great care. Here you can feel the deeper meaning of the line, suspended between public service, territorial presence and landscape wonder.",
+        "image": "https://placehold.co/1200x900?text=Palena"
+      },
+      {
+        "id": 4,
+        "label": "Stop 04",
+        "title": "Roccaraso",
+        "summary": "With the tourism boom of the twentieth century, the railway also became a gateway to the mountains and to the ski season.",
+        "story": "Roccaraso marks the transition from a simple transport link to a driver of tourism development. Throughout the twentieth century, the train helped the resort grow first as a climatic destination and then as a ski destination, bringing visitors, families and mountain lovers. The railway was no longer only a means of travel: it became part of the journey itself.",
+        "image": "https://placehold.co/1200x900?text=Roccaraso"
+      },
+      {
+        "id": 5,
+        "label": "Stop 05",
+        "title": "Castel di Sangro",
+        "summary": "The terminus tells the line's recent rebirth, now a symbol of rail tourism and shared memory.",
+        "story": "Castel di Sangro is the natural endpoint of the line's historical narrative. After regular service was suspended, the rebirth of the Transiberiana d'Abruzzo as a tourist train restored meaning and visibility to the whole route. Today the journey is not only about moving from one place to another: it is heritage, landscape and shared memory, capable of attracting new visitors without losing its historical identity.",
+        "image": "https://placehold.co/1200x900?text=Castel+di+Sangro"
+      }
+    ],
+    "openAria": "Open story of {{title}}",
+    "closeOverlay": "Close dialog",
+    "close": "Close"
+  },
+  "stops": {
+    "title": "Stops",
+    "subtitle": "Explore the historic stations along Italy's highest and most scenic railway, a ribbon of steel stitching together national parks and nature reserves.",
+    "listAria": "List of stations",
+    "detailAria": "Station details: {{name}}",
+    "imageAlt": "Station of {{name}}",
+    "altitude": "Altitude",
+    "stationAria": "Station {{name}}, {{type}}, altitude {{alt}}",
+    "trainline": {
+      "eyebrow": "Timetables, tickets and availability",
+      "line": "Historic line",
+      "cta": "Buy on Trainline",
+      "origin": "Departure",
+      "destination": "Arrival",
+      "poweredBy": "Ticketing service provided by",
+      "lang": "en"
+    },
+    "stations": [
+      {
+        "id": 1,
+        "name": "Sulmona",
+        "viaggiaName": "Sulmona",
+        "trainlineCode": "20737",
+        "alt": "328m",
+        "type": "Departure",
+        "desc": "The city of sugared almonds and Ovid. Starting point of the historic itinerary.",
+        "photo": "/photos/fermate/sulmona-fermata.jpg",
+        "glow": "rgba(34, 197, 94, 0.35)"
+      },
+      {
+        "id": 2,
+        "name": "Campo di Giove",
+        "viaggiaName": "Campo di Giove",
+        "trainlineCode": "21214",
+        "alt": "1.064m",
+        "type": "Stop",
+        "desc": "At the foot of the Majella, framed by dense woods and breathtaking landscapes.",
+        "photo": "/photos/fermate/campo-di-giove.jpg",
+        "glow": "rgba(59, 130, 246, 0.35)"
+      },
+      {
+        "id": 3,
+        "name": "Palena",
+        "viaggiaName": "Palena",
+        "trainlineCode": "21371",
+        "alt": "1.258m",
+        "type": "Scenic stop",
+        "desc": "An isolated station in Quarto Santa Chiara, a realm of untamed nature.",
+        "photo": "/photos/fermate/palena.jpg",
+        "glow": "rgba(16, 185, 129, 0.32)"
+      },
+      {
+        "id": 4,
+        "name": "Roccaraso",
+        "viaggiaName": "Roccaraso",
+        "trainlineCode": "20655",
+        "alt": "1.268m",
+        "type": "Stop",
+        "desc": "The highest station on the line, famous for mountain tourism in both winter and summer.",
+        "photo": "/photos/fermate/roccaraso.jpg",
+        "glow": "rgba(59, 130, 246, 0.32)"
+      },
+      {
+        "id": 5,
+        "name": "Castel di Sangro",
+        "viaggiaName": "Castel di Sangro",
+        "trainlineCode": "19856",
+        "alt": "793m",
+        "type": "Terminus",
+        "desc": "Town of water and fly fishing, a key hub of the upper Sangro Valley.",
+        "photo": "/photos/fermate/castel-di-sangro.jpg",
+        "glow": "rgba(14, 116, 144, 0.32)"
+      }
+    ]
+  },
+  "activities": {
+    "badge": "Suggested activities",
+    "title": "What to do during the stops",
+    "subtitle": "Choose the season and discover what to do in the towns where the train stops, with suggestions tailored to the length of each stop.",
+    "note": "Indicative durations: we will update the timetable details as soon as they are available.",
+    "seasonAria": "Select season {{season}}",
+    "altitude": "Altitude",
+    "typicalStop": "Typical stop",
+    "seasons": {
+      "spring": {
+        "label": "Spring",
+        "range": "Mar-May"
+      },
+      "summer": {
+        "label": "Summer",
+        "range": "Jun-Aug"
+      },
+      "autumn": {
+        "label": "Autumn",
+        "range": "Sep-Nov"
+      },
+      "winter": {
+        "label": "Winter",
+        "range": "Dec-Feb"
+      }
+    },
+    "seasonCopy": {
+      "spring": "Blossoms and fresh air: gentle walks and slower rhythms.",
+      "summer": "Long days: look for shade, fresh water and wide-open views.",
+      "autumn": "Warm colors and seasonal flavors: perfect for an easy pace.",
+      "winter": "Mountain atmosphere: short activities and warm indoor breaks."
+    },
+    "stops": [
+      {
+        "id": 1,
+        "name": "Sulmona",
+        "alt": "328m",
+        "type": "Departure",
+        "stopDuration": "60-120 min",
+        "timeHint": "Ideal before departure or on the way back",
+        "desc": "The city of sugared almonds and Ovid. Starting point of the historic itinerary.",
+        "plans": [
+          {
+            "id": "sulmona-breve",
+            "label": "Short stop",
+            "duration": "60-90 min",
+            "mealTip": "If it is lunchtime, choose a trattoria in the town center.",
+            "activities": {
+              "spring": [
+                "Walk through the historic center, alleys and squares.",
+                "Coffee break with traditional pastries."
+              ],
+              "summer": [
+                "Shaded route along the main street.",
+                "Gelato or a cold drink in the square."
+              ],
+              "autumn": [
+                "Craft shops and seasonal flavors.",
+                "Warm break in a historic cafe."
+              ],
+              "winter": [
+                "Porticoes and churches indoors for a quick visit.",
+                "Hot chocolate or a local sweet."
+              ]
+            }
+          },
+          {
+            "id": "sulmona-comoda",
+            "label": "Relaxed stop",
+            "duration": "2-3 hours",
+            "mealTip": "With 2-3 hours you can stop for a relaxed lunch.",
+            "activities": {
+              "spring": [
+                "Longer walk through historic neighborhoods and artisan shops.",
+                "A short stroll through the town gardens."
+              ],
+              "summer": [
+                "Light aperitif and an evening walk.",
+                "Browse local products at a relaxed pace."
+              ],
+              "autumn": [
+                "Taste local products and browse the shops.",
+                "Slow walk among photogenic corners."
+              ],
+              "winter": [
+                "Visit indoor cultural spaces.",
+                "Longer break with a hot drink."
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Campo di Giove",
+        "alt": "1.064m",
+        "type": "Stop",
+        "stopDuration": "About 3 hours",
+        "timeHint": "Often around lunchtime",
+        "desc": "At the foot of the Majella, framed by dense woods and breathtaking landscapes.",
+        "plans": [
+          {
+            "id": "campo-breve",
+            "label": "Short stop",
+            "duration": "60-75 min",
+            "mealTip": "If it is lunchtime, choose a quick option near the station.",
+            "activities": {
+              "spring": [
+                "Lookout point and photos of the surrounding peaks.",
+                "Short walk in the nearby woods."
+              ],
+              "summer": [
+                "Panoramic viewpoint with cool air.",
+                "Short shaded stretch and a water refill."
+              ],
+              "autumn": [
+                "Foliage and forest colors.",
+                "Break in the town center for seasonal flavors."
+              ],
+              "winter": [
+                "Snowy views and quick photos.",
+                "Warm up with a hot drink."
+              ]
+            }
+          },
+          {
+            "id": "campo-lunga",
+            "label": "Long stop",
+            "duration": "3 hours",
+            "mealTip": "With 3 hours you can take a walk and then enjoy lunch calmly.",
+            "activities": {
+              "spring": [
+                "Easy excursion through woods and clearings.",
+                "Lunch in a trattoria or a picnic if the weather allows."
+              ],
+              "summer": [
+                "Fresh walk in the greenery and some relaxation.",
+                "Outdoor lunch or a simple local eatery."
+              ],
+              "autumn": [
+                "Walk among the colors of the forest.",
+                "Warm lunch with seasonal flavors."
+              ],
+              "winter": [
+                "Short safe walk with snowy scenery.",
+                "Hearty lunch indoors."
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "name": "Palena",
+        "alt": "1.258m",
+        "type": "Scenic stop",
+        "stopDuration": "45-90 min",
+        "timeHint": "Quick and refreshing stop",
+        "desc": "An isolated station in Quarto Santa Chiara, a realm of untamed nature.",
+        "plans": [
+          {
+            "id": "palena-lampo",
+            "label": "Quick stop",
+            "duration": "30-45 min",
+            "mealTip": "If it is lunchtime, go for a quick snack.",
+            "activities": {
+              "spring": [
+                "Panoramic lookout and photos.",
+                "Short walk around the station."
+              ],
+              "summer": [
+                "Break in the shade with an open view.",
+                "Refill your water and head off again."
+              ],
+              "autumn": [
+                "Foliage views and photos.",
+                "Quick stop in the fresh mountain air."
+              ],
+              "winter": [
+                "Snowy panorama from a safe viewpoint.",
+                "Hot drink before departure."
+              ]
+            }
+          },
+          {
+            "id": "palena-breve",
+            "label": "Short stop",
+            "duration": "60-90 min",
+            "mealTip": "With a bit more time, treat yourself to a seated break.",
+            "activities": {
+              "spring": [
+                "Gentle walk nearby with mountain views.",
+                "Coffee break or a snack."
+              ],
+              "summer": [
+                "Longer walk with cool air.",
+                "Refreshing stop before setting off again."
+              ],
+              "autumn": [
+                "Slow walk among the colors.",
+                "Local shops and seasonal flavors."
+              ],
+              "winter": [
+                "Short visit to the town center.",
+                "Warm break in a bar or mountain lodge."
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "name": "Roccaraso",
+        "alt": "1.268m",
+        "type": "Stop",
+        "stopDuration": "90-180 min",
+        "timeHint": "Perfect for a longer walk",
+        "desc": "The highest station on the line, famous for mountain tourism in both winter and summer.",
+        "plans": [
+          {
+            "id": "roccaraso-breve",
+            "label": "Short stop",
+            "duration": "60-90 min",
+            "mealTip": "If it is lunchtime, choose a place near the center.",
+            "activities": {
+              "spring": [
+                "Walk through the town center and mountain views.",
+                "Coffee break with a view."
+              ],
+              "summer": [
+                "Walk through the village with fresh air.",
+                "Refreshing stop and panoramic photos."
+              ],
+              "autumn": [
+                "Seasonal colors and local shops.",
+                "Warm break before departure."
+              ],
+              "winter": [
+                "Mountain atmosphere and snowy views.",
+                "Hot drink or a local dessert."
+              ]
+            }
+          },
+          {
+            "id": "roccaraso-lunga",
+            "label": "Long stop",
+            "duration": "2-3 hours",
+            "mealTip": "With 2-3 hours you can enjoy lunch and a full walk.",
+            "activities": {
+              "spring": [
+                "Longer walk through the town.",
+                "Lunch in a trattoria at a relaxed pace."
+              ],
+              "summer": [
+                "Route through the greenery and time to relax.",
+                "Outdoor lunch or a typical local venue."
+              ],
+              "autumn": [
+                "Easy trail among seasonal colors.",
+                "Warm lunch with seasonal flavors."
+              ],
+              "winter": [
+                "Light winter activities or scenic viewpoints.",
+                "Warm lunch before heading back."
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "name": "Castel di Sangro",
+        "alt": "793m",
+        "type": "Terminus",
+        "stopDuration": "2-4 hours",
+        "timeHint": "Longer stop, often around lunchtime",
+        "desc": "Town of water and fly fishing, a key hub of the upper Sangro Valley.",
+        "plans": [
+          {
+            "id": "castel-breve",
+            "label": "Short stop",
+            "duration": "60-90 min",
+            "mealTip": "If it is lunchtime, head for a trattoria near the center.",
+            "activities": {
+              "spring": [
+                "Walk through the center and photos along the main street.",
+                "Coffee break in the square."
+              ],
+              "summer": [
+                "Evening walk and gelato.",
+                "Cool stop in the shade."
+              ],
+              "autumn": [
+                "Local flavors and shops.",
+                "Walk through lanes and scenic corners."
+              ],
+              "winter": [
+                "Historic center and indoor venues.",
+                "Hot drink and a relaxing break."
+              ]
+            }
+          },
+          {
+            "id": "castel-lunga",
+            "label": "Long stop",
+            "duration": "3-4 hours",
+            "mealTip": "With a long stop you can enjoy lunch without rushing.",
+            "activities": {
+              "spring": [
+                "Complete tour between the center and green areas.",
+                "Relaxed lunch and a final stroll."
+              ],
+              "summer": [
+                "Long break with lunch and a walk.",
+                "Aperitif if you arrive later in the afternoon."
+              ],
+              "autumn": [
+                "Slow route among colors and local shops.",
+                "Warm lunch with local products."
+              ],
+              "winter": [
+                "Warm lunch and an easygoing visit.",
+                "Cafe stop before returning."
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "info": {
+    "title": {
+      "lead": "Useful",
+      "accent": "info"
+    },
+    "subtitle": "Everything you need to know before boarding this retro adventure through the mountains of Abruzzo.",
+    "tripadvisorAria": "Open TripAdvisor reviews (opens in a new tab)",
+    "tripadvisorLabel": "TripAdvisor Reviews",
+    "rules": {
+      "title": "On-board rules",
+      "body": "Historic trains require care. Do not lean out of the windows while the train is moving, do not throw rubbish from the train, and behave respectfully toward the vintage materials and other passengers."
+    },
+    "faqAria": "Frequently asked questions",
+    "faq": [
+      {
+        "q": "Is the train heated in winter?",
+        "a": "Yes, all the vintage carriages are equipped with original restored and working steam heating and radiators."
+      },
+      {
+        "q": "Can I bring my dog on board?",
+        "a": "Small dogs are allowed free of charge inside the appropriate carrier. Larger dogs require a dedicated ticket."
+      },
+      {
+        "q": "Are there toilets on board?",
+        "a": "Yes, although they are the original 1930s ones. For greater comfort we suggest using the toilets available at the stations during longer stops."
+      },
+      {
+        "q": "Can I bring food on board?",
+        "a": "Absolutely. There is no restaurant car, so bringing your own packed lunch is welcome, especially during longer stops in the villages."
+      },
+      {
+        "q": "Feeling unwell?",
+        "a": "Call 112."
+      },
+      {
+        "q": "Feeling unwell?",
+        "a": "Call 112."
+      },
+      {
+        "q": "Feeling unwell?",
+        "a": "Call 112."
+      },
+      {
+        "q": "Feeling unwell?",
+        "a": "Call 112."
+      }
+    ]
+  },
+  "meteo": {
+    "badge": "Live data",
+    "title": "Live weather",
+    "subtitle": "Real-time weather conditions along the Transiberiana d'Abruzzo.",
+    "retry": "Try again",
+    "cards": {
+      "forecastCta": "Click for full forecast"
+    },
+    "loading": {
+      "aria": "Loading weather data",
+      "dark": "Warming up the sensors...",
+      "light": "Collecting data from the sensors..."
+    },
+    "empty": {
+      "title": "No data available",
+      "dark": "The station sensors are sleeping deeply. The weather owl is keeping watch. Try again in a few minutes.",
+      "light": "The station sensors are sleeping. Try again in a few minutes, the weather bunny is on the job."
+    },
+    "error": {
+      "title": "Connection lost",
+      "dark": "The candle has gone out, we cannot reach the sensors. Check the connection and try again.",
+      "light": "We cannot reach the IoT sensors. Check the connection and try again."
+    },
+    "chart": {
+      "title": "Weather trends",
+      "loading": "Loading",
+      "error": "Error",
+      "period": "Period",
+      "cities": {
+        "all": "All cities",
+        "allLower": "all cities"
+      },
+      "metrics": {
+        "temperature": "Temperature (°C)",
+        "humidity": "Humidity (%)",
+        "pressure": "Pressure (hPa)"
+      },
+      "periods": {
+        "24h": "24 hours",
+        "7d": "7 days",
+        "30d": "30 days"
+      },
+      "stats": {
+        "title": "Statistics",
+        "value": "Value",
+        "mode": "Mode",
+        "mean": "Average",
+        "median": "Median"
+      }
+    }
+  },
+  "notFound": {
+    "badge": "Error 404",
+    "title": "Page not found",
+    "body": "The page you are looking for does not exist or has been moved. You can go back to the home page and continue the journey.",
+    "cta": "Back to home"
   }
 }

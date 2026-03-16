@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import Journey from './Journey';
+import { useI18n } from '../i18n/index.jsx';
 
 gsap.registerPlugin(ScrollToPlugin);
 
@@ -53,6 +54,7 @@ function prefersReducedMotion() {
 
 export default function Home() {
   const journeyRef = useRef(null);
+  const { t } = useI18n();
 
   const handleStartJourney = () => {
     const target = journeyRef.current;
@@ -87,16 +89,20 @@ export default function Home() {
             {/* Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-primary/8 text-primary text-sm font-semibold tracking-tight mb-8">
               <span className="w-2 h-2 rounded-full bg-primary animate-gentle-pulse" aria-hidden="true"></span>
-              Prossima partenza: Sulmona
+              {t('home.badge', 'Prossima partenza: {{city}}', { city: 'Sulmona' })}
             </div>
             
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-bold tracking-[-0.03em] leading-[1.08] text-foreground mb-8">
-              La <span className="text-primary italic">Transiberiana</span> <br />
-              d'Abruzzo
+              {t('home.title.lead', 'La')}{' '}
+              <span className="text-primary italic">{t('home.title.brand', 'Transiberiana')}</span> <br />
+              {t('home.title.tail', "d'Abruzzo")}
             </h1>
             
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-[50ch] mb-10">
-              Un'esperienza autentica a bordo di carrozze d'epoca. Attraversa i Parchi Nazionali e i borghi più belli dell'Appennino Centrale.
+              {t(
+                'home.subtitle',
+                "Un'esperienza autentica a bordo di carrozze d'epoca. Attraversa i Parchi Nazionali e i borghi più belli dell'Appennino Centrale.",
+              )}
             </p>
 
             <motion.div
@@ -136,21 +142,21 @@ export default function Home() {
                 onClick={handleStartJourney}
                 className="px-8 py-4 bg-primary text-primary-foreground rounded-2xl font-semibold flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 shadow-[var(--shadow-button)]"
               >
-                Inizia il viaggio
+                {t('home.cta.start', 'Inizia il viaggio')}
                 <ArrowRight weight="bold" size={18} />
               </button>
               <Link 
                 to="/fermate" 
                 className="px-8 py-4 bg-card text-foreground rounded-2xl font-semibold flex items-center justify-center hover:shadow-[var(--shadow-card)] transition-all duration-300 border border-border/60"
               >
-                Scopri l'itinerario
+                {t('home.cta.itinerary', "Scopri l'itinerario")}
               </Link>
             </div>
             <div className="mt-[1.75rem] flex items-start gap-2 text-sm text-muted-foreground">
               <span className="relative top-1 inline-flex text-primary animate-journey-arrow motion-reduce:animate-none" aria-hidden="true">
                 <ArrowDown size={16} />
               </span>
-              <span>Scorri per iniziare il viaggio</span>
+              <span>{t('home.scrollHint', 'Scorri per iniziare il viaggio')}</span>
             </div>
           </motion.div>
         </div>
@@ -165,7 +171,10 @@ export default function Home() {
           >
             <img 
               src="/photos/storia/transiberiana.webp" 
-              alt="Treno storico che attraversa un viadotto immerso nella vegetazione delle montagne abruzzesi" 
+              alt={t(
+                'home.heroImageAlt',
+                'Treno storico che attraversa un viadotto immerso nella vegetazione delle montagne abruzzesi',
+              )} 
               className="object-cover w-full h-full"
               loading="eager"
             />
@@ -179,21 +188,27 @@ export default function Home() {
             >
               <div className="grid grid-cols-3 gap-4 text-foreground">
                 <div>
-                  <div className="text-muted-foreground text-xs font-semibold mb-1" style={{ fontVariant: 'small-caps' }}>Altitudine max</div>
+                  <div className="text-muted-foreground text-xs font-semibold mb-1" style={{ fontVariant: 'small-caps' }}>
+                    {t('home.stats.altitude', 'Altitudine max')}
+                  </div>
                   <div className="text-xl font-bold flex items-center gap-1.5" style={{ fontVariantNumeric: 'tabular-nums' }}>
                     <Tree weight="fill" className="text-primary" size={18} />
                     1.268m
                   </div>
                 </div>
                 <div>
-                  <div className="text-muted-foreground text-xs font-semibold mb-1" style={{ fontVariant: 'small-caps' }}>Meteo live</div>
+                  <div className="text-muted-foreground text-xs font-semibold mb-1" style={{ fontVariant: 'small-caps' }}>
+                    {t('home.stats.weather', 'Meteo live')}
+                  </div>
                   <div className="text-xl font-bold flex items-center gap-1.5" style={{ fontVariantNumeric: 'tabular-nums' }}>
                     <CloudRain weight="fill" className="text-primary-light" size={18} />
                     8°C
                   </div>
                 </div>
                 <div>
-                  <div className="text-muted-foreground text-xs font-semibold mb-1" style={{ fontVariant: 'small-caps' }}>Fermate</div>
+                  <div className="text-muted-foreground text-xs font-semibold mb-1" style={{ fontVariant: 'small-caps' }}>
+                    {t('home.stats.stops', 'Fermate')}
+                  </div>
                   <div className="text-xl font-bold flex items-center gap-1.5" style={{ fontVariantNumeric: 'tabular-nums' }}>
                     <MapPin weight="fill" className="text-wood" size={18} />
                     21
@@ -208,12 +223,12 @@ export default function Home() {
       <section className="py-4 md:py-5 px-0 bg-background">
         <div className="w-full text-center">
           <div className="text-sm font-semibold text-muted-foreground uppercase tracking-[0.28em] mb-6">
-            PARTNER E SPONSOR
+            {t('home.sponsors', 'PARTNER E SPONSOR')}
           </div>
           <div className="relative overflow-hidden border-y border-border/60 bg-card/60 backdrop-blur-xl px-6 py-5">
             <div
               className="sponsor-marquee"
-              aria-label="Partner e sponsor della Transiberiana d'Abruzzo"
+              aria-label={t('home.sponsorsAria', "Partner e sponsor della Transiberiana d'Abruzzo")}
             >
               <div className="sponsor-track">
                 <div className="sponsor-track-inner">

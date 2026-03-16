@@ -1,15 +1,16 @@
 import React, { useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Sun, Snowflake, Leaf, FlowerLotus, Clock, ForkKnife, Train, Sparkle } from '@phosphor-icons/react';
+import { useI18n } from '../i18n/index.jsx';
 
-const SEASONS = [
+const DEFAULT_SEASONS = [
   { key: 'spring', label: 'Primavera', range: 'Mar-Mag', icon: FlowerLotus },
   { key: 'summer', label: 'Estate', range: 'Giu-Ago', icon: Sun },
   { key: 'autumn', label: 'Autunno', range: 'Set-Nov', icon: Leaf },
   { key: 'winter', label: 'Inverno', range: 'Dic-Feb', icon: Snowflake },
 ];
 
-const SEASON_COPY = {
+const DEFAULT_SEASON_COPY = {
   spring: 'Fioriture e aria fresca: passeggiate morbide e ritmi lenti.',
   summer: 'Giornate lunghe: cerca ombra, acqua fresca e panorami aperti.',
   autumn: 'Colori caldi e sapori di stagione: perfetti per un ritmo tranquillo.',
@@ -17,7 +18,7 @@ const SEASON_COPY = {
 };
 
 // Durate indicative: aggiornale qui quando disponibili.
-const STOPS = [
+const DEFAULT_STOPS = [
   {
     id: 1,
     name: 'Sulmona',
@@ -323,10 +324,10 @@ function getInitialSeasonKey() {
   return 'winter';
 }
 
-function SeasonSelector({ selectedSeason, onChange }) {
+function SeasonSelector({ seasons, selectedSeason, onChange, t }) {
   return (
     <div className="flex flex-wrap justify-center gap-3">
-      {SEASONS.map((season) => {
+      {seasons.map((season) => {
         const isActive = season.key === selectedSeason;
         const Icon = season.icon;
         return (
@@ -339,7 +340,7 @@ function SeasonSelector({ selectedSeason, onChange }) {
                 : 'bg-card/70 text-foreground/70 border-border/50 hover:text-foreground hover:bg-card'
             }`}
             aria-pressed={isActive}
-            aria-label={`Seleziona stagione ${season.label}`}
+            aria-label={t('activities.seasonAria', 'Seleziona stagione {{season}}', { season: season.label })}
           >
             <span
               className={`w-8 h-8 rounded-xl flex items-center justify-center transition-all duration-300 ${
@@ -405,7 +406,7 @@ function TimePlanCard({ plan, seasonKey }) {
   );
 }
 
-function StopCard({ stop, seasonKey, index }) {
+function StopCard({ stop, seasonKey, index, t }) {
   return (
     <motion.article
       initial={{ opacity: 0, y: 20 }}
@@ -421,10 +422,10 @@ function StopCard({ stop, seasonKey, index }) {
               <MapPin size={14} weight="fill" /> {stop.type}
             </span>
             <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-secondary text-muted-foreground font-semibold">
-              <Train size={14} /> Altitudine: {stop.alt}
+              <Train size={14} /> {t('activities.altitude', 'Altitudine')}: {stop.alt}
             </span>
             <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-secondary text-muted-foreground font-semibold">
-              <Clock size={14} /> Sosta tipica: {stop.stopDuration}
+              <Clock size={14} /> {t('activities.typicalStop', 'Sosta tipica')}: {stop.stopDuration}
             </span>
           </div>
 
@@ -446,11 +447,23 @@ function StopCard({ stop, seasonKey, index }) {
 }
 
 export default function ComeSalire() {
+  const { t, tm } = useI18n();
   const [selectedSeason, setSelectedSeason] = useState(getInitialSeasonKey());
+  const seasons = useMemo(
+    () =>
+      DEFAULT_SEASONS.map((season) => ({
+        ...season,
+        label: t(`activities.seasons.${season.key}.label`, season.label),
+        range: t(`activities.seasons.${season.key}.range`, season.range),
+      })),
+    [t],
+  );
+  const seasonCopy = tm('activities.seasonCopy', DEFAULT_SEASON_COPY);
+  const stops = tm('activities.stops', DEFAULT_STOPS);
 
   const activeSeason = useMemo(() => {
-    return SEASONS.find((season) => season.key === selectedSeason) || SEASONS[0];
-  }, [selectedSeason]);
+    return seasons.find((season) => season.key === selectedSeason) || seasons[0];
+  }, [selectedSeason, seasons]);
   const ActiveIcon = activeSeason.icon;
 
   return (
@@ -462,22 +475,24 @@ export default function ComeSalire() {
           className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-primary/8 text-primary font-semibold text-sm mb-6"
         >
           <Sparkle weight="fill" size={16} />
-          Attività consigliate
+          {t('activities.badge', 'Attività consigliate')}
         </motion.div>
         <h1 className="text-5xl md:text-7xl font-serif font-bold tracking-[-0.03em] mb-6 text-foreground">
-          Cosa fare durante le fermate
+          {t('activities.title', 'Cosa fare durante le fermate')}
         </h1>
         <p className="text-xl text-muted-foreground leading-relaxed max-w-[60ch] mx-auto">
-          Seleziona la stagione e scopri cosa fare nelle città in cui il treno si ferma,
-          con suggerimenti calibrati sulla durata della sosta.
+          {t(
+            'activities.subtitle',
+            'Seleziona la stagione e scopri cosa fare nelle città in cui il treno si ferma, con suggerimenti calibrati sulla durata della sosta.',
+          )}
         </p>
         <p className="text-sm text-muted-foreground mt-4 italic">
-          Durate indicative: aggiorneremo gli orari appena disponibili.
+          {t('activities.note', 'Durate indicative: aggiorneremo gli orari appena disponibili.')}
         </p>
       </div>
 
       <div className="max-w-4xl mx-auto mb-14">
-        <SeasonSelector selectedSeason={selectedSeason} onChange={setSelectedSeason} />
+        <SeasonSelector seasons={seasons} selectedSeason={selectedSeason} onChange={setSelectedSeason} t={t} />
         <motion.div
           key={selectedSeason}
           initial={{ opacity: 0, y: 8 }}
@@ -487,13 +502,13 @@ export default function ComeSalire() {
           <span className="w-7 h-7 rounded-xl bg-secondary flex items-center justify-center text-primary">
             <ActiveIcon size={14} weight="duotone" />
           </span>
-          <span>{SEASON_COPY[selectedSeason]}</span>
+          <span>{seasonCopy[selectedSeason]}</span>
         </motion.div>
       </div>
 
       <div className="flex flex-col gap-10">
-        {STOPS.map((stop, index) => (
-          <StopCard key={stop.id} stop={stop} seasonKey={selectedSeason} index={index} />
+        {stops.map((stop, index) => (
+          <StopCard key={stop.id} stop={stop} seasonKey={selectedSeason} index={index} t={t} />
         ))}
       </div>
     </div>
