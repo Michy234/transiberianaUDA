@@ -9,11 +9,16 @@ import {
   Scroll,
   Sparkle,
   StarFour,
-  Train,
   X,
 } from '@phosphor-icons/react';
 
 const CHAPTER_ICONS = [Scroll, Buildings, Sparkle, Mountains];
+const CHAPTER_ACCENTS = [
+  'rgba(212, 165, 116, 0.24)',
+  'rgba(107, 158, 126, 0.2)',
+  'rgba(242, 196, 196, 0.22)',
+  'rgba(107, 158, 126, 0.16)',
+];
 
 function scrollToSection(id) {
   const section = document.getElementById(id);
@@ -23,6 +28,7 @@ function scrollToSection(id) {
 
 function ChapterSection({ chapter, index, stopId, t }) {
   const Icon = CHAPTER_ICONS[index % CHAPTER_ICONS.length];
+  const accent = CHAPTER_ACCENTS[index % CHAPTER_ACCENTS.length];
   const anchorId = `story-${stopId}-${chapter.id}`;
 
   return (
@@ -55,24 +61,34 @@ function ChapterSection({ chapter, index, stopId, t }) {
           </p>
         </div>
 
-        <div className="rounded-[28px] border border-border/50 bg-background/75 p-5">
-          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-muted-foreground">
-            {t('storia.overlay.focus', 'Snodi')}
-          </p>
-          <p className="mt-3 text-base leading-relaxed text-foreground">{chapter.pullout}</p>
-          {chapter.callouts?.length ? (
-            <ul className="mt-5 flex flex-col gap-3">
-              {chapter.callouts.map((item) => (
-                <li key={item} className="flex items-start gap-3 text-sm text-foreground/85">
-                  <span className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/12 text-primary">
-                    <StarFour size={10} weight="fill" />
-                  </span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          ) : null}
-        </div>
+        <motion.div
+          whileHover={{ y: -2 }}
+          transition={{ duration: 0.2, ease: 'easeOut' }}
+          className="group relative overflow-hidden rounded-[28px] border border-border/50 bg-background/75 p-5"
+        >
+          <div
+            className="pointer-events-none absolute inset-0 opacity-90"
+            style={{
+              background: `radial-gradient(circle at top right, ${accent}, transparent 34%), linear-gradient(180deg, rgba(255,255,255,0.12), transparent 72%)`,
+            }}
+          />
+          <div className="pointer-events-none absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-2xl border border-border/50 bg-card/78 text-primary shadow-[var(--shadow-subtle)] transition-transform duration-300 group-hover:scale-105">
+            <Icon size={16} weight="duotone" />
+          </div>
+
+          <div className="relative">
+            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-muted-foreground">
+              {t('storia.overlay.focus', 'Curiosità')}
+            </p>
+            <p className="mt-3 max-w-[24ch] text-base leading-relaxed text-foreground">{chapter.pullout}</p>
+
+            <div className="mt-6 flex items-center gap-3 text-primary/65" aria-hidden="true">
+              <span className="h-2.5 w-2.5 rounded-full bg-primary/55 shadow-[0_0_0_4px_rgba(107,158,126,0.08)]" />
+              <span className="h-px flex-1 bg-gradient-to-r from-primary/35 via-primary/15 to-transparent" />
+              <span className="h-1.5 w-1.5 rounded-full bg-accent-warm/70" />
+            </div>
+          </div>
+        </motion.div>
       </div>
     </motion.section>
   );
@@ -324,36 +340,6 @@ function ImmersiveExperience({ stop, t }) {
               </div>
             </motion.section>
 
-            <motion.section
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45, ease: 'easeOut', delay: 0.1 }}
-              className="relative overflow-hidden rounded-[32px] border border-border/60 bg-card/80 p-6 shadow-[var(--shadow-elevated)] md:p-8"
-            >
-              <div
-                className="absolute inset-0 opacity-90"
-                style={{
-                  background:
-                    'radial-gradient(circle at right top, rgba(107, 158, 126, 0.24), transparent 34%), radial-gradient(circle at left bottom, rgba(212, 165, 116, 0.22), transparent 30%)',
-                }}
-              />
-              <div className="relative flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-                <div className="max-w-[48ch]">
-                  <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-background/72 text-primary">
-                    <Train size={22} weight="fill" />
-                  </div>
-                  <h3 className="mt-5 text-3xl font-serif font-bold tracking-tight text-foreground">
-                    {experience.closing?.title}
-                  </h3>
-                  <p className="mt-4 text-base leading-relaxed text-muted-foreground md:text-lg">
-                    {experience.closing?.body}
-                  </p>
-                </div>
-                <div className="rounded-[24px] border border-border/60 bg-background/72 px-5 py-4 text-sm font-semibold text-foreground/85">
-                  {t('storia.overlay.finalNote', 'Il primo capitolo è una soglia: da qui la storia prende ritmo, materia e paesaggio.')}
-                </div>
-              </div>
-            </motion.section>
           </div>
         </div>
       </div>

@@ -51,7 +51,7 @@ const storiaStops = [
           id: 'sapori',
           title: 'Sapori',
           body:
-            'Sulmona è famosa in tutta Italia per la produzione dei confetti, dolci a base di mandorla ricoperta di zucchero realizzati artigianalmente e spesso disposti in composizioni decorative a forma di fiore. La cucina locale comprende anche piatti a base di legumi come lenticchie e ceci, maccheroni alla chitarra, carni di agnello e pecora e dolci tipici come torcinelli e calcionetti abruzzesi.',
+            'Sulmona è famosa in tutta Italia per la produzione dei confetti, dolci a base di mandorla ricoperta di zucchero realizzati artigianalmente e spesso disposti in composizioni decorative a forma di fiore. La cucina locale comprende anche piatti a base di legumi come lenticchie e ceci, maccheroni alla chitarra, carni di agnello e pecora e dolci tipici abruzzesi, come torcinelli e calcionetti abruzzesi.',
           pullout: 'Questi sapori riflettono una tradizione rurale che combina semplicità, ingredienti locali e tecniche di preparazione antiche.',
           callouts: ['Confetti artigianali', 'Maccheroni alla chitarra', 'Agnello e pecora', 'Torcinelli e calcionetti'],
         },
