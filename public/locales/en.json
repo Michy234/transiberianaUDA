@@ -160,45 +160,46 @@
       "tail": "through the Apennines"
     },
     "subtitle": "Designed in the late nineteenth century, the Sulmona-Isernia railway is a masterpiece of civil engineering that connected mountain communities before becoming Italy's most iconic tourist rail line.",
+    "readCta": "Read the story",
     "cards": [
       {
         "id": 1,
         "label": "Stop 01",
         "title": "Sulmona",
-        "summary": "This is where the railway project took shape, linking the Apennine interior with the main hubs of central Italy.",
-        "story": "Sulmona is the threshold of the Transiberiana d'Abruzzo: a railway, commercial and cultural town from which the idea of connecting mountain territories that were once difficult to reach first emerged. The station quickly became a strategic point for freight, passengers and exchanges with the wider national network, marking the beginning of an economic and social transformation for the whole area.",
+        "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse vitae urna a justo vulputate gravida.",
+        "story": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse vitae urna a justo vulputate gravida. Integer nec felis at ipsum dignissim laoreet. Donec sed aliquet lorem. Proin interdum, ipsum vel suscipit semper, arcu nisl commodo neque, eu tristique massa eros id felis. Curabitur ac massa a ex consectetur consequat. Maecenas vel malesuada lectus, quis aliquam augue.",
         "image": "https://placehold.co/1200x900?text=Sulmona"
       },
       {
         "id": 2,
         "label": "Stop 02",
         "title": "Campo di Giove",
-        "summary": "Between tunnels, steep gradients and snow, this section tells the most ambitious technical challenge of the entire line.",
-        "story": "Campo di Giove represents one of the toughest tests faced by the engineers of the Sulmona-Isernia line. Here the railway climbs in altitude across exposed slopes, harsh winters and strong temperature swings. Bringing the tracks this high required complex structural solutions, but it made a stable connection possible for communities that until then had lived in relative isolation.",
+        "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean luctus, neque nec pulvinar sagittis.",
+        "story": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean luctus, neque nec pulvinar sagittis, purus massa cursus massa, in pellentesque velit lectus a metus. Praesent suscipit quam id libero sollicitudin, at interdum lacus luctus. Sed non tortor sit amet nisi tempus consequat. Nulla facilisi.",
         "image": "https://placehold.co/1200x900?text=Campo+di+Giove"
       },
       {
         "id": 3,
         "label": "Stop 03",
         "title": "Palena",
-        "summary": "In the heart of the mountains, the line reveals its most spectacular and at the same time most fragile side.",
-        "story": "Palena, with its rugged and open landscape, is one of the places where the Transiberiana d'Abruzzo shows its full scenic power. But it is also one of the most delicate points: climate, altitude and maintenance have always demanded great care. Here you can feel the deeper meaning of the line, suspended between public service, territorial presence and landscape wonder.",
+        "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque habitant morbi tristique senectus et netus.",
+        "story": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas id feugiat ligula, sed efficitur leo. Curabitur congue maximus mi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.",
         "image": "https://placehold.co/1200x900?text=Palena"
       },
       {
         "id": 4,
         "label": "Stop 04",
         "title": "Roccaraso",
-        "summary": "With the tourism boom of the twentieth century, the railway also became a gateway to the mountains and to the ski season.",
-        "story": "Roccaraso marks the transition from a simple transport link to a driver of tourism development. Throughout the twentieth century, the train helped the resort grow first as a climatic destination and then as a ski destination, bringing visitors, families and mountain lovers. The railway was no longer only a means of travel: it became part of the journey itself.",
+        "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam at enim non nisl bibendum tristique.",
+        "story": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam at enim non nisl bibendum tristique. Sed dignissim, lectus a tincidunt posuere, leo arcu suscipit tortor, et accumsan lectus erat non justo. Morbi in mi sed mauris feugiat feugiat et ut lorem.",
         "image": "https://placehold.co/1200x900?text=Roccaraso"
       },
       {
         "id": 5,
         "label": "Stop 05",
         "title": "Castel di Sangro",
-        "summary": "The terminus tells the line's recent rebirth, now a symbol of rail tourism and shared memory.",
-        "story": "Castel di Sangro is the natural endpoint of the line's historical narrative. After regular service was suspended, the rebirth of the Transiberiana d'Abruzzo as a tourist train restored meaning and visibility to the whole route. Today the journey is not only about moving from one place to another: it is heritage, landscape and shared memory, capable of attracting new visitors without losing its historical identity.",
+        "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque luctus posuere egestas.",
+        "story": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque luctus posuere egestas. Aliquam erat volutpat. Mauris interdum libero nec feugiat ultrices. Morbi sit amet est vitae lorem fermentum luctus. Duis in gravida velit, eget consectetur nulla.",
         "image": "https://placehold.co/1200x900?text=Castel+di+Sangro"
       }
     ],

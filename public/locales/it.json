@@ -31,5 +31,8 @@
   "lang": {
     "toggle": "Cambia lingua",
     "label": "Seleziona lingua"
+  },
+  "storia": {
+    "readCta": "Leggi la storia"
   }
 }

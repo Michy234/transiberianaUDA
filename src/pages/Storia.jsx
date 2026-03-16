@@ -8,7 +8,12 @@ export default function Storia() {
   const { scrollYProgress } = useScroll();
   const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
   const { t, tm } = useI18n();
-  const stops = tm('storia.cards', storiaStops);
+  const localizedStops = tm('storia.cards', storiaStops);
+  const stops = storiaStops.map((base) => ({
+    ...base,
+    ...(localizedStops?.find((item) => item.id === base.id) || {}),
+    image: base.image,
+  }));
 
   useEffect(() => {
     if (!activeStop) return;
@@ -72,7 +77,7 @@ export default function Storia() {
                 <h3 className="text-2xl font-bold tracking-tight text-foreground mb-3">{stop.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{stop.summary}</p>
                 <div className="mt-4 inline-flex items-center gap-2 text-xs font-semibold text-primary/90">
-                  <span>Leggi la storia</span>
+                  <span>{t('storia.readCta', 'Leggi la storia')}</span>
                   <span className="transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">→</span>
                 </div>
               </div>
