@@ -50,6 +50,21 @@ export default function Storia() {
         </motion.p>
       </section>
 
+      <section className="px-6 pb-10">
+        <motion.div
+          initial={{ opacity: 0, scaleX: 0.92 }}
+          animate={{ opacity: 1, scaleX: 1 }}
+          transition={{ delay: 0.2, duration: 0.6, ease: 'easeOut' }}
+          className="max-w-4xl mx-auto"
+        >
+          <div className="flex items-center justify-center gap-4">
+            <span className="h-px w-full max-w-32 bg-gradient-to-r from-transparent via-primary/35 to-primary/10" aria-hidden="true" />
+            <span className="h-2 w-2 rounded-full bg-primary/45 shadow-[0_0_0_6px_rgba(107,158,126,0.08)]" aria-hidden="true" />
+            <span className="h-px w-full max-w-32 bg-gradient-to-l from-transparent via-primary/35 to-primary/10" aria-hidden="true" />
+          </div>
+        </motion.div>
+      </section>
+
       <section className="py-24 px-6 max-w-6xl mx-auto relative">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {stops.map((stop, index) => (
