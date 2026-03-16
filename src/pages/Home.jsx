@@ -81,11 +81,10 @@ export default function Home() {
           <img
             src="/photos/storia/transiberiana.jpg"
             alt=""
-            className="h-full w-full object-cover"
+            className="h-full w-full object-cover blur-[2px]"
             loading="eager"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-background/85 via-background/65 to-background/35" />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/5 via-transparent to-background/55" />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/5 via-transparent to-background/40" />
         </div>
 
         {/* Left Content (55%) */}
@@ -107,7 +106,7 @@ export default function Home() {
               d'Abruzzo
             </h1>
             
-            <p className="text-lg md:text-xl text-foreground/90 leading-relaxed max-w-[50ch] mb-10 mx-auto lg:mx-0 bg-white/80 backdrop-blur-sm px-4 py-3 rounded-2xl shadow-[var(--shadow-subtle)] lg:bg-transparent lg:backdrop-blur-0 lg:px-0 lg:py-0 lg:shadow-none">
+            <p className="text-lg md:text-xl text-foreground/90 leading-relaxed max-w-[50ch] mb-10 mx-auto lg:mx-0 bg-white/80 dark:bg-background/70 backdrop-blur-sm px-4 py-3 rounded-2xl shadow-[var(--shadow-subtle)] lg:bg-transparent lg:dark:bg-transparent lg:backdrop-blur-0 lg:px-0 lg:py-0 lg:shadow-none">
               Un'esperienza autentica a bordo di carrozze d'epoca. Attraversa i Parchi Nazionali e i borghi più belli dell'Appennino Centrale.
             </p>
 
