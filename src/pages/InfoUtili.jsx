@@ -38,7 +38,7 @@ export default function InfoUtili() {
             href={TRIPADVISOR_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 px-5 py-3 rounded-full bg-[#00AA6C] text-white font-bold shadow-[var(--shadow-button)] hover:brightness-110 active:brightness-95 transition-all duration-200"
+            className="inline-flex items-center gap-3 px-5 py-3 rounded-full bg-[#00AA6C] text-white font-bold shadow-[var(--shadow-button)] hover:brightness-110 active:brightness-95 transition-all duration-200 mb-6"
             aria-label={t('info.tripadvisorAria', 'Apri le recensioni su TripAdvisor (si apre in una nuova scheda)')}
           >
             <span className="w-9 h-9 rounded-full bg-white/95 flex items-center justify-center shrink-0" aria-hidden="true">
