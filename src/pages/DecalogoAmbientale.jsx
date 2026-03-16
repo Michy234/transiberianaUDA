@@ -3,100 +3,12 @@ import { motion } from 'framer-motion';
 import { Leaf, Tree, Sun, MapPin, CloudSun, Sparkle, Train, Wind } from '@phosphor-icons/react';
 import { useI18n } from '../i18n/index.jsx';
 
-const ECO_DECALOGO = [
-  {
-    title: "Le 3 R: Riduci, Riusa, Ricicla",
-    body: "Produci meno rifiuti, riutilizza quello che puoi e fai bene la raccolta differenziata. Gli elettrodomestici e le batterie vanno all'isola ecologica, mai nell'indifferenziata.",
-  },
-  {
-    title: "Stop all'usa e getta e spiagge pulite",
-    body: "Usa borracce e borse di tela. Al mare porta via i tuoi rifiuti e usa un posacenere portatile: i mozziconi inquinano l'acqua e i pesci.",
-  },
-  {
-    title: "Risparmia acqua ed energia in casa",
-    body: "Spegni le luci, usa LED e non tenere il riscaldamento troppo alto. Chiudi il rubinetto mentre ti lavi i denti, ripara le perdite e non versare olio o vernici nel lavandino.",
-  },
-  {
-    title: "Muoviti in modo intelligente",
-    body: "Preferisci bicicletta, camminate e mezzi pubblici. Usare meno l'auto significa respirare un'aria più pulita.",
-  },
-  {
-    title: "Compra cibo locale e di stagione",
-    body: "Scegli prodotti del territorio per ridurre i trasporti. Mangiare un po' meno carne aiuta a risparmiare molta acqua e a inquinare meno.",
-  },
-  {
-    title: "Compra solo ciò che serve",
-    body: "Vestiti e oggetti costano molta energia alla natura. Compra il necessario, meglio se usato, ed evita packaging in eccesso.",
-  },
-  {
-    title: "Rispetta la natura selvaggia e i parchi",
-    body: "Rimani sui sentieri segnati, non lasciare sporco e non fare rumori forti (come con i droni) per non disturbare la fauna.",
-  },
-  {
-    title: "Pensa al futuro",
-    body: "Non possiamo prendere risorse senza restituire. L'obiettivo è curare la natura per lasciarla in salute a chi verrà dopo di noi.",
-  },
-  {
-    title: "Fai la tua parte e fai sentire la tua voce",
-    body: "Se vedi comportamenti scorretti, segnala. Partecipa alle giornate di pulizia di spiagge e parchi della tua zona.",
-  },
-  {
-    title: "Sii un custode, non un padrone",
-    body: "Il vero progresso è vivere in armonia con la natura, rispettandone gli equilibri per non danneggiare noi stessi.",
-  },
-];
-
-const DIGITAL_DECALOGO = {
-  hardware: [
-    {
-      title: "Ricicla e smaltisci correttamente i dispositivi elettronici",
-      body: "I RAEE contengono materiali preziosi e sostanze tossiche: portali alle isole ecologiche o nei negozi che ritirano l'usato.",
-    },
-    {
-      title: "Usa a lungo i tuoi dispositivi",
-      body: "Gran parte dell'impatto ambientale è nella produzione. Resisti al cambio continuo e prova a riparare prima di sostituire.",
-    },
-    {
-      title: "Spegni ciò che non usi",
-      body: "Il consumo \"fantasma\" dello standby pesa su bolletta e ambiente. Spegni il PC se non lo usi e stacca i caricabatterie.",
-    },
-    {
-      title: "Scegli dispositivi efficienti e sostenibili",
-      body: "Quando devi comprare, controlla l'efficienza energetica e valuta il ricondizionato per allungare la vita dei prodotti.",
-    },
-    {
-      title: "Stai attento a cosa stampi e quanto stampi",
-      body: "Carta e inchiostro hanno un costo ecologico elevato. Stampa solo se indispensabile e usa fronte-retro e bianco e nero.",
-    },
-  ],
-  etica: [
-    {
-      title: "Scegli motori di ricerca ecologici",
-      body: "Esistono alternative che investono i profitti in riforestazione o energie rinnovabili.",
-    },
-    {
-      title: "Limita il doomscrolling (e disconnettiti)",
-      body: "Scorrere all'infinito consuma dati e energia. Un detox digitale fa bene a te e all'ambiente.",
-    },
-    {
-      title: "Segna i siti tra i preferiti",
-      body: "Se visiti spesso un sito, salvalo nei segnalibri: eviti ricerche ripetute e traffico inutile.",
-    },
-    {
-      title: "Fai attenzione all'uso dell'Intelligenza Artificiale",
-      body: "Generare immagini o testi richiede molta energia. Usala per compiti complessi, non per ricerche banali.",
-    },
-    {
-      title: "Sensibilizza gli altri",
-      body: "L'inquinamento digitale è invisibile: condividi queste buone pratiche a scuola, in famiglia e con gli amici.",
-    },
-  ],
-};
-
 const ICONS = [Tree, Leaf, Sun, MapPin, CloudSun, Sparkle, Train, Wind];
 
 export default function DecalogoAmbientale() {
-  const { t } = useI18n();
+  const { t, tm } = useI18n();
+  const eco = tm('decalogo.eco', { items: [] });
+  const digital = tm('decalogo.digital', { hardware: [], ethics: [] });
 
   return (
     <div className="min-h-[100dvh] pt-32 pb-24 px-6 md:px-12 max-w-[1400px] mx-auto">
@@ -146,12 +58,16 @@ export default function DecalogoAmbientale() {
             <Tree size={20} weight="fill" />
           </div>
           <div>
-            <h2 className="text-2xl md:text-3xl font-serif font-bold text-foreground">Decalogo ambientale</h2>
-            <p className="text-sm text-muted-foreground">Per territorio, acqua, aria e biodiversità.</p>
+            <h2 className="text-2xl md:text-3xl font-serif font-bold text-foreground">
+              {t('decalogo.eco.title', 'Decalogo ambientale')}
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              {t('decalogo.eco.subtitle', 'Per territorio, acqua, aria e biodiversità.')}
+            </p>
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {ECO_DECALOGO.map((item, index) => {
+          {eco.items.map((item, index) => {
             const Icon = ICONS[index % ICONS.length];
             return (
               <motion.article
@@ -185,17 +101,23 @@ export default function DecalogoAmbientale() {
             <CloudSun size={20} weight="fill" />
           </div>
           <div>
-            <h2 className="text-2xl md:text-3xl font-serif font-bold text-foreground">Decalogo per la sostenibilità digitale</h2>
-            <p className="text-sm text-muted-foreground">Per dispositivi, energia e benessere online.</p>
+            <h2 className="text-2xl md:text-3xl font-serif font-bold text-foreground">
+              {t('decalogo.digital.title', 'Decalogo per la sostenibilità digitale')}
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              {t('decalogo.digital.subtitle', 'Per dispositivi, energia e benessere online.')}
+            </p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           <div className="lg:col-span-6">
             <div className="bg-accent/40 border border-border/70 rounded-3xl p-6 md:p-7 shadow-[var(--shadow-subtle)]">
-              <h3 className="text-lg font-bold text-foreground mb-4">Hardware e dispositivi fisici</h3>
+              <h3 className="text-lg font-bold text-foreground mb-4">
+                {t('decalogo.digital.hardwareTitle', 'Hardware e dispositivi fisici')}
+              </h3>
               <div className="space-y-4">
-                {DIGITAL_DECALOGO.hardware.map((item, index) => (
+                {digital.hardware.map((item, index) => (
                   <div key={item.title} className="flex gap-4">
                     <div className="w-9 h-9 rounded-xl bg-card text-primary flex items-center justify-center shrink-0">
                       <span className="text-sm font-bold">{index + 1}</span>
@@ -212,9 +134,11 @@ export default function DecalogoAmbientale() {
 
           <div className="lg:col-span-6">
             <div className="bg-card border border-border/70 rounded-3xl p-6 md:p-7 shadow-[var(--shadow-card)]">
-              <h3 className="text-lg font-bold text-foreground mb-4">Etica, consapevolezza e benessere digitale</h3>
+              <h3 className="text-lg font-bold text-foreground mb-4">
+                {t('decalogo.digital.ethicsTitle', 'Etica, consapevolezza e benessere digitale')}
+              </h3>
               <div className="space-y-4">
-                {DIGITAL_DECALOGO.etica.map((item, index) => (
+                {digital.ethics.map((item, index) => (
                   <div key={item.title} className="flex gap-4">
                     <div className="w-9 h-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
                       <span className="text-sm font-bold">{index + 6}</span>

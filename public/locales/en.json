@@ -27,6 +27,102 @@
       "kicker": "Small actions",
       "title": "Real impact",
       "body": "Reduce waste, choose thoughtfully, and share good habits: every daily gesture can become a concrete step toward a cleaner future."
+    },
+    "eco": {
+      "title": "Environmental decalogue",
+      "subtitle": "For land, water, air, and biodiversity.",
+      "items": [
+        {
+          "title": "The 3 Rs: Reduce, Reuse, Recycle",
+          "body": "Create less waste, reuse what you can, and separate trash properly. Appliances and batteries must go to recycling centers, never the general bin."
+        },
+        {
+          "title": "Say no to single-use and keep beaches clean",
+          "body": "Use refillable bottles and cloth bags. At the sea, take your waste with you and use a pocket ashtray: cigarette butts pollute the water and fish."
+        },
+        {
+          "title": "Save water and energy at home",
+          "body": "Turn off lights, use LED bulbs, and avoid overheating your home. Close the tap while brushing your teeth, fix leaks, and never pour oil or paint into the sink."
+        },
+        {
+          "title": "Move smart",
+          "body": "Choose bikes, walking, and public transport. Fewer cars means cleaner air for everyone."
+        },
+        {
+          "title": "Buy local and seasonal food",
+          "body": "Pick local products to reduce transport emissions. Eating a bit less meat saves a lot of water and reduces pollution."
+        },
+        {
+          "title": "Buy only what you need",
+          "body": "Clothes and objects take a lot of energy to make. Buy only what you need, consider second-hand, and avoid excessive packaging."
+        },
+        {
+          "title": "Respect wild nature and parks",
+          "body": "Stay on marked trails, leave no litter, and avoid loud noises (like drones) to protect wildlife."
+        },
+        {
+          "title": "Think about the future",
+          "body": "We cannot keep taking resources without giving back. The goal is to care for nature and leave it healthy for those who come after us."
+        },
+        {
+          "title": "Do your part and speak up",
+          "body": "If you see pollution or littering, report it. Join local beach or park clean-up days when you can."
+        },
+        {
+          "title": "Be a guardian, not an owner",
+          "body": "True progress is living in harmony with nature and respecting its balance so we do not harm ourselves."
+        }
+      ]
+    },
+    "digital": {
+      "title": "Digital sustainability decalogue",
+      "subtitle": "For devices, energy, and online well-being.",
+      "hardwareTitle": "Hardware and physical devices",
+      "ethicsTitle": "Ethics, awareness, and digital well-being",
+      "hardware": [
+        {
+          "title": "Recycle and dispose of electronics properly",
+          "body": "E-waste contains valuable materials and toxic substances. Take it to recycling centers or stores that accept used devices."
+        },
+        {
+          "title": "Keep your devices longer",
+          "body": "Most impact comes from production. Resist constant upgrades and repair before replacing."
+        },
+        {
+          "title": "Turn off what you do not use",
+          "body": "Standby power adds up. Shut down your computer if you will not use it for hours and unplug chargers when full."
+        },
+        {
+          "title": "Choose efficient, sustainable devices",
+          "body": "When you must buy, check energy labels and consider refurbished devices to extend product life."
+        },
+        {
+          "title": "Print less and print smarter",
+          "body": "Paper and ink have a high ecological cost. Print only when necessary and use double-sided, black-and-white settings."
+        }
+      ],
+      "ethics": [
+        {
+          "title": "Choose eco-friendly search engines",
+          "body": "Some alternatives fund reforestation or renewable energy projects."
+        },
+        {
+          "title": "Limit doomscrolling (and disconnect)",
+          "body": "Endless scrolling consumes data and energy and harms well-being. A digital detox helps you and the environment."
+        },
+        {
+          "title": "Bookmark the sites you visit often",
+          "body": "Saving frequent sites reduces repeated searches and unnecessary data traffic."
+        },
+        {
+          "title": "Use AI with care",
+          "body": "Generating images or text requires significant energy. Use it for complex tasks, not trivial searches."
+        },
+        {
+          "title": "Raise awareness",
+          "body": "Digital pollution is invisible to many. Share these practices at school, at home, and with friends."
+        }
+      ]
     }
   },
   "home": {
