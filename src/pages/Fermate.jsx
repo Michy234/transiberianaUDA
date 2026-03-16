@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, ArrowRight, Train, Tree, NavigationArrow } from '@phosphor-icons/react';
 import { useI18n } from '../i18n/index.jsx';
+import ImageCredit from '../components/ImageCredit';
 
 const DEFAULT_STATIONS = [
   {
@@ -85,6 +86,18 @@ const TRAINLINE_ROUTE_OVERRIDES = [
     transportModes: 'coach',
   },
 ];
+
+function TrainlineLogo() {
+  return (
+    <img
+      src="https://static.trainlinecontent.com/content/vul/logos/trainline-mint.svg"
+      alt="Trainline"
+      className="h-7 w-auto"
+      loading="lazy"
+      decoding="async"
+    />
+  );
+}
 
 function buildTrainlineLink({ originCode, destinationCode, originName, destinationName, interfaceLang }) {
   if (!originCode || !destinationCode) {
@@ -248,6 +261,11 @@ export default function Fermate() {
                   className="h-full w-full object-cover"
                   loading="lazy"
                 />
+                <ImageCredit
+                  src={selectedStation.photo}
+                  className="absolute bottom-3 right-3 rounded-full bg-black/45 px-3 py-1 text-[10px] text-white/90"
+                  linkClassName="text-white/90 hover:text-white"
+                />
               </div>
               <motion.div
                 className="px-8 md:px-12 pt-8"
@@ -365,9 +383,15 @@ export default function Fermate() {
                     <div className="text-sm font-semibold text-muted-foreground">
                       {t('stops.trainline.poweredBy', 'Servizio biglietti fornito da')}
                     </div>
-                    <div className="flex items-center gap-2 rounded-full border border-border/60 bg-background px-4 py-1.5 text-sm font-bold tracking-[0.08em] text-foreground">
-                      trainline
-                    </div>
+                    <a
+                      href="https://www.thetrainline.com/"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center"
+                      aria-label="Trainline"
+                    >
+                      <TrainlineLogo />
+                    </a>
                   </div>
 
                 </div>

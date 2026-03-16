@@ -6,6 +6,7 @@ import { gsap } from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import Journey from './Journey';
 import { useI18n } from '../i18n/index.jsx';
+import ImageCredit from '../components/ImageCredit';
 
 gsap.registerPlugin(ScrollToPlugin);
 
@@ -177,6 +178,11 @@ export default function Home() {
               )} 
               className="object-cover w-full h-full"
               loading="eager"
+            />
+            <ImageCredit
+              src="/photos/storia/transiberiana.webp"
+              className="absolute top-4 right-4 rounded-full bg-black/45 px-3 py-1 text-[10px] text-white/90"
+              linkClassName="text-white/90 hover:text-white"
             />
 
             {/* Warm Floating Stats Card (desktop) */}

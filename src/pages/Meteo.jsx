@@ -5,6 +5,7 @@ import { useTheme } from '../components/ThemeContext';
 import WeatherChart from '../components/WeatherChart';
 import { fetchCurrentConditions, STATIONS } from '../api/openmeteo';
 import { useI18n } from '../i18n/index.jsx';
+import ImageCredit from '../components/ImageCredit';
 
 /* ——— States ——— */
 const STATES = { LOADING: 'loading', READY: 'ready', ERROR: 'error', EMPTY: 'empty' };
@@ -43,10 +44,10 @@ function CityWeatherCard({ city, data, delay, t }) {
           <img
             src={photoSrc}
             alt=""
-            className="absolute inset-0 w-full h-full object-cover scale-110 blur-[2px] opacity-30"
+            className="absolute inset-0 w-full h-full object-cover scale-105 blur-[1px] opacity-55"
             loading="lazy"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/60 to-background/25" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background/55 via-background/30 to-transparent" />
         </div>
       )}
       <div className="relative z-10">
@@ -74,6 +75,13 @@ function CityWeatherCard({ city, data, delay, t }) {
           {city.altitude}m • {t('meteo.cards.forecastCta', 'Clicca per previsioni complete')}
         </p>
       </div>
+      {photoSrc ? (
+        <ImageCredit
+          src={photoSrc}
+          className="absolute top-3 right-3 rounded-full bg-black/45 px-2 py-0.5 text-[9px] text-white/90"
+          linkClassName="text-white/90 hover:text-white"
+        />
+      ) : null}
     </motion.a>
   );
 }
@@ -302,6 +310,27 @@ export default function Meteo() {
               <div className="bg-card rounded-3xl p-6 shadow-[var(--shadow-card)] border border-border/30">
                 <h2 className="font-serif text-2xl font-bold mb-6 text-foreground">{t('meteo.chart.title', 'Andamento meteo')}</h2>
                 <WeatherChart />
+                <div className="mt-4 text-[11px] text-muted-foreground flex flex-wrap items-center gap-2">
+                  <span>Fonte dati meteo:</span>
+                  <a
+                    href="https://open-meteo.com/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="underline underline-offset-2 hover:text-foreground"
+                  >
+                    Open-Meteo
+                  </a>
+                  <span className="text-muted-foreground/60">•</span>
+                  <span>Qualità aria:</span>
+                  <a
+                    href="https://open-meteo.com/en/docs/air-quality-api"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="underline underline-offset-2 hover:text-foreground"
+                  >
+                    Open-Meteo Air Quality
+                  </a>
+                </div>
               </div>
             </motion.div>
           </motion.div>

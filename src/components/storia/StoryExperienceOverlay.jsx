@@ -11,6 +11,7 @@ import {
   StarFour,
   X,
 } from '@phosphor-icons/react';
+import ImageCredit from '../ImageCredit';
 
 const CHAPTER_ICONS = [Scroll, Buildings, Sparkle, Mountains];
 const CHAPTER_ACCENTS = [
@@ -180,7 +181,12 @@ function ImmersiveExperience({ stop, t }) {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#120f0c]/80 via-[#120f0c]/10 to-transparent" />
               <figcaption className="absolute inset-x-0 bottom-0 p-6 text-sm font-medium text-white/88 md:text-base">
-                {gallery[0].caption}
+                <div>{gallery[0].caption}</div>
+                <ImageCredit
+                  src={gallery[0].src}
+                  className="mt-2 text-[10px] text-white/80"
+                  linkClassName="text-white/90 hover:text-white"
+                />
               </figcaption>
             </figure>
 
@@ -197,7 +203,12 @@ function ImmersiveExperience({ stop, t }) {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#120f0c]/72 via-transparent to-transparent" />
                 <figcaption className="absolute inset-x-0 bottom-0 p-5 text-sm font-medium text-white/88">
-                  {item.caption}
+                  <div>{item.caption}</div>
+                  <ImageCredit
+                    src={item.src}
+                    className="mt-2 text-[10px] text-white/80"
+                    linkClassName="text-white/90 hover:text-white"
+                  />
                 </figcaption>
                 <div className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-background/80 text-foreground">
                   {index === 0 ? <Buildings size={16} weight="duotone" /> : <Sparkle size={16} weight="fill" />}
@@ -297,7 +308,14 @@ function ImmersiveExperience({ stop, t }) {
               <div className="mt-6 grid gap-4 md:grid-cols-3">
                 {gallery.map((item) => (
                   <figure key={item.id} className="overflow-hidden rounded-[28px] border border-border/60 bg-background/70">
-                    <img src={item.src} alt={item.alt} className="h-56 w-full object-cover" loading="lazy" />
+                    <div className="relative">
+                      <img src={item.src} alt={item.alt} className="h-56 w-full object-cover" loading="lazy" />
+                      <ImageCredit
+                        src={item.src}
+                        className="absolute bottom-3 right-3 rounded-full bg-black/45 px-3 py-1 text-[10px] text-white/90"
+                        linkClassName="text-white/90 hover:text-white"
+                      />
+                    </div>
                     <figcaption className="p-4 text-sm leading-relaxed text-muted-foreground">{item.caption}</figcaption>
                   </figure>
                 ))}
@@ -356,7 +374,12 @@ function FallbackExperience({ stop, t }) {
             <img src={stop.image} alt={stop.title} className="h-[420px] w-full object-cover md:h-[520px]" loading="lazy" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#120f0c]/78 via-[#120f0c]/12 to-transparent" />
             <figcaption className="absolute inset-x-0 bottom-0 p-6 text-base font-medium text-white/88">
-              {stop.summary}
+              <div>{stop.summary}</div>
+              <ImageCredit
+                src={stop.image}
+                className="mt-2 text-[10px] text-white/80"
+                linkClassName="text-white/90 hover:text-white"
+              />
             </figcaption>
           </figure>
 

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
+import ImageCredit from './ImageCredit';
 
 gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
 
@@ -241,11 +242,16 @@ export default function ScrollTelling() {
             }}
           >
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 rounded-full overflow-hidden shrink-0">
+              <div className="relative w-10 h-10 rounded-full overflow-hidden shrink-0">
                 <img 
                   src={`https://images.unsplash.com/photo-${city.imageId}?w=80&h=80&auto=format&fit=crop`}
                   alt={city.name}
                   className="w-full h-full object-cover"
+                />
+                <ImageCredit
+                  src={`https://images.unsplash.com/photo-${city.imageId}?w=80&h=80&auto=format&fit=crop`}
+                  className="absolute bottom-0 right-0 rounded-full bg-black/60 px-1.5 py-0.5 text-[8px] text-white/90"
+                  linkClassName="text-white/90 hover:text-white"
                 />
               </div>
               <h3 className="font-serif text-lg font-bold text-foreground">{city.name}</h3>

@@ -5,6 +5,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { useI18n } from '../i18n/index.jsx';
+import ImageCredit from '../components/ImageCredit';
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
@@ -118,13 +119,18 @@ function TimelineItem({ year, title, desc, reverse, imageId, stepId, reduceMotio
         whileInView={imageMotion.whileInView}
         viewport={{ once: true, margin: "-100px" }}
         transition={imageMotion.transition}
-        className="w-full md:w-5/12 aspect-[4/3] rounded-3xl bg-secondary overflow-hidden shadow-[var(--shadow-card)]"
+        className="w-full md:w-5/12 aspect-[4/3] rounded-3xl bg-secondary overflow-hidden shadow-[var(--shadow-card)] relative"
       >
          <img 
            src={`https://images.unsplash.com/photo-${imageId}?q=80&w=1200&auto=format&fit=crop`} 
            alt={`${title} - ${year}`} 
            className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
            loading="lazy"
+         />
+         <ImageCredit
+           src={`https://images.unsplash.com/photo-${imageId}?q=80&w=1200&auto=format&fit=crop`}
+           className="absolute bottom-3 right-3 rounded-full bg-black/45 px-3 py-1 text-[10px] text-white/90"
+           linkClassName="text-white/90 hover:text-white"
          />
       </motion.div>
     </div>

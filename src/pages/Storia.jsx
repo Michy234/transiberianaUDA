@@ -4,6 +4,7 @@ import { ArrowRight, Sparkle, StarFour } from '@phosphor-icons/react';
 import StoryExperienceOverlay from '../components/storia/StoryExperienceOverlay';
 import storiaStops from '../data/storiaStops';
 import { useI18n } from '../i18n/index.jsx';
+import ImageCredit from '../components/ImageCredit';
 
 function mergeStop(base, localized = {}) {
   const baseExperience = base.experience;
@@ -105,6 +106,14 @@ function StoryCard({ stop, index, onOpen, t }) {
             <ArrowRight size={16} weight="bold" className="transition-transform duration-300 group-hover:translate-x-1" />
           </div>
         </div>
+      </div>
+
+      <div className="absolute bottom-4 right-4 text-white/80">
+        <ImageCredit
+          src={stop.image}
+          className="text-[10px] text-white/80"
+          linkClassName="text-white/90 hover:text-white"
+        />
       </div>
     </motion.button>
   );
