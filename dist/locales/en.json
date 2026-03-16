@@ -155,57 +155,195 @@
   },
   "storia": {
     "title": {
-      "lead": "A century of",
-      "accent": "history",
-      "tail": "through the Apennines"
+      "lead": "History",
+      "accent": "opens",
+      "tail": "city by city"
     },
-    "subtitle": "Designed in the late nineteenth century, the Sulmona-Isernia railway is a masterpiece of civil engineering that connected mountain communities before becoming Italy's most iconic tourist rail line.",
-    "readCta": "Read the story",
+    "badge": "Narrative atlas",
+    "subtitle": "Each stop is no longer just a description: it opens as a visual, narrative and immersive chapter of the Transiberiana d'Abruzzo. Sulmona is the first complete prototype, and the same language will extend to the rest of the route.",
+    "panelLabel": "Creative direction",
+    "panelTitle": "Click, open, immerse",
+    "panelBody": "The redesign replaces the classic descriptive window with a full experience: editorial hero, chapters, visual cues and a narrative rhythm. Sulmona is the first fully built chapter.",
+    "enterCta": "Enter the city",
+    "featured": "Immersive experience",
     "cards": [
       {
         "id": 1,
-        "label": "Stop 01",
+        "label": "Chapter 01",
         "title": "Sulmona",
-        "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse vitae urna a justo vulputate gravida.",
-        "story": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse vitae urna a justo vulputate gravida. Integer nec felis at ipsum dignissim laoreet. Donec sed aliquet lorem. Proin interdum, ipsum vel suscipit semper, arcu nisl commodo neque, eu tristique massa eros id felis. Curabitur ac massa a ex consectetur consequat. Maecenas vel malesuada lectus, quis aliquam augue.",
-        "image": "https://placehold.co/1200x900?text=Sulmona"
+        "summary": "The narrative threshold of the journey: Ovid, artisanal sugared almonds and 21 arches cutting through the city's core.",
+        "story": "In the Peligna Valley, Sulmona weaves together Pelignian and Roman origins, medieval landmarks and still-vibrant public rituals. It is where the Transiberiana departs with a precise identity: cultured, theatrical and popular.",
+        "experience": {
+          "eyebrow": "Opening chapter",
+          "intro": "The city of sugared almonds and Ovid does not simply introduce the journey: it stages it.",
+          "body": "Between the Peligni, Rome and the Middle Ages, Sulmona builds an urban landscape where the aqueduct, Piazza Garibaldi, sugared almonds and major public celebrations give history a visible form.",
+          "quote": "Here history does not stay in the background: it becomes urban scenography.",
+          "heroBadges": [
+            "Peligna Valley",
+            "Publius Ovidius Naso",
+            "21 medieval arches",
+            "Artisanal sugared almonds"
+          ],
+          "stats": [
+            {
+              "label": "Origins",
+              "value": "Peligni and Rome"
+            },
+            {
+              "label": "Urban mark",
+              "value": "21 arches"
+            },
+            {
+              "label": "Patron saint",
+              "value": "San Panfilo"
+            },
+            {
+              "label": "Iconic rites",
+              "value": "Two major festivals"
+            }
+          ],
+          "chapters": [
+            {
+              "id": "radici",
+              "title": "Pelignian and Roman roots",
+              "body": "Long before becoming one of Abruzzo's most recognizable cities, Sulmona was a Peligni center and later a Roman municipium. Its position, between the Adriatic and the Apennine interior, made it a natural node for movement, trade and cultural influence.",
+              "pullout": "From this ancient urban fabric also emerges the name of Ovid, the city's most famous literary voice.",
+              "callouts": [
+                "People of the Peligni",
+                "Roman municipium",
+                "Birthplace of Publius Ovidius Naso"
+              ]
+            },
+            {
+              "id": "simboli",
+              "title": "Symbols that draw the city",
+              "body": "Sulmona's image is instantly recognizable: the medieval aqueduct crosses Piazza Garibaldi with a sequence of arches that sets the rhythm of public space, while San Panfilo Cathedral, historic churches and old palaces shape a compact, material and monumental center.",
+              "pullout": "Even sugared almonds, handmade and often arranged as flowers, act as identity architecture: small objects that tell the city as much as its stone does.",
+              "callouts": [
+                "13th-century medieval aqueduct",
+                "Piazza Garibaldi",
+                "San Panfilo Cathedral",
+                "Artisanal sugared almond tradition"
+              ]
+            },
+            {
+              "id": "riti",
+              "title": "Rites that ignite the square",
+              "body": "Sulmona does not only preserve the past: it reactivates it. The Giostra Cavalleresca turns summer into an urban reenactment of districts, challenge and ritual, while the Madonna che Scappa in Piazza renews every Easter a powerful collective gesture in which the square becomes the city's emotional center.",
+              "pullout": "Memory here is public, shared and spectacular: it happens in front of everyone.",
+              "callouts": [
+                "Giostra Cavalleresca",
+                "Madonna che Scappa in Piazza",
+                "Civic and religious ritual life"
+              ]
+            },
+            {
+              "id": "porta",
+              "title": "Gateway to Abruzzo",
+              "body": "Thanks to its position in the Peligna Valley and its proximity to mountains and Apennine parks, Sulmona is also a geographical threshold: from here you enter a landscape of hikes, plateaus and open nature. That is why it is the right place from which to begin the railway's story.",
+              "pullout": "Sulmona holds city and horizon together: stone in the center, ridgelines all around.",
+              "callouts": [
+                "Peligna Valley",
+                "Access to the Apennines",
+                "Ideal departure point of the Transiberiana"
+              ]
+            }
+          ],
+          "gallery": [
+            {
+              "id": "aq1",
+              "src": "/photos/storia/sulmona.webp",
+              "alt": "View of Sulmona with a historic urban atmosphere",
+              "caption": "A city to read in layers: stone, light and memory."
+            },
+            {
+              "id": "aq2",
+              "src": "/photos/storia/sulmona.webp",
+              "alt": "Placeholder detail for Sulmona architecture or craftsmanship",
+              "caption": "Space for an aqueduct, workshop or facade detail."
+            },
+            {
+              "id": "aq3",
+              "src": "/photos/storia/sulmona.webp",
+              "alt": "Placeholder for a public square or ritual scene in Sulmona",
+              "caption": "Space for a collective scene: square, festivity, presence."
+            }
+          ],
+          "rituals": [
+            {
+              "title": "Giostra Cavalleresca",
+              "tag": "Summer",
+              "desc": "The city's districts compete in a historical reenactment that turns Sulmona into a medieval stage set."
+            },
+            {
+              "title": "Madonna che Scappa in Piazza",
+              "tag": "Easter",
+              "desc": "The city's most famous rite stages the encounter between the Madonna and the risen Christ before a packed square."
+            },
+            {
+              "title": "Artisanal sugared almonds",
+              "tag": "Identity",
+              "desc": "More than a local product, they are a cultural sign: material memory, crafted gesture and the city's most immediate image."
+            }
+          ],
+          "closing": {
+            "title": "Why begin here",
+            "body": "Sulmona holds together classical heritage, medieval landmarks, craftsmanship and public ritual life. That is why, in the History tab, it should not feel like a simple description: it should behave like a narrative threshold."
+          }
+        }
       },
       {
         "id": 2,
-        "label": "Stop 02",
+        "label": "Chapter 02",
         "title": "Campo di Giove",
-        "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean luctus, neque nec pulvinar sagittis.",
-        "story": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean luctus, neque nec pulvinar sagittis, purus massa cursus massa, in pellentesque velit lectus a metus. Praesent suscipit quam id libero sollicitudin, at interdum lacus luctus. Sed non tortor sit amet nisi tempus consequat. Nulla facilisi.",
-        "image": "https://placehold.co/1200x900?text=Campo+di+Giove"
+        "summary": "Mountain village in the Majella Park, among beech woods, stone and wide-open Apennine views.",
+        "story": "At the heart of the Majella, Campo di Giove grew along ancient routes tied to trade and transhumance. Rebuilt after the 1706 earthquake, it now balances historic memory, mountain landscape and the slow identity of the Ferrovia dei Parchi."
       },
       {
         "id": 3,
-        "label": "Stop 03",
+        "label": "Chapter 03",
         "title": "Palena",
-        "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque habitant morbi tristique senectus et netus.",
-        "story": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas id feugiat ligula, sed efficitur leo. Curabitur congue maximus mi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.",
-        "image": "https://placehold.co/1200x900?text=Palena"
+        "summary": "Mountain village near the Forchetta pass, close to one of the line's most panoramic stretches.",
+        "story": "Palena developed around a medieval stronghold overlooking the Aventino valley. Today it combines its Ducal Castle, the geo-palaeontological museum and the wild scenery of the Majella along one of the Sulmona-Isernia's most scenic passages."
       },
       {
         "id": 4,
-        "label": "Stop 04",
+        "label": "Chapter 04",
         "title": "Roccaraso",
-        "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam at enim non nisl bibendum tristique.",
-        "story": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam at enim non nisl bibendum tristique. Sed dignissim, lectus a tincidunt posuere, leo arcu suscipit tortor, et accumsan lectus erat non justo. Morbi in mi sed mauris feugiat feugiat et ut lorem.",
-        "image": "https://placehold.co/1200x900?text=Roccaraso"
+        "summary": "The line's alpine threshold and the main access point to Alto Sangro's lifts and landscapes.",
+        "story": "Roccaraso is one of Abruzzo's mountain tourism icons. On the railway it marks the transition to a higher, brighter landscape, visited in winter for snow and in summer for cool air, forests and plateaus."
       },
       {
         "id": 5,
-        "label": "Stop 05",
+        "label": "Chapter 05",
         "title": "Castel di Sangro",
-        "summary": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque luctus posuere egestas.",
-        "story": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque luctus posuere egestas. Aliquam erat volutpat. Mauris interdum libero nec feugiat ultrices. Morbi sit amet est vitae lorem fermentum luctus. Duis in gravida velit, eget consectetur nulla.",
-        "image": "https://placehold.co/1200x900?text=Castel+di+Sangro"
+        "summary": "A center of the Alto Sangro between medieval streets, art collections and strong tourist energy.",
+        "story": "Born as a fortified passage between Abruzzo and Molise, Castel di Sangro preserves a historic stone center, Santa Maria Assunta Basilica, the Civic Museum and the Patiniana Gallery. Today it remains a cultural and tourist hub of the valley."
       }
     ],
     "openAria": "Open story of {{title}}",
     "closeOverlay": "Close dialog",
-    "close": "Close"
+    "overlay": {
+      "startJourney": "Start the chapter",
+      "focus": "Focus",
+      "chapters": "Chapters",
+      "cityPulse": "Living signs",
+      "gallery": "Scenes to elevate",
+      "galleryTitle": "Sulmona's visual material",
+      "rituals": "Rituals and identity markers",
+      "ritualsTitle": "What the city puts back on stage",
+      "finalNote": "The first chapter is a threshold: from here history gains rhythm, material and landscape.",
+      "preview": "Narrative sheet",
+      "previewStatus": "Format",
+      "previewStatusValue": "Compact sheet",
+      "previewFocus": "Reading mode",
+      "previewFocusValue": "Visual and textual summary",
+      "placeholderNote": "For now this city opens in a compact format, with a narrative summary designed to accompany the journey.",
+      "dialogAria": "City experience",
+      "back": "Back to cities",
+      "mode": "Immersive experience",
+      "city": "City"
+    }
   },
   "stops": {
     "title": "Stops",
@@ -695,7 +833,9 @@
       "metrics": {
         "temperature": "Temperature (°C)",
         "humidity": "Humidity (%)",
-        "pressure": "Pressure (hPa)"
+        "airQuality": "Air quality (AQI)",
+        "co2": "CO2 (ppm)",
+        "ammonia": "NH3 (µg/m³)"
       },
       "periods": {
         "24h": "24 hours",
