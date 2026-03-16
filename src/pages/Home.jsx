@@ -77,7 +77,7 @@ export default function Home() {
       {/* Asymmetric Hero */}
       <section className="min-h-[100dvh] w-full flex flex-col lg:flex-row relative">
         {/* Left Content (55%) */}
-        <div className="w-full lg:w-[55%] flex flex-col justify-center px-6 md:px-12 lg:px-20 pt-3 lg:pt-32 pb-16 z-10 relative order-2 lg:order-1 -mt-4 lg:mt-0">
+        <div className="w-full lg:w-[55%] flex flex-col justify-center px-6 md:px-12 lg:px-20 pt-0 lg:pt-32 pb-16 z-10 relative order-2 lg:order-1 -mt-6 lg:mt-0">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -156,7 +156,7 @@ export default function Home() {
         </div>
 
         {/* Right Image (45%) with overlap */}
-        <div className="w-full lg:w-[45%] min-h-[64vh] sm:min-h-[52vh] lg:min-h-0 relative px-4 sm:px-6 lg:px-8 py-1 sm:py-3 md:py-6 lg:py-8 flex items-center justify-center order-1 lg:order-2">
+        <div className="w-full lg:w-[45%] min-h-[64vh] sm:min-h-[52vh] lg:min-h-0 relative px-4 sm:px-6 lg:px-8 pt-2 pb-0 sm:pt-3 sm:pb-0 md:py-6 lg:py-8 flex items-center justify-center order-1 lg:order-2">
           <motion.div 
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
