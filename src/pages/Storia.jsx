@@ -45,7 +45,7 @@ export default function Storia() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ delay: index * 0.05, type: 'spring', stiffness: 120, damping: 18 }}
-              className="group text-left rounded-3xl border border-border/70 bg-card/70 backdrop-blur-xl shadow-[var(--shadow-card)] overflow-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-background hover:shadow-[var(--shadow-elevated)] transition-all"
+              className="group text-left rounded-3xl border border-border/70 bg-card/70 backdrop-blur-xl shadow-[var(--shadow-card)] overflow-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-background hover:shadow-[var(--shadow-elevated)] hover:-translate-y-0.5 transition-all cursor-pointer"
               aria-label={`Apri storia di ${stop.title}`}
             >
               <div className="relative h-40 w-full overflow-hidden">
@@ -60,6 +60,10 @@ export default function Storia() {
                 <div className="text-primary font-serif text-xl font-bold italic mb-2">{stop.label}</div>
                 <h3 className="text-2xl font-bold tracking-tight text-foreground mb-3">{stop.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{stop.summary}</p>
+                <div className="mt-4 inline-flex items-center gap-2 text-xs font-semibold text-primary/90">
+                  <span>Leggi la storia</span>
+                  <span className="transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">→</span>
+                </div>
               </div>
             </motion.button>
           ))}
