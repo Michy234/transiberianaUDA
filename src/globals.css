@@ -348,6 +348,7 @@
   width: 100%;
   overflow: hidden;
   margin: 0 auto;
+  min-height: clamp(56px, 6vw, 88px);
 }
 
 .sponsor-track {
@@ -355,6 +356,7 @@
   width: 200%;
   align-items: center;
   animation: sponsor-slide 24s linear infinite;
+  min-height: clamp(56px, 6vw, 88px);
 }
 
 .sponsor-track-inner {
@@ -388,6 +390,7 @@
   width: auto;
   max-width: 180px;
   object-fit: contain;
+  display: block;
 }
 
 @media (prefers-reduced-motion: reduce) {
