@@ -195,7 +195,7 @@ export default function Home() {
                       rel="noreferrer"
                       className="sponsor-item sponsor-link"
                     >
-                      <img src={logo.src} alt={logo.alt} loading="lazy" />
+                      <img src={logo.src} alt={logo.alt} loading="eager" decoding="async" />
                     </a>
                   ))}
                 </div>
@@ -210,7 +210,7 @@ export default function Home() {
                       tabIndex={-1}
                       aria-hidden="true"
                     >
-                      <img src={logo.src} alt="" loading="lazy" />
+                      <img src={logo.src} alt="" loading="eager" decoding="async" />
                     </a>
                   ))}
                 </div>
