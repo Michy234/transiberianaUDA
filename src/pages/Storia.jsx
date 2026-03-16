@@ -150,47 +150,22 @@ export default function Storia() {
       />
 
       <section className="relative px-6 pb-12 pt-36 md:px-8">
-        <div className="mx-auto grid max-w-7xl gap-8 xl:grid-cols-[1.15fr_0.85fr] xl:items-end">
+        <div className="mx-auto max-w-7xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="max-w-[62rem]"
+            className="mx-auto max-w-[62rem] text-center"
           >
-            <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/75 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground shadow-[var(--shadow-subtle)]">
-              <Sparkle size={14} weight="fill" className="text-primary" />
-              {t('storia.badge', 'Atlante narrativo')}
-            </div>
-
-            <h1 className="mt-6 text-5xl font-serif font-bold tracking-[-0.04em] text-foreground md:text-7xl">
+            <h1 className="text-5xl font-serif font-bold tracking-[-0.04em] text-foreground md:text-7xl">
               {t('storia.title.lead', 'La storia')}{' '}
               <span className="italic text-primary/80">{t('storia.title.accent', 'si apre')}</span>{' '}
               {t('storia.title.tail', 'città per città')}
             </h1>
 
-            <p className="mt-6 max-w-[58ch] text-lg leading-relaxed text-muted-foreground md:text-xl">
+            <p className="mx-auto mt-6 max-w-[58ch] text-lg leading-relaxed text-muted-foreground md:text-xl">
               {t(
                 'storia.subtitle',
                 "Ogni tappa non si legge soltanto: si apre come un capitolo narrativo, visivo e immersivo della Transiberiana d'Abruzzo. Inizia da Sulmona, poi estenderemo lo stesso linguaggio al resto del percorso.",
-              )}
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="rounded-[32px] border border-border/60 bg-card/72 p-6 shadow-[var(--shadow-card)] backdrop-blur-xl md:p-8"
-          >
-            <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground">
-              {t('storia.panelLabel', 'Direzione creativa')}
-            </p>
-            <h2 className="mt-4 text-2xl font-serif font-bold tracking-tight text-foreground md:text-3xl">
-              {t('storia.panelTitle', 'Click, apertura, immersione')}
-            </h2>
-            <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-              {t(
-                'storia.panelBody',
-                'Il redesign sostituisce la classica finestra descrittiva con un’esperienza piena: hero editoriale, capitoli, segnali visivi e ritmo narrativo. Sulmona è il primo prototipo completo.',
               )}
             </p>
           </motion.div>
