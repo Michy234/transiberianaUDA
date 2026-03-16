@@ -77,7 +77,7 @@ export default function Home() {
       {/* Asymmetric Hero */}
       <section className="min-h-[100dvh] w-full flex flex-col lg:flex-row relative">
         {/* Left Content (55%) */}
-        <div className="w-full lg:w-[55%] flex flex-col justify-center px-6 md:px-12 lg:px-20 pt-32 pb-16 z-10 relative order-2 lg:order-1">
+        <div className="w-full lg:w-[55%] flex flex-col justify-center px-6 md:px-12 lg:px-20 pt-6 lg:pt-32 pb-16 z-10 relative order-2 lg:order-1">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -98,6 +98,37 @@ export default function Home() {
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-[50ch] mb-10">
               Un'esperienza autentica a bordo di carrozze d'epoca. Attraversa i Parchi Nazionali e i borghi più belli dell'Appennino Centrale.
             </p>
+
+            <motion.div
+              initial={{ y: 24, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.45, type: 'spring', stiffness: 90, damping: 18 }}
+              className="mb-8 bg-card/85 backdrop-blur-xl p-5 rounded-2xl shadow-[var(--shadow-card)] border border-border/40"
+            >
+              <div className="grid grid-cols-3 gap-4 text-foreground">
+                <div>
+                  <div className="text-muted-foreground text-xs font-semibold mb-1" style={{ fontVariant: 'small-caps' }}>Altitudine max</div>
+                  <div className="text-xl font-bold flex items-center gap-1.5" style={{ fontVariantNumeric: 'tabular-nums' }}>
+                    <Tree weight="fill" className="text-primary" size={18} />
+                    1.268m
+                  </div>
+                </div>
+                <div>
+                  <div className="text-muted-foreground text-xs font-semibold mb-1" style={{ fontVariant: 'small-caps' }}>Meteo live</div>
+                  <div className="text-xl font-bold flex items-center gap-1.5" style={{ fontVariantNumeric: 'tabular-nums' }}>
+                    <CloudRain weight="fill" className="text-primary-light" size={18} />
+                    8°C
+                  </div>
+                </div>
+                <div>
+                  <div className="text-muted-foreground text-xs font-semibold mb-1" style={{ fontVariant: 'small-caps' }}>Fermate</div>
+                  <div className="text-xl font-bold flex items-center gap-1.5" style={{ fontVariantNumeric: 'tabular-nums' }}>
+                    <MapPin weight="fill" className="text-wood" size={18} />
+                    21
+                  </div>
+                </div>
+              </div>
+            </motion.div>
 
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
               <button 
@@ -125,7 +156,7 @@ export default function Home() {
         </div>
 
         {/* Right Image (45%) with overlap */}
-        <div className="w-full lg:w-[45%] min-h-[50vh] lg:min-h-0 relative p-4 md:p-6 lg:p-8 flex items-center justify-center order-1 lg:order-2">
+        <div className="w-full lg:w-[45%] min-h-[50vh] lg:min-h-0 relative p-0 sm:p-4 md:p-6 lg:p-8 flex items-center justify-center order-1 lg:order-2">
           <motion.div 
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -138,38 +169,6 @@ export default function Home() {
               className="object-cover w-full h-full"
               loading="eager"
             />
-            
-            {/* Warm Floating Stats Card */}
-            <motion.div 
-              initial={{ y: 40, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.9, type: 'spring', stiffness: 100, damping: 20 }}
-              className="absolute bottom-6 left-6 right-6 z-20 bg-card/90 backdrop-blur-lg p-5 rounded-2xl shadow-[var(--shadow-card)] border border-border/40"
-            >
-              <div className="grid grid-cols-3 gap-4 text-foreground">
-                <div>
-                  <div className="text-muted-foreground text-xs font-semibold mb-1" style={{ fontVariant: 'small-caps' }}>Altitudine max</div>
-                  <div className="text-xl font-bold flex items-center gap-1.5" style={{ fontVariantNumeric: 'tabular-nums' }}>
-                    <Tree weight="fill" className="text-primary" size={18} />
-                    1.268m
-                  </div>
-                </div>
-                <div>
-                  <div className="text-muted-foreground text-xs font-semibold mb-1" style={{ fontVariant: 'small-caps' }}>Meteo live</div>
-                  <div className="text-xl font-bold flex items-center gap-1.5" style={{ fontVariantNumeric: 'tabular-nums' }}>
-                    <CloudRain weight="fill" className="text-primary-light" size={18} />
-                    8°C
-                  </div>
-                </div>
-                <div>
-                  <div className="text-muted-foreground text-xs font-semibold mb-1" style={{ fontVariant: 'small-caps' }}>Fermate</div>
-                  <div className="text-xl font-bold flex items-center gap-1.5" style={{ fontVariantNumeric: 'tabular-nums' }}>
-                    <MapPin weight="fill" className="text-wood" size={18} />
-                    21
-                  </div>
-                </div>
-              </div>
-            </motion.div>
           </motion.div>
         </div>
       </section>
