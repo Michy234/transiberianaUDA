@@ -10,7 +10,7 @@ const STATIONS = {
 };
 
 const VARS = 'temperature_2m,relative_humidity_2m,surface_pressure,precipitation';
-const AIR_QUALITY_VAR = 'european_aqi';
+const AIR_QUALITY_VARS = ['european_aqi', 'carbon_dioxide', 'ammonia'];
 const DEFAULT_TIMEOUT_MS = 12_000;
 
 async function fetchJson(url, { timeoutMs = DEFAULT_TIMEOUT_MS } = {}) {
@@ -68,7 +68,7 @@ export async function fetchStationData(stationKey, period) {
       + `&hourly=${VARS}&past_days=${pastDays}&forecast_days=1`
       + `&timezone=auto`;
     airUrl = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}`
-      + `&hourly=${AIR_QUALITY_VAR}&past_days=${pastDays}&forecast_days=1`
+      + `&hourly=${AIR_QUALITY_VARS.join(',')}&past_days=${pastDays}&forecast_days=1`
       + `&timezone=auto`;
   } else {
     url = `https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}`
@@ -76,7 +76,7 @@ export async function fetchStationData(stationKey, period) {
       + `&daily=temperature_2m_mean,precipitation_sum,relative_humidity_2m_max,surface_pressure_max`
       + `&timezone=auto`;
     airUrl = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}`
-      + `&hourly=${AIR_QUALITY_VAR}&start_date=${start}&end_date=${end}`
+      + `&hourly=${AIR_QUALITY_VARS.join(',')}&start_date=${start}&end_date=${end}`
       + `&timezone=auto`;
   }
 
@@ -109,18 +109,27 @@ export async function fetchStationData(stationKey, period) {
     }
 
     const airByTime = new Map();
-    if (airHourly?.time?.length && Array.isArray(airHourly[AIR_QUALITY_VAR])) {
+    if (airHourly?.time?.length) {
       for (let i = 0; i < airHourly.time.length; i++) {
-        airByTime.set(airHourly.time[i], airHourly[AIR_QUALITY_VAR][i]);
+        const time = airHourly.time[i];
+        const payload = {};
+        AIR_QUALITY_VARS.forEach((key) => {
+          payload[key] = airHourly?.[key]?.[i] ?? null;
+        });
+        airByTime.set(time, payload);
       }
     }
-    const airQuality = indices.map((i) => airByTime.get(h.time[i]) ?? null);
+    const airQuality = indices.map((i) => airByTime.get(h.time[i])?.european_aqi ?? null);
+    const co2 = indices.map((i) => airByTime.get(h.time[i])?.carbon_dioxide ?? null);
+    const ammonia = indices.map((i) => airByTime.get(h.time[i])?.ammonia ?? null);
 
     return {
       times:         indices.map(i => h.time[i]),
       temperature:   indices.map(i => h.temperature_2m[i]),
       humidity:      indices.map(i => h.relative_humidity_2m[i]),
       airQuality,
+      co2,
+      ammonia,
       precipitation: indices.map(i => h.precipitation[i]),
     };
   } else {
@@ -128,29 +137,39 @@ export async function fetchStationData(stationKey, period) {
     const airHourly = airJson?.hourly ?? null;
     const dailyBuckets = new Map();
 
-    if (airHourly?.time?.length && Array.isArray(airHourly[AIR_QUALITY_VAR])) {
+    if (airHourly?.time?.length) {
       for (let i = 0; i < airHourly.time.length; i++) {
         const time = airHourly.time[i];
-        const value = airHourly[AIR_QUALITY_VAR][i];
-        if (!Number.isFinite(value)) continue;
         const day = time.split('T')[0];
-        if (!dailyBuckets.has(day)) dailyBuckets.set(day, []);
-        dailyBuckets.get(day).push(value);
+        if (!dailyBuckets.has(day)) dailyBuckets.set(day, {});
+        const bucket = dailyBuckets.get(day);
+        AIR_QUALITY_VARS.forEach((key) => {
+          const value = airHourly?.[key]?.[i];
+          if (!Number.isFinite(value)) return;
+          if (!bucket[key]) bucket[key] = [];
+          bucket[key].push(value);
+        });
       }
     }
 
-    const airQuality = d.time.map((day) => {
-      const values = dailyBuckets.get(day);
+    const avgFor = (day, key) => {
+      const values = dailyBuckets.get(day)?.[key];
       if (!values || !values.length) return null;
       const sum = values.reduce((acc, v) => acc + v, 0);
       return sum / values.length;
-    });
+    };
+
+    const airQuality = d.time.map((day) => avgFor(day, 'european_aqi'));
+    const co2 = d.time.map((day) => avgFor(day, 'carbon_dioxide'));
+    const ammonia = d.time.map((day) => avgFor(day, 'ammonia'));
 
     return {
       times:         d.time,
       temperature:   d.temperature_2m_mean,
       humidity:      d.relative_humidity_2m_max,
       airQuality,
+      co2,
+      ammonia,
       precipitation: d.precipitation_sum,
     };
   }

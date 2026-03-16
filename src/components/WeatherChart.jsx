@@ -54,6 +54,8 @@ export default function WeatherChart() {
       { value: 'temperature', label: t('meteo.chart.metrics.temperature', 'Temperatura (°C)'), color: '#e63946' },
       { value: 'humidity', label: t('meteo.chart.metrics.humidity', 'Umidità (%)'), color: '#457b9d' },
       { value: 'airQuality', label: t('meteo.chart.metrics.airQuality', "Qualità dell'aria (AQI)"), color: '#2a9d8f' },
+      { value: 'co2', label: t('meteo.chart.metrics.co2', 'CO2 (ppm)'), color: '#8f4ae0' },
+      { value: 'ammonia', label: t('meteo.chart.metrics.ammonia', 'NH3 (µg/m³)'), color: '#f59e0b' },
     ],
     [t],
   );
@@ -78,6 +80,8 @@ export default function WeatherChart() {
       temperature: (v) => Math.round(v * 10) / 10,
       humidity: (v) => Math.round(v),
       airQuality: (v) => Math.round(v),
+      co2: (v) => Math.round(v),
+      ammonia: (v) => Math.round(v),
     };
 
     const collect = (metric) => {
@@ -147,6 +151,10 @@ export default function WeatherChart() {
         return `${Math.round(value)}%`;
       case 'airQuality':
         return `${Math.round(value)} AQI`;
+      case 'co2':
+        return `${Math.round(value)} ppm`;
+      case 'ammonia':
+        return `${Math.round(value)} µg/m³`;
       default:
         return String(value);
     }

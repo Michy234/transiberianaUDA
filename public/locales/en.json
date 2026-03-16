@@ -695,7 +695,9 @@
       "metrics": {
         "temperature": "Temperature (°C)",
         "humidity": "Humidity (%)",
-        "pressure": "Pressure (hPa)"
+        "airQuality": "Air quality (AQI)",
+        "co2": "CO2 (ppm)",
+        "ammonia": "NH3 (µg/m³)"
       },
       "periods": {
         "24h": "24 hours",
