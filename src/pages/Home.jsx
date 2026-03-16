@@ -75,44 +75,31 @@ export default function Home() {
   return (
     <div className="w-full relative overflow-hidden bg-background">
       {/* Asymmetric Hero */}
-      <section className="min-h-[100dvh] w-full flex flex-col lg:flex-row relative overflow-hidden">
-        {/* Mobile background image */}
-        <div className="absolute inset-0 lg:hidden" aria-hidden="true">
-          <img
-            src="/photos/storia/transiberiana.jpg"
-            alt=""
-            className="h-full w-full object-cover blur-[2px]"
-            loading="eager"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/5 via-transparent to-background/40" />
-        </div>
-
+      <section className="min-h-[100dvh] w-full flex flex-col lg:flex-row relative">
         {/* Left Content (55%) */}
-        <div className="relative z-10 w-full lg:w-[55%] flex items-center px-6 md:px-12 lg:px-20 pt-32 pb-16">
+        <div className="w-full lg:w-[55%] flex flex-col justify-center px-6 md:px-12 lg:px-20 pt-32 pb-16 z-10 relative order-2 lg:order-1">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: 'spring', stiffness: 80, damping: 20, delay: 0.2 }}
-            className="max-w-xl mx-auto text-center lg:mx-0 lg:text-left"
+            className="max-w-xl"
           >
             {/* Badge */}
-            <div className="inline-flex items-center justify-center lg:justify-start gap-2 px-4 py-2 rounded-2xl bg-primary/8 text-primary text-sm font-semibold tracking-tight mb-8">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-primary/8 text-primary text-sm font-semibold tracking-tight mb-8">
               <span className="w-2 h-2 rounded-full bg-primary animate-gentle-pulse" aria-hidden="true"></span>
               Prossima partenza: Sulmona
             </div>
             
-            <div className="inline-block mb-8 rounded-[28px] bg-white/10 backdrop-blur-md border border-white/25 shadow-[0_8px_22px_-26px_rgba(0,0,0,0.22)] px-5 py-4 lg:mb-8 lg:bg-transparent lg:border-0 lg:shadow-none lg:px-0 lg:py-0">
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-bold tracking-[-0.03em] leading-[1.08] text-foreground">
-                La <span className="text-primary italic">Transiberiana</span> <br />
-                d'Abruzzo
-              </h1>
-            </div>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-bold tracking-[-0.03em] leading-[1.08] text-foreground mb-8">
+              La <span className="text-primary italic">Transiberiana</span> <br />
+              d'Abruzzo
+            </h1>
             
-            <p className="text-lg md:text-xl text-foreground/90 leading-relaxed max-w-[50ch] mb-10 mx-auto lg:mx-0 bg-white/80 dark:bg-background/70 backdrop-blur-sm px-4 py-3 rounded-2xl shadow-[var(--shadow-subtle)] lg:bg-transparent lg:dark:bg-transparent lg:backdrop-blur-0 lg:px-0 lg:py-0 lg:shadow-none">
+            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-[50ch] mb-10">
               Un'esperienza autentica a bordo di carrozze d'epoca. Attraversa i Parchi Nazionali e i borghi più belli dell'Appennino Centrale.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-4">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
               <button 
                 type="button"
                 onClick={handleStartJourney}
@@ -128,7 +115,7 @@ export default function Home() {
                 Scopri l'itinerario
               </Link>
             </div>
-            <div className="mt-[1.75rem] flex items-start justify-center lg:justify-start gap-2 text-sm text-muted-foreground">
+            <div className="mt-[1.75rem] flex items-start gap-2 text-sm text-muted-foreground">
               <span className="relative top-1 inline-flex text-primary animate-journey-arrow motion-reduce:animate-none" aria-hidden="true">
                 <ArrowDown size={16} />
               </span>
@@ -137,8 +124,8 @@ export default function Home() {
           </motion.div>
         </div>
 
-        {/* Right Image (45%) with overlap - desktop only */}
-        <div className="hidden lg:flex w-full lg:w-[45%] min-h-[50vh] lg:min-h-0 relative p-4 md:p-6 lg:p-8 items-center justify-center">
+        {/* Right Image (45%) with overlap */}
+        <div className="w-full lg:w-[45%] min-h-[50vh] lg:min-h-0 relative p-4 md:p-6 lg:p-8 flex items-center justify-center order-1 lg:order-2">
           <motion.div 
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
