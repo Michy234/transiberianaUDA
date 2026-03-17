@@ -1,15 +1,30 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { flushSync } from 'react-dom';
 import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, StarFour } from '@phosphor-icons/react';
 import { gsap } from 'gsap';
-import { Flip } from 'gsap/Flip';
 import StoryExperienceOverlay from '../components/storia/StoryExperienceOverlay';
 import storiaStops from '../data/storiaStops';
 import { useI18n } from '../i18n/index.jsx';
 import ImageCredit from '../components/ImageCredit';
 
-gsap.registerPlugin(Flip);
+const BASE_DESKTOP_GRID = {
+  columns: 'minmax(0px, 1fr) minmax(0px, 1fr) minmax(0px, 1fr)',
+  rows: '340px 340px',
+};
+
+function getDesktopGridTracks(index) {
+  if (index < 0) {
+    return BASE_DESKTOP_GRID;
+  }
+
+  const columns = [0.72, 0.72, 0.72];
+  columns[index % 3] = 1.56;
+
+  return {
+    columns: columns.map((value) => `minmax(0px, ${value}fr)`).join(' '),
+    rows: Math.floor(index / 3) === 0 ? '400px 280px' : '280px 400px',
+  };
+}
 
 function mergeStop(base, localized = {}) {
   const baseExperience = base.experience;
@@ -41,7 +56,6 @@ function mergeStop(base, localized = {}) {
 function StoryCard({ stop, index, isExpanded, canHoverCards, gridRef, onHoverStart, onHoverEnd, onOpen, t }) {
   const cardClasses = [
     'group relative min-h-[320px] overflow-hidden rounded-[32px] border border-border/60 text-left shadow-[var(--shadow-card)] transition-shadow duration-300 hover:shadow-[var(--shadow-elevated)] focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background lg:h-full lg:min-h-0',
-    isExpanded ? 'lg:col-span-2' : '',
   ]
     .filter(Boolean)
     .join(' ');
@@ -79,7 +93,6 @@ function StoryCard({ stop, index, isExpanded, canHoverCards, gridRef, onHoverSta
           : undefined
       }
       className={cardClasses}
-      data-story-card
       aria-label={t('storia.openAria', 'Apri storia di {{title}}', { title: stop.title })}
     >
       <motion.div
@@ -100,8 +113,8 @@ function StoryCard({ stop, index, isExpanded, canHoverCards, gridRef, onHoverSta
             className="absolute inset-0"
             style={{
               background: isExpanded
-                ? 'linear-gradient(180deg, rgba(18,15,12,0.16) 0%, rgba(18,15,12,0.34) 38%, rgba(18,15,12,0.9) 100%)'
-                : 'linear-gradient(180deg, rgba(18,15,12,0.2) 0%, rgba(18,15,12,0.82) 100%)',
+                ? 'linear-gradient(180deg, rgba(18,15,12,0.26) 0%, rgba(18,15,12,0.46) 38%, rgba(18,15,12,0.92) 100%)'
+                : 'linear-gradient(180deg, rgba(18,15,12,0.3) 0%, rgba(18,15,12,0.86) 100%)',
             }}
           />
         </div>
@@ -154,7 +167,7 @@ export default function Storia() {
   const [hoveredStopId, setHoveredStopId] = useState(null);
   const [canHoverCards, setCanHoverCards] = useState(false);
   const gridRef = useRef(null);
-  const flipAnimationRef = useRef(null);
+  const gridAnimationRef = useRef(null);
   const reduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll();
   const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
@@ -167,6 +180,7 @@ export default function Storia() {
   });
 
   const activeStop = stops.find((stop) => stop.id === activeStopId) || null;
+  const hoveredStopIndex = stops.findIndex((stop) => stop.id === hoveredStopId);
 
   useEffect(() => {
     if (typeof window === 'undefined') {
@@ -195,41 +209,37 @@ export default function Storia() {
 
   useEffect(
     () => () => {
-      flipAnimationRef.current?.kill();
+      gridAnimationRef.current?.kill();
     },
     [],
   );
 
-  const animateHoveredStopChange = (nextStopId) => {
-    if (hoveredStopId === nextStopId) {
+  useEffect(() => {
+    if (!gridRef.current) {
       return;
     }
 
-    if (!canHoverCards || !gridRef.current) {
-      setHoveredStopId(nextStopId);
+    if (!canHoverCards) {
+      gridAnimationRef.current?.kill();
+      gsap.set(gridRef.current, { clearProps: 'gridTemplateColumns,gridTemplateRows' });
       return;
     }
 
-    const cards = gridRef.current.querySelectorAll('[data-story-card]');
-    if (!cards.length) {
-      setHoveredStopId(nextStopId);
-      return;
-    }
-
-    const state = Flip.getState(cards);
-    flipAnimationRef.current?.kill();
-
-    flushSync(() => {
-      setHoveredStopId(nextStopId);
-    });
-
-    flipAnimationRef.current = Flip.from(state, {
+    const { columns, rows } = getDesktopGridTracks(hoveredStopIndex);
+    gridAnimationRef.current?.kill();
+    gridAnimationRef.current = gsap.to(gridRef.current, {
       duration: reduceMotion ? 0 : 0.45,
       ease: 'power2.inOut',
-      nested: true,
-      prune: true,
-      simple: true,
+      gridTemplateColumns: columns,
+      gridTemplateRows: rows,
+      overwrite: 'auto',
     });
+  }, [canHoverCards, hoveredStopIndex, reduceMotion]);
+
+  const animateHoveredStopChange = (nextStopId) => {
+    if (hoveredStopId !== nextStopId) {
+      setHoveredStopId(nextStopId);
+    }
   };
 
   return (
@@ -287,7 +297,7 @@ export default function Storia() {
       <section className="relative px-6 pb-24 md:px-8">
         <div
           ref={gridRef}
-          className="mx-auto grid max-w-7xl gap-6 md:grid-cols-2 lg:grid-flow-dense lg:grid-cols-3 lg:auto-rows-[340px]"
+          className="mx-auto grid max-w-7xl gap-6 md:grid-cols-2 lg:[grid-template-columns:minmax(0px,1fr)_minmax(0px,1fr)_minmax(0px,1fr)] lg:[grid-template-rows:340px_340px]"
           onMouseLeave={canHoverCards ? () => animateHoveredStopChange(null) : undefined}
         >
           {stops.map((stop, index) => (

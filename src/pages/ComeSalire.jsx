@@ -1,320 +1,13 @@
-import React, { useMemo, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, Sun, Snowflake, Leaf, FlowerLotus, Clock, ForkKnife, Train, Sparkle } from '@phosphor-icons/react';
+import React, { useEffect, useState } from 'react';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { ArrowRight, Clock, FlowerLotus, ForkKnife, Leaf, MapPin, Snowflake, Sparkle, Sun, Train } from '@phosphor-icons/react';
 import { useI18n } from '../i18n/index.jsx';
-
-const DEFAULT_SEASONS = [
-  { key: 'spring', label: 'Primavera', range: 'Mar-Mag', icon: FlowerLotus },
-  { key: 'summer', label: 'Estate', range: 'Giu-Ago', icon: Sun },
-  { key: 'autumn', label: 'Autunno', range: 'Set-Nov', icon: Leaf },
-  { key: 'winter', label: 'Inverno', range: 'Dic-Feb', icon: Snowflake },
-];
-
-const DEFAULT_SEASON_COPY = {
-  spring: 'Fioriture e aria fresca: passeggiate morbide e ritmi lenti.',
-  summer: 'Giornate lunghe: cerca ombra, acqua fresca e panorami aperti.',
-  autumn: 'Colori caldi e sapori di stagione: perfetti per un ritmo tranquillo.',
-  winter: 'Atmosfera montana: attività brevi e soste al caldo.',
-};
-
-// Durate indicative: aggiornale qui quando disponibili.
-const DEFAULT_STOPS = [
-  {
-    id: 1,
-    name: 'Sulmona',
-    alt: '328m',
-    type: 'Partenza',
-    stopDuration: '60-120 min',
-    timeHint: 'Ideale prima della partenza o al rientro',
-    desc: "La città dei confetti e di Ovidio. Punto di partenza dell'itinerario storico.",
-    plans: [
-      {
-        id: 'sulmona-breve',
-        label: 'Sosta breve',
-        duration: '60-90 min',
-        mealTip: 'Se sei in fascia pranzo, scegli una trattoria nel centro.',
-        activities: {
-          spring: [
-            'Passeggiata nel centro storico tra vicoli e piazze.',
-            'Pausa in caffetteria con dolci tipici.',
-          ],
-          summer: [
-            "Percorso all'ombra lungo il corso principale.",
-            'Gelato o bibita fresca in piazza.',
-          ],
-          autumn: [
-            'Botteghe artigiane e sapori di stagione.',
-            'Pausa calda in un bar storico.',
-          ],
-          winter: [
-            'Portici e chiese al coperto per una visita veloce.',
-            'Cioccolata calda o dolce tipico.',
-          ],
-        },
-      },
-      {
-        id: 'sulmona-comoda',
-        label: 'Sosta comoda',
-        duration: '2-3 ore',
-        mealTip: 'Con 2-3 ore puoi fermarti per un pranzo tranquillo.',
-        activities: {
-          spring: [
-            'Passeggiata più lunga tra quartieri storici e botteghe.',
-            'Piccolo giro nei giardini urbani.',
-          ],
-          summer: [
-            'Aperitivo leggero e passeggiata serale.',
-            'Shopping di prodotti locali con calma.',
-          ],
-          autumn: [
-            'Degustazione di prodotti locali e botteghe.',
-            'Passeggiata lenta tra scorci fotografici.',
-          ],
-          winter: [
-            'Visita a spazi culturali al chiuso.',
-            'Pausa lunga con bevanda calda.',
-          ],
-        },
-      },
-    ],
-  },
-  {
-    id: 2,
-    name: 'Campo di Giove',
-    alt: '1.064m',
-    type: 'Sosta',
-    stopDuration: '3 ore circa',
-    timeHint: 'Spesso in fascia pranzo',
-    desc: 'Ai piedi della Majella, incorniciata da fitti boschi e paesaggi mozzafiato.',
-    plans: [
-      {
-        id: 'campo-breve',
-        label: 'Sosta breve',
-        duration: '60-75 min',
-        mealTip: 'Se è ora di pranzo, preferisci un posto veloce vicino alla stazione.',
-        activities: {
-          spring: [
-            'Belvedere e foto sulle cime circostanti.',
-            'Passeggiata breve nei boschi vicini.',
-          ],
-          summer: [
-            'Punto panoramico con aria fresca.',
-            'Breve tratto ombreggiato e rifornimento acqua.',
-          ],
-          autumn: [
-            'Foliage e colori del bosco.',
-            'Pausa in centro per sapori di stagione.',
-          ],
-          winter: [
-            'Scorci innevati e foto rapide.',
-            'Riscaldati con una bevanda calda.',
-          ],
-        },
-      },
-      {
-        id: 'campo-lunga',
-        label: 'Sosta lunga',
-        duration: '3 ore',
-        mealTip: 'Con 3 ore puoi fare una camminata e poi pranzare con calma.',
-        activities: {
-          spring: [
-            'Scampagnata su sentieri facili tra boschi e radure.',
-            'Pranzo in trattoria o picnic se il tempo lo consente.',
-          ],
-          summer: [
-            'Passeggiata fresca nel verde e relax.',
-            "Pranzo all'aperto o in locale con cucina semplice.",
-          ],
-          autumn: [
-            'Passeggiata tra i colori del bosco.',
-            'Pranzo caldo con sapori stagionali.',
-          ],
-          winter: [
-            'Camminata breve in sicurezza e panorama innevato.',
-            'Pranzo sostanzioso al caldo.',
-          ],
-        },
-      },
-    ],
-  },
-  {
-    id: 3,
-    name: 'Palena',
-    alt: '1.258m',
-    type: 'Punto panoramico',
-    stopDuration: '45-90 min',
-    timeHint: 'Sosta rapida e rigenerante',
-    desc: 'Stazione isolata nel Quarto Santa Chiara, regno della natura selvaggia.',
-    plans: [
-      {
-        id: 'palena-lampo',
-        label: 'Sosta lampo',
-        duration: '30-45 min',
-        mealTip: 'Se sei in fascia pranzo, punta a uno snack veloce.',
-        activities: {
-          spring: [
-            'Belvedere e foto panoramiche.',
-            'Passeggiata breve nei dintorni della stazione.',
-          ],
-          summer: [
-            "Pausa all'ombra con vista aperta.",
-            'Rifornisci acqua e riparti.',
-          ],
-          autumn: [
-            'Scorci con foliage e foto.',
-            'Sosta veloce in aria pulita.',
-          ],
-          winter: [
-            'Panorama innevato da punto sicuro.',
-            'Bevanda calda prima della ripartenza.',
-          ],
-        },
-      },
-      {
-        id: 'palena-breve',
-        label: 'Sosta breve',
-        duration: '60-90 min',
-        mealTip: "Con un po' di tempo, concediti una pausa seduto.",
-        activities: {
-          spring: [
-            'Giro tranquillo nei dintorni con vista sui monti.',
-            'Pausa caffetteria o merenda.',
-          ],
-          summer: [
-            'Passeggiata più ampia con aria fresca.',
-            'Sosta rinfrescante prima di ripartire.',
-          ],
-          autumn: [
-            'Passeggiata lenta tra i colori.',
-            'Botteghe locali e sapori di stagione.',
-          ],
-          winter: [
-            'Visita breve al centro abitato.',
-            'Pausa calda in bar o rifugio.',
-          ],
-        },
-      },
-    ],
-  },
-  {
-    id: 4,
-    name: 'Roccaraso',
-    alt: '1.268m',
-    type: 'Sosta',
-    stopDuration: '90-180 min',
-    timeHint: 'Perfetta per una passeggiata più lunga',
-    desc: 'La stazione più alta della linea, rinomata per il turismo montano invernale ed estivo.',
-    plans: [
-      {
-        id: 'roccaraso-breve',
-        label: 'Sosta breve',
-        duration: '60-90 min',
-        mealTip: 'Se è ora di pranzo, scegli un posto vicino al centro.',
-        activities: {
-          spring: [
-            'Passeggiata in centro e scorci montani.',
-            'Pausa caffè con vista.',
-          ],
-          summer: [
-            'Giro nel paese con aria fresca.',
-            'Sosta rinfrescante e foto panoramiche.',
-          ],
-          autumn: [
-            'Colori di stagione e botteghe.',
-            'Pausa calda prima della ripartenza.',
-          ],
-          winter: [
-            'Atmosfera montana e scorci innevati.',
-            'Bevanda calda o dolce locale.',
-          ],
-        },
-      },
-      {
-        id: 'roccaraso-lunga',
-        label: 'Sosta lunga',
-        duration: '2-3 ore',
-        mealTip: 'Con 2-3 ore puoi pranzare e fare una passeggiata completa.',
-        activities: {
-          spring: [
-            'Passeggiata più lunga in paese.',
-            'Pranzo in trattoria con calma.',
-          ],
-          summer: [
-            'Percorso nel verde e relax.',
-            "Pranzo all'aperto o in locale tipico.",
-          ],
-          autumn: [
-            'Sentiero facile tra i colori.',
-            'Pranzo caldo con sapori di stagione.',
-          ],
-          winter: [
-            'Attività invernali leggere o punti panoramici.',
-            'Pranzo al caldo prima di rientrare.',
-          ],
-        },
-      },
-    ],
-  },
-  {
-    id: 5,
-    name: 'Castel di Sangro',
-    alt: '793m',
-    type: 'Capolinea',
-    stopDuration: '2-4 ore',
-    timeHint: 'Sosta più lunga, spesso in fascia pranzo',
-    desc: "Città dell'acqua e della pesca a mosca, nodo cruciale dell'Alta Valle del Sangro.",
-    plans: [
-      {
-        id: 'castel-breve',
-        label: 'Sosta breve',
-        duration: '60-90 min',
-        mealTip: 'Se sei in fascia pranzo, punta a una trattoria vicino al centro.',
-        activities: {
-          spring: [
-            'Passeggiata nel centro e foto lungo il corso.',
-            'Pausa caffè in piazza.',
-          ],
-          summer: [
-            'Passeggiata serale e gelato.',
-            "Sosta fresca all'ombra.",
-          ],
-          autumn: [
-            'Sapori locali e botteghe.',
-            'Passeggiata tra vicoli e scorci.',
-          ],
-          winter: [
-            'Centro storico e locali al chiuso.',
-            'Bevanda calda e pausa rilassante.',
-          ],
-        },
-      },
-      {
-        id: 'castel-lunga',
-        label: 'Sosta lunga',
-        duration: '3-4 ore',
-        mealTip: 'Con una sosta lunga puoi pranzare senza fretta.',
-        activities: {
-          spring: [
-            'Giro completo tra centro e aree verdi.',
-            'Pranzo rilassato e passeggiata finale.',
-          ],
-          summer: [
-            'Pausa lunga con pranzo e passeggiata.',
-            'Aperitivo se arrivi nel tardo pomeriggio.',
-          ],
-          autumn: [
-            'Percorso lento tra i colori e botteghe.',
-            'Pranzo caldo con prodotti locali.',
-          ],
-          winter: [
-            'Pranzo al caldo e visita tranquilla.',
-            'Sosta in caffetteria prima del rientro.',
-          ],
-        },
-      },
-    ],
-  },
-];
+import ImageCredit from '../components/ImageCredit';
+import {
+  DEFAULT_ACTIVITY_SEASONS,
+  DEFAULT_ACTIVITY_SEASON_COPY,
+  DEFAULT_ACTIVITY_STOPS,
+} from '../data/activitiesContent.js';
 
 function getInitialSeasonKey() {
   const month = new Date().getMonth();
@@ -324,35 +17,103 @@ function getInitialSeasonKey() {
   return 'winter';
 }
 
+function getMotionTransition(reduceMotion, extra = {}) {
+  if (reduceMotion) {
+    return { duration: 0, ...extra };
+  }
+  return { type: 'spring', stiffness: 150, damping: 24, ...extra };
+}
+
+function InfoPill({ icon: Icon, label, value }) {
+  return (
+    <div className="inline-flex items-center gap-3 rounded-2xl border border-white/18 bg-black/25 px-4 py-2.5 text-white/92 backdrop-blur-md">
+      <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/12 text-white">
+        <Icon size={16} weight="duotone" />
+      </span>
+      <span className="min-w-0">
+        <span className="block text-[11px] font-semibold uppercase tracking-[0.12em] text-white/65">{label}</span>
+        <span className="block text-sm font-semibold leading-tight">{value}</span>
+      </span>
+    </div>
+  );
+}
+
+function StationSelectorButton({ stop, isActive, onClick, t }) {
+  return (
+    <motion.button
+      type="button"
+      onClick={onClick}
+      whileTap={{ scale: 0.985 }}
+      transition={{ type: 'spring', stiffness: 280, damping: 24 }}
+      className={`group relative min-w-[250px] overflow-hidden rounded-[28px] border text-left shadow-[var(--shadow-card)] transition-all duration-300 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background lg:min-w-0 ${
+        isActive
+          ? 'border-primary/40 bg-card shadow-[var(--shadow-elevated)]'
+          : 'border-border/60 bg-card/80 hover:border-primary/25 hover:shadow-[var(--shadow-card-hover)]'
+      }`}
+      aria-pressed={isActive}
+      aria-label={t('activities.stationAria', 'Apri dettagli di {{name}}', { name: stop.name })}
+    >
+      <div className="absolute inset-0">
+        <img
+          src={stop.heroImage}
+          alt=""
+          className={`h-full w-full object-cover transition-transform duration-500 ${isActive ? 'scale-105' : 'scale-100 group-hover:scale-105'}`}
+          loading="lazy"
+          aria-hidden="true"
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(20,20,20,0.10)_0%,rgba(20,20,20,0.78)_100%)]" />
+      </div>
+
+      <div className="relative flex h-full min-h-[168px] flex-col justify-between p-5 text-white">
+        <div className="flex items-start justify-between gap-3">
+          <span className="inline-flex items-center gap-2 rounded-full border border-white/16 bg-white/10 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-white/85 backdrop-blur-sm">
+            <MapPin size={12} weight="fill" />
+            {stop.type}
+          </span>
+          <span className={`transition-transform duration-300 ${isActive ? 'translate-x-0 opacity-100' : 'translate-x-1 opacity-55 group-hover:translate-x-0 group-hover:opacity-100'}`}>
+            <ArrowRight size={16} weight="bold" />
+          </span>
+        </div>
+
+        <div>
+          <h2 className="text-2xl font-serif font-bold tracking-tight">{stop.name}</h2>
+          <p className="mt-2 text-sm leading-relaxed text-white/78">{stop.stopDuration}</p>
+        </div>
+      </div>
+    </motion.button>
+  );
+}
+
 function SeasonSelector({ seasons, selectedSeason, onChange, t }) {
   return (
-    <div className="flex flex-wrap justify-center gap-3">
+    <div className="flex flex-wrap gap-3">
       {seasons.map((season) => {
         const isActive = season.key === selectedSeason;
         const Icon = season.icon;
         return (
           <button
             key={season.key}
+            type="button"
             onClick={() => onChange(season.key)}
-            className={`group flex items-center gap-3 px-4 py-2.5 rounded-2xl border transition-all duration-300 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
+            className={`group flex items-center gap-3 rounded-2xl border px-4 py-3 text-left transition-all duration-300 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
               isActive
-                ? 'bg-primary text-primary-foreground border-primary/30 shadow-[var(--shadow-card)]'
-                : 'bg-card/70 text-foreground/70 border-border/50 hover:text-foreground hover:bg-card'
+                ? 'border-primary/30 bg-primary text-primary-foreground shadow-[var(--shadow-card)]'
+                : 'border-border/60 bg-card/75 text-foreground/75 hover:border-primary/20 hover:bg-card hover:text-foreground'
             }`}
             aria-pressed={isActive}
             aria-label={t('activities.seasonAria', 'Seleziona stagione {{season}}', { season: season.label })}
           >
             <span
-              className={`w-8 h-8 rounded-xl flex items-center justify-center transition-all duration-300 ${
-                isActive ? 'bg-primary-foreground/15' : 'bg-secondary text-muted-foreground'
+              className={`flex h-10 w-10 items-center justify-center rounded-xl transition-all duration-300 ${
+                isActive ? 'bg-primary-foreground/15 text-primary-foreground' : 'bg-secondary text-muted-foreground'
               }`}
               aria-hidden="true"
             >
-              <Icon size={16} weight={isActive ? 'fill' : 'duotone'} />
+              <Icon size={17} weight={isActive ? 'fill' : 'duotone'} />
             </span>
-            <span className="text-left">
+            <span>
               <span className="block text-sm font-semibold leading-tight">{season.label}</span>
-              <span className={`block text-[11px] ${isActive ? 'text-primary-foreground/70' : 'text-muted-foreground'}`}>
+              <span className={`block text-[11px] ${isActive ? 'text-primary-foreground/75' : 'text-muted-foreground'}`}>
                 {season.range}
               </span>
             </span>
@@ -363,153 +124,469 @@ function SeasonSelector({ seasons, selectedSeason, onChange, t }) {
   );
 }
 
-function TimePlanCard({ plan, seasonKey }) {
+function PlanTabs({ plans, activePlanId, onChange, t }) {
   return (
-    <div className="bg-secondary/60 border border-border/50 rounded-3xl p-6 shadow-[var(--shadow-subtle)]">
-      <div className="flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2">
-          <div className="w-9 h-9 rounded-xl bg-card flex items-center justify-center text-primary">
-            <Clock size={16} weight="duotone" />
-          </div>
-          <div>
-            <div className="text-sm font-semibold text-foreground">{plan.label}</div>
-            <div className="text-xs text-muted-foreground">{plan.duration}</div>
-          </div>
-        </div>
-      </div>
-
-      <AnimatePresence mode="wait">
-        <motion.ul
-          key={seasonKey}
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -8 }}
-          transition={{ duration: 0.2 }}
-          className="mt-4 flex flex-col gap-3"
-        >
-          {plan.activities[seasonKey].map((item, idx) => (
-            <li key={`${seasonKey}-${plan.id}-${idx}`} className="flex gap-3 text-sm text-foreground/90">
-              <span className="mt-2 h-1.5 w-1.5 rounded-full bg-primary/70" aria-hidden="true" />
-              <span>{item}</span>
-            </li>
-          ))}
-        </motion.ul>
-      </AnimatePresence>
-
-      {plan.mealTip && (
-        <div className="mt-4 flex items-start gap-2 rounded-2xl border border-border/50 bg-card/70 px-3 py-3 text-xs text-muted-foreground">
-          <ForkKnife size={14} className="text-primary mt-0.5" />
-          <span>{plan.mealTip}</span>
-        </div>
-      )}
+    <div className="flex flex-wrap gap-3">
+      {plans.map((plan) => {
+        const isActive = plan.id === activePlanId;
+        return (
+          <button
+            key={plan.id}
+            type="button"
+            onClick={() => onChange(plan.id)}
+            className={`rounded-2xl border px-4 py-3 text-left transition-all duration-300 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
+              isActive
+                ? 'border-primary/30 bg-primary/10 text-foreground shadow-[var(--shadow-subtle)]'
+                : 'border-border/60 bg-card/70 text-foreground/75 hover:border-primary/20 hover:bg-card hover:text-foreground'
+            }`}
+            aria-pressed={isActive}
+            aria-label={t('activities.planAria', 'Seleziona itinerario {{plan}}', { plan: plan.label })}
+          >
+            <span className="block text-sm font-semibold">{plan.label}</span>
+            <span className="mt-1 block text-xs text-muted-foreground">{plan.duration}</span>
+          </button>
+        );
+      })}
     </div>
   );
 }
 
-function StopCard({ stop, seasonKey, index, t }) {
+function SidePanel({ title, eyebrow, children, className = '' }) {
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: index * 0.06, type: 'spring', stiffness: 110, damping: 20 }}
-      className="bg-card rounded-3xl p-8 md:p-10 shadow-[var(--shadow-card)]"
-    >
-      <div className="flex flex-col gap-6">
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-wrap gap-3 text-xs">
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-primary/8 text-primary font-semibold">
-              <MapPin size={14} weight="fill" /> {stop.type}
-            </span>
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-secondary text-muted-foreground font-semibold">
-              <Train size={14} /> {t('activities.altitude', 'Altitudine')}: {stop.alt}
-            </span>
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-secondary text-muted-foreground font-semibold">
-              <Clock size={14} /> {t('activities.typicalStop', 'Sosta tipica')}: {stop.stopDuration}
-            </span>
-          </div>
+    <div className={`rounded-[28px] border border-border/60 bg-card/80 p-6 shadow-[var(--shadow-subtle)] ${className}`.trim()}>
+      {eyebrow ? (
+        <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-primary/80">{eyebrow}</div>
+      ) : null}
+      <h3 className="text-xl font-serif font-bold tracking-tight text-foreground">{title}</h3>
+      <div className="mt-4">{children}</div>
+    </div>
+  );
+}
 
-          <div>
-            <h2 className="text-3xl md:text-4xl font-serif font-bold tracking-tight text-foreground">{stop.name}</h2>
-            <p className="text-muted-foreground mt-2 max-w-[65ch]">{stop.desc}</p>
-            <p className="text-sm text-muted-foreground mt-2 italic">{stop.timeHint}</p>
-          </div>
-        </div>
+function SeasonIconBadge({ seasonKey }) {
+  const icons = {
+    spring: FlowerLotus,
+    summer: Sun,
+    autumn: Leaf,
+    winter: Snowflake,
+  };
+  const Icon = icons[seasonKey] || Sparkle;
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {stop.plans.map((plan) => (
-            <TimePlanCard key={plan.id} plan={plan} seasonKey={seasonKey} />
-          ))}
-        </div>
-      </div>
-    </motion.article>
+  return (
+    <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+      <Icon size={18} weight="duotone" />
+    </span>
   );
 }
 
 export default function ComeSalire() {
+  const reduceMotion = useReducedMotion();
   const { t, tm } = useI18n();
-  const [selectedSeason, setSelectedSeason] = useState(getInitialSeasonKey());
-  const seasons = useMemo(
-    () =>
-      DEFAULT_SEASONS.map((season) => ({
-        ...season,
-        label: t(`activities.seasons.${season.key}.label`, season.label),
-        range: t(`activities.seasons.${season.key}.range`, season.range),
-      })),
-    [t],
-  );
-  const seasonCopy = tm('activities.seasonCopy', DEFAULT_SEASON_COPY);
-  const stops = tm('activities.stops', DEFAULT_STOPS);
+  const [activeStopId, setActiveStopId] = useState(DEFAULT_ACTIVITY_STOPS[0].id);
+  const [activeSeason, setActiveSeason] = useState(getInitialSeasonKey());
+  const [activePlanId, setActivePlanId] = useState(DEFAULT_ACTIVITY_STOPS[0].plans[0].id);
 
-  const activeSeason = useMemo(() => {
-    return seasons.find((season) => season.key === selectedSeason) || seasons[0];
-  }, [selectedSeason, seasons]);
-  const ActiveIcon = activeSeason.icon;
+  const seasons = DEFAULT_ACTIVITY_SEASONS.map((season) => ({
+    ...season,
+    label: t(`activities.seasons.${season.key}.label`, season.label),
+    range: t(`activities.seasons.${season.key}.range`, season.range),
+  }));
+  const seasonCopy = tm('activities.seasonCopy', DEFAULT_ACTIVITY_SEASON_COPY);
+  const stops = tm('activities.stops', DEFAULT_ACTIVITY_STOPS);
+
+  const activeStop = stops.find((stop) => stop.id === activeStopId) || stops[0];
+  const activePlan = activeStop?.plans.find((plan) => plan.id === activePlanId) || activeStop?.plans[0];
+  const activeSeasonMeta = seasons.find((season) => season.key === activeSeason) || seasons[0];
+
+  useEffect(() => {
+    if (!stops.some((stop) => stop.id === activeStopId) && stops[0]) {
+      setActiveStopId(stops[0].id);
+    }
+  }, [activeStopId, stops]);
+
+  useEffect(() => {
+    if (!activeStop) return;
+    if (!activeStop.plans.some((plan) => plan.id === activePlanId)) {
+      setActivePlanId(activeStop.plans[0].id);
+    }
+  }, [activePlanId, activeStop]);
+
+  if (!activeStop || !activePlan || !activeSeasonMeta) {
+    return null;
+  }
+
+  const stationListLabel = t('activities.stationListAria', 'Seleziona una fermata della Transiberiana d Abruzzo');
+  const detailAria = t('activities.detailAria', 'Dettagli attivita per {{name}}', { name: activeStop.name });
 
   return (
-    <div className="min-h-[100dvh] pt-32 pb-24 px-6 md:px-12 max-w-[1400px] mx-auto">
-      <div className="max-w-4xl mx-auto text-center mb-16">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-primary/8 text-primary font-semibold text-sm mb-6"
-        >
-          <Sparkle weight="fill" size={16} />
-          {t('activities.badge', 'Attività consigliate')}
-        </motion.div>
-        <h1 className="text-5xl md:text-7xl font-serif font-bold tracking-[-0.03em] mb-6 text-foreground">
-          {t('activities.title', 'Cosa fare durante le fermate')}
-        </h1>
-        <p className="text-xl text-muted-foreground leading-relaxed max-w-[60ch] mx-auto">
-          {t(
-            'activities.subtitle',
-            'Seleziona la stagione e scopri cosa fare nelle città in cui il treno si ferma, con suggerimenti calibrati sulla durata della sosta.',
-          )}
-        </p>
-        <p className="text-sm text-muted-foreground mt-4 italic">
-          {t('activities.note', 'Durate indicative: aggiorneremo gli orari appena disponibili.')}
-        </p>
-      </div>
+    <div className="min-h-[100dvh] px-6 pb-24 pt-32 md:px-12">
+      <div className="mx-auto max-w-[1400px]">
+        <div className="mx-auto max-w-4xl text-center">
+          <motion.div
+            initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={getMotionTransition(reduceMotion)}
+            className="inline-flex items-center gap-2 rounded-2xl bg-primary/8 px-4 py-2 text-sm font-semibold text-primary"
+          >
+            <Sparkle weight="fill" size={16} />
+            {t('activities.badge', 'Attivita consigliate')}
+          </motion.div>
 
-      <div className="max-w-4xl mx-auto mb-14">
-        <SeasonSelector seasons={seasons} selectedSeason={selectedSeason} onChange={setSelectedSeason} t={t} />
-        <motion.div
-          key={selectedSeason}
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mt-5 flex items-center justify-center gap-2 text-sm text-muted-foreground"
-        >
-          <span className="w-7 h-7 rounded-xl bg-secondary flex items-center justify-center text-primary">
-            <ActiveIcon size={14} weight="duotone" />
-          </span>
-          <span>{seasonCopy[selectedSeason]}</span>
-        </motion.div>
-      </div>
+          <motion.h1
+            initial={reduceMotion ? false : { opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={getMotionTransition(reduceMotion, { delay: 0.04 })}
+            className="mt-6 text-5xl font-serif font-bold tracking-[-0.03em] text-foreground md:text-7xl"
+          >
+            {t('activities.title', 'Cosa fare durante le fermate')}
+          </motion.h1>
 
-      <div className="flex flex-col gap-10">
-        {stops.map((stop, index) => (
-          <StopCard key={stop.id} stop={stop} seasonKey={selectedSeason} index={index} t={t} />
-        ))}
+          <motion.p
+            initial={reduceMotion ? false : { opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={getMotionTransition(reduceMotion, { delay: 0.08 })}
+            className="mx-auto mt-6 max-w-[64ch] text-lg leading-relaxed text-muted-foreground md:text-xl"
+          >
+            {t(
+              'activities.subtitle',
+              'Scegli una fermata, cambia stagione e scopri un itinerario credibile per il tempo che hai davvero a disposizione.',
+            )}
+          </motion.p>
+
+          <motion.p
+            initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={getMotionTransition(reduceMotion, { delay: 0.12 })}
+            className="mt-4 text-sm italic text-muted-foreground"
+          >
+            {t('activities.note', 'Orari e durate sono indicativi: possono variare a seconda della corsa storica.')}
+          </motion.p>
+        </div>
+
+        <div className="mt-12 lg:hidden">
+          <div className="mb-4 flex items-end justify-between gap-4">
+            <div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-primary/80">
+                {t('activities.stationEyebrow', 'Esplora fermata per fermata')}
+              </div>
+              <h2 className="mt-1 text-2xl font-serif font-bold tracking-tight text-foreground">
+                {t('activities.stationSelectorTitle', 'Fermate attive')}
+              </h2>
+            </div>
+            <p className="max-w-[22ch] text-right text-xs leading-relaxed text-muted-foreground">
+              {t('activities.stationSelectorHint', 'Seleziona una fermata per cambiare contenuto, immagini e itinerari.')}
+            </p>
+          </div>
+
+          <div
+            role="listbox"
+            aria-label={stationListLabel}
+            className="flex snap-x gap-4 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          >
+            {stops.map((stop) => (
+              <div key={stop.id} className="snap-start">
+                <StationSelectorButton
+                  stop={stop}
+                  isActive={stop.id === activeStop.id}
+                  onClick={() => setActiveStopId(stop.id)}
+                  t={t}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-[320px_minmax(0,1fr)] xl:gap-10">
+          <aside className="hidden lg:block lg:sticky lg:top-28 lg:self-start">
+            <div className="rounded-[32px] border border-border/60 bg-card/80 p-5 shadow-[var(--shadow-card)]">
+              <div className="mb-5">
+                <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-primary/80">
+                  {t('activities.stationEyebrow', 'Esplora fermata per fermata')}
+                </div>
+                <h2 className="mt-2 text-3xl font-serif font-bold tracking-tight text-foreground">
+                  {t('activities.stationSelectorTitle', 'Fermate attive')}
+                </h2>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  {t('activities.stationSelectorHint', 'Seleziona una fermata per cambiare contenuto, immagini e itinerari.')}
+                </p>
+              </div>
+
+              <div role="listbox" aria-label={stationListLabel} className="flex flex-col gap-3">
+                {stops.map((stop) => (
+                  <StationSelectorButton
+                    key={stop.id}
+                    stop={stop}
+                    isActive={stop.id === activeStop.id}
+                    onClick={() => setActiveStopId(stop.id)}
+                    t={t}
+                  />
+                ))}
+              </div>
+            </div>
+          </aside>
+
+          <div>
+            <AnimatePresence mode="wait">
+              <motion.article
+                key={activeStop.id}
+                initial={reduceMotion ? false : { opacity: 0, y: 22, filter: 'blur(10px)' }}
+                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -18, filter: 'blur(8px)' }}
+                transition={getMotionTransition(reduceMotion)}
+                className="overflow-hidden rounded-[36px] border border-border/60 bg-card shadow-[var(--shadow-elevated)]"
+                aria-live="polite"
+                aria-label={detailAria}
+              >
+                <div className="relative overflow-hidden">
+                  <div className="relative h-[340px] md:h-[420px]">
+                    <img
+                      src={activeStop.heroImage}
+                      alt={activeStop.heroAlt}
+                      className="h-full w-full object-cover"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(19,18,15,0.06)_0%,rgba(19,18,15,0.22)_30%,rgba(19,18,15,0.88)_100%)]" />
+                    <div className="absolute inset-x-0 top-0 p-6 md:p-8">
+                      <div className="flex flex-wrap gap-3">
+                        <span className="inline-flex items-center gap-2 rounded-full border border-white/18 bg-black/25 px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-white/90 backdrop-blur-md">
+                          <MapPin size={13} weight="fill" />
+                          {activeStop.type}
+                        </span>
+                        <span className="inline-flex items-center gap-2 rounded-full border border-white/18 bg-black/25 px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-white/90 backdrop-blur-md">
+                          <SeasonIconBadge seasonKey={activeSeason} />
+                          <span className="-ml-1">{activeSeasonMeta.label}</span>
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="absolute inset-x-0 bottom-0 p-6 md:p-8">
+                      <div className="max-w-4xl">
+                        <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/68">
+                          {t('activities.currentStop', 'Fermata selezionata')}
+                        </div>
+                        <h2 className="mt-3 text-4xl font-serif font-bold tracking-tight text-white md:text-5xl">
+                          {activeStop.name}
+                        </h2>
+                        <p className="mt-3 max-w-[56ch] text-base leading-relaxed text-white/82 md:text-lg">
+                          {activeStop.desc}
+                        </p>
+                        <p className="mt-3 max-w-[58ch] text-sm italic text-white/72">{activeStop.timeHint}</p>
+
+                        <div className="mt-6 flex flex-wrap gap-3">
+                          <InfoPill icon={Train} label={t('activities.altitude', 'Altitudine')} value={activeStop.alt} />
+                          <InfoPill icon={Clock} label={t('activities.typicalStop', 'Sosta tipica')} value={activeStop.stopDuration} />
+                          <InfoPill
+                            icon={MapPin}
+                            label={t('activities.scheduleTitle', 'Orari indicativi')}
+                            value={activeStop.schedule.duration}
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="absolute bottom-4 right-4">
+                      <ImageCredit
+                        src={activeStop.heroImage}
+                        className="rounded-full bg-black/35 px-3 py-1.5 text-[10px] text-white/90 backdrop-blur-sm"
+                        linkClassName="text-white/90 hover:text-white"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-6 md:p-8 lg:p-10">
+                  <div className="grid gap-6 xl:grid-cols-[minmax(0,1.2fr)_340px]">
+                    <div>
+                      <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-primary/80">
+                        {t('activities.seasonContextLabel', 'Atmosfera della stagione')}
+                      </div>
+                      <div className="mt-4">
+                        <SeasonSelector
+                          seasons={seasons}
+                          selectedSeason={activeSeason}
+                          onChange={setActiveSeason}
+                          t={t}
+                        />
+                      </div>
+
+                      <motion.div
+                        key={`${activeStop.id}-${activeSeason}-context`}
+                        initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={getMotionTransition(reduceMotion)}
+                        className="mt-5 rounded-[28px] border border-border/60 bg-secondary/55 p-5 shadow-[var(--shadow-subtle)]"
+                      >
+                        <div className="flex items-start gap-4">
+                          <SeasonIconBadge seasonKey={activeSeason} />
+                          <div className="min-w-0">
+                            <div className="text-sm font-semibold text-foreground">{activeSeasonMeta.label}</div>
+                            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                              {activeStop.seasonContext[activeSeason]}
+                            </p>
+                            <p className="mt-3 text-xs text-muted-foreground">
+                              {seasonCopy[activeSeason]}
+                            </p>
+                          </div>
+                        </div>
+                      </motion.div>
+
+                      <div className="mt-8">
+                        <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-primary/80">
+                          {t('activities.itineraryTitle', 'Itinerario attivo')}
+                        </div>
+                        <div className="mt-4">
+                          <PlanTabs
+                            plans={activeStop.plans}
+                            activePlanId={activePlan.id}
+                            onChange={setActivePlanId}
+                            t={t}
+                          />
+                        </div>
+
+                        <AnimatePresence mode="wait">
+                          <motion.div
+                            key={`${activePlan.id}-${activeSeason}`}
+                            initial={reduceMotion ? false : { opacity: 0, y: 14 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -10 }}
+                            transition={getMotionTransition(reduceMotion)}
+                            className="mt-5 rounded-[32px] border border-border/60 bg-card/90 p-6 shadow-[var(--shadow-card)]"
+                          >
+                            <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+                              <div className="max-w-[60ch]">
+                                <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-primary/80">
+                                  {t('activities.activeItineraryLabel', 'Percorso consigliato')}
+                                </div>
+                                <h3 className="mt-2 text-2xl font-serif font-bold tracking-tight text-foreground">
+                                  {activePlan.label}
+                                </h3>
+                                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                                  {activePlan.summary}
+                                </p>
+                              </div>
+
+                              <div className="rounded-2xl border border-border/60 bg-secondary/55 px-4 py-3 text-sm font-semibold text-foreground">
+                                {activePlan.duration}
+                              </div>
+                            </div>
+
+                            <div className="mt-6 grid gap-4 lg:grid-cols-[minmax(0,1fr)_280px]">
+                              <div>
+                                <div className="rounded-[26px] border border-border/60 bg-secondary/45 p-5">
+                                  <div className="text-sm font-semibold text-foreground">
+                                    {t('activities.bestForLabel', 'Ideale per')}
+                                  </div>
+                                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{activePlan.bestFor}</p>
+                                </div>
+
+                                <ul className="mt-4 flex flex-col gap-3">
+                                  {activePlan.activities[activeSeason].map((item, index) => (
+                                    <li key={`${activePlan.id}-${activeSeason}-${index}`} className="flex gap-3 text-sm leading-relaxed text-foreground/90">
+                                      <span className="mt-2 h-1.5 w-1.5 rounded-full bg-primary/80" aria-hidden="true" />
+                                      <span>{item}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+
+                              <div className="space-y-4">
+                                <div className="rounded-[26px] border border-border/60 bg-secondary/45 p-5">
+                                  <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
+                                    <Train size={16} weight="duotone" className="text-primary" />
+                                    {t('activities.logisticsLabel', 'Come si muove la sosta')}
+                                  </div>
+                                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{activePlan.logistics}</p>
+                                </div>
+
+                                <div className="rounded-[26px] border border-border/60 bg-secondary/45 p-5">
+                                  <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
+                                    <ForkKnife size={16} weight="duotone" className="text-primary" />
+                                    {t('activities.mealTipLabel', 'Pausa gusto')}
+                                  </div>
+                                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{activePlan.mealTip}</p>
+                                </div>
+                              </div>
+                            </div>
+                          </motion.div>
+                        </AnimatePresence>
+                      </div>
+                    </div>
+
+                    <SidePanel title={t('activities.scheduleTitle', 'Orari indicativi')} eyebrow={t('activities.scheduleEyebrow', 'Finestra della fermata')}>
+                      <div className="space-y-4">
+                        <div className="rounded-2xl border border-border/60 bg-secondary/45 px-4 py-4">
+                          <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-primary/80">
+                            {t('activities.arrivalLabel', 'Arrivo')}
+                          </div>
+                          <div className="mt-2 text-base font-semibold text-foreground">{activeStop.schedule.arrival}</div>
+                        </div>
+
+                        <div className="rounded-2xl border border-border/60 bg-secondary/45 px-4 py-4">
+                          <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-primary/80">
+                            {t('activities.departureLabel', 'Ripartenza')}
+                          </div>
+                          <div className="mt-2 text-base font-semibold text-foreground">{activeStop.schedule.departure}</div>
+                        </div>
+
+                        <div className="rounded-2xl border border-border/60 bg-secondary/45 px-4 py-4">
+                          <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-primary/80">
+                            {t('activities.durationLabel', 'Tempo utile')}
+                          </div>
+                          <div className="mt-2 text-base font-semibold text-foreground">{activeStop.schedule.duration}</div>
+                        </div>
+
+                        <div className="rounded-[24px] border border-border/60 bg-card/80 px-4 py-4">
+                          <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
+                            <Sparkle size={16} weight="duotone" className="text-primary" />
+                            {t('activities.scheduleNoteLabel', 'Nota')}
+                          </div>
+                          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{activeStop.schedule.note}</p>
+                        </div>
+                      </div>
+                    </SidePanel>
+                  </div>
+
+                  <div className="mt-6 grid gap-5 lg:grid-cols-3">
+                    <SidePanel title={t('activities.highlightsTitle', 'Da non perdere')} eyebrow={t('activities.highlightsEyebrow', 'Punti fermi')}>
+                      <ul className="space-y-3">
+                        {activeStop.highlights.map((item, index) => (
+                          <li key={`${activeStop.id}-highlight-${index}`} className="flex gap-3 text-sm leading-relaxed text-foreground/90">
+                            <span className="mt-2 h-1.5 w-1.5 rounded-full bg-primary/80" aria-hidden="true" />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </SidePanel>
+
+                    <SidePanel title={t('activities.practicalTitle', 'Nota pratica')} eyebrow={t('activities.practicalEyebrow', 'Prima di muoverti')}>
+                      <p className="text-sm leading-relaxed text-muted-foreground">{activeStop.practicalNote}</p>
+                      <div className="mt-4 rounded-[24px] border border-border/60 bg-secondary/45 p-4">
+                        <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
+                          <ForkKnife size={16} weight="duotone" className="text-primary" />
+                          {t('activities.mealTipLabel', 'Pausa gusto')}
+                        </div>
+                        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{activePlan.mealTip}</p>
+                      </div>
+                    </SidePanel>
+
+                    <SidePanel title={t('activities.stopFlowTitle', 'Come funziona la sosta')} eyebrow={t('activities.stopFlowEyebrow', 'Ritmo consigliato')}>
+                      <ul className="space-y-3">
+                        {activeStop.howItWorks.map((item, index) => (
+                          <li key={`${activeStop.id}-flow-${index}`} className="flex gap-3 text-sm leading-relaxed text-foreground/90">
+                            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">
+                              {index + 1}
+                            </span>
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </SidePanel>
+                  </div>
+                </div>
+              </motion.article>
+            </AnimatePresence>
+          </div>
+        </div>
       </div>
     </div>
   );
