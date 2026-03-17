@@ -17,7 +17,7 @@ export default defineConfig({
         changeOrigin: true,
       },
       '/api/viaggiatreno': {
-        target: 'https://www.viaggiatreno.it/infomobilita/resteasy/viaggiatreno',
+        target: 'http://www.viaggiatreno.it/infomobilita/resteasy/viaggiatreno',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/viaggiatreno/, ''),
       },
@@ -26,7 +26,7 @@ export default defineConfig({
   preview: {
     proxy: {
       '/api/viaggiatreno': {
-        target: 'https://www.viaggiatreno.it/infomobilita/resteasy/viaggiatreno',
+        target: 'http://www.viaggiatreno.it/infomobilita/resteasy/viaggiatreno',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/viaggiatreno/, ''),
       },

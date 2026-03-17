@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, ArrowRight, Train, Tree, NavigationArrow } from '@phosphor-icons/react';
 import { useI18n } from '../i18n/index.jsx';
@@ -67,6 +67,21 @@ const DEFAULT_STATIONS = [
   }
 ];
 
+const DEMO_STATIONS = [
+  {
+    name: 'Roma Termini',
+    viaggiaName: 'Roma Termini',
+  },
+  {
+    name: 'Napoli Centrale',
+    viaggiaName: 'Napoli Centrale',
+  },
+  {
+    name: 'Salerno',
+    viaggiaName: 'Salerno',
+  },
+];
+
 const TRAINLINE_BASE = 'https://www.thetrainline.com/book/results';
 const TRAINLINE_DEFAULTS = {
   journeySearchType: 'single',
@@ -86,6 +101,149 @@ const TRAINLINE_ROUTE_OVERRIDES = [
     transportModes: 'coach',
   },
 ];
+
+const VIAGGIATRENO_PROXY_BASE = '/api/viaggiatreno';
+const VIAGGIATRENO_DEFAULT_BASE = 'http://www.viaggiatreno.it/infomobilita/resteasy/viaggiatreno';
+const VIAGGIATRENO_HTTPS_BASE = 'https://www.viaggiatreno.it/infomobilita/resteasy/viaggiatreno';
+
+const DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+function formatViaggiaTrenoDate(date) {
+  const pad = (value) => String(value).padStart(2, '0');
+  const tzOffset = -date.getTimezoneOffset();
+  const sign = tzOffset >= 0 ? '+' : '-';
+  const absOffset = Math.abs(tzOffset);
+  const tzHours = pad(Math.floor(absOffset / 60));
+  const tzMinutes = pad(absOffset % 60);
+  return `${DAY_NAMES[date.getDay()]} ${MONTH_NAMES[date.getMonth()]} ${pad(date.getDate())} ${date.getFullYear()} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())} GMT${sign}${tzHours}${tzMinutes}`;
+}
+
+function normalizeStationName(value) {
+  if (!value) return '';
+  return value
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '');
+}
+
+async function fetchJsonWithFallback({ label, path, signal, pushDebug, activeBaseRef }) {
+  const candidates = [
+    import.meta.env.VITE_VIAGGIATRENO_BASE,
+    VIAGGIATRENO_PROXY_BASE,
+    VIAGGIATRENO_HTTPS_BASE,
+    VIAGGIATRENO_DEFAULT_BASE,
+  ].filter(Boolean);
+  let lastError = null;
+
+  for (const base of candidates) {
+    const url = base.startsWith('http') ? `${base}/${path}` : `${base}/${path}`;
+    const startedAt = Date.now();
+    try {
+      const response = await fetch(url, { signal, headers: { Accept: 'application/json' }, cache: 'no-store' });
+      const raw = await response.text();
+      let data = null;
+      let parseError = null;
+      if (raw) {
+        try {
+          data = JSON.parse(raw);
+        } catch (error) {
+          parseError = error;
+        }
+      }
+      pushDebug?.({
+        label,
+        url,
+        status: response.status,
+        ok: response.ok,
+        durationMs: Date.now() - startedAt,
+        error: parseError ? 'json_parse_error' : null,
+        sample: raw ? raw.slice(0, 240) : '',
+      });
+      if (!response.ok) {
+        throw new Error(`http_${response.status}`);
+      }
+      if (parseError) {
+        throw parseError;
+      }
+      if (activeBaseRef) {
+        activeBaseRef.current = base;
+      }
+      return data;
+    } catch (error) {
+      lastError = error;
+      pushDebug?.({
+        label,
+        url,
+        status: null,
+        ok: false,
+        durationMs: Date.now() - startedAt,
+        error: error?.message || 'fetch_failed',
+      });
+    }
+  }
+
+  throw lastError || new Error('fetch_failed');
+}
+
+async function fetchStationCode(name, signal, pushDebug, activeBaseRef) {
+  const results = await fetchJsonWithFallback({
+    label: `cercaStazione ${name}`,
+    path: `cercaStazione/${encodeURIComponent(name)}`,
+    signal,
+    pushDebug,
+    activeBaseRef,
+  });
+  if (!Array.isArray(results) || results.length === 0) return null;
+  const normalized = normalizeStationName(name);
+  const exact =
+    results.find((item) => normalizeStationName(item.nomeBreve) === normalized) ||
+    results.find((item) => normalizeStationName(item.nomeLungo) === normalized);
+  const fallback =
+    exact ||
+    results.find((item) => normalizeStationName(item.nomeBreve).startsWith(normalized)) ||
+    results.find((item) => normalizeStationName(item.nomeLungo).startsWith(normalized)) ||
+    results[0];
+  return fallback?.id || null;
+}
+
+async function fetchDepartures(stationCode, signal, pushDebug, activeBaseRef) {
+  const timestamp = formatViaggiaTrenoDate(new Date());
+  const data = await fetchJsonWithFallback({
+    label: `partenze ${stationCode}`,
+    path: `partenze/${stationCode}/${encodeURIComponent(timestamp)}`,
+    signal,
+    pushDebug,
+    activeBaseRef,
+  });
+  return Array.isArray(data) ? data : [];
+}
+
+function getMidnightTimestamp(item) {
+  if (item?.dataPartenzaTreno && Number.isFinite(item.dataPartenzaTreno)) {
+    return item.dataPartenzaTreno;
+  }
+  if (item?.millisDataPartenza) {
+    const parsed = Number(item.millisDataPartenza);
+    if (Number.isFinite(parsed)) return parsed;
+  }
+  const now = new Date();
+  const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  return midnight.getTime();
+}
+
+async function fetchTrainStatus(originCode, trainNumber, midnightTs, signal, pushDebug, activeBaseRef) {
+  if (!originCode || !trainNumber || !midnightTs) return null;
+  const data = await fetchJsonWithFallback({
+    label: `andamentoTreno ${trainNumber}`,
+    path: `andamentoTreno/${originCode}/${encodeURIComponent(trainNumber)}/${midnightTs}`,
+    signal,
+    pushDebug,
+    activeBaseRef,
+  });
+  return data;
+}
 
 function TrainlineLogo() {
   return (
@@ -187,6 +345,37 @@ function StationButton({ station, isActive, onClick, index }) {
   );
 }
 
+function EmptySegmentState({ segment, data, isItalian }) {
+  const destinations = data?.rawDestinations?.length ? data.rawDestinations.join(', ') : null;
+  return (
+    <div className="rounded-2xl border border-dashed border-border/70 bg-background/70 px-4 py-4 text-sm text-muted-foreground">
+      <div className="flex items-center gap-3">
+        <div className="h-11 w-11 rounded-full border border-border/60 bg-card flex items-center justify-center text-muted-foreground/70">
+          <Train size={18} weight="bold" />
+        </div>
+        <div>
+          <div className="text-foreground/80 font-semibold">
+            {isItalian ? 'Nessun treno in transito' : 'No trains in transit'}
+          </div>
+          <div className="text-xs text-muted-foreground">
+            {isItalian ? `Tratto ${segment.from} → ${segment.to}` : `Segment ${segment.from} → ${segment.to}`}
+          </div>
+        </div>
+      </div>
+      <div className="mt-4 flex items-center gap-3 text-[10px] uppercase tracking-[0.25em] text-muted-foreground/70">
+        <span className="h-1.5 w-1.5 rounded-full bg-border/80" />
+        <span className="flex-1 border-t border-dashed border-border/70" />
+        <span className="h-1.5 w-1.5 rounded-full bg-border/80" />
+      </div>
+      <div className="mt-3 text-xs">
+        {isItalian
+          ? `Nessun diretto per ${segment.to}. Partenze totali: ${data?.rawCount ?? 0}${destinations ? ` · Destinazioni: ${destinations}` : ''}`
+          : `No direct trains to ${segment.to}. Total departures: ${data?.rawCount ?? 0}${destinations ? ` · Destinations: ${destinations}` : ''}`}
+      </div>
+    </div>
+  );
+}
+
 export default function Fermate() {
   const { t, tm, lang } = useI18n();
   const isItalian = lang === 'it';
@@ -194,6 +383,18 @@ export default function Fermate() {
   const [selectedStation, setSelectedStation] = useState(stations[0]);
   const [origin, setOrigin] = useState(stations[0].name);
   const [destination, setDestination] = useState(stations[stations.length - 1].name);
+  const [liveState, setLiveState] = useState({
+    status: 'idle',
+    segments: [],
+    updatedAt: null,
+    error: null,
+  });
+  const [liveMode, setLiveMode] = useState('transiberiana');
+  const [debugEnabled, setDebugEnabled] = useState(false);
+  const [debugOpen, setDebugOpen] = useState(false);
+  const [debugLogs, setDebugLogs] = useState([]);
+  const [activeBase, setActiveBase] = useState(null);
+  const activeBaseRef = React.useRef(null);
 
   const destinationOptions = useMemo(() => {
     return stations.map((station) => station.name);
@@ -206,9 +407,256 @@ export default function Fermate() {
     }, {});
   }, [stations]);
 
+  const liveStations = useMemo(() => (
+    liveMode === 'demo' ? DEMO_STATIONS : stations
+  ), [liveMode, stations]);
+
+  const liveStationLookup = useMemo(() => {
+    return liveStations.reduce((acc, station) => {
+      acc[station.name] = station.viaggiaName || station.name;
+      return acc;
+    }, {});
+  }, [liveStations]);
+
+  const liveSegments = useMemo(() => {
+    return liveStations.slice(0, -1).map((station, index) => ({
+      from: station.name,
+      to: liveStations[index + 1].name,
+    }));
+  }, [liveStations]);
+
+  const pushDebug = useCallback((entry) => {
+    if (!debugEnabled) return;
+    setDebugLogs((prev) => [entry, ...prev].slice(0, 20));
+  }, [debugEnabled]);
+
+  const toggleDebug = useCallback(() => {
+    setDebugEnabled((prev) => {
+      const next = !prev;
+      setDebugOpen(next);
+      return next;
+    });
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+    const demoObj = {};
+    Object.defineProperty(demoObj, 'toggle', {
+      get() {
+        toggleDebug();
+        return toggleDebug;
+      },
+    });
+    window.demo = demoObj;
+    return () => {
+      if (window.demo === demoObj) {
+        delete window.demo;
+      }
+    };
+  }, [toggleDebug]);
+
+  const resolvedBase =
+    activeBase ||
+    import.meta.env.VITE_VIAGGIATRENO_BASE ||
+    VIAGGIATRENO_PROXY_BASE ||
+    VIAGGIATRENO_HTTPS_BASE ||
+    VIAGGIATRENO_DEFAULT_BASE;
+  const isHttpsPage = typeof window !== 'undefined' && window.location?.protocol === 'https:';
+  const isHttpBase = resolvedBase?.startsWith('http://');
+  const resolvedBaseLabel =
+    resolvedBase?.startsWith('http')
+      ? resolvedBase
+      : typeof window !== 'undefined'
+        ? `${window.location.origin}${resolvedBase}`
+        : resolvedBase;
+
   useEffect(() => {
     setSelectedStation((current) => stations.find((station) => station.id === current.id) || stations[0]);
   }, [stations]);
+
+  const loadLiveTrains = useCallback(async (signal) => {
+    setLiveState((prev) => ({ ...prev, status: 'loading', error: null }));
+    setDebugLogs([]);
+    const stationNames = [...new Set(liveSegments.flatMap((segment) => [segment.from]))];
+    const stationEntries = await Promise.all(
+      stationNames.map(async (name) => {
+        const queryName = liveStationLookup[name] || name;
+        try {
+          return {
+            name,
+            code: await fetchStationCode(queryName, signal, pushDebug, activeBaseRef),
+            error: null,
+          };
+        } catch (error) {
+          return {
+            name,
+            code: null,
+            error: error?.message || 'station_lookup_failed',
+          };
+        }
+      }),
+    );
+    const stationMap = stationEntries.reduce((acc, item) => {
+      acc[item.name] = item.code;
+      return acc;
+    }, {});
+
+    const segmentData = await Promise.all(
+      liveSegments.map(async (segment) => {
+        const originCode = stationMap[segment.from];
+        if (!originCode) {
+          return { ...segment, status: 'missing', trains: [] };
+        }
+        let departures = [];
+        try {
+          departures = await fetchDepartures(originCode, signal, pushDebug, activeBaseRef);
+        } catch (error) {
+          return { ...segment, status: 'error', trains: [], error: error?.message || 'departures_failed' };
+        }
+        const rawCount = departures.length;
+        const rawDestinations = Array.from(
+          new Set(
+            departures
+              .map((item) => item.destinazione)
+              .filter((value) => value && typeof value === 'string'),
+          ),
+        ).slice(0, 4);
+        const destinationKey = normalizeStationName(segment.to);
+        const trains = departures
+          .filter((item) => normalizeStationName(item.destinazione) === destinationKey)
+          .slice(0, 3)
+          .map((item) => ({
+            number: item.numeroTreno,
+            category: item.categoriaDescrizione?.trim() || item.categoria || '',
+            destination: item.destinazione,
+            departure:
+              item.compOrarioPartenza ||
+              item.compOrarioPartenzaZero ||
+              item.compOrarioPartenzaZeroEffettivo ||
+              '--:--',
+            delay: Number.isFinite(item.ritardo) ? item.ritardo : 0,
+            platform:
+              item.binarioEffettivoPartenzaDescrizione ||
+              item.binarioProgrammatoPartenzaDescrizione ||
+              null,
+            statusCode: item.provvedimento,
+          }));
+
+        let debugMatches = [];
+        if (debugEnabled) {
+          const sample = departures.slice(0, 4);
+          debugMatches = await Promise.all(
+            sample.map(async (item) => {
+              const trainNumber = item.numeroTreno;
+              const originOverride =
+                item.codOrigine ||
+                item.idOrigine ||
+                item.codiceOrigine ||
+                originCode;
+              const midnightTs = getMidnightTimestamp(item);
+              try {
+                const status = await fetchTrainStatus(
+                  originOverride,
+                  trainNumber,
+                  midnightTs,
+                  signal,
+                  pushDebug,
+                  activeBaseRef,
+                );
+                const stops = Array.isArray(status?.fermate) ? status.fermate : [];
+                const stopNames = stops.map((stop) =>
+                  normalizeStationName(stop?.stazione || stop?.nomeStazione || stop?.nomeBreve || stop?.nomeLungo),
+                );
+                const hasStop = stopNames.includes(destinationKey);
+                return {
+                  number: trainNumber,
+                  originCode: originOverride,
+                  midnightTs,
+                  hasStop,
+                  stopsPreview: stops
+                    .map((stop) => stop?.stazione || stop?.nomeStazione || stop?.nomeBreve || stop?.nomeLungo)
+                    .filter(Boolean)
+                    .slice(0, 4),
+                };
+              } catch (error) {
+                return {
+                  number: trainNumber,
+                  originCode: originOverride,
+                  hasStop: false,
+                  error: error?.message || 'andamento_failed',
+                };
+              }
+            }),
+          );
+        }
+
+        return {
+          ...segment,
+          status: trains.length ? 'ok' : 'empty',
+          trains,
+          rawCount,
+          rawDestinations,
+          debugMatches,
+        };
+      }),
+    );
+
+    const hasErrors = stationEntries.some((item) => item.error) || segmentData.some((item) => item.status === 'error');
+    setLiveState({
+      status: hasErrors ? 'partial' : 'ready',
+      segments: segmentData,
+      updatedAt: new Date(),
+      error: hasErrors ? 'partial' : null,
+    });
+    setActiveBase(activeBaseRef.current);
+  }, [debugEnabled, liveSegments, liveStationLookup, pushDebug]);
+
+  const handleRefresh = useCallback(() => {
+    const controller = new AbortController();
+    loadLiveTrains(controller.signal).catch((error) => {
+      setLiveState((prev) => ({
+        ...prev,
+        status: 'error',
+        error: error?.message || 'unknown',
+      }));
+    });
+  }, [loadLiveTrains]);
+
+  useEffect(() => {
+    if (!debugEnabled) return;
+    handleRefresh();
+  }, [debugEnabled, handleRefresh]);
+
+  const handleCopyDebug = useCallback(async () => {
+    const payload = {
+      base: resolvedBase,
+      pageProtocol: typeof window !== 'undefined' ? window.location?.protocol : null,
+      updatedAt: liveState.updatedAt ? liveState.updatedAt.toISOString() : null,
+      status: liveState.status,
+      error: liveState.error,
+      mode: liveMode,
+      segments: liveSegments,
+      logs: debugLogs,
+    };
+    try {
+      await navigator.clipboard.writeText(JSON.stringify(payload, null, 2));
+    } catch (error) {
+      console.error(error);
+    }
+  }, [debugLogs, liveMode, liveSegments, liveState, resolvedBase]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    loadLiveTrains(controller.signal).catch((error) => {
+      if (error?.name === 'AbortError') return;
+      setLiveState((prev) => ({
+        ...prev,
+        status: 'error',
+        error: error?.message || 'unknown',
+      }));
+    });
+    return () => controller.abort();
+  }, [loadLiveTrains]);
 
   return (
     <div className="min-h-[100dvh] pt-32 pb-24 px-6 md:px-12 max-w-[1400px] mx-auto">
@@ -415,6 +863,310 @@ export default function Fermate() {
           </AnimatePresence>
         </div>
       </div>
+
+      <section className="mt-16">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between mb-6">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-2xl bg-primary/8 px-4 py-2 text-sm font-semibold text-primary">
+              <Train weight="fill" size={16} />
+              {isItalian ? 'Treni in diretta' : 'Live trains'}
+            </div>
+            <h2 className="mt-4 text-3xl md:text-4xl font-serif font-bold tracking-[-0.03em] text-foreground">
+              {isItalian ? 'Transiberiana adesso, tratto per tratto' : 'Live view, segment by segment'}
+            </h2>
+            <p className="mt-3 text-base text-muted-foreground max-w-[70ch]">
+              {isItalian
+                ? 'Dati live da ViaggiaTreno, filtrati sui tratti tra le stazioni principali. Le informazioni possono risultare parziali o temporaneamente assenti.'
+                : 'Live data from ViaggiaTreno, filtered by the main station segments. Data can be partial or temporarily unavailable.'}
+            </p>
+            <div className="mt-4 inline-flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={() => setLiveMode('transiberiana')}
+                className={`rounded-full px-4 py-2 text-xs font-semibold transition-colors ${
+                  liveMode === 'transiberiana'
+                    ? 'bg-primary text-primary-foreground'
+                    : 'bg-card/70 text-foreground/70 hover:text-foreground'
+                }`}
+              >
+                {isItalian ? 'Linea Transiberiana' : 'Transiberiana line'}
+              </button>
+              <button
+                type="button"
+                onClick={() => setLiveMode('demo')}
+                className={`rounded-full px-4 py-2 text-xs font-semibold transition-colors ${
+                  liveMode === 'demo'
+                    ? 'bg-primary text-primary-foreground'
+                    : 'bg-card/70 text-foreground/70 hover:text-foreground'
+                }`}
+              >
+                {isItalian ? 'Modalita demo (alta frequenza)' : 'Demo mode (high frequency)'}
+              </button>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={handleRefresh}
+            className="inline-flex items-center justify-center gap-2 rounded-2xl border border-border/60 bg-card px-5 py-3 text-sm font-semibold text-foreground shadow-[var(--shadow-subtle)] transition-all duration-300 hover:shadow-[var(--shadow-card)]"
+          >
+            {isItalian ? 'Aggiorna' : 'Refresh'}
+            <ArrowRight weight="bold" size={16} />
+          </button>
+        </div>
+
+        {liveState.status === 'error' ? (
+          <div className="rounded-3xl border border-border/60 bg-card/80 p-6 text-sm text-muted-foreground">
+            {isItalian
+              ? 'Impossibile caricare i dati live in questo momento. Riprova tra qualche minuto.'
+              : 'Unable to load live data right now. Please try again later.'}
+          </div>
+        ) : null}
+
+        {liveState.status === 'partial' ? (
+          <div className="mt-3 rounded-3xl border border-border/60 bg-card/80 p-6 text-sm text-muted-foreground">
+            {isItalian
+              ? 'Dati live parziali: alcune chiamate non sono andate a buon fine.'
+              : 'Partial live data: some requests failed.'}
+          </div>
+        ) : null}
+
+        {debugEnabled ? (
+        <div className="mt-4">
+          <button
+            type="button"
+            onClick={() => setDebugOpen((current) => !current)}
+            className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground transition-colors"
+          >
+            {debugOpen ? (isItalian ? 'Nascondi dettagli tecnici' : 'Hide technical details') : (isItalian ? 'Mostra dettagli tecnici' : 'Show technical details')}
+          </button>
+
+          {debugOpen ? (
+            <div className="mt-3 rounded-3xl border border-border/60 bg-card/80 p-6 text-xs text-muted-foreground">
+              <div className="text-sm font-semibold text-foreground">
+                {isItalian ? 'Diagnostica API' : 'API diagnostics'}
+              </div>
+              <div className="mt-2">
+                {isItalian ? 'Base API usata' : 'API base'}: <span className="text-foreground">{resolvedBaseLabel}</span>
+              </div>
+              <div className="mt-1">
+                {isItalian ? 'Protocollo pagina' : 'Page protocol'}: <span className="text-foreground">{isHttpsPage ? 'https' : 'http'}</span>
+              </div>
+              {isHttpsPage && isHttpBase ? (
+                <div className="mt-2 text-amber-500">
+                  {isItalian
+                    ? 'Attenzione: il browser blocca le chiamate http da una pagina https (mixed content). Serve un proxy https.'
+                    : 'Warning: browsers block http calls from https pages (mixed content). A https proxy is required.'}
+                </div>
+              ) : null}
+              <div className="mt-2 text-xs text-muted-foreground">
+                {isItalian
+                  ? 'Se nei log compare "NetworkError", di solito e un blocco CORS: usa il proxy locale /api/viaggiatreno (vite) o un proxy server-side in produzione.'
+                  : 'If logs show "NetworkError", it is usually CORS: use the local /api/viaggiatreno proxy (vite) or a server-side proxy in production.'}
+              </div>
+
+              <div className="mt-4 flex flex-wrap gap-2">
+                {liveStations.map((station) => (
+                  <a
+                    key={`debug-${station.name}`}
+                    href={`${resolvedBase}/cercaStazione/${encodeURIComponent(station.viaggiaName || station.name)}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center rounded-full border border-border/60 bg-background/70 px-3 py-1.5 text-[11px] font-semibold text-foreground/80 hover:text-foreground"
+                  >
+                    {isItalian ? 'Test' : 'Test'} {station.name}
+                  </a>
+                ))}
+              </div>
+
+              <div className="mt-4 space-y-2">
+                {debugLogs.length ? (
+                  debugLogs.map((log, idx) => (
+                    <div key={`${log.label}-${idx}`} className="rounded-2xl border border-border/60 bg-background/70 px-3 py-2">
+                      <div className="text-foreground">{log.label}</div>
+                      <div className="mt-1 break-all">{log.url}</div>
+                      <div className="mt-1">
+                        {isItalian ? 'Esito' : 'Result'}: {log.ok ? 'OK' : 'KO'}{' '}
+                        {log.status !== null ? `(${log.status})` : ''}
+                        {log.error ? ` · ${log.error}` : ''}
+                      </div>
+                      {log.sample ? (
+                        <div className="mt-1 text-[10px] text-muted-foreground break-all">
+                          {log.sample}
+                        </div>
+                      ) : null}
+                    </div>
+                  ))
+                ) : (
+                  <div className="rounded-2xl border border-border/60 bg-background/70 px-3 py-2">
+                    {isItalian ? 'Nessun log disponibile.' : 'No logs yet.'}
+                  </div>
+                )}
+              </div>
+
+              <button
+                type="button"
+                onClick={handleCopyDebug}
+                className="mt-4 inline-flex items-center rounded-2xl border border-border/60 bg-background/70 px-4 py-2 text-[11px] font-semibold text-foreground hover:text-primary"
+              >
+                {isItalian ? 'Copia diagnostica' : 'Copy diagnostics'}
+              </button>
+            </div>
+          ) : null}
+        </div>
+        ) : null}
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {liveSegments.map((segment, index) => {
+            const data = liveState.segments[index];
+            const hasTrains = data?.status === 'ok' && data.trains.length;
+            const isLoading = liveState.status === 'loading';
+            const statusLabel = isLoading
+              ? isItalian
+                ? 'Aggiorno...'
+                : 'Updating...'
+              : hasTrains
+                ? isItalian
+                  ? 'Treni attivi'
+                  : 'Trains running'
+                : isItalian
+                  ? 'Nessun treno'
+                  : 'No trains';
+            return (
+              <div
+                key={`${segment.from}-${segment.to}`}
+                className={`rounded-3xl border p-6 shadow-[var(--shadow-subtle)] ${
+                  liveMode === 'demo'
+                    ? 'border-primary/25 bg-gradient-to-br from-primary/8 via-card/80 to-card/70'
+                    : 'border-border/60 bg-card/80'
+                }`}
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <div className="text-lg font-semibold text-foreground">
+                      {segment.from} → {segment.to}
+                    </div>
+                    <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                      <span className="inline-flex items-center gap-1 rounded-full border border-border/60 bg-background/70 px-2 py-1">
+                        <NavigationArrow size={12} weight="fill" className="text-primary" />
+                        {isItalian ? 'Tratto' : 'Segment'}
+                      </span>
+                      <span className="inline-flex items-center gap-1 rounded-full border border-border/60 bg-background/70 px-2 py-1">
+                        {liveMode === 'demo' ? (isItalian ? 'Demo' : 'Demo') : 'Live'}
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ${
+                      hasTrains
+                        ? 'bg-emerald-500/10 text-emerald-600'
+                        : 'bg-muted/40 text-muted-foreground'
+                    }`}
+                  >
+                    <span
+                      className={`h-2 w-2 rounded-full ${
+                        hasTrains ? 'bg-emerald-500 animate-gentle-pulse' : 'bg-muted-foreground/50'
+                      }`}
+                    />
+                    {statusLabel}
+                  </div>
+                </div>
+
+                <div className="mt-4 space-y-3">
+                  {data?.status === 'ok' && data.trains.length ? (
+                    data.trains.map((train) => (
+                      <div
+                        key={`${train.number}-${train.departure}`}
+                        className="flex items-center justify-between gap-4 rounded-2xl border border-border/60 bg-background/70 px-4 py-3"
+                      >
+                        <div>
+                          <div className="flex flex-wrap items-center gap-2">
+                            <div className="text-sm font-semibold text-foreground">
+                              {train.category ? `${train.category} ` : ''}{train.number}
+                            </div>
+                            {train.destination ? (
+                              <div className="text-xs text-muted-foreground">
+                                {isItalian ? 'Direzione' : 'Direction'} {train.destination}
+                              </div>
+                            ) : null}
+                          </div>
+                          <div className="text-xs text-muted-foreground">
+                            {isItalian ? 'Partenza' : 'Departure'} {train.departure}
+                            {train.platform ? ` · Binario ${train.platform}` : ''}
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <div
+                            className={`inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold ${
+                              train.delay > 0
+                                ? 'bg-amber-500/15 text-amber-600'
+                                : 'bg-emerald-500/15 text-emerald-600'
+                            }`}
+                          >
+                            {train.delay > 0
+                              ? `${train.delay} min`
+                              : isItalian
+                                ? 'In orario'
+                                : 'On time'}
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    data?.status === 'missing' ? (
+                      <div className="rounded-2xl border border-border/60 bg-background/70 px-4 py-3 text-sm text-muted-foreground">
+                        {isItalian ? 'Codice stazione non disponibile.' : 'Station code unavailable.'}
+                      </div>
+                    ) : (
+                      <EmptySegmentState segment={segment} data={data} isItalian={isItalian} />
+                    )
+                  )}
+                </div>
+                {debugEnabled && debugOpen && data?.debugMatches?.length ? (
+                  <div className="mt-4 rounded-2xl border border-border/60 bg-background/70 px-4 py-3 text-xs text-muted-foreground">
+                    <div className="text-foreground font-semibold">
+                      {isItalian ? 'Debug /andamentoTreno (campione)' : 'Debug /andamentoTreno (sample)'}
+                    </div>
+                    <div className="mt-2 space-y-2">
+                      {data.debugMatches.map((item) => (
+                        <div key={`debug-${segment.from}-${item.number}`} className="flex flex-col gap-1">
+                          <div>
+                            {isItalian ? 'Treno' : 'Train'} {item.number} ·{' '}
+                            {item.hasStop
+                              ? isItalian
+                                ? `FERMA a ${segment.to}`
+                                : `STOPS at ${segment.to}`
+                              : isItalian
+                                ? 'non ferma'
+                                : 'does not stop'}
+                            {item.error ? ` · ${item.error}` : ''}
+                          </div>
+                          {item.midnightTs ? (
+                            <div className="text-[11px] text-muted-foreground">
+                              {isItalian ? 'Midnight TS' : 'Midnight TS'}: {item.midnightTs}
+                            </div>
+                          ) : null}
+                          {item.stopsPreview?.length ? (
+                            <div className="text-[11px] text-muted-foreground">
+                              {isItalian ? 'Prime fermate' : 'First stops'}: {item.stopsPreview.join(', ')}
+                            </div>
+                          ) : null}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+            );
+          })}
+        </div>
+
+        {liveState.updatedAt ? (
+          <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/70 px-3 py-1.5 text-xs text-muted-foreground">
+            <span className="h-2 w-2 rounded-full bg-primary/60" />
+            {isItalian ? 'Ultimo aggiornamento' : 'Last update'}: {liveState.updatedAt.toLocaleTimeString()}
+          </div>
+        ) : null}
+      </section>
     </div>
   );
 }
