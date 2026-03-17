@@ -63,6 +63,29 @@ const WIKIMEDIA_COMMONS = {
     label: 'Wikimedia Commons',
     url: 'https://commons.wikimedia.org/wiki/File:Castel_di_Sangro01.jpg',
   },
+  '/photos/journey/1888-inizio-costruzione.jpg': {
+    label: 'Rivisondoli Antiqua',
+    url: 'http://www.rivisondoliantiqua.it/gli%20altipiani%20nella%20storia/muscolino%20%20capolavoro.htm',
+  },
+  '/photos/journey/1897-inaugurazione.jpg': {
+    label: 'Ferrovia dei Parchi',
+    url: 'https://ferroviadeiparchi.it/2021/05/03/dalle-origini-ad-oggi/',
+  },
+  '/photos/journey/anni-40-guerra.jpg': {
+    label: 'Ferrovia dei Parchi',
+    url: 'https://ferroviadeiparchi.it/2021/05/03/dalle-origini-ad-oggi/',
+  },
+  '/photos/journey/anni-60-80-declino.jpg': {
+    label: 'CESMOT',
+    url: 'https://www.cesmot.it/2011/03/31/la-ferrovia-sulmona-carpinone/',
+  },
+  '/photos/journey/2014-rinascita-turistica.jpg': {
+    label: 'FamilyGo',
+    url: 'https://www.familygo.eu/vacanze-con-bambini/viaggi/abruzzo/ferrovia-dei-parchi-treno-storico-transiberiana-ditalia/',
+  },
+  '/photos/journey/2011-sospensione.jpg': {
+    label: 'Toni Pulsani (2018)',
+  },
 };
 
 function getUnsplashCredit(src) {

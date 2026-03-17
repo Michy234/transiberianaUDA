@@ -115,7 +115,7 @@ export default function Navbar() {
         role="navigation"
         aria-label={t('nav.aria.main', 'Navigazione principale')}
       >
-        <div className="max-w-[1400px] mx-auto px-6 flex items-center justify-between">
+        <div className="w-full max-w-none mx-auto px-5 sm:px-6 lg:px-10 2xl:px-16 flex items-center justify-between">
 	          <Link
               to="/"
               className="flex items-center gap-3 group"

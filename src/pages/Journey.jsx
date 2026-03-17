@@ -190,10 +190,16 @@ function TimelineItem({
   moreInfoLabel,
   lessInfoLabel,
   popupLabel,
+  onPopupToggle,
 }) {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const popupRef = useRef(null);
   const triggerRef = useRef(null);
+
+  const closePopup = () => {
+    setIsPopupOpen(false);
+    if (onPopupToggle) onPopupToggle(stepId, false);
+  };
 
   useEffect(() => {
     if (!isPopupOpen) return undefined;
@@ -201,11 +207,11 @@ function TimelineItem({
     const handlePointerDown = (event) => {
       const target = event.target;
       if (popupRef.current?.contains(target) || triggerRef.current?.contains(target)) return;
-      setIsPopupOpen(false);
+      closePopup();
     };
 
     const handleKeyDown = (event) => {
-      if (event.key === 'Escape') setIsPopupOpen(false);
+      if (event.key === 'Escape') closePopup();
     };
 
     document.addEventListener('mousedown', handlePointerDown);
@@ -264,7 +270,13 @@ function TimelineItem({
             <button
               ref={triggerRef}
               type="button"
-              onClick={() => setIsPopupOpen((current) => !current)}
+              onClick={() => {
+                setIsPopupOpen((current) => {
+                  const next = !current;
+                  if (onPopupToggle) onPopupToggle(stepId, next);
+                  return next;
+                });
+              }}
               aria-expanded={isPopupOpen}
               className="mt-5 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/8 px-4 py-2 text-sm font-semibold text-primary transition-colors duration-300 hover:bg-primary/12"
             >
@@ -298,7 +310,7 @@ function TimelineItem({
 
                     <button
                       type="button"
-                      onClick={() => setIsPopupOpen(false)}
+                      onClick={closePopup}
                       className="flex h-10 w-10 items-center justify-center rounded-full border border-border/60 bg-background/80 text-foreground transition-colors duration-200 hover:bg-background"
                       aria-label={lessInfoLabel}
                     >
@@ -354,7 +366,9 @@ export default function Journey() {
   const { t, tm, lang } = useI18n();
   const isItalian = lang === 'it';
   const journeyRootRef = useRef(null);
+  const snapTriggerRef = useRef(null);
   const [reduceMotion, setReduceMotion] = useState(false);
+  const [activePopupId, setActivePopupId] = useState(null);
   const stations = tm('journey.stations', DEFAULT_STATIONS);
   const timeline = tm('journey.timeline', DEFAULT_TIMELINE).map((item, index) => ({
     ...item,
@@ -401,8 +415,8 @@ export default function Journey() {
 
       let snapPoints = [];
       const isNarrow = window.matchMedia('(max-width: 640px)').matches;
-      const snapDuration = isNarrow ? { min: 0.1, max: 0.2 } : { min: 0.12, max: 0.32 };
-      const snapDelay = isNarrow ? 0.12 : 0.05;
+      const snapDuration = isNarrow ? { min: 0.15, max: 0.35 } : { min: 0.2, max: 0.5 };
+      const snapDelay = isNarrow ? 0.18 : 0.1;
 
       const trigger = ScrollTrigger.create({
         trigger: root,
@@ -412,9 +426,10 @@ export default function Journey() {
           snapTo: (value) => (snapPoints.length ? gsap.utils.snap(snapPoints, value) : value),
           duration: snapDuration,
           delay: snapDelay,
-          ease: 'power1.out',
+          ease: 'power2.out',
         },
       });
+      snapTriggerRef.current = trigger;
 
       updateSnapPoints = () => {
         const start = trigger.start;
@@ -458,6 +473,17 @@ export default function Journey() {
       ctx.revert();
     };
   }, [reduceMotion]);
+
+  useEffect(() => {
+    const trigger = snapTriggerRef.current;
+    if (!trigger) return;
+    if (activePopupId) {
+      trigger.disable(false);
+      return;
+    }
+    trigger.enable();
+    ScrollTrigger.refresh();
+  }, [activePopupId]);
 
   const introMotion = reduceMotion
     ? { initial: false, animate: { opacity: 1, y: 0 }, transition: { duration: 0 } }
@@ -512,6 +538,7 @@ export default function Journey() {
             moreInfoLabel={moreInfoLabel}
             lessInfoLabel={lessInfoLabel}
             popupLabel={popupLabel}
+            onPopupToggle={(id, isOpen) => setActivePopupId(isOpen ? id : null)}
           />
         ))}
       </section>
