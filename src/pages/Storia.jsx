@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AnimatePresence, motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, Sparkle, StarFour } from '@phosphor-icons/react';
+import { ArrowRight, StarFour } from '@phosphor-icons/react';
 import StoryExperienceOverlay from '../components/storia/StoryExperienceOverlay';
 import storiaStops from '../data/storiaStops';
 import { useI18n } from '../i18n/index.jsx';
@@ -68,18 +68,6 @@ function StoryCard({ stop, index, onOpen, t }) {
       </div>
 
       <div className="relative flex h-full flex-col justify-between p-6 text-white md:p-8">
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/18 bg-white/10 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/82">
-            {stop.label}
-          </span>
-          {isImmersive ? (
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/18 bg-[#f5dfb2]/20 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-white">
-              <Sparkle size={12} weight="fill" />
-              {t('storia.featured', 'Esperienza immersiva')}
-            </span>
-          ) : null}
-        </div>
-
         <div>
           {isFeatured && stop.experience?.heroBadges?.length ? (
             <div className="mb-5 flex flex-wrap gap-2">
