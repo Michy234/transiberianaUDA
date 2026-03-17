@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
-import { ArrowRight, MapPin, SealWarning } from '@phosphor-icons/react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { ArrowRight, MapPin, SealWarning, X } from '@phosphor-icons/react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
@@ -19,44 +19,124 @@ const DEFAULT_STATIONS = [
 
 const DEFAULT_TIMELINE = [
   {
-    year: '1892',
-    title: "L'inizio dei lavori",
-    desc: "Iniziano i lavori per la costruzione della Sulmona-Isernia. La sfida ingegneristica è colossale: bisogna superare dislivelli enormi scavando gallerie nella roccia viva dell'Appennino.",
+    year: '1888',
+    title: 'Inizio della costruzione',
+    desc: "Nel 1888 partirono i lavori della Sulmona-Isernia per collegare l'Appennino interno tra Abruzzo e Molise con una nuova direttrice ferroviaria est-ovest.",
+    popup: {
+      title: 'Cantieri tra montagne e borghi',
+      intro:
+        'Alla fine dell’Ottocento molti centri dell’Appennino centrale erano difficili da raggiungere e trasportare persone o merci richiedeva tempi lunghi e percorsi impervi.',
+      paragraphs: [
+        'Lo Stato italiano scelse quindi di costruire una ferrovia interna tra Sulmona e Isernia, indipendente dalle linee costiere e capace di collegare borghi come Palena, Rivisondoli e Pescocostanzo con un asse est-ovest stabile.',
+        'Il progetto era molto complesso: bisognava mantenere pendenze accettabili, evitare curve troppo strette e restare vicini ai centri abitati, intervenendo con scavi, murature, ponti e viadotti su terreni spesso instabili.',
+        'Gli operai lavorarono in condizioni estreme, con metri di neve in inverno e caldo intenso d’estate, trasformando la linea in uno dei più grandi esempi di ingegneria ferroviaria appenninica.',
+      ],
+      highlights: ['128 km di tracciato originario', '59 gallerie', 'ponti e viadotti lungo tutta la tratta'],
+    },
     reverse: false,
-    imageId: '1474487548417-781cb71495f3',
-    stepId: 'storia-1892',
+    image: '/photos/journey/1888-inizio-costruzione.jpg',
+    imageAlt: "Locomotiva storica in stazione, immagine d'epoca che richiama i primi anni della linea Sulmona-Isernia",
+    stepId: 'storia-1888',
   },
   {
     year: '1897',
-    title: "L'inaugurazione",
-    desc: "Viene inaugurato il tratto fino a Cansano e Campo di Giove. La ferrovia diventa subito il principale mezzo di trasporto per merci e persone tra l'Abruzzo e il Molise.",
+    title: 'Inaugurazione della linea',
+    desc: 'Il 18 settembre 1897 la Transiberiana d’Abruzzo fu inaugurata con un treno celebrativo, diventando subito un collegamento decisivo per persone, merci e comunità montane.',
+    popup: {
+      title: 'Il giorno che cambiò la linea',
+      intro:
+        'L’inaugurazione ufficiale avvenne il 18 settembre 1897 con un treno celebrativo partito da Castellammare Adriatico e diretto a Napoli attraverso l’intera tratta montana.',
+      paragraphs: [
+        'L’evento coinvolse autorità, tecnici, operai e cittadini: il treno venne percepito come simbolo di progresso, modernità e apertura dei paesi di montagna verso il resto d’Italia.',
+        'Il valico di Rivisondoli-Pescocostanzo raggiungeva 1268,82 metri sul livello del mare, record della rete a scartamento ordinario italiana per molti anni.',
+        'Nei primi anni l’intera tratta Sulmona-Isernia richiedeva circa 5 ore e 55 minuti, tempo che nel 1938 scese a 3 ore e 33 minuti grazie a convogli più efficienti e migliorie infrastrutturali.',
+      ],
+      highlights: ['18 settembre 1897', '1268,82 m al valico di Rivisondoli-Pescocostanzo', '5h 55m nei primi anni di esercizio'],
+    },
     reverse: true,
-    imageId: '1506260408121-e353d10b87c7',
+    image: '/photos/journey/1897-inaugurazione.jpg',
+    imageAlt: 'Cartolina storica della stazione di Palena negli anni di apertura della Transiberiana d’Abruzzo',
     stepId: 'storia-1897',
   },
   {
-    year: '1943',
-    title: 'Distruzione e rinascita',
-    desc: "Durante la Seconda Guerra Mondiale la linea subisce gravissimi danni a causa della Linea Gustav. Negli anni '50 viene ricostruita e ammodernata, riprendendo il suo ruolo di collante vitale.",
+    year: "Anni '40",
+    title: 'Guerra e distruzione',
+    desc: 'Durante la Seconda guerra mondiale la linea fu gravemente danneggiata lungo la Linea Gustav, con ponti, viadotti e binari distrutti durante la ritirata tedesca.',
+    popup: {
+      title: 'La ferrovia sulla Linea Gustav',
+      intro:
+        'Nel cuore della guerra la Transiberiana d’Abruzzo aveva un forte valore strategico, perché attraversava l’Appennino lontano dalle principali direttrici costiere.',
+      paragraphs: [
+        'Nel novembre 1943, durante la ritirata tedesca, vennero distrutti ponti e viadotti, minati interi segmenti della linea e danneggiati numerosi binari per bloccare gli spostamenti alleati.',
+        'Paesi come Palena, Rivisondoli e Castel di Sangro rimasero isolati mentre anche il territorio circostante subiva bombardamenti e pesanti difficoltà logistiche.',
+        'La ricostruzione fu lenta: il tratto Sulmona-Castel di Sangro tornò operativo nel 1955, mentre la riapertura completa fino a Isernia arrivò soltanto il 9 novembre 1960.',
+      ],
+      highlights: ['novembre 1943: distruzioni belliche', '1955: riapertura Sulmona-Castel di Sangro', '9 novembre 1960: piena riattivazione'],
+    },
     reverse: false,
-    imageId: '1475924156734-496f6cac6ec1',
-    stepId: 'storia-1943',
+    image: '/photos/journey/anni-40-guerra.jpg',
+    imageAlt: 'Locomotiva tra strutture ferroviarie distrutte durante la Seconda guerra mondiale',
+    stepId: 'storia-anni-40',
+  },
+  {
+    year: "Anni '60-'80",
+    title: 'Trasformazione e declino',
+    desc: 'Nel dopoguerra la linea continuò a servire passeggeri e merci, ma automobili, autobus e spopolamento dei borghi la resero progressivamente meno centrale.',
+    popup: {
+      title: 'Tra modernizzazione e perdita di centralità',
+      intro:
+        'Dopo la ricostruzione, la linea visse ancora una fase intensa, con servizi passeggeri, convogli merci e un ruolo importante per la vita economica delle montagne.',
+      paragraphs: [
+        'I treni merci continuarono a trasportare bestiame e greggi, sostituendo in parte la transumanza tradizionale e mantenendo attivo un legame diretto con il Tavoliere delle Puglie.',
+        'Negli stessi anni le automotrici diesel ALn 668 ridussero sensibilmente i tempi di percorrenza e le relazioni Pescara-Napoli arrivarono a circa 2 ore e 47 minuti.',
+        'L’espansione delle auto private, il miglioramento delle strade e il calo demografico dei borghi montani ridussero però il traffico ferroviario, preparando il declino che divenne evidente negli anni Novanta.',
+      ],
+      highlights: ['treni merci per greggi e bestiame', 'ALn 668 in servizio', 'Pescara-Napoli in circa 2h 47m'],
+    },
+    reverse: true,
+    image: '/photos/journey/anni-60-80-declino.jpg',
+    imageAlt: 'Automotrice ALn in sosta a Castel di Sangro nel 1976, simbolo della fase di trasformazione della linea',
+    stepId: 'storia-anni-60-80',
   },
   {
     year: '2011',
-    title: 'La sospensione',
-    desc: "Il servizio ordinario passeggeri viene sospeso per via degli elevati costi di gestione. Si teme l'abbandono definitivo della linea storica.",
-    reverse: true,
-    imageId: '1465146344425-f00d5f5c8f07',
+    title: 'Sospensione della linea',
+    desc: 'Tra ottobre 2010 e dicembre 2011 furono sospesi prima il tratto Castel di Sangro-Carpinone e poi Sulmona-Castel di Sangro, fermando il servizio regolare.',
+    popup: {
+      title: 'La fine del servizio ordinario',
+      intro:
+        'La sospensione arrivò al termine di un lungo indebolimento del servizio, causato da pochi passeggeri, costi alti e minori investimenti nel trasporto ferroviario locale.',
+      paragraphs: [
+        'Nell’ottobre 2010 fu fermato il traffico tra Castel di Sangro e Carpinone; nel dicembre 2011 si arrestò anche l’ultimo tratto operativo tra Sulmona e Castel di Sangro.',
+        'Fino ad allora la linea era ancora usata da treni locali e interregionali, in alcuni casi classificati come Espresso Pescara-Napoli, con percorrenze di circa cinque ore.',
+        'La chiusura provocò forte rammarico tra residenti e appassionati, ma proprio da quel momento nacque la mobilitazione che avrebbe portato alla rinascita turistica della ferrovia.',
+      ],
+      highlights: ['ottobre 2010: stop Castel di Sangro-Carpinone', 'dicembre 2011: stop Sulmona-Castel di Sangro', 'mobilitazione guidata anche da Le Rotaie'],
+    },
+    reverse: false,
+    image: '/photos/journey/2011-sospensione.jpg',
+    imageAlt: 'Binari della linea storica immersi nella valle, immagine che richiama il periodo di sospensione del servizio',
     stepId: 'storia-2011',
   },
   {
-    year: 'Oggi',
-    title: 'La Transiberiana',
-    desc: "Rinata come ferrovia turistica grazie alla Fondazione FS Italiane, oggi offre l'esperienza magica di viaggiare su treni d'epoca attraverso i paesaggi immacolati dell'Appennino.",
-    reverse: false,
-    imageId: '1494515843206-f3117d3f51b7',
-    stepId: 'storia-oggi',
+    year: '2014',
+    title: 'Rinascita turistica',
+    desc: "Dopo il successo dei primi treni storici promossi da Le Rotaie, il 17 maggio 2014 la linea rinacque come ferrovia turistica con il progetto 'Binari Senza Tempo' di Fondazione FS.",
+    popup: {
+      title: 'Dalla salvezza dal basso alla Ferrovia dei Parchi',
+      intro:
+        'Dopo la sospensione nacque subito una mobilitazione dal basso: associazioni, appassionati e territori locali videro nella linea una straordinaria vocazione turistica.',
+      paragraphs: [
+        'Il primo treno storico sperimentale partì il 4 marzo 2012 grazie all’associazione Le Rotaie e registrò un successo di pubblico immediato, favorito anche dai paesaggi innevati degli altipiani.',
+        'La svolta definitiva arrivò il 17 maggio 2014 con il progetto Binari Senza Tempo di Fondazione FS Italiane, che destinò la Sulmona-Isernia all’uso turistico e culturale.',
+        'Nel 2017 la legge 128/2017 la riconobbe ufficialmente come ferrovia turistica italiana; più recentemente interventi sostenuti anche dal PNRR hanno migliorato binari, ponti e stazioni preservandone il fascino storico.',
+      ],
+      highlights: ['4 marzo 2012: primo treno storico', '17 maggio 2014: progetto Binari Senza Tempo', '2017: riconoscimento come ferrovia turistica'],
+    },
+    reverse: true,
+    image: '/photos/journey/2014-rinascita-turistica.jpg',
+    imageAlt: 'Treno turistico sulla Ferrovia dei Parchi tra boschi e montagne appenniniche',
+    stepId: 'storia-2014',
   },
 ];
 
@@ -70,7 +150,84 @@ function getNavOffset() {
   return nav ? nav.offsetHeight + 8 : 0;
 }
 
-function TimelineItem({ year, title, desc, reverse, image, stepId, reduceMotion }) {
+function scrollPopupIntoView(element) {
+  if (typeof window === 'undefined' || !element) return;
+
+  const rect = element.getBoundingClientRect();
+  const topOffset = getNavOffset() + 24;
+  const bottomMargin = 24;
+  const availableHeight = window.innerHeight - topOffset - bottomMargin;
+  const currentTop = window.scrollY;
+
+  let targetTop = currentTop;
+
+  if (rect.height <= availableHeight) {
+    targetTop = currentTop + rect.top - topOffset;
+  } else if (rect.top < topOffset) {
+    targetTop = currentTop + rect.top - topOffset;
+  } else if (rect.bottom > window.innerHeight - bottomMargin) {
+    targetTop = currentTop + rect.bottom - (window.innerHeight - bottomMargin);
+  }
+
+  if (Math.abs(targetTop - currentTop) < 8) return;
+
+  window.scrollTo({
+    top: Math.max(0, targetTop),
+    behavior: isReducedMotion() ? 'auto' : 'smooth',
+  });
+}
+
+function TimelineItem({
+  year,
+  title,
+  desc,
+  popup,
+  reverse,
+  image,
+  imageAlt,
+  stepId,
+  reduceMotion,
+  moreInfoLabel,
+  lessInfoLabel,
+  popupLabel,
+}) {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const popupRef = useRef(null);
+  const triggerRef = useRef(null);
+
+  useEffect(() => {
+    if (!isPopupOpen) return undefined;
+
+    const handlePointerDown = (event) => {
+      const target = event.target;
+      if (popupRef.current?.contains(target) || triggerRef.current?.contains(target)) return;
+      setIsPopupOpen(false);
+    };
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') setIsPopupOpen(false);
+    };
+
+    document.addEventListener('mousedown', handlePointerDown);
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('mousedown', handlePointerDown);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isPopupOpen]);
+
+  useEffect(() => {
+    if (!isPopupOpen) return undefined;
+    if (typeof window === 'undefined') return undefined;
+
+    const rafId = window.requestAnimationFrame(() => {
+      scrollPopupIntoView(popupRef.current);
+    });
+
+    return () => window.cancelAnimationFrame(rafId);
+  }, [isPopupOpen]);
+
   const textMotion = reduceMotion
     ? { initial: false, whileInView: { opacity: 1, x: 0 }, transition: { duration: 0 } }
     : {
@@ -97,11 +254,73 @@ function TimelineItem({ year, title, desc, reverse, image, stepId, reduceMotion 
         whileInView={textMotion.whileInView}
         viewport={{ once: true, margin: "-100px" }}
         transition={textMotion.transition}
-        className="w-full md:w-5/12"
+        className="relative w-full md:w-5/12"
       >
         <div className="text-primary font-serif text-3xl font-bold mb-4 italic">{year}</div>
         <h3 className="text-3xl font-bold tracking-tight mb-4 text-foreground">{title}</h3>
         <p className="text-lg text-muted-foreground leading-relaxed">{desc}</p>
+        {popup ? (
+          <>
+            <button
+              ref={triggerRef}
+              type="button"
+              onClick={() => setIsPopupOpen((current) => !current)}
+              aria-expanded={isPopupOpen}
+              className="mt-5 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/8 px-4 py-2 text-sm font-semibold text-primary transition-colors duration-300 hover:bg-primary/12"
+            >
+              {isPopupOpen ? lessInfoLabel : moreInfoLabel}
+              <ArrowRight
+                weight="bold"
+                size={14}
+                className={`transition-transform duration-300 ${isPopupOpen ? 'rotate-90' : ''}`}
+              />
+            </button>
+
+            <AnimatePresence>
+              {isPopupOpen ? (
+                <motion.div
+                  ref={popupRef}
+                  initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 8, scale: 0.98 }}
+                  transition={{ duration: 0.22, ease: 'easeOut' }}
+                  className="absolute left-0 top-full z-30 mt-4 w-full max-w-[32rem] rounded-[28px] border border-border/60 bg-card/95 p-5 shadow-[var(--shadow-elevated)] backdrop-blur-xl"
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground">
+                        {popupLabel}
+                      </p>
+                      <h4 className="mt-2 text-2xl font-serif font-bold tracking-tight text-foreground">
+                        {popup.title}
+                      </h4>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => setIsPopupOpen(false)}
+                      className="flex h-10 w-10 items-center justify-center rounded-full border border-border/60 bg-background/80 text-foreground transition-colors duration-200 hover:bg-background"
+                      aria-label={lessInfoLabel}
+                    >
+                      <X size={16} weight="bold" />
+                    </button>
+                  </div>
+
+                  <p className="mt-4 text-sm leading-relaxed text-foreground/85">{popup.intro}</p>
+
+                  <div className="mt-4 space-y-3">
+                    {popup.paragraphs?.map((paragraph) => (
+                      <p key={paragraph} className="text-sm leading-relaxed text-muted-foreground">
+                        {paragraph}
+                      </p>
+                    ))}
+                  </div>
+
+                </motion.div>
+              ) : null}
+            </AnimatePresence>
+          </>
+        ) : null}
       </motion.div>
       
       <div className="w-12 h-12 rounded-full bg-primary/10 border-4 border-background flex items-center justify-center shrink-0 z-10 hidden md:flex shadow-[var(--shadow-subtle)]">
@@ -117,7 +336,7 @@ function TimelineItem({ year, title, desc, reverse, image, stepId, reduceMotion 
       >
          <img 
            src={image}
-           alt={`${title} - ${year}`} 
+           alt={imageAlt || `${title} - ${year}`} 
            className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
            loading="lazy"
          />
@@ -142,14 +361,18 @@ export default function Journey() {
     image:
       item.image ||
       [
-        '/photos/storia/sulmona.webp',
-        '/photos/storia/campo-di-giove.webp',
-        '/photos/storia/palena.webp',
-        '/photos/storia/roccaraso.webp',
-        '/photos/storia/transiberiana.webp',
+        '/photos/journey/1888-inizio-costruzione.jpg',
+        '/photos/journey/1897-inaugurazione.jpg',
+        '/photos/journey/anni-40-guerra.jpg',
+        '/photos/journey/anni-60-80-declino.jpg',
+        '/photos/journey/2011-sospensione.jpg',
+        '/photos/journey/2014-rinascita-turistica.jpg',
       ][index] ||
       '/photos/storia/transiberiana.webp',
   }));
+  const moreInfoLabel = isItalian ? 'Più info' : 'More info';
+  const lessInfoLabel = isItalian ? 'Chiudi' : 'Close';
+  const popupLabel = isItalian ? 'Approfondimento' : 'Details';
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -266,7 +489,7 @@ export default function Journey() {
         >
           {t(
             'journey.hero.subtitle',
-            "Progettata a fine Ottocento, la ferrovia Sulmona-Isernia è un capolavoro di ingegneria civile che ha unito le popolazioni montane prima di diventare la linea turistica più iconica d'Italia.",
+            "Nata come grande sfida ferroviaria di montagna, la Sulmona-Isernia fu inaugurata il 18 settembre 1897 e dal 17 maggio 2014 è tornata a vivere come una delle linee turistiche più iconiche d'Italia.",
           )}
         </motion.p>
       </section>
@@ -280,10 +503,15 @@ export default function Journey() {
             year={item.year}
             title={item.title}
             desc={item.desc}
+            popup={item.popup}
             reverse={item.reverse}
             image={item.image}
+            imageAlt={item.imageAlt}
             stepId={item.stepId}
             reduceMotion={reduceMotion}
+            moreInfoLabel={moreInfoLabel}
+            lessInfoLabel={lessInfoLabel}
+            popupLabel={popupLabel}
           />
         ))}
       </section>

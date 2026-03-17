@@ -51,48 +51,146 @@
         "accent": "history",
         "tail": "through the Apennines"
       },
-      "subtitle": "Designed in the late nineteenth century, the Sulmona-Isernia railway is a masterpiece of civil engineering that connected mountain communities before becoming Italy's most iconic tourist rail line."
+      "subtitle": "Born as a major mountain railway challenge, the Sulmona-Isernia line was inaugurated on September 18, 1897 and returned to life on May 17, 2014 as one of Italy's most iconic tourist railways."
     },
     "timeline": [
       {
-        "year": "1892",
-        "title": "Work begins",
-        "desc": "Construction starts on the Sulmona-Isernia line. The engineering challenge is enormous: the route must overcome steep gradients by carving tunnels through the solid rock of the Apennines.",
+        "year": "1888",
+        "title": "Construction begins",
+        "desc": "In 1888 work started on the Sulmona-Isernia line, created to connect the inland Apennines of Abruzzo and Molise with a new east-west railway route.",
+        "popup": {
+          "title": "Building through mountains and villages",
+          "intro": "At the end of the nineteenth century many towns in the central Apennines were difficult to reach, and moving people or goods meant slow journeys on harsh roads.",
+          "paragraphs": [
+            "The Italian state therefore chose to build an inland railway between Sulmona and Isernia, independent from the coastal lines and able to connect towns such as Palena, Rivisondoli and Pescocostanzo.",
+            "The project was extremely complex: gradients had to remain manageable, curves could not be too tight and the route still needed to stay close to settlements, requiring tunnels, masonry works, bridges and viaducts.",
+            "Workers faced extreme conditions, with deep winter snow and exhausting summer heat, turning the line into one of the clearest examples of Apennine railway engineering."
+          ],
+          "highlights": [
+            "128 km original route",
+            "59 tunnels",
+            "bridges and viaducts along the full line"
+          ]
+        },
         "reverse": false,
-        "imageId": "1474487548417-781cb71495f3",
-        "stepId": "storia-1892"
+        "image": "/photos/journey/1888-inizio-costruzione.jpg",
+        "imageAlt": "Historic locomotive at a station, evoking the first years of the Sulmona-Isernia line",
+        "stepId": "storia-1888"
       },
       {
         "year": "1897",
-        "title": "The inauguration",
-        "desc": "The section as far as Cansano and Campo di Giove is inaugurated. The railway immediately becomes the main transport link for goods and passengers between Abruzzo and Molise.",
+        "title": "The line is inaugurated",
+        "desc": "On September 18, 1897 the Transiberiana d'Abruzzo was inaugurated with a celebratory train, immediately becoming a crucial link for people, goods and mountain communities.",
+        "popup": {
+          "title": "The day the railway changed the mountains",
+          "intro": "The official inauguration took place on September 18, 1897 with a celebratory train travelling from Castellammare Adriatico to Naples across the whole mountain section.",
+          "paragraphs": [
+            "Authorities, engineers, workers and local communities all took part, and the railway was immediately seen as a symbol of progress and modernity for isolated mountain areas.",
+            "The Rivisondoli-Pescocostanzo pass reached 1,268.82 metres above sea level, a record for Italy's standard-gauge railway network for many years.",
+            "In the early years the full Sulmona-Isernia journey took about 5 hours and 55 minutes; by 1938 the same route could be covered in 3 hours and 33 minutes thanks to better rolling stock and infrastructure."
+          ],
+          "highlights": [
+            "September 18, 1897",
+            "1,268.82 m at the Rivisondoli-Pescocostanzo pass",
+            "5h 55m in the first years of service"
+          ]
+        },
         "reverse": true,
-        "imageId": "1506260408121-e353d10b87c7",
+        "image": "/photos/journey/1897-inaugurazione.jpg",
+        "imageAlt": "Historic postcard of Palena station around the opening years of the Transiberiana d'Abruzzo",
         "stepId": "storia-1897"
       },
       {
-        "year": "1943",
-        "title": "Destruction and rebirth",
-        "desc": "During the Second World War the line suffers severe damage because of the Gustav Line. In the 1950s it is rebuilt and modernized, returning to its role as a vital connector.",
+        "year": "1940s",
+        "title": "War and destruction",
+        "desc": "During the Second World War the line was heavily damaged along the Gustav Line, with bridges, viaducts and tracks destroyed during the German retreat.",
+        "popup": {
+          "title": "The railway on the Gustav Line",
+          "intro": "During the war the Transiberiana d'Abruzzo had strong strategic value because it crossed the Apennines far from the main coastal routes.",
+          "paragraphs": [
+            "In November 1943, during the German retreat, bridges and viaducts were destroyed, parts of the line were mined and many tracks were damaged to block Allied movements.",
+            "Places such as Palena, Rivisondoli and Castel di Sangro were left isolated while the surrounding territory also suffered bombings and severe logistical disruption.",
+            "Recovery was slow: the Sulmona-Castel di Sangro section reopened in 1955, while the full line to Isernia returned only on November 9, 1960."
+          ],
+          "highlights": [
+            "November 1943: wartime destruction",
+            "1955: Sulmona-Castel di Sangro reopens",
+            "November 9, 1960: full reactivation"
+          ]
+        },
         "reverse": false,
-        "imageId": "1475924156734-496f6cac6ec1",
-        "stepId": "storia-1943"
+        "image": "/photos/journey/anni-40-guerra.jpg",
+        "imageAlt": "Locomotive among destroyed railway structures during the Second World War",
+        "stepId": "storia-anni-40"
+      },
+      {
+        "year": "1960s-1980s",
+        "title": "Transformation and decline",
+        "desc": "After the war the line still served passengers and freight, but cars, buses and the depopulation of mountain villages progressively made it less central.",
+        "popup": {
+          "title": "Modernisation followed by decline",
+          "intro": "After reconstruction the railway still experienced an active phase, with passenger services, freight trains and an important role in the mountain economy.",
+          "paragraphs": [
+            "Freight trains continued to carry livestock and sheep, partly replacing traditional transhumance and keeping direct links with the Tavoliere delle Puglie.",
+            "At the same time ALn 668 diesel railcars cut travel times sharply and Pescara-Napoli services could reach about 2 hours and 47 minutes.",
+            "But the spread of private cars, improved roads and the depopulation of mountain villages steadily reduced railway traffic, paving the way for the decline that became clear by the 1990s."
+          ],
+          "highlights": [
+            "freight trains for sheep and livestock",
+            "ALn 668 railcars in service",
+            "Pescara-Napoli in about 2h 47m"
+          ]
+        },
+        "reverse": true,
+        "image": "/photos/journey/anni-60-80-declino.jpg",
+        "imageAlt": "ALn railcar stopped at Castel di Sangro in 1976, symbol of the line's transition years",
+        "stepId": "storia-anni-60-80"
       },
       {
         "year": "2011",
-        "title": "The suspension",
-        "desc": "Regular passenger service is suspended because of high operating costs. People fear the definitive abandonment of the historic line.",
-        "reverse": true,
-        "imageId": "1465146344425-f00d5f5c8f07",
+        "title": "Service is suspended",
+        "desc": "Between October 2010 and December 2011, first the Castel di Sangro-Carpinone section and then the Sulmona-Castel di Sangro section were suspended, stopping regular service.",
+        "popup": {
+          "title": "The end of regular service",
+          "intro": "The suspension arrived after a long weakening of the service, caused by low passenger numbers, high costs and shrinking investment in local rail transport.",
+          "paragraphs": [
+            "In October 2010 traffic stopped between Castel di Sangro and Carpinone; in December 2011 the last active section between Sulmona and Castel di Sangro was also closed.",
+            "Up to that point the line was still used by local and interregional trains, in some cases classified as the Pescara-Napoli Espresso, with journeys of about five hours.",
+            "The closure caused strong disappointment among residents and railway enthusiasts, but it also sparked the mobilisation that later led to the tourist rebirth of the route."
+          ],
+          "highlights": [
+            "October 2010: stop on Castel di Sangro-Carpinone",
+            "December 2011: stop on Sulmona-Castel di Sangro",
+            "grassroots mobilisation supported by Le Rotaie"
+          ]
+        },
+        "reverse": false,
+        "image": "/photos/journey/2011-sospensione.jpg",
+        "imageAlt": "Tracks of the historic line disappearing into the valley, recalling the years of service suspension",
         "stepId": "storia-2011"
       },
       {
-        "year": "Today",
-        "title": "The Transiberiana",
-        "desc": "Reborn as a tourist railway thanks to Fondazione FS Italiane, it now offers the magic of travelling on vintage trains through the untouched landscapes of the Apennines.",
-        "reverse": false,
-        "imageId": "1494515843206-f3117d3f51b7",
-        "stepId": "storia-oggi"
+        "year": "2014",
+        "title": "Tourist rebirth",
+        "desc": "After the success of the first historic trains promoted by Le Rotaie, on May 17, 2014 the line was reborn as a tourist railway with Fondazione FS's 'Binari Senza Tempo' project.",
+        "popup": {
+          "title": "From grassroots rescue to the Railway of the Parks",
+          "intro": "Immediately after the suspension, associations, enthusiasts and local communities recognised the extraordinary tourist potential of the line.",
+          "paragraphs": [
+            "The first experimental historic train ran on March 4, 2012 thanks to the Le Rotaie association and drew a large public response, helped by the snowy mountain scenery.",
+            "The real turning point came on May 17, 2014 with Fondazione FS Italiane's Binari Senza Tempo project, which formally dedicated the Sulmona-Isernia line to tourist and cultural use.",
+            "In 2017 law 128/2017 officially recognised it as an Italian tourist railway; more recently works supported also by PNRR funds improved tracks, bridges and stations while preserving the line's historic character."
+          ],
+          "highlights": [
+            "March 4, 2012: first historic train",
+            "May 17, 2014: Binari Senza Tempo",
+            "2017: official tourist railway recognition"
+          ]
+        },
+        "reverse": true,
+        "image": "/photos/journey/2014-rinascita-turistica.jpg",
+        "imageAlt": "Tourist train of the Ferrovia dei Parchi crossing woods and mountain scenery",
+        "stepId": "storia-2014"
       }
     ],
     "stations": [
