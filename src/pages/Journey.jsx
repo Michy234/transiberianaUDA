@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, MapPin } from '@phosphor-icons/react';
+import { ArrowRight, MapPin, SealWarning } from '@phosphor-icons/react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
@@ -60,8 +60,6 @@ const DEFAULT_TIMELINE = [
   },
 ];
 
-const EMAIL_STORAGE_KEY = 'transiberiana_ticket_interest_email';
-
 function isReducedMotion() {
   return typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
@@ -72,11 +70,7 @@ function getNavOffset() {
   return nav ? nav.offsetHeight + 8 : 0;
 }
 
-function isValidEmail(value) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-}
-
-function TimelineItem({ year, title, desc, reverse, imageId, stepId, reduceMotion }) {
+function TimelineItem({ year, title, desc, reverse, image, stepId, reduceMotion }) {
   const textMotion = reduceMotion
     ? { initial: false, whileInView: { opacity: 1, x: 0 }, transition: { duration: 0 } }
     : {
@@ -122,13 +116,13 @@ function TimelineItem({ year, title, desc, reverse, imageId, stepId, reduceMotio
         className="w-full md:w-5/12 aspect-[4/3] rounded-3xl bg-secondary overflow-hidden shadow-[var(--shadow-card)] relative"
       >
          <img 
-           src={`https://images.unsplash.com/photo-${imageId}?q=80&w=1200&auto=format&fit=crop`} 
+           src={image}
            alt={`${title} - ${year}`} 
            className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
            loading="lazy"
          />
          <ImageCredit
-           src={`https://images.unsplash.com/photo-${imageId}?q=80&w=1200&auto=format&fit=crop`}
+           src={image}
            className="absolute bottom-3 right-3 rounded-full bg-black/45 px-3 py-1 text-[10px] text-white/90"
            linkClassName="text-white/90 hover:text-white"
          />
@@ -138,13 +132,24 @@ function TimelineItem({ year, title, desc, reverse, imageId, stepId, reduceMotio
 }
 
 export default function Journey() {
-  const { t, tm } = useI18n();
+  const { t, tm, lang } = useI18n();
+  const isItalian = lang === 'it';
   const journeyRootRef = useRef(null);
-  const [email, setEmail] = useState('');
-  const [formStatus, setFormStatus] = useState({ error: '', success: '' });
   const [reduceMotion, setReduceMotion] = useState(false);
   const stations = tm('journey.stations', DEFAULT_STATIONS);
-  const timeline = tm('journey.timeline', DEFAULT_TIMELINE);
+  const timeline = tm('journey.timeline', DEFAULT_TIMELINE).map((item, index) => ({
+    ...item,
+    image:
+      item.image ||
+      [
+        '/photos/storia/sulmona.webp',
+        '/photos/storia/campo-di-giove.webp',
+        '/photos/storia/palena.webp',
+        '/photos/storia/roccaraso.webp',
+        '/photos/storia/transiberiana.webp',
+      ][index] ||
+      '/photos/storia/transiberiana.webp',
+  }));
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -157,12 +162,6 @@ export default function Journey() {
     }
     media.addListener(update);
     return () => media.removeListener(update);
-  }, []);
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const stored = window.localStorage.getItem(EMAIL_STORAGE_KEY);
-    if (stored) setEmail(stored);
   }, []);
 
   useLayoutEffect(() => {
@@ -237,45 +236,6 @@ export default function Journey() {
     };
   }, [reduceMotion]);
 
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-    if (formStatus.error || formStatus.success) {
-      setFormStatus({ error: '', success: '' });
-    }
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const trimmed = email.trim();
-
-    if (!trimmed) {
-      setFormStatus({ error: t('journey.form.errors.empty', 'Inserisci la tua email per proseguire.'), success: '' });
-      return;
-    }
-
-    if (!isValidEmail(trimmed)) {
-      setFormStatus({ error: t('journey.form.errors.invalid', 'Inserisci un indirizzo email valido.'), success: '' });
-      return;
-    }
-
-    try {
-      window.localStorage.setItem(EMAIL_STORAGE_KEY, trimmed);
-    } catch (_) {
-      // Ignore storage errors; we still show confirmation.
-    }
-
-    setFormStatus({
-      error: '',
-      success: t('journey.form.success', 'Grazie! Ti avviseremo appena aprono le prenotazioni.'),
-    });
-  };
-
-  const messageId = formStatus.error
-    ? 'journey-email-error'
-    : formStatus.success
-      ? 'journey-email-success'
-      : undefined;
-
   const introMotion = reduceMotion
     ? { initial: false, animate: { opacity: 1, y: 0 }, transition: { duration: 0 } }
     : { initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 } };
@@ -321,7 +281,7 @@ export default function Journey() {
             title={item.title}
             desc={item.desc}
             reverse={item.reverse}
-            imageId={item.imageId}
+            image={item.image}
             stepId={item.stepId}
             reduceMotion={reduceMotion}
           />
@@ -383,14 +343,30 @@ export default function Journey() {
                   {t('journey.cta.title', 'Compra il biglietto')}
                 </h2>
                 <p className="text-lg text-muted-foreground leading-relaxed max-w-[50ch]">
-                  {t(
-                    'journey.cta.body',
-                    'Lascia la tua email e ti avvisiamo appena aprono le prenotazioni per le prossime partenze.',
-                  )}
+                  {isItalian
+                    ? 'Modulo dimostrativo non attivo. In questa versione non vengono raccolte email e non e possibile inviare richieste o prenotazioni.'
+                    : 'Demonstration form not active. This version does not collect emails and cannot be used to send requests or bookings.'}
                 </p>
               </div>
 
-              <form className="w-full lg:max-w-sm" onSubmit={handleSubmit} noValidate>
+              <form className="w-full lg:max-w-sm" noValidate>
+                <div className="rounded-2xl border border-primary/20 bg-primary/8 px-4 py-3 text-sm leading-relaxed text-foreground/80">
+                  <div className="flex items-start gap-3">
+                    <div className="mt-0.5 rounded-full bg-primary/12 p-1.5 text-primary">
+                      <SealWarning size={16} weight="fill" />
+                    </div>
+                    <div>
+                      <div className="font-semibold text-foreground">
+                        {isItalian ? 'Demo non conforme per raccolta contatti' : 'Demo not compliant for contact collection'}
+                      </div>
+                      <p className="mt-1 text-muted-foreground">
+                        {isItalian
+                          ? 'Per questa demo il modulo resta visibile solo come riferimento grafico, ma e disattivato e non deve essere usato.'
+                          : 'In this demo the form remains visible only as a visual reference, but it is disabled and must not be used.'}
+                      </p>
+                    </div>
+                  </div>
+                </div>
                 <label htmlFor="journey-email" className="text-sm font-semibold text-muted-foreground">
                   {t('journey.form.label', 'Email')}
                 </label>
@@ -398,35 +374,26 @@ export default function Journey() {
                   id="journey-email"
                   name="email"
                   type="email"
-                  required
-                  value={email}
-                  onChange={handleEmailChange}
-                  aria-invalid={Boolean(formStatus.error)}
-                  aria-describedby={messageId}
-                  className={`mt-2 w-full rounded-2xl border px-4 py-3 bg-background text-foreground placeholder:text-muted-foreground/70 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 transition-all duration-200 ${
-                    formStatus.error ? 'border-destructive' : 'border-border/60'
-                  }`}
-                  placeholder={t('journey.form.placeholder', 'nome@email.com')}
+                  disabled
+                  value=""
+                  aria-disabled="true"
+                  className="mt-2 w-full cursor-not-allowed rounded-2xl border border-border/60 bg-background/60 px-4 py-3 text-foreground/65 placeholder:text-muted-foreground/70 opacity-75"
+                  placeholder={isItalian ? 'demo non attiva' : 'demo inactive'}
                 />
                 <button
                   type="submit"
-                  className="mt-4 px-6 py-3 rounded-2xl bg-primary text-primary-foreground font-semibold w-full hover:scale-[1.01] active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 shadow-[var(--shadow-button)] focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+                  disabled
+                  aria-disabled="true"
+                  className="mt-4 flex w-full cursor-not-allowed items-center justify-center gap-2 rounded-2xl bg-primary/45 px-6 py-3 font-semibold text-primary-foreground/85 opacity-80"
                 >
-                  {t('journey.form.submit', 'Avvisami')}
+                  {isItalian ? 'Modulo non utilizzabile' : 'Form unavailable'}
                   <ArrowRight weight="bold" size={18} />
                 </button>
-                <div className="mt-3 min-h-[1.5rem] text-sm" aria-live="polite">
-                  {formStatus.error && (
-                    <p id="journey-email-error" className="text-destructive">
-                      {formStatus.error}
-                    </p>
-                  )}
-                  {formStatus.success && (
-                    <p id="journey-email-success" className="text-primary">
-                      {formStatus.success}
-                    </p>
-                  )}
-                </div>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                  {isItalian
+                    ? 'Prima di un eventuale uso reale questa sezione dovra essere sostituita con un flusso conforme e con contatti ufficiali del titolare.'
+                    : 'Before any real use, this section must be replaced with a compliant flow and official controller contacts.'}
+                </p>
               </form>
             </div>
           </div>

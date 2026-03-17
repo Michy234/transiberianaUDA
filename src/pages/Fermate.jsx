@@ -90,7 +90,7 @@ const TRAINLINE_ROUTE_OVERRIDES = [
 function TrainlineLogo() {
   return (
     <img
-      src="https://static.trainlinecontent.com/content/vul/logos/trainline-mint.svg"
+      src="/logos/trainline-mint.svg"
       alt="Trainline"
       className="h-7 w-auto"
       loading="lazy"
@@ -124,8 +124,8 @@ function buildTrainlineLink({ originCode, destinationCode, originName, destinati
   return `${TRAINLINE_BASE}?${params.toString()}`;
 }
 
-function buildMapEmbedUrl(query) {
-  return `https://www.google.com/maps?output=embed&q=${encodeURIComponent(query)}`;
+function buildMapUrl(query) {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 }
 
 function StationButton({ station, isActive, onClick, index }) {
@@ -188,7 +188,8 @@ function StationButton({ station, isActive, onClick, index }) {
 }
 
 export default function Fermate() {
-  const { t, tm } = useI18n();
+  const { t, tm, lang } = useI18n();
+  const isItalian = lang === 'it';
   const stations = tm('stops.stations', DEFAULT_STATIONS);
   const [selectedStation, setSelectedStation] = useState(stations[0]);
   const [origin, setOrigin] = useState(stations[0].name);
@@ -293,21 +294,35 @@ export default function Fermate() {
                 transition={{ duration: 0.22, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
               >
                 <div className="rounded-3xl border border-border/60 bg-card/70 backdrop-blur-xl p-6 shadow-[var(--shadow-card)]">
-                  <div className="flex items-center justify-between gap-3 mb-4">
-                    <div className="text-sm font-semibold text-muted-foreground italic">
-                      Locali e punti di interesse nei dintorni
+                    <div className="flex items-center justify-between gap-3 mb-4">
+                      <div className="text-sm font-semibold text-muted-foreground italic">
+                        {isItalian ? 'Locali e punti di interesse nei dintorni' : 'Nearby places and points of interest'}
+                      </div>
+                      <div className="text-xs font-semibold text-foreground/70">Google Maps</div>
                     </div>
-                    <div className="text-xs font-semibold text-foreground/70">Google Maps</div>
-                  </div>
-                  <div className="relative w-full overflow-hidden rounded-2xl border border-border/60 bg-background">
-                    <iframe
-                      title={`Mappa della stazione di ${selectedStation.name}`}
-                      src={buildMapEmbedUrl(selectedStation.mapQuery || selectedStation.name)}
-                      className="h-64 w-full md:h-72"
-                      loading="lazy"
-                      referrerPolicy="no-referrer-when-downgrade"
-                      allowFullScreen
-                    />
+                  <div className="relative overflow-hidden rounded-2xl border border-border/60 bg-background/80 p-6">
+                    <div className="flex h-64 flex-col justify-between md:h-72">
+                      <div>
+                        <div className="inline-flex items-center gap-2 rounded-2xl bg-primary/8 px-4 py-2 text-sm font-semibold text-primary">
+                          <MapPin weight="fill" size={16} />
+                          {selectedStation.name}
+                        </div>
+                        <p className="mt-5 max-w-[46ch] text-sm leading-relaxed text-muted-foreground">
+                          {isItalian
+                            ? 'La mappa non viene incorporata direttamente nella demo per evitare il caricamento automatico di servizi esterni. Puoi aprire Google Maps solo se vuoi farlo.'
+                            : 'The map is not embedded directly in the demo in order to avoid automatic loading of external services. You can open Google Maps only if you choose to do so.'}
+                        </p>
+                      </div>
+                      <a
+                        href={buildMapUrl(selectedStation.mapQuery || selectedStation.name)}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex w-fit items-center gap-2 rounded-2xl border border-border/60 bg-card px-5 py-3 text-sm font-semibold text-foreground transition-all duration-200 hover:shadow-[var(--shadow-subtle)]"
+                      >
+                        {isItalian ? 'Apri su Google Maps' : 'Open in Google Maps'}
+                        <NavigationArrow size={16} weight="bold" />
+                      </a>
+                    </div>
                   </div>
                 </div>
               </motion.div>

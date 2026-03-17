@@ -1,0 +1,106 @@
+import React from 'react';
+import { useI18n } from '../i18n/index.jsx';
+import LegalPageLayout from '../components/legal/LegalPageLayout';
+
+export default function AccessibilityNotice() {
+  const { lang } = useI18n();
+  const isItalian = lang === 'it';
+
+  const meta = isItalian
+    ? [
+        { label: 'Tipo documento', value: 'Avvertenza accessibilita per demo, non dichiarazione formale di conformita.' },
+        { label: 'Target attuale', value: 'Uso scolastico, esplorativo e dimostrativo.' },
+        { label: 'Interventi gia presenti', value: 'Focus visibile, navigazione da tastiera in molte aree, alternative testuali e supporto riduzione movimento.' },
+      ]
+    : [
+        { label: 'Document type', value: 'Accessibility notice for a demo, not a formal declaration of compliance.' },
+        { label: 'Current target', value: 'School, exploratory, and demonstrative use.' },
+        { label: 'Existing measures', value: 'Visible focus, keyboard navigation in many areas, text alternatives, and reduced-motion support.' },
+      ];
+
+  const sections = isItalian
+    ? [
+        {
+          title: 'Stato del documento',
+          paragraphs: [
+            'Questa pagina non costituisce una dichiarazione di accessibilita formale ai sensi della normativa applicabile ai siti istituzionali o ai servizi coperti da obblighi specifici.',
+            'Serve invece a descrivere in modo trasparente lo stato di accessibilita della demo scolastica e le azioni gia introdotte nel progetto.',
+          ],
+        },
+        {
+          title: 'Accorgimenti gia adottati',
+          list: [
+            'Uso diffuso di titoli, etichette e attributi ARIA nelle parti principali del sito.',
+            'Focus visibile per la navigazione da tastiera.',
+            'Supporto al tema chiaro/scuro e gestione della preferenza di movimento ridotto in alcune sezioni animate.',
+            'Messaggi contestuali piu chiari per contenuti demo non attivi.',
+          ],
+        },
+        {
+          title: 'Limiti attuali della demo',
+          list: [
+            'Non e ancora stato eseguito un audit WCAG completo pagina per pagina.',
+            'Le scelte visive e animate del prototipo richiedono ancora test manuali piu estesi con tastiera e tecnologie assistive.',
+            'Questa versione non sostituisce una verifica formale prima di una pubblicazione istituzionale o commerciale.',
+          ],
+        },
+        {
+          title: 'Passi previsti prima di un uso definitivo',
+          list: [
+            'Audit WCAG 2.1 AA.',
+            'Verifiche con screen reader e test da tastiera su tutte le route.',
+            'Eventuale dichiarazione di accessibilita formale se il progetto diventera un sito ufficiale o un servizio coperto da obblighi specifici.',
+          ],
+          note: 'Finche il progetto resta una demo scolastica, questa pagina ha funzione informativa e di trasparenza interna.',
+        },
+      ]
+    : [
+        {
+          title: 'Document status',
+          paragraphs: [
+            'This page is not a formal accessibility declaration under the rules that may apply to institutional websites or services covered by specific obligations.',
+            'Instead, it transparently describes the accessibility status of the school demo and the actions already introduced in the project.',
+          ],
+        },
+        {
+          title: 'Measures already adopted',
+          list: [
+            'Broad use of headings, labels, and ARIA attributes across the main parts of the site.',
+            'Visible focus for keyboard navigation.',
+            'Support for light/dark theme and reduced-motion handling in some animated sections.',
+            'Clearer contextual messages for demo-only inactive content.',
+          ],
+        },
+        {
+          title: 'Current demo limits',
+          list: [
+            'A full WCAG audit has not yet been completed page by page.',
+            'The visual and animated choices of the prototype still require broader manual testing with keyboard and assistive technologies.',
+            'This version does not replace a formal verification before any institutional or commercial publication.',
+          ],
+        },
+        {
+          title: 'Steps planned before real use',
+          list: [
+            'WCAG 2.1 AA audit.',
+            'Screen reader and keyboard testing across all routes.',
+            'A formal accessibility declaration if the project becomes an official website or a service covered by specific obligations.',
+          ],
+          note: 'As long as the project remains a school demo, this page works as an informational transparency notice.',
+        },
+      ];
+
+  return (
+    <LegalPageLayout
+      badge={isItalian ? 'Accessibilita' : 'Accessibility'}
+      title={isItalian ? 'Accessibilita e avvertenze demo' : 'Accessibility and demo notice'}
+      intro={
+        isItalian
+          ? 'Questa pagina descrive lo stato attuale dell\'accessibilita della demo e i passi necessari prima di una pubblicazione definitiva.'
+          : 'This page describes the current accessibility status of the demo and the steps required before a definitive publication.'
+      }
+      meta={meta}
+      sections={sections}
+    />
+  );
+}

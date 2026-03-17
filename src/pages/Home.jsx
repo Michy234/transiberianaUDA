@@ -7,6 +7,7 @@ import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import Journey from './Journey';
 import { useI18n } from '../i18n/index.jsx';
 import ImageCredit from '../components/ImageCredit';
+import SectionErrorBoundary from '../components/SectionErrorBoundary';
 
 gsap.registerPlugin(ScrollToPlugin);
 
@@ -55,7 +56,8 @@ function prefersReducedMotion() {
 
 export default function Home() {
   const journeyRef = useRef(null);
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
+  const isItalian = lang === 'it';
 
   const handleStartJourney = () => {
     const target = journeyRef.current;
@@ -227,14 +229,18 @@ export default function Home() {
       </section>
 
       <section className="py-4 md:py-5 px-0 bg-background">
-        <div className="w-full text-center">
-          <div className="text-sm font-semibold text-muted-foreground uppercase tracking-[0.28em] mb-6">
-            {t('home.sponsors', 'PARTNER E SPONSOR')}
+          <div className="w-full text-center">
+            <div className="text-sm font-semibold text-muted-foreground uppercase tracking-[0.28em] mb-6">
+            {isItalian ? 'RIFERIMENTI DEL PROGETTO' : 'PROJECT REFERENCES'}
           </div>
           <div className="relative overflow-hidden border-y border-border/60 bg-card/60 backdrop-blur-xl px-6 py-5">
             <div
               className="sponsor-marquee"
-              aria-label={t('home.sponsorsAria', "Partner e sponsor della Transiberiana d'Abruzzo")}
+              aria-label={
+                isItalian
+                  ? 'Riferimenti visivi ed enti citati nel progetto'
+                  : 'Visual references and entities mentioned in the project'
+              }
             >
               <div className="sponsor-track">
                 <div className="sponsor-track-inner">
@@ -272,7 +278,27 @@ export default function Home() {
       </section>
 
       <section ref={journeyRef} aria-label="Journey scroll" className="pt-2">
-        <Journey />
+        <SectionErrorBoundary
+          fallback={(
+            <div className="mx-auto max-w-5xl px-6 pb-24">
+              <div className="rounded-3xl border border-border/60 bg-card/80 p-8 shadow-[var(--shadow-elevated)] backdrop-blur-xl">
+                <div className="inline-flex items-center gap-2 rounded-2xl bg-primary/8 px-4 py-2 text-sm font-semibold text-primary">
+                  {isItalian ? 'Sezione in aggiornamento' : 'Section updating'}
+                </div>
+                <h2 className="mt-5 text-3xl font-serif font-bold tracking-tight text-foreground md:text-4xl">
+                  {isItalian ? 'Il percorso narrativo non e disponibile in questo momento' : 'The narrative journey is not available right now'}
+                </h2>
+                <p className="mt-4 max-w-[58ch] text-base leading-relaxed text-muted-foreground">
+                  {isItalian
+                    ? 'La home resta accessibile, ma questa sezione e stata temporaneamente isolata per evitare errori di rendering durante l\'aggiornamento della demo.'
+                    : 'The home page remains accessible, but this section has been temporarily isolated to prevent rendering errors while the demo is being updated.'}
+                </p>
+              </div>
+            </div>
+          )}
+        >
+          <Journey />
+        </SectionErrorBoundary>
       </section>
 
     </div>

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { AnimatePresence } from 'framer-motion';
 import { ThemeProvider } from './components/ThemeContext';
 import Navbar from './components/layout/Navbar';
+import SiteFooter from './components/layout/SiteFooter';
 import CookiePopup from './components/CookiePopup';
 import Home from './pages/Home';
 import Storia from './pages/Storia';
@@ -10,6 +11,10 @@ import Fermate from './pages/Fermate';
 import Meteo from './pages/Meteo';
 import ComeSalire from './pages/ComeSalire';
 import InfoUtili from './pages/InfoUtili';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import CookiePolicy from './pages/CookiePolicy';
+import LegalNotice from './pages/LegalNotice';
+import AccessibilityNotice from './pages/AccessibilityNotice';
 import NotFound from './pages/NotFound';
 import './globals.css';
 
@@ -24,6 +29,10 @@ function MainRoutes() {
         <Route path="/meteo" element={<Meteo />} />
         <Route path="/come-salire" element={<ComeSalire />} />
         <Route path="/info-utili" element={<InfoUtili />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="/cookie-policy" element={<CookiePolicy />} />
+        <Route path="/note-legali" element={<LegalNotice />} />
+        <Route path="/accessibilita" element={<AccessibilityNotice />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </AnimatePresence>
@@ -61,6 +70,7 @@ function App() {
           <main className="flex-1 w-full relative">
             <MainRoutes />
           </main>
+          <SiteFooter />
         </div>
         <CookiePopup />
       </Router>

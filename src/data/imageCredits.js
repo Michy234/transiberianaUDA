@@ -1,11 +1,11 @@
 const WIKIMEDIA_COMMONS = {
   '/photos/fermate/sulmona-fermata.webp': {
-    label: 'Facebook',
-    url: 'https://www.facebook.com/photo.php?fbid=3305097212891376&set=a.487027536765685&id=100063753275407',
+    label: 'Wikimedia Commons',
+    url: 'https://commons.wikimedia.org/wiki/File:Stazione_di_Sulmona_2011_by-RaBoe_11.jpg',
   },
   '/photos/fermate/sulmona-fermata.jpg': {
-    label: 'Facebook',
-    url: 'https://www.facebook.com/photo.php?fbid=3305097212891376&set=a.487027536765685&id=100063753275407',
+    label: 'Wikimedia Commons',
+    url: 'https://commons.wikimedia.org/wiki/File:Stazione_di_Sulmona_2011_by-RaBoe_11.jpg',
   },
   '/photos/fermate/campo-di-giove.webp': {
     label: 'Wikimedia Commons',
