@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
-import { AnimatePresence, motion, useScroll, useTransform } from 'framer-motion';
+import React, { useEffect, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
+import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, StarFour } from '@phosphor-icons/react';
+import { gsap } from 'gsap';
+import { Flip } from 'gsap/Flip';
 import StoryExperienceOverlay from '../components/storia/StoryExperienceOverlay';
 import storiaStops from '../data/storiaStops';
 import { useI18n } from '../i18n/index.jsx';
 import ImageCredit from '../components/ImageCredit';
+
+gsap.registerPlugin(Flip);
 
 function mergeStop(base, localized = {}) {
   const baseExperience = base.experience;
@@ -33,83 +38,124 @@ function mergeStop(base, localized = {}) {
   };
 }
 
-function StoryCard({ stop, index, onOpen, t }) {
-  const isImmersive = Boolean(stop.experience);
-  const isFeatured = index === 0;
+function StoryCard({ stop, index, isExpanded, canHoverCards, gridRef, onHoverStart, onHoverEnd, onOpen, t }) {
+  const cardClasses = [
+    'group relative min-h-[320px] overflow-hidden rounded-[32px] border border-border/60 text-left shadow-[var(--shadow-card)] transition-shadow duration-300 hover:shadow-[var(--shadow-elevated)] focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background lg:h-full lg:min-h-0',
+    isExpanded ? 'lg:col-span-2' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  const titleClasses = [
+    'font-serif font-bold tracking-tight transition-all duration-300',
+    isExpanded ? 'text-4xl md:text-5xl' : 'text-3xl md:text-4xl',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  const summaryClasses = [
+    'mt-4 max-w-[44ch] leading-relaxed text-white/82 transition-all duration-300',
+    isExpanded ? 'text-base md:text-lg' : 'text-sm md:text-base',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  const heroBadges = stop.experience?.heroBadges?.slice(0, 3) ?? [];
 
   return (
-    <motion.button
+    <button
       type="button"
       onClick={() => onOpen(stop.id)}
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-100px' }}
-      transition={{ delay: index * 0.05, type: 'spring', stiffness: 120, damping: 18 }}
-      className={`group relative overflow-hidden rounded-[32px] border border-border/60 text-left shadow-[var(--shadow-card)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[var(--shadow-elevated)] focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-background ${
-        isFeatured ? 'lg:col-span-2 lg:min-h-[520px]' : 'min-h-[320px]'
-      }`}
+      onMouseEnter={canHoverCards ? () => onHoverStart(stop.id) : undefined}
+      onFocus={canHoverCards ? () => onHoverStart(stop.id) : undefined}
+      onBlur={
+        canHoverCards
+          ? (event) => {
+              const nextFocusedElement = event.relatedTarget;
+              if (!gridRef.current || !nextFocusedElement || !gridRef.current.contains(nextFocusedElement)) {
+                onHoverEnd();
+              }
+            }
+          : undefined
+      }
+      className={cardClasses}
+      data-story-card
       aria-label={t('storia.openAria', 'Apri storia di {{title}}', { title: stop.title })}
     >
-      <div className="absolute inset-0">
-        <img
-          src={stop.image}
-          alt={stop.title}
-          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-          loading="lazy"
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background: isFeatured
-              ? 'linear-gradient(180deg, rgba(18,15,12,0.16) 0%, rgba(18,15,12,0.34) 38%, rgba(18,15,12,0.9) 100%)'
-              : 'linear-gradient(180deg, rgba(18,15,12,0.2) 0%, rgba(18,15,12,0.82) 100%)',
-          }}
-        />
-      </div>
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-100px' }}
+        transition={{ delay: index * 0.05, type: 'spring', stiffness: 120, damping: 18 }}
+        className="relative h-full"
+      >
+        <div className="absolute inset-0">
+          <img
+            src={stop.image}
+            alt={stop.title}
+            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+            loading="lazy"
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background: isExpanded
+                ? 'linear-gradient(180deg, rgba(18,15,12,0.16) 0%, rgba(18,15,12,0.34) 38%, rgba(18,15,12,0.9) 100%)'
+                : 'linear-gradient(180deg, rgba(18,15,12,0.2) 0%, rgba(18,15,12,0.82) 100%)',
+            }}
+          />
+        </div>
 
-      <div className="relative flex h-full flex-col justify-between p-6 text-white md:p-8">
-        <div>
-          {isFeatured && stop.experience?.heroBadges?.length ? (
-            <div className="mb-5 flex flex-wrap gap-2">
-              {stop.experience.heroBadges.slice(0, 3).map((badge) => (
-                <span
-                  key={badge}
-                  className="inline-flex items-center gap-2 rounded-full border border-white/16 bg-black/18 px-3 py-1.5 text-xs font-semibold text-white/80 backdrop-blur-sm"
-                >
-                  <StarFour size={10} weight="fill" />
-                  {badge}
-                </span>
-              ))}
+        <div className="relative flex h-full flex-col justify-between p-6 text-white md:p-8">
+          <div>
+            <div
+              className={`overflow-hidden transition-[max-height,opacity,margin] duration-300 ${
+                isExpanded && heroBadges.length ? 'mb-5 max-h-24 opacity-100' : 'max-h-0 opacity-0'
+              }`}
+              aria-hidden={!isExpanded}
+            >
+              <div className="flex flex-wrap gap-2">
+                {heroBadges.map((badge) => (
+                  <span
+                    key={badge}
+                    className="inline-flex items-center gap-2 rounded-full border border-white/16 bg-black/18 px-3 py-1.5 text-xs font-semibold text-white/80 backdrop-blur-sm"
+                  >
+                    <StarFour size={10} weight="fill" />
+                    {badge}
+                  </span>
+                ))}
+              </div>
             </div>
-          ) : null}
 
-          <h3 className={`font-serif font-bold tracking-tight ${isFeatured ? 'text-4xl md:text-6xl' : 'text-3xl md:text-4xl'}`}>
-            {stop.title}
-          </h3>
-          <p className={`mt-4 max-w-[44ch] leading-relaxed text-white/82 ${isFeatured ? 'text-base md:text-lg' : 'text-sm md:text-base'}`}>
-            {stop.summary}
-          </p>
+            <h3 className={titleClasses}>{stop.title}</h3>
+            <p className={summaryClasses}>{stop.summary}</p>
 
-          <div className="mt-6 inline-flex items-center gap-3 rounded-full border border-white/18 bg-white/10 px-4 py-2 text-sm font-semibold text-white backdrop-blur-sm">
-            <span>{t('storia.enterCta', 'Entra nella città')}</span>
-            <ArrowRight size={16} weight="bold" className="transition-transform duration-300 group-hover:translate-x-1" />
+            <div className="mt-6 inline-flex items-center gap-3 rounded-full border border-white/18 bg-white/10 px-4 py-2 text-sm font-semibold text-white backdrop-blur-sm">
+              <span>{t('storia.enterCta', 'Entra nella città')}</span>
+              <ArrowRight size={16} weight="bold" className="transition-transform duration-300 group-hover:translate-x-1" />
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="absolute bottom-4 right-4 text-white/80">
-        <ImageCredit
-          src={stop.image}
-          className="text-[10px] text-white/80"
-          linkClassName="text-white/90 hover:text-white"
-        />
-      </div>
-    </motion.button>
+        <div className="absolute bottom-4 right-4 text-white/80">
+          <ImageCredit
+            src={stop.image}
+            className="text-[10px] text-white/80"
+            linkClassName="text-white/90 hover:text-white"
+          />
+        </div>
+      </motion.div>
+    </button>
   );
 }
 
 export default function Storia() {
   const [activeStopId, setActiveStopId] = useState(null);
+  const [hoveredStopId, setHoveredStopId] = useState(null);
+  const [canHoverCards, setCanHoverCards] = useState(false);
+  const gridRef = useRef(null);
+  const flipAnimationRef = useRef(null);
+  const reduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll();
   const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
   const { t, tm } = useI18n();
@@ -121,6 +167,70 @@ export default function Storia() {
   });
 
   const activeStop = stops.find((stop) => stop.id === activeStopId) || null;
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return undefined;
+    }
+
+    const mediaQuery = window.matchMedia('(min-width: 1024px) and (hover: hover) and (pointer: fine)');
+    const syncHoverCapability = () => setCanHoverCards(mediaQuery.matches);
+
+    syncHoverCapability();
+
+    if (typeof mediaQuery.addEventListener === 'function') {
+      mediaQuery.addEventListener('change', syncHoverCapability);
+      return () => mediaQuery.removeEventListener('change', syncHoverCapability);
+    }
+
+    mediaQuery.addListener(syncHoverCapability);
+    return () => mediaQuery.removeListener(syncHoverCapability);
+  }, []);
+
+  useEffect(() => {
+    if (!canHoverCards && hoveredStopId !== null) {
+      setHoveredStopId(null);
+    }
+  }, [canHoverCards, hoveredStopId]);
+
+  useEffect(
+    () => () => {
+      flipAnimationRef.current?.kill();
+    },
+    [],
+  );
+
+  const animateHoveredStopChange = (nextStopId) => {
+    if (hoveredStopId === nextStopId) {
+      return;
+    }
+
+    if (!canHoverCards || !gridRef.current) {
+      setHoveredStopId(nextStopId);
+      return;
+    }
+
+    const cards = gridRef.current.querySelectorAll('[data-story-card]');
+    if (!cards.length) {
+      setHoveredStopId(nextStopId);
+      return;
+    }
+
+    const state = Flip.getState(cards);
+    flipAnimationRef.current?.kill();
+
+    flushSync(() => {
+      setHoveredStopId(nextStopId);
+    });
+
+    flipAnimationRef.current = Flip.from(state, {
+      duration: reduceMotion ? 0 : 0.45,
+      ease: 'power2.inOut',
+      nested: true,
+      prune: true,
+      simple: true,
+    });
+  };
 
   return (
     <div className="relative min-h-[100dvh] overflow-hidden bg-background selection:bg-primary/20">
@@ -175,9 +285,24 @@ export default function Storia() {
       </section>
 
       <section className="relative px-6 pb-24 md:px-8">
-        <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div
+          ref={gridRef}
+          className="mx-auto grid max-w-7xl gap-6 md:grid-cols-2 lg:grid-flow-dense lg:grid-cols-3 lg:auto-rows-[340px]"
+          onMouseLeave={canHoverCards ? () => animateHoveredStopChange(null) : undefined}
+        >
           {stops.map((stop, index) => (
-            <StoryCard key={stop.id} stop={stop} index={index} onOpen={setActiveStopId} t={t} />
+            <StoryCard
+              key={stop.id}
+              stop={stop}
+              index={index}
+              isExpanded={canHoverCards && hoveredStopId === stop.id}
+              canHoverCards={canHoverCards}
+              gridRef={gridRef}
+              onHoverStart={animateHoveredStopChange}
+              onHoverEnd={() => animateHoveredStopChange(null)}
+              onOpen={setActiveStopId}
+              t={t}
+            />
           ))}
         </div>
       </section>
