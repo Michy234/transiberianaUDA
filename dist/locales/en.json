@@ -1028,9 +1028,35 @@
   "activities": {
     "badge": "Suggested activities",
     "title": "What to do during the stops",
-    "subtitle": "Choose the season and discover what to do in the towns where the train stops, with suggestions tailored to the length of each stop.",
-    "note": "Indicative durations: we will update the timetable details as soon as they are available.",
+    "subtitle": "Choose a stop, switch season and explore an itinerary that fits the real amount of time you actually have.",
+    "note": "Timings and stop lengths are indicative and may change depending on the historic service.",
+    "stationEyebrow": "Explore stop by stop",
+    "stationSelectorTitle": "Active stops",
+    "stationSelectorHint": "Pick a stop to switch content, images and itinerary suggestions.",
+    "stationListAria": "Select a stop along the Transiberiana d'Abruzzo route",
+    "stationAria": "Open details for {{name}}",
+    "detailAria": "Activity details for {{name}}",
+    "currentStop": "Selected stop",
     "seasonAria": "Select season {{season}}",
+    "seasonContextLabel": "Seasonal atmosphere",
+    "itineraryTitle": "Active itinerary",
+    "planAria": "Select itinerary {{plan}}",
+    "activeItineraryLabel": "Recommended route",
+    "bestForLabel": "Best for",
+    "logisticsLabel": "How the stop works",
+    "mealTipLabel": "Food break",
+    "scheduleTitle": "Indicative timings",
+    "scheduleEyebrow": "Stop window",
+    "arrivalLabel": "Arrival",
+    "departureLabel": "Departure",
+    "durationLabel": "Available time",
+    "scheduleNoteLabel": "Note",
+    "highlightsTitle": "Do not miss",
+    "highlightsEyebrow": "Key landmarks",
+    "practicalTitle": "Practical note",
+    "practicalEyebrow": "Before you set off",
+    "stopFlowTitle": "How to handle the stop",
+    "stopFlowEyebrow": "Suggested rhythm",
     "altitude": "Altitude",
     "typicalStop": "Typical stop",
     "seasons": {
@@ -1052,10 +1078,10 @@
       }
     },
     "seasonCopy": {
-      "spring": "Blossoms and fresh air: gentle walks and slower rhythms.",
-      "summer": "Long days: look for shade, fresh water and wide-open views.",
-      "autumn": "Warm colors and seasonal flavors: perfect for an easy pace.",
-      "winter": "Mountain atmosphere: short activities and warm indoor breaks."
+      "spring": "Villages, meadows and longer light: the best season for stretching your walks.",
+      "summer": "The middle of the day is warmer, but mountain air and shade make the stops pleasant.",
+      "autumn": "Foliage, local produce and softer light make the trip feel more narrative and more gastronomic.",
+      "winter": "Snow, warm interiors and iconic views: it pays to alternate scenery and sheltered places."
     },
     "stops": [
       {
@@ -1064,30 +1090,60 @@
         "alt": "328m",
         "type": "Departure",
         "stopDuration": "60-120 min",
-        "timeHint": "Ideal before departure or on the way back",
-        "desc": "The city of sugared almonds and Ovid. Starting point of the historic itinerary.",
+        "timeHint": "Best before departure or on the way back, with different routes depending on the light and time of day.",
+        "desc": "The city of sugared almonds and Ovid: first gateway into the journey and the natural place to close the day among squares, museums and workshops.",
+        "heroImage": "/photos/storia/sulmona.webp",
+        "heroAlt": "Panoramic view of Sulmona with its historic center at the foot of the mountains of Abruzzo.",
+        "schedule": {
+          "arrival": "08:45-09:00",
+          "departure": "18:30-19:00",
+          "duration": "60-120 min in the historic center",
+          "note": "Indicative timings only: in the morning it is better to stay compact, while on the way back porticoes, museums and dinner in town work best."
+        },
+        "seasonContext": {
+          "spring": "Clear light and mild weather make Sulmona ideal for moving between squares, the aqueduct and open-air aperitifs.",
+          "summer": "Visits work best from late afternoon onwards, looking for shade between Corso Ovidio, Porta Napoli and Piazza XX Settembre.",
+          "autumn": "Museums, workshops and signature products such as sugared almonds and red garlic reveal the city at a slower pace.",
+          "winter": "When the train returns it is often already dark, so Corso Ovidio's porticoes, the Annunziata complex and lit shop windows become the best option."
+        },
+        "highlights": [
+          "SS. Annunziata complex with civic museums and Roman domus.",
+          "Piazza Garibaldi, the medieval aqueduct and Fontana del Vecchio.",
+          "Corso Ovidio, Porta Napoli and Piazza XX Settembre with the statue of Ovid.",
+          "Pelino Museum of Sugared Almond Art.",
+          "Cathedral of San Panfilo with its early medieval crypt."
+        ],
+        "practicalNote": "Sulmona is the most flexible stop of the journey: stay inside the historic center if time is tight, while Badia Morronese and the Hermitage of Sant'Onofrio only make sense if you arrive much earlier or spend the night in town.",
+        "howItWorks": [
+          "Before boarding, keep to a short loop through the main squares and streets.",
+          "On the return leg, especially in winter, favor museums, porticoes and venues in the center.",
+          "Sugared almonds and artisan shops are the easiest souvenir choice without moving far from the station area."
+        ],
         "plans": [
           {
             "id": "sulmona-breve",
             "label": "Short stop",
             "duration": "60-90 min",
-            "mealTip": "If it is lunchtime, choose a trattoria in the town center.",
+            "bestFor": "Before departure or a quick return stop",
+            "summary": "A compact loop through the city's icons, with an easy sweet break built in.",
+            "logistics": "Keeping to Piazza Garibaldi, Corso Ovidio and the Annunziata complex means everything stays within walking distance.",
+            "mealTip": "Artisan sugared almonds, a light aperitif or gelato in the center are the easiest pauses to fit in.",
             "activities": {
               "spring": [
-                "Walk through the historic center, alleys and squares.",
-                "Coffee break with traditional pastries."
+                "Piazza Garibaldi and the 1256 medieval aqueduct, with a short pass by Fontana del Vecchio.",
+                "Walk up to the Annunziata complex and enjoy an outdoor aperitif with cured meats and local pecorino."
               ],
               "summer": [
-                "Shaded route along the main street.",
-                "Gelato or a cold drink in the square."
+                "Start at Porta Napoli and follow a shaded route along Corso Ovidio.",
+                "Stop in Piazza XX Settembre beneath the statue of Ovid, then grab gelato before leaving."
               ],
               "autumn": [
-                "Craft shops and seasonal flavors.",
-                "Warm break in a historic cafe."
+                "Visit the Pelino Museum of Sugared Almond Art, the city's sweetest memory lane.",
+                "Walk to Santa Maria della Tomba and browse shops for Sulmona red garlic or other local produce."
               ],
               "winter": [
-                "Porticoes and churches indoors for a quick visit.",
-                "Hot chocolate or a local sweet."
+                "The Annunziata complex, civic museums and Roman domus are the best refuge in the coldest hours.",
+                "Corso Ovidio's porticoes, lit shop windows and a quick call at San Panfilo close the return stop well."
               ]
             }
           },
@@ -1095,23 +1151,26 @@
             "id": "sulmona-comoda",
             "label": "Relaxed stop",
             "duration": "2-3 hours",
-            "mealTip": "With 2-3 hours you can stop for a relaxed lunch.",
+            "bestFor": "Arriving early or returning without rushing",
+            "summary": "More time to combine culture, a slower walk and a seated break.",
+            "logistics": "You can add a museum or a major church without leaving the historic-center perimeter.",
+            "mealTip": "With more time, a central trattoria or a warm dinner on the way back makes sense.",
             "activities": {
               "spring": [
-                "Longer walk through historic neighborhoods and artisan shops.",
-                "A short stroll through the town gardens."
+                "Take the Annunziata complex, the aqueduct and the old center at a slow pace, leaving room for photos and architectural details.",
+                "If you are already in town earlier, Badia Morronese and the Hermitage of Sant'Onofrio are the right extra cultural detour."
               ],
               "summer": [
-                "Light aperitif and an evening walk.",
-                "Browse local products at a relaxed pace."
+                "Pair the Roman domus with an evening walk along Corso Ovidio once the sun drops.",
+                "Spend longer among squares, workshops and outdoor tables in the heart of town."
               ],
               "autumn": [
-                "Taste local products and browse the shops.",
-                "Slow walk among photogenic corners."
+                "Combine the Pelino museum, Santa Maria della Tomba and gastronomic shopping in artisan stores.",
+                "Sugared almonds, Montepulciano d'Abruzzo wine and local specialties tell the season particularly well."
               ],
               "winter": [
-                "Visit indoor cultural spaces.",
-                "Longer break with a hot drink."
+                "Visit San Panfilo Cathedral, its early medieval crypt and the Annunziata museums.",
+                "Finish with dinner in an osteria serving warm dishes such as chitarra pasta with lamb ragu or a legume soup."
               ]
             }
           }
@@ -1122,55 +1181,88 @@
         "name": "Campo di Giove",
         "alt": "1.064m",
         "type": "Stop",
-        "stopDuration": "About 3 hours",
-        "timeHint": "Often around lunchtime",
-        "desc": "At the foot of the Majella, framed by dense woods and breathtaking landscapes.",
+        "stopDuration": "90-120 min",
+        "timeHint": "The village is compact: a simple focused walk is enough to experience it properly.",
+        "desc": "At the foot of the Majella, Campo di Giove mixes a medieval layout, stone alleyways and the rhythm of a mountain village that still feels intact.",
+        "heroImage": "/photos/storia/campo-di-giove.webp",
+        "heroAlt": "Facade of the mother church of Campo di Giove, between pale stone and mountain sky.",
+        "schedule": {
+          "arrival": "10:15-10:30",
+          "departure": "12:00-12:15",
+          "duration": "1 h 30 - 2 h",
+          "note": "Time is limited but enough for a loop through the old village, a cultural stop and a quick food break."
+        },
+        "seasonContext": {
+          "spring": "The weather stays cool and pleasant: the best season for reading carved portals and architectural details.",
+          "summer": "Altitude keeps the air light, so the shaded alleyways and flowered balconies become the natural set of the visit.",
+          "autumn": "The fortified village plays against Majella foliage and stronger seasonal flavors.",
+          "winter": "Snow and stone make Campo di Giove highly scenic: combine a short walk with one warm indoor stop."
+        },
+        "highlights": [
+          "Church of Sant'Eustachio with carved choir and religious works.",
+          "Rue and stone portals with sculpted masks.",
+          "Casa Quaranta, among the oldest houses in town.",
+          "Palazzo Nanni and the memory of transhumance.",
+          "Piazza Duval and the perimeter of the fortified village."
+        ],
+        "practicalNote": "Campo di Giove is best visited on foot: the center is compact and it is wiser not to stretch far beyond the old village if you want to keep time for lunch, purchases or the train back.",
+        "howItWorks": [
+          "From the station, head straight for the historic center instead of wasting time on longer detours.",
+          "The most balanced route combines the mother church, the rue and the main square.",
+          "If you plan a food break, choose somewhere near the return path or limit it to a quick stop at the bakery or dairy."
+        ],
         "plans": [
           {
             "id": "campo-breve",
             "label": "Short stop",
             "duration": "60-75 min",
-            "mealTip": "If it is lunchtime, choose a quick option near the station.",
+            "bestFor": "A first taste of the village",
+            "summary": "An essential loop through the main church, historic alleyways and a quick taste of local life.",
+            "logistics": "The best route stays compact: church, rue and the central square in one clean sequence.",
+            "mealTip": "Warm bread, baked goods and a drink in the center are the easiest options.",
             "activities": {
               "spring": [
-                "Lookout point and photos of the surrounding peaks.",
-                "Short walk in the nearby woods."
+                "Visit the Church of Sant'Eustachio and the first stretch of old lanes with carved portals and pale stone.",
+                "Make a fast bakery stop for village bread and simple traditional baked goods."
               ],
               "summer": [
-                "Panoramic viewpoint with cool air.",
-                "Short shaded stretch and a water refill."
+                "Walk through the shaded rue up to Palazzo Nanni.",
+                "Take photos among stone houses, flowered balconies and the clean outline of the Majella."
               ],
               "autumn": [
-                "Foliage and forest colors.",
-                "Break in the town center for seasonal flavors."
+                "Follow the perimeter of the fortified village, where the houses themselves still read like defensive walls.",
+                "Pause in Piazza Duval for chestnuts or other seasonal flavors."
               ],
               "winter": [
-                "Snowy views and quick photos.",
-                "Warm up with a hot drink."
+                "See Sant'Eustachio and the stone portals made even more striking by snow.",
+                "Warm up with hot chocolate or punch in a bar before heading back."
               ]
             }
           },
           {
             "id": "campo-lunga",
-            "label": "Long stop",
-            "duration": "3 hours",
-            "mealTip": "With 3 hours you can take a walk and then enjoy lunch calmly.",
+            "label": "Longer stop",
+            "duration": "90-120 min",
+            "bestFor": "A fuller village visit with a food break",
+            "summary": "A slower route that adds identity landmarks and a more deliberate pause.",
+            "logistics": "With two hours you can fit in old houses, the square and a targeted local purchase without rushing.",
+            "mealTip": "The dairy, the bakery or a table near the center work better than a scattered sit-down lunch.",
             "activities": {
               "spring": [
-                "Easy excursion through woods and clearings.",
-                "Lunch in a trattoria or a picnic if the weather allows."
+                "Explore Casa Quaranta, the medieval rue and the carved details on ancient portals.",
+                "Stop at the local dairy for pecorino and fresh ricotta."
               ],
               "summer": [
-                "Fresh walk in the greenery and some relaxation.",
-                "Outdoor lunch or a simple local eatery."
+                "Climb toward the upper part of the village, where traces of the medieval castle still survive.",
+                "Browse a local products shop or taste a little genziana before sitting down."
               ],
               "autumn": [
-                "Walk among the colors of the forest.",
-                "Warm lunch with seasonal flavors."
+                "Take a complete walk through the fortified village among stone views and mountain colors.",
+                "Enjoy a simple local lunch without leaving the center."
               ],
               "winter": [
-                "Short safe walk with snowy scenery.",
-                "Hearty lunch indoors."
+                "Walk through the snowy center looking for the best portals and the most intimate passages of the rue.",
+                "Pause for Abruzzese sweets before returning to the train."
               ]
             }
           }
@@ -1181,55 +1273,88 @@
         "name": "Palena",
         "alt": "1.258m",
         "type": "Scenic stop",
-        "stopDuration": "45-90 min",
-        "timeHint": "Quick and refreshing stop",
-        "desc": "An isolated station in Quarto Santa Chiara, a realm of untamed nature.",
+        "stopDuration": "40-90 min",
+        "timeHint": "The station is not in the village: the experience changes completely depending on whether a shuttle is provided.",
+        "desc": "In Quarto Santa Chiara the railway reaches one of its most scenic points: high altitude, silence and a village that can only be reached on certain runs.",
+        "heroImage": "/photos/storia/palena.webp",
+        "heroAlt": "Mountain landscape near Palena on the edge of the Majella range.",
+        "schedule": {
+          "arrival": "Varies by historic service",
+          "departure": "After the scenic stop or the shuttle transfer",
+          "duration": "40-60 min at the station, up to 90 min with the village",
+          "note": "The station is at Valico della Forchetta, about 8-9 km above the town. In winter the stop usually remains up at the station."
+        },
+        "seasonContext": {
+          "spring": "When the train includes the shuttle, this is the best time to combine nature, the wildlife area and hermitages.",
+          "summer": "High altitude keeps temperatures low and allows a short but very scenic visit.",
+          "autumn": "The foliage of Quarto Santa Chiara is one of the strongest reasons to step off the train even for a short stop.",
+          "winter": "In winter Palena is above all a photographic stop: snow, wind and the historic train create the most iconic moment of the trip."
+        },
+        "highlights": [
+          "Quarto Santa Chiara and the Valico della Forchetta plateau.",
+          "Possible shuttle down to the village of Palena.",
+          "Brown Bear Wildlife Area.",
+          "Celestinian Hermitage of Madonna dell'Altare.",
+          "Ducal Castle, geopaleontological museum and Teatro Aventino."
+        ],
+        "practicalNote": "Logistics matter here more than anywhere else: if you stay at the station, focus on scenery, photos and a short break; if there is a shuttle, choose two clear stops in advance because your real time in the village will be shorter than the total stop.",
+        "howItWorks": [
+          "Check whether your run includes only the scenic stop or the shuttle down to town.",
+          "In winter, treat the stop mainly as a high-altitude experience close to the train.",
+          "If you do go down to the village, focus on one clear axis: wildlife area, hermitage or castle and museum."
+        ],
         "plans": [
           {
-            "id": "palena-lampo",
-            "label": "Quick stop",
-            "duration": "30-45 min",
-            "mealTip": "If it is lunchtime, go for a quick snack.",
+            "id": "palena-stazione",
+            "label": "Station stop",
+            "duration": "40-60 min",
+            "bestFor": "Scenery, photos and high-altitude air",
+            "summary": "The most essential but also the most cinematic version of Palena, centered on the station itself.",
+            "logistics": "Staying near the station makes the best use of time and removes any dependence on transfers.",
+            "mealTip": "When they are available, the temporary stalls with hot drinks and sweets are the most practical pause.",
             "activities": {
               "spring": [
-                "Panoramic lookout and photos.",
-                "Short walk around the station."
+                "Take in the view over Quarto Santa Chiara and the first signs of the Majella park waking up.",
+                "Enjoy a short walk around the station and photograph the historic train inside the mountain basin."
               ],
               "summer": [
-                "Break in the shade with an open view.",
-                "Refill your water and head off again."
+                "Pause in the cool mountain air among high meadows, light wind and the silence of the pass.",
+                "Use the stop for a photo session with the train and the broad landscape of one of the line's most scenic halts."
               ],
               "autumn": [
-                "Foliage views and photos.",
-                "Quick stop in the fresh mountain air."
+                "Watch the foliage spread across the plateau in yellows, reds and oranges around the station.",
+                "Take a small scenic break with local products if refreshment points are present."
               ],
               "winter": [
-                "Snowy panorama from a safe viewpoint.",
-                "Hot drink before departure."
+                "Snowy panorama and photographs of the train in the snow, perhaps the most iconic image of the whole day.",
+                "Hot tea or mulled wine at the temporary refreshment stalls, when available."
               ]
             }
           },
           {
-            "id": "palena-breve",
-            "label": "Short stop",
+            "id": "palena-borgo",
+            "label": "Shuttle to the village",
             "duration": "60-90 min",
-            "mealTip": "With a bit more time, treat yourself to a seated break.",
+            "bestFor": "A compact cultural visit",
+            "summary": "When the transfer is available, Palena adds castle, museum and spiritual landmarks tied to the Majella.",
+            "logistics": "Focus on two clear stops only: the village does not allow much wandering if you want to respect the train timings.",
+            "mealTip": "A short seated break or an easy local purchase works better than a full meal.",
             "activities": {
               "spring": [
-                "Gentle walk nearby with mountain views.",
-                "Coffee break or a snack."
+                "Visit the Brown Bear Wildlife Area near the convent of Sant'Antonio.",
+                "Take a short outing toward the Hermitage of Madonna dell'Altare, linked to the memory of Pietro da Morrone."
               ],
               "summer": [
-                "Longer walk with cool air.",
-                "Refreshing stop before setting off again."
+                "Explore the Ducal Castle and the Alto Aventino geopaleontological museum, which explains the ancient marine origins of these mountains.",
+                "Walk through the old center up to the tiny Teatro Aventino, intimate and surprising."
               ],
               "autumn": [
-                "Slow walk among the colors.",
-                "Local shops and seasonal flavors."
+                "Wander through Palena's stone village among mountain honey, cheeses and apple sweets from the area.",
+                "Let the foliage of the Majella follow the whole visit between the village and the surrounding woods."
               ],
               "winter": [
-                "Short visit to the town center.",
-                "Warm break in a bar or mountain lodge."
+                "If the shuttle is available even in colder weather, keep the visit limited to one central axis of the village.",
+                "Warm up indoors and enjoy a final panoramic glimpse before returning to the station."
               ]
             }
           }
@@ -1240,31 +1365,61 @@
         "name": "Roccaraso",
         "alt": "1.268m",
         "type": "Stop",
-        "stopDuration": "90-180 min",
-        "timeHint": "Perfect for a longer walk",
-        "desc": "The highest station on the line, famous for mountain tourism in both winter and summer.",
+        "stopDuration": "2.5-3.5 hours",
+        "timeHint": "There is enough margin here for lunch and a real walk: the stop supports a more relaxed rhythm.",
+        "desc": "Rebuilt after the war and now an elegant mountain resort, Roccaraso mixes historical memory, shopping streets, pine woods and strong seasonal tourism.",
+        "heroImage": "/photos/storia/roccaraso.webp",
+        "heroAlt": "View of Roccaraso between the town and the surrounding mountain slopes.",
+        "schedule": {
+          "arrival": "11:30-12:00",
+          "departure": "Early afternoon, after 2.5-3.5 hours",
+          "duration": "2.5-3.5 hours",
+          "note": "There is usually enough time to have lunch at ease and take a full walk through the center, the lawns or the pine wood."
+        },
+        "seasonContext": {
+          "spring": "As the snow retreats, meadows and easy paths come back into play: the best moment to walk without rushing.",
+          "summer": "Cooler air than the plains makes the pine wood, center and outdoor lunch especially pleasant.",
+          "autumn": "Roccaraso changes register: woodland flavors, crisp light and the memory of reconstruction emerge more clearly.",
+          "winter": "Here the railway meets the ski resort: snow, markets, hot sweets and a much livelier town center."
+        },
+        "highlights": [
+          "Piazza Leone and the rebuilt town center.",
+          "Via Roma with mountain shops and boutiques.",
+          "Pratone and Piazza Prato for an outdoor break.",
+          "Pineta Ombrellone and the adventure park.",
+          "San Michele hermitage and wartime memorials."
+        ],
+        "practicalNote": "Roccaraso lets you widen your radius more than the other stops: you can have lunch calmly and then decide whether to stay between the center and shopping streets or move toward the lawns and pine wood without forcing a long hike.",
+        "howItWorks": [
+          "Treat lunch as part of the visit rather than as an interruption.",
+          "The center is linear, so Via Roma, the square, the church and the memorials read well in sequence.",
+          "If you choose the pine wood or the hermitage, keep the return route simple and avoid stacking too many moves."
+        ],
         "plans": [
           {
             "id": "roccaraso-breve",
             "label": "Short stop",
             "duration": "60-90 min",
-            "mealTip": "If it is lunchtime, choose a place near the center.",
+            "bestFor": "Center, sweets and mountain atmosphere",
+            "summary": "An essential route that captures the refined and seasonal character of the resort.",
+            "logistics": "Focus on the center and squares, leaving trails and the pine wood to the longer stop.",
+            "mealTip": "An artisan pastry, a hot drink or a quick lunch near the center avoid wasting time.",
             "activities": {
               "spring": [
-                "Walk through the town center and mountain views.",
-                "Coffee break with a view."
+                "Pause at the Pratone and walk along Via Roma among shops, greenery and crisp mountain air.",
+                "If you want a viewpoint, make a short climb toward the Hermitage of San Michele."
               ],
               "summer": [
-                "Walk through the village with fresh air.",
-                "Refreshing stop and panoramic photos."
+                "Walk through the center and take a quick break in Pineta Ombrellone away from the sun.",
+                "Go for a charcuterie board or a light lunch before heading back."
               ],
               "autumn": [
-                "Seasonal colors and local shops.",
-                "Warm break before departure."
+                "Follow Via Roma up to Santa Maria Assunta in clear autumn light.",
+                "Stop for woodland flavors such as porcini mushrooms, truffle or other local specialties."
               ],
               "winter": [
-                "Mountain atmosphere and snowy views.",
-                "Hot drink or a local dessert."
+                "Enjoy Piazza Leone among decorations, snow and ski-season energy.",
+                "Choose a pastry shop or central bar for artisan sweets and warm drinks such as bombardino."
               ]
             }
           },
@@ -1272,23 +1427,26 @@
             "id": "roccaraso-lunga",
             "label": "Long stop",
             "duration": "2-3 hours",
-            "mealTip": "With 2-3 hours you can enjoy lunch and a full walk.",
+            "bestFor": "Relaxed lunch and a fuller walk",
+            "summary": "The stop that best combines mountain cuisine, green space and the area's historical memory.",
+            "logistics": "After lunch choose one extended axis: center with memorial stops or pine wood with outdoor activities.",
+            "mealTip": "With 2-3 hours it makes sense to sit down in a restaurant and close with a slow walk.",
             "activities": {
               "spring": [
-                "Longer walk through the town.",
-                "Lunch in a trattoria at a relaxed pace."
+                "Take a broader walk through the Pratone, the center and the mountain shops.",
+                "Follow the easy path toward the Hermitage of San Michele for a more open valley view."
               ],
               "summer": [
-                "Route through the greenery and time to relax.",
-                "Outdoor lunch or a typical local venue."
+                "Spend time in Pineta Ombrellone, possibly adding the adventure park.",
+                "Enjoy an Abruzzese lunch and a relaxed walk through the rebuilt village."
               ],
               "autumn": [
-                "Easy trail among seasonal colors.",
-                "Warm lunch with seasonal flavors."
+                "Take a complete walk through the center, church and memorials that recall the Second World War.",
+                "Have lunch with woodland flavors such as porcini mushrooms or truffle."
               ],
               "winter": [
-                "Light winter activities or scenic viewpoints.",
-                "Warm lunch before heading back."
+                "Choose between the G. Bolino ice rink or a snowy walk through the center.",
+                "Warm up with a proper lunch, hot chocolate, mountain desserts and richer local cooking."
               ]
             }
           }
@@ -1299,31 +1457,61 @@
         "name": "Castel di Sangro",
         "alt": "793m",
         "type": "Terminus",
-        "stopDuration": "2-4 hours",
-        "timeHint": "Longer stop, often around lunchtime",
-        "desc": "Town of water and fly fishing, a key hub of the upper Sangro Valley.",
+        "stopDuration": "3-4 hours",
+        "timeHint": "One of the most comfortable stops: you can have lunch without rushing and still add a proper cultural visit.",
+        "desc": "Ancient Aufidena mixes river landscapes, museums, historic palaces and upper neighborhoods: this is the stop that best supports a complete itinerary.",
+        "heroImage": "/photos/storia/castel-di-sangro.webp",
+        "heroAlt": "View of Castel di Sangro with the urban fabric following the Sangro valley.",
+        "schedule": {
+          "arrival": "12:30-13:00",
+          "departure": "16:30-17:00",
+          "duration": "3-4 hours",
+          "note": "The stop is long enough for lunch, the historic center and at least one museum or panoramic visit."
+        },
+        "seasonContext": {
+          "spring": "Longer days make it natural to link the river, the convent and the upper Civita quarter.",
+          "summer": "During the central hours it is better to alternate cloisters, museums and shaded alleys such as Terravecchia.",
+          "autumn": "The Sangro river, its bridges and the foliage give the visit a slower and more photographic tone.",
+          "winter": "A warm lunch, the pinacoteca and the main square are the best combination when temperatures drop."
+        },
+        "highlights": [
+          "Piazza Plebiscito and its monumental fountain.",
+          "Palazzo De Petra with the Teofilo Patini picture gallery.",
+          "Maddalena convent and the fly-fishing museum.",
+          "Civic Museum Aufidenate with Samnite and Roman finds.",
+          "Civita, Terravecchia and the Basilica of Santa Maria Assunta."
+        ],
+        "practicalNote": "Castel di Sangro truly allows you to combine lunch and culture: decide first whether to prioritize the river and the Maddalena complex or the upper quarters, so the afternoon does not feel fragmented.",
+        "howItWorks": [
+          "Use lunch as a central pause and build the route around one main cultural pole.",
+          "The Sangro cycle path and the convent work well together; Civita, the basilica and Terravecchia form a second coherent axis.",
+          "Before departure, stay close to the center for easy purchases such as honey, aged cheeses or truffle specialties."
+        ],
         "plans": [
           {
             "id": "castel-breve",
             "label": "Short stop",
             "duration": "60-90 min",
-            "mealTip": "If it is lunchtime, head for a trattoria near the center.",
+            "bestFor": "Historic center and one focused visit",
+            "summary": "A compact itinerary that keeps together the square, a historic palace and a short walk.",
+            "logistics": "Choose one pole only: square and palace, or river and convent, without trying to do everything.",
+            "mealTip": "A central trattoria or a quick pause in the square are the most efficient options.",
             "activities": {
               "spring": [
-                "Walk through the center and photos along the main street.",
-                "Coffee break in the square."
+                "Walk along the Sangro river or the cycle path near the center.",
+                "Climb toward Civita for a first panoramic overlook above the valley."
               ],
               "summer": [
-                "Evening walk and gelato.",
-                "Cool stop in the shade."
+                "Visit the Maddalena convent, cooler and more shaded during the central hours.",
+                "Take a quick walk through Terravecchia among stone arches and narrow alleys."
               ],
               "autumn": [
-                "Local flavors and shops.",
-                "Walk through lanes and scenic corners."
+                "Move through the historic center around Palazzo De Petra, Palazzo Balzano and the old quarter.",
+                "Pick up mountain honey, aged cheeses or truffle-based specialties before departure."
               ],
               "winter": [
-                "Historic center and indoor venues.",
-                "Hot drink and a relaxing break."
+                "Enjoy Piazza Plebiscito and a warm lunch in the heart of town.",
+                "Visit Palazzo De Petra with a quick stop at the Teofilo Patini picture gallery."
               ]
             }
           },
@@ -1331,23 +1519,26 @@
             "id": "castel-lunga",
             "label": "Long stop",
             "duration": "3-4 hours",
-            "mealTip": "With a long stop you can enjoy lunch without rushing.",
+            "bestFor": "A full route with unhurried lunch",
+            "summary": "The ideal terminus for combining museums, historic quarters, the river and local cuisine.",
+            "logistics": "With more time you can include a museum and still close the route with Civita or the riverside path.",
+            "mealTip": "This is where it is worth sitting down properly: timings allow for a full lunch before boarding again.",
             "activities": {
               "spring": [
-                "Complete tour between the center and green areas.",
-                "Relaxed lunch and a final stroll."
+                "Visit the Maddalena convent and the International Fly Fishing Museum.",
+                "Take a long walk between the Sangro cycle path, Civita and the Basilica of Santa Maria Assunta."
               ],
               "summer": [
-                "Long break with lunch and a walk.",
-                "Aperitif if you arrive later in the afternoon."
+                "Explore the Maddalena complex with both the Aufidenate civic museum and the fly-fishing museum.",
+                "Finish with Terravecchia and the basilica for a wide panorama over the valley."
               ],
               "autumn": [
-                "Slow route among colors and local shops.",
-                "Warm lunch with local products."
+                "Visit the Civic Museum Aufidenate and walk along the Sangro among bridges, water and foliage.",
+                "Enjoy a calm lunch and do last-minute shopping for mountain products in the center."
               ],
               "winter": [
-                "Warm lunch and an easygoing visit.",
-                "Cafe stop before returning."
+                "Pair a full traditional lunch with a cultural visit among the historic palace and the picture gallery.",
+                "Close with a final walk through the square among lights, fountain and terminus atmosphere."
               ]
             }
           }
@@ -1356,50 +1547,220 @@
     ]
   },
   "info": {
+    "badge": "Before you board",
     "title": {
       "lead": "Useful",
       "accent": "info"
     },
-    "subtitle": "Everything you need to know before boarding this retro adventure through the mountains of Abruzzo.",
-    "tripadvisorAria": "Open TripAdvisor reviews (opens in a new tab)",
-    "tripadvisorLabel": "TripAdvisor Reviews",
-    "rules": {
-      "title": "On-board rules",
-      "body": "Historic trains require care. Do not lean out of the windows while the train is moving, do not throw rubbish from the train, and behave respectfully toward the vintage materials and other passengers."
+    "subtitle": "A practical guide to understand how departure works, what to expect on board and which details are worth checking before you book.",
+    "bookingAria": "Open the official website for calendar and tickets in a new tab",
+    "tripadvisorAria": "Open TripAdvisor reviews in a new tab",
+    "accessibilityAria": "Write to request accessibility and assistance support",
+    "overviewAria": "Quick trip summary",
+    "actions": {
+      "booking": "Calendar and tickets",
+      "tripadvisor": "TripAdvisor reviews",
+      "accessibility": "Ask for accessibility support"
     },
-    "faqAria": "Frequently asked questions",
+    "overview": [
+      {
+        "id": "departure",
+        "label": "Departure",
+        "value": "Sulmona, platform 1"
+      },
+      {
+        "id": "duration",
+        "label": "Duration",
+        "value": "Day trip"
+      },
+      {
+        "id": "altitude",
+        "label": "Highest point",
+        "value": "1,268 m"
+      },
+      {
+        "id": "tickets",
+        "label": "Tickets",
+        "value": "Online, limited seats"
+      }
+    ],
+    "quickGuide": {
+      "eyebrow": "Quick checklist",
+      "title": "Before departure",
+      "body": "The trip is easy to enjoy if you prepare well: a few smart checks prevent problems on departure day."
+    },
+    "checklist": [
+      "Get to the station at least 30 minutes before departure.",
+      "Dress in layers: the train can be warm, mountain stops often are not.",
+      "Bring water and snacks: there is no restaurant car.",
+      "Book well in advance during the busiest periods."
+    ],
+    "seasonHighlightsTitle": "When it shines most",
+    "seasonHighlights": [
+      {
+        "id": "winter",
+        "label": "Winter",
+        "description": "Snow, Christmas markets and a real mountain atmosphere."
+      },
+      {
+        "id": "autumn",
+        "label": "Autumn",
+        "description": "Foliage, clean light and excellent conditions for photos."
+      },
+      {
+        "id": "springSummer",
+        "label": "Spring and summer",
+        "description": "Hikes, bikes, picnics and open-air stops."
+      }
+    ],
+    "rules": {
+      "eyebrow": "Good practice",
+      "title": "On-board rules",
+      "body": "A historic train needs a bit more care than a modern one: a few simple habits make the trip better for everyone.",
+      "items": [
+        "Do not lean out of the windows while the train is moving.",
+        "Do not leave rubbish on board or along the line.",
+        "Handle the original wood, velvet and fittings with care."
+      ]
+    },
+    "arrival": {
+      "eyebrow": "Logistics",
+      "title": "Getting to Sulmona",
+      "body": "Departure is designed for early arrivals, so knowing where to go and how to move around makes the morning much smoother.",
+      "tips": [
+        "Departure is almost always from Sulmona station, usually platform 1.",
+        "There is convenient parking close to the station entrance, with more spaces along the avenue.",
+        "If you rely on regional trains from farther away, arriving the evening before can be the safer option."
+      ]
+    },
+    "support": {
+      "eyebrow": "Check before booking",
+      "title": "Accessibility and assistance",
+      "body": "For wheelchairs, reduced mobility or specific needs, it is better to ask first and book after you get confirmation.",
+      "mailLabel": "Write to info@ferroviadeiparchi.it",
+      "siteLabel": "Check website and availability"
+    },
+    "categories": [
+      {
+        "id": "planning",
+        "label": "Planning",
+        "description": "Route, timings, tickets and how to arrive at the station prepared."
+      },
+      {
+        "id": "onboard",
+        "label": "On board",
+        "description": "Comfort, essential services and what to expect from vintage carriages."
+      },
+      {
+        "id": "accessibility",
+        "label": "Accessibility",
+        "description": "Reduced mobility, strollers, animals and requests worth making before you book."
+      }
+    ],
+    "categoryAria": "Filter information by topic",
+    "faqEyebrow": "Essential questions",
+    "faqTitle": "Practical answers, without the noise",
+    "faqSubtitle": "Key answers are organized by topic so you can find what matters before departure.",
+    "faqAria": "Frequently asked questions on the useful info page",
+    "faqEmpty": "No information is available for this category.",
     "faq": [
       {
-        "q": "Is the train heated in winter?",
-        "a": "Yes, all the vintage carriages are equipped with original restored and working steam heating and radiators."
+        "id": "name",
+        "category": "planning",
+        "tag": "Origin",
+        "q": "Why is it called the Transiberiana?",
+        "a": "The nickname comes from the Abruzzo plateaus that in winter, with snow and wind, resemble Siberian landscapes. Today it is one of the best known names in Italian railway tourism."
       },
       {
-        "q": "Can I bring my dog on board?",
-        "a": "Small dogs are allowed free of charge inside the appropriate carrier. Larger dogs require a dedicated ticket."
+        "id": "route",
+        "category": "planning",
+        "tag": "Route",
+        "q": "What route does it take?",
+        "a": "It almost always leaves from Sulmona and climbs through the Majella and the Apennines, with stops that change by season and theme, often including Campo di Giove, Palena, Roccaraso and Castel di Sangro."
       },
       {
-        "q": "Are there toilets on board?",
-        "a": "Yes, although they are the original 1930s ones. For greater comfort we suggest using the toilets available at the stations during longer stops."
+        "id": "duration",
+        "category": "planning",
+        "tag": "Timing",
+        "q": "How long is the trip?",
+        "a": "It is usually a full day excursion: morning departure, late afternoon return and long stops in the villages to visit, eat or join local events."
       },
       {
-        "q": "Can I bring food on board?",
-        "a": "Absolutely. There is no restaurant car, so bringing your own packed lunch is welcome, especially during longer stops in the villages."
+        "id": "best-period",
+        "category": "planning",
+        "tag": "Seasons",
+        "q": "When does it feel most special?",
+        "a": "Winter is best for snow and Christmas markets, autumn for foliage, spring and summer for hikes, bikes and outdoor stops. There is no single best season, only a different kind of trip."
       },
       {
-        "q": "Feeling unwell?",
-        "a": "Call 112."
+        "id": "tickets",
+        "category": "planning",
+        "tag": "Booking",
+        "q": "Where do I buy tickets?",
+        "a": "Online on the official website or through partner operators. In the busiest periods seats sell out quickly, so it is worth watching the release dates and booking early."
       },
       {
-        "q": "Feeling unwell?",
-        "a": "Call 112."
+        "id": "station",
+        "category": "planning",
+        "tag": "Departure",
+        "q": "Where do I leave from and where can I park?",
+        "a": "The main departure point is Sulmona railway station. There is practical parking a short walk from the entrance, and arriving early makes the start of the day much easier."
       },
       {
-        "q": "Feeling unwell?",
-        "a": "Call 112."
+        "id": "carriages",
+        "category": "onboard",
+        "tag": "Carriages",
+        "q": "What is the train like?",
+        "a": "You travel in historic 1920s and 1930s stock with original interiors, manual doors and openable windows. There is no Wi-Fi or power outlets: the vintage atmosphere is part of the appeal."
       },
       {
-        "q": "Feeling unwell?",
-        "a": "Call 112."
+        "id": "winter-temperature",
+        "category": "onboard",
+        "tag": "Comfort",
+        "q": "Is it cold in winter?",
+        "a": "The carriages are heated, often very well. The real challenge is the mountain stops, so thermal layers, proper shoes and a warm jacket still matter."
+      },
+      {
+        "id": "food",
+        "category": "onboard",
+        "tag": "Lunch",
+        "q": "Do you eat on the train?",
+        "a": "There is no restaurant car. You can bring water and snacks, while lunch is usually handled during longer stops, as a packed meal, at market stalls or in village restaurants."
+      },
+      {
+        "id": "photos",
+        "category": "onboard",
+        "tag": "Experience",
+        "q": "Is it good for photography?",
+        "a": "Yes, that is one of the main reasons people choose it. The landscapes are central to the experience, but always take photos safely and never lean out while moving."
+      },
+      {
+        "id": "mobility",
+        "category": "accessibility",
+        "tag": "Mobility",
+        "q": "Could reduced mobility be a problem?",
+        "a": "It can be. Historic carriages have narrow entrances, steep steps and facilities not designed for modern accessibility needs, so it is important to check everything before booking."
+      },
+      {
+        "id": "wheelchair",
+        "category": "accessibility",
+        "tag": "Wheelchair",
+        "q": "Can I travel with a wheelchair?",
+        "a": "If it folds, it can usually go in the luggage car, but if you need an accessible position during the trip you should ask in advance whether an equipped carriage is available."
+      },
+      {
+        "id": "stroller",
+        "category": "accessibility",
+        "tag": "Strollers",
+        "q": "Are strollers manageable?",
+        "a": "Yes, but they cannot stay open in the corridors. They need to be folded and stored, and in the villages a baby carrier is often more practical than wheels."
+      },
+      {
+        "id": "pets",
+        "category": "accessibility",
+        "tag": "Animals",
+        "q": "Can I bring my dog?",
+        "a": "Small dogs are generally allowed if kept in a carrier or in your arms. Guide dogs are always allowed; for any other case it is best to confirm the rules before booking."
       }
     ]
   },
