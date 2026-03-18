@@ -413,7 +413,7 @@ function SeasonCard({ item }) {
   const Icon = seasonIcons[item.id] || Sparkle;
 
   return (
-    <div className="rounded-[24px] border border-primary/12 bg-[linear-gradient(135deg,rgba(255,255,255,0.98),rgba(168,213,186,0.14))] p-4 shadow-[var(--shadow-subtle)]">
+    <div className="rounded-[24px] border border-primary/12 bg-card/85 dark:bg-card/65 p-4 shadow-[var(--shadow-subtle)]">
       <div className="flex items-center gap-3">
         <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-primary/14 text-primary shadow-[var(--shadow-subtle)]">
           <Icon size={18} weight="duotone" />
@@ -429,14 +429,14 @@ function SeasonCard({ item }) {
 
 function SidePanel({ title, eyebrow, icon: Icon, children, className = '' }) {
   return (
-    <div className={`rounded-[28px] border border-primary/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(168,213,186,0.08))] p-6 shadow-[var(--shadow-card)] backdrop-blur-xl ${className}`.trim()}>
+    <div className={`rounded-[28px] border border-primary/10 bg-card/85 dark:bg-card/65 p-6 shadow-[var(--shadow-card)] backdrop-blur-xl ${className}`.trim()}>
       <div className="flex items-start gap-4">
         <span className="mt-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-primary/10 bg-primary/12 text-primary shadow-[var(--shadow-subtle)]">
           <Icon size={20} weight="duotone" />
         </span>
         <div className="min-w-0 flex-1">
           {eyebrow ? (
-            <div className="inline-flex rounded-full bg-[linear-gradient(135deg,rgba(107,158,126,0.10),rgba(212,165,116,0.18))] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-primary/80">{eyebrow}</div>
+            <div className="inline-flex rounded-full bg-primary/12 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-primary/80">{eyebrow}</div>
           ) : null}
           <h2 className="mt-2 text-2xl font-serif font-bold tracking-tight text-foreground">{title}</h2>
           <div className="mt-4">{children}</div>
@@ -456,7 +456,7 @@ function DecaloguePanel({ decalogue }) {
       <div className="mt-5 space-y-5">
         {decalogue.groups.map((group) => (
           <section key={group.id}>
-            <div className="inline-flex rounded-full bg-[linear-gradient(135deg,rgba(107,158,126,0.10),rgba(212,165,116,0.16))] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-primary/80">
+            <div className="inline-flex rounded-full bg-primary/12 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-primary/80">
               {group.title}
             </div>
 
@@ -464,7 +464,7 @@ function DecaloguePanel({ decalogue }) {
               {group.items.map((item) => (
                 <li
                   key={item.id}
-                  className="rounded-[24px] border border-primary/8 bg-[linear-gradient(135deg,rgba(255,255,255,0.96),rgba(168,213,186,0.10))] px-4 py-4 shadow-[var(--shadow-subtle)]"
+                  className="rounded-[24px] border border-primary/8 bg-card/85 dark:bg-card/65 px-4 py-4 shadow-[var(--shadow-subtle)]"
                 >
                   <div className="flex items-start gap-3">
                     <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-primary/10 bg-primary/12 text-sm font-semibold text-primary shadow-[var(--shadow-subtle)]">
@@ -497,8 +497,8 @@ function CategoryButton({ category, count, isActive, onClick }) {
       id={`info-tab-${category.id}`}
       onClick={onClick}
       className={`group rounded-[24px] border px-4 py-4 text-left transition-all duration-300 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${isActive
-        ? 'border-primary/28 bg-[linear-gradient(135deg,rgba(107,158,126,0.96),rgba(132,177,121,0.90))] text-primary-foreground shadow-[var(--shadow-card)]'
-        : 'border-primary/12 bg-[linear-gradient(135deg,rgba(255,255,255,0.98),rgba(168,213,186,0.16))] text-foreground/88 shadow-[var(--shadow-subtle)] hover:border-primary/24 hover:shadow-[var(--shadow-card)]'
+        ? 'border-primary/28 bg-primary/90 text-primary-foreground shadow-[var(--shadow-card)]'
+        : 'border-primary/12 bg-card/85 dark:bg-card/60 text-foreground/88 shadow-[var(--shadow-subtle)] hover:border-primary/24 hover:shadow-[var(--shadow-card)]'
         }`}
     >
       <div className="flex items-start justify-between gap-3">
@@ -529,8 +529,8 @@ function FaqItem({ item, isOpen, onToggle, reduceMotion }) {
   return (
     <article
       className={`rounded-[28px] border transition-all duration-300 ${isOpen
-        ? 'border-primary/22 bg-[linear-gradient(135deg,rgba(255,255,255,0.98),rgba(168,213,186,0.20))] shadow-[var(--shadow-card)]'
-        : 'border-primary/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.98),rgba(168,213,186,0.08))] shadow-[var(--shadow-subtle)] hover:border-primary/18 hover:bg-[linear-gradient(135deg,rgba(255,255,255,0.98),rgba(168,213,186,0.14))]'
+        ? 'border-primary/22 bg-card/85 dark:bg-card/70 shadow-[var(--shadow-card)]'
+        : 'border-primary/10 bg-card/80 dark:bg-card/60 shadow-[var(--shadow-subtle)] hover:border-primary/18 hover:bg-card/85 dark:hover:bg-card/70'
         }`}
     >
       <button
@@ -664,7 +664,7 @@ export default function InfoUtili() {
                   href={TRIPADVISOR_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 rounded-2xl border border-primary/14 bg-[linear-gradient(135deg,rgba(255,255,255,0.98),rgba(168,213,186,0.24))] px-5 py-3.5 text-sm font-semibold text-foreground shadow-[var(--shadow-subtle)] transition-all duration-300 hover:border-primary/28 hover:shadow-[var(--shadow-card)]"
+                  className="inline-flex items-center justify-center gap-2 rounded-2xl border border-primary/14 bg-card/85 dark:bg-card/60 px-5 py-3.5 text-sm font-semibold text-foreground shadow-[var(--shadow-subtle)] transition-all duration-300 hover:border-primary/28 hover:shadow-[var(--shadow-card)]"
                   aria-label={t('info.tripadvisorAria', 'Apri le recensioni su TripAdvisor in una nuova scheda')}
                 >
                   <Sparkle size={18} weight="fill" className="text-[#00AA6C]" />
@@ -673,10 +673,10 @@ export default function InfoUtili() {
                 </a>
               </div>
 
-              <a
-                href={ACCESSIBILITY_EMAIL}
-                className="mt-4 inline-flex items-center gap-2 rounded-full bg-primary/8 px-3 py-2 text-sm font-semibold text-primary transition-colors duration-200 hover:bg-primary/12 hover:text-foreground"
-                aria-label={t('info.accessibilityAria', 'Scrivi per richiedere supporto su accessibilità e assistenza')}
+                <a
+                  href={ACCESSIBILITY_EMAIL}
+                  className="mt-4 inline-flex items-center gap-2 rounded-full bg-primary/8 px-3 py-2 text-sm font-semibold text-primary transition-colors duration-200 hover:bg-primary/12 hover:text-foreground"
+                  aria-label={t('info.accessibilityAria', 'Scrivi per richiedere supporto su accessibilità e assistenza')}
               >
                 <EnvelopeSimple size={17} className="text-primary" />
                 {t('info.actions.accessibility', 'Richiedi supporto per accessibilità')}
@@ -714,7 +714,7 @@ export default function InfoUtili() {
 
               <div className="mt-6 space-y-3">
                 {checklist.map((item) => (
-                  <div key={item} className="flex items-start gap-3 rounded-2xl border border-primary/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.96),rgba(168,213,186,0.10))] px-4 py-3">
+                  <div key={item} className="flex items-start gap-3 rounded-2xl border border-primary/10 bg-card/85 dark:bg-card/65 px-4 py-3">
                     <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-primary" aria-hidden="true" />
                     <p className="text-sm leading-relaxed text-foreground/85">{item}</p>
                   </div>
@@ -755,7 +755,7 @@ export default function InfoUtili() {
               </p>
               <div className="mt-4 space-y-3">
                 {rules.map((rule) => (
-                  <div key={rule} className="rounded-2xl border border-primary/8 bg-[linear-gradient(135deg,rgba(255,255,255,0.94),rgba(212,165,116,0.12))] px-4 py-3 text-sm leading-relaxed text-foreground/82">
+                  <div key={rule} className="rounded-2xl border border-primary/8 bg-card/85 dark:bg-card/65 px-4 py-3 text-sm leading-relaxed text-foreground/82">
                     {rule}
                   </div>
                 ))}
@@ -775,7 +775,7 @@ export default function InfoUtili() {
               </p>
               <div className="mt-4 space-y-3">
                 {arrivalTips.map((tip) => (
-                  <div key={tip} className="rounded-2xl border border-primary/8 bg-[linear-gradient(135deg,rgba(255,255,255,0.96),rgba(168,213,186,0.08))] px-4 py-3 text-sm leading-relaxed text-foreground/85">
+                  <div key={tip} className="rounded-2xl border border-primary/8 bg-card/85 dark:bg-card/65 px-4 py-3 text-sm leading-relaxed text-foreground/85">
                     {tip}
                   </div>
                 ))}
@@ -796,7 +796,7 @@ export default function InfoUtili() {
               <div className="mt-5 flex flex-col gap-3 sm:flex-row xl:flex-col">
                 <a
                   href={ACCESSIBILITY_EMAIL}
-                  className="inline-flex items-center justify-center gap-2 rounded-2xl border border-primary/14 bg-[linear-gradient(135deg,rgba(255,255,255,0.98),rgba(168,213,186,0.18))] px-4 py-3 text-sm font-semibold text-foreground transition-all duration-300 hover:border-primary/26 hover:shadow-[var(--shadow-subtle)]"
+                  className="inline-flex items-center justify-center gap-2 rounded-2xl border border-primary/14 bg-card/85 dark:bg-card/60 px-4 py-3 text-sm font-semibold text-foreground transition-all duration-300 hover:border-primary/26 hover:shadow-[var(--shadow-subtle)]"
                 >
                   <EnvelopeSimple size={17} weight="fill" className="text-primary" />
                   {t('info.support.mailLabel', 'Scrivi a info@ferroviadeiparchi.it')}
@@ -805,7 +805,7 @@ export default function InfoUtili() {
                   href={FERROVIA_DEI_PARCHI_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 rounded-2xl border border-primary/18 bg-[linear-gradient(135deg,rgba(107,158,126,0.12),rgba(168,213,186,0.30))] px-4 py-3 text-sm font-semibold text-primary transition-all duration-300 hover:border-primary/30 hover:brightness-105"
+                  className="inline-flex items-center justify-center gap-2 rounded-2xl border border-primary/18 bg-card/85 dark:bg-card/60 px-4 py-3 text-sm font-semibold text-primary transition-all duration-300 hover:border-primary/30 hover:brightness-105"
                 >
                   <Ticket size={17} weight="fill" />
                   {t('info.support.siteLabel', 'Controlla sito e disponibilità')}
@@ -886,14 +886,14 @@ export default function InfoUtili() {
         </div>
 
         <section className="mt-14 md:mt-16" aria-label="Separatore sezione decaloghi">
-          <div className="flex items-center gap-4">
-            <div className="h-px flex-1 bg-[linear-gradient(90deg,rgba(107,158,126,0),rgba(107,158,126,0.22),rgba(107,158,126,0))]" aria-hidden="true" />
-            <div className="inline-flex items-center gap-2 rounded-full border border-primary/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.98),rgba(168,213,186,0.16))] px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-primary/82 shadow-[var(--shadow-subtle)]">
+            <div className="flex items-center gap-4">
+              <div className="h-px flex-1 bg-[linear-gradient(90deg,rgba(107,158,126,0),rgba(107,158,126,0.22),rgba(107,158,126,0))]" aria-hidden="true" />
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/10 bg-card/85 dark:bg-card/60 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-primary/82 shadow-[var(--shadow-subtle)]">
               <Leaf size={14} weight="duotone" />
               Decaloghi di cittadinanza
               <Devices size={14} weight="duotone" />
             </div>
-            <div className="h-px flex-1 bg-[linear-gradient(90deg,rgba(107,158,126,0),rgba(107,158,126,0.22),rgba(107,158,126,0))]" aria-hidden="true" />
+              <div className="h-px flex-1 bg-[linear-gradient(90deg,rgba(107,158,126,0),rgba(107,158,126,0.22),rgba(107,158,126,0))]" aria-hidden="true" />
           </div>
 
           <p className="mx-auto mt-4 max-w-[58ch] text-center text-sm leading-relaxed text-muted-foreground">
