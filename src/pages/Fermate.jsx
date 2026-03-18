@@ -293,31 +293,20 @@ export default function Fermate() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.22, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
               >
-                <div className="rounded-3xl border border-border/60 bg-card/70 backdrop-blur-xl p-6 shadow-[var(--shadow-card)]">
-                    <div className="flex items-center justify-between gap-3 mb-4">
-                      <div className="text-sm font-semibold text-muted-foreground italic">
-                        {isItalian ? 'Locali e punti di interesse nei dintorni' : 'Nearby places and points of interest'}
-                      </div>
-                      <div className="text-xs font-semibold text-foreground/70">Google Maps</div>
-                    </div>
-                  <div className="relative overflow-hidden rounded-2xl border border-border/60 bg-background/80 p-6">
-                    <div className="flex h-64 flex-col justify-between md:h-72">
+                <div className="rounded-3xl border border-border/60 bg-card/70 backdrop-blur-xl p-5 shadow-[var(--shadow-card)]">
+                  <div className="relative overflow-hidden rounded-2xl border border-border/60 bg-gradient-to-br from-primary/10 via-background/80 to-background/60 p-5">
+                    <div className="flex flex-col items-center gap-4 md:flex-row md:justify-between">
                       <div>
-                        <div className="inline-flex items-center gap-2 rounded-2xl bg-primary/8 px-4 py-2 text-sm font-semibold text-primary">
+                        <div className="inline-flex items-center gap-2 rounded-2xl bg-primary/10 px-4 py-2 text-sm font-semibold text-primary">
                           <MapPin weight="fill" size={16} />
                           {selectedStation.name}
                         </div>
-                        <p className="mt-5 max-w-[46ch] text-sm leading-relaxed text-muted-foreground">
-                          {isItalian
-                            ? 'La mappa non viene incorporata direttamente nella demo per evitare il caricamento automatico di servizi esterni. Puoi aprire Google Maps solo se vuoi farlo.'
-                            : 'The map is not embedded directly in the demo in order to avoid automatic loading of external services. You can open Google Maps only if you choose to do so.'}
-                        </p>
                       </div>
                       <a
                         href={buildMapUrl(selectedStation.mapQuery || selectedStation.name)}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex w-fit items-center gap-2 rounded-2xl border border-border/60 bg-card px-5 py-3 text-sm font-semibold text-foreground transition-all duration-200 hover:shadow-[var(--shadow-subtle)]"
+                        className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-primary/90 px-6 py-3.5 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-elevated)] transition-all duration-300 hover:translate-y-[-1px] hover:bg-primary hover:shadow-[0_18px_48px_-26px_rgba(0,0,0,0.35)] focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-background md:w-auto"
                       >
                         {isItalian ? 'Apri su Google Maps' : 'Open in Google Maps'}
                         <NavigationArrow size={16} weight="bold" />
