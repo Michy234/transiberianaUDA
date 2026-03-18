@@ -101,6 +101,7 @@ function ImmersiveExperience({ stop, t }) {
   const gallery = experience.gallery?.length
     ? experience.gallery
     : [{ id: 'fallback', src: stop.image, alt: stop.title, caption: stop.summary }];
+  const detailGallery = experience.detailGallery?.length ? experience.detailGallery : gallery;
 
   return (
     <section className="px-6 pb-24 pt-8 md:px-8">
@@ -171,9 +172,9 @@ function ImmersiveExperience({ stop, t }) {
             initial={{ opacity: 0, x: 24 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.55, ease: 'easeOut', delay: 0.05 }}
-            className="grid gap-4 md:grid-cols-2"
+            className="grid content-start self-start gap-4 md:grid-cols-2"
           >
-            <figure className="relative overflow-hidden rounded-[32px] border border-border/60 bg-card/70 shadow-[var(--shadow-card)] md:col-span-2">
+            <figure className="relative self-start overflow-hidden rounded-[32px] border border-border/60 bg-card/70 shadow-[var(--shadow-card)] md:col-span-2">
               <img
                 src={gallery[0].src}
                 alt={gallery[0].alt}
@@ -307,7 +308,7 @@ function ImmersiveExperience({ stop, t }) {
               </div>
 
               <div className="mt-6 grid gap-4 md:grid-cols-3">
-                {gallery.map((item) => (
+                {detailGallery.map((item) => (
                   <figure key={item.id} className="overflow-hidden rounded-[28px] border border-border/60 bg-background/70">
                     <div className="relative">
                       <img src={item.src} alt={item.alt} className="h-56 w-full object-cover" loading="lazy" />

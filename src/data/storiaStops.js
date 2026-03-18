@@ -1,7 +1,7 @@
-const createGallery = (prefix, src, items) =>
+const createGallery = (prefix, defaultSrc, items) =>
   items.map((item, index) => ({
     id: `${prefix}${index + 1}`,
-    src,
+    src: item.src || defaultSrc,
     ...item,
   }));
 
@@ -61,18 +61,38 @@ const sulmonaExperience = {
       callouts: ['Valle Peligna', 'Montagne dell’Appennino', 'Escursioni e turismo naturalistico'],
     },
   ],
-  gallery: createGallery('sulmona-', '/photos/storia/sulmona.webp', [
+  gallery: createGallery('sulmona-', '/photos/storia/sulmona-panorama-urbano.jpg', [
     {
-      alt: 'Veduta di Sulmona con atmosfera urbana storica',
+      src: '/photos/storia/sulmona-panorama-urbano.jpg',
+      alt: 'Veduta di Sulmona con acquedotto medievale e piazza',
       caption: 'Acquedotto medievale e Piazza Garibaldi.',
     },
     {
-      alt: 'Dettaglio placeholder per artigianato o architettura di Sulmona',
+      src: '/photos/storia/sulmona-confetti.jpg',
+      alt: 'Composizione di confetti artigianali di Sulmona',
       caption: 'Confetti artigianali e composizioni decorative a forma di fiore.',
     },
     {
-      alt: 'Placeholder per scena di piazza o rito pubblico a Sulmona',
-      caption: 'Tradizioni cittadine e celebrazioni pubbliche.',
+      src: '/photos/storia/sulmona-madonna-che-scappa.jpg',
+      alt: 'Madonna che Scappa in Piazza durante la celebrazione pasquale a Sulmona',
+      caption: 'Madonna che Scappa in Piazza e celebrazioni cittadine.',
+    },
+  ]),
+  detailGallery: createGallery('sulmona-detail-', '/photos/storia/sulmona-acquedotto-arcate.jpg', [
+    {
+      src: '/photos/storia/sulmona-acquedotto-arcate.jpg',
+      alt: 'Dettaglio delle arcate dell’acquedotto medievale di Sulmona',
+      caption: 'La sequenza delle 21 arcate accompagna il cammino lungo il bordo della piazza.',
+    },
+    {
+      src: '/photos/storia/sulmona-piazza-garibaldi.jpg',
+      alt: 'Piazza Garibaldi a Sulmona con vista verso i monti',
+      caption: 'Piazza Garibaldi si apre come grande spazio civico tra case, fontana e montagne.',
+    },
+    {
+      src: '/photos/storia/sulmona-ovidio-centro.jpg',
+      alt: 'Statua di Ovidio nel centro storico di Sulmona',
+      caption: 'La memoria di Ovidio riemerge tra palazzi pubblici e architetture del centro storico.',
     },
   ]),
   rituals: [
@@ -155,18 +175,38 @@ const campoDiGioveExperience = {
       callouts: ['Parco della Majella', 'Trekking', 'Itinerari naturalistici'],
     },
   ],
-  gallery: createGallery('campo-di-giove-', '/photos/storia/campo-di-giove.webp', [
+  gallery: createGallery('campo-di-giove-', '/photos/storia/campo-di-giove-panorama.jpg', [
     {
-      alt: 'Veduta montana di Campo di Giove nel Parco della Majella',
-      caption: 'Paesaggio montano e faggete del Parco della Majella.',
+      src: '/photos/storia/campo-di-giove-panorama.jpg',
+      alt: 'Veduta di Campo di Giove ai piedi della Majella',
+      caption: 'Paesaggio montano e profilo del borgo nel Parco della Majella.',
     },
     {
-      alt: 'Dettaglio del tessuto storico di Campo di Giove',
-      caption: 'Strade lastricate, case in pietra e piazze del borgo.',
+      src: '/photos/storia/campo-di-giove-chiesa.jpg',
+      alt: 'Chiesa di San Vincenzo a Campo di Giove',
+      caption: 'Chiesa di San Vincenzo e paesaggio della Majella.',
     },
     {
-      alt: 'Placeholder per tradizioni o cucina di Campo di Giove',
-      caption: 'Tradizioni locali e cucina di montagna.',
+      src: '/photos/storia/campo-di-giove-borgo.jpg',
+      alt: 'Scorcio del borgo di Campo di Giove con tetti e scale in pietra',
+      caption: 'Strade lastricate, case in pietra e scorci del borgo.',
+    },
+  ]),
+  detailGallery: createGallery('campo-di-giove-detail-', '/photos/storia/campo-di-giove-panorama-autunno.jpg', [
+    {
+      src: '/photos/storia/campo-di-giove-panorama-autunno.jpg',
+      alt: 'Campo di Giove in autunno tra pendii e case del borgo',
+      caption: 'Il paese si distende ai piedi della Majella tra colori autunnali e campi d’altura.',
+    },
+    {
+      src: '/photos/storia/campo-di-giove-scale.jpg',
+      alt: 'Scale in pietra nel centro storico di Campo di Giove',
+      caption: 'Scale, archi e murature raccontano la misura raccolta del borgo montano.',
+    },
+    {
+      src: '/photos/storia/campo-di-giove-meridiana.jpg',
+      alt: 'Meridiana su una casa in pietra a Campo di Giove',
+      caption: 'Dettagli in pietra e meridiane ricordano il tempo lento della vita di montagna.',
     },
   ]),
   rituals: [
@@ -249,18 +289,38 @@ const palenaExperience = {
       callouts: ['Majella', 'Altipiani', 'Escursioni e percorsi naturalistici'],
     },
   ],
-  gallery: createGallery('palena-', '/photos/storia/palena.webp', [
+  gallery: createGallery('palena-', '/photos/storia/palena-panorama.jpg', [
     {
-      alt: 'Veduta di Palena tra montagne e altipiani',
-      caption: 'Palena tra Majella, altipiani e paesaggio ferroviario.',
+      src: '/photos/storia/palena-panorama.jpg',
+      alt: 'Veduta di Palena tra boschi e rilievi della Majella',
+      caption: 'Palena tra Majella, altipiani e paesaggio del borgo.',
     },
     {
-      alt: 'Dettaglio placeholder per chiesa o stazione di Palena',
-      caption: 'Chiesa di San Falco e memoria della stazione sugli Altipiani Maggiori.',
+      src: '/photos/storia/palena-chiesa-di-san-falco.jpg',
+      alt: 'Chiesa di San Falco a Palena',
+      caption: 'Chiesa di San Falco e luoghi della devozione locale.',
     },
     {
-      alt: 'Placeholder per tradizioni o cucina di Palena',
-      caption: 'Tradizioni locali e sapori del borgo montano.',
+      src: '/photos/storia/palena-fontana.jpg',
+      alt: 'Fontana storica nel centro di Palena',
+      caption: 'Fontane in pietra e scorci del centro storico.',
+    },
+  ]),
+  detailGallery: createGallery('palena-detail-', '/photos/storia/palena-panorama-invernale.jpg', [
+    {
+      src: '/photos/storia/palena-panorama-invernale.jpg',
+      alt: 'Palena in inverno tra vallata e montagne',
+      caption: 'Il borgo appare raccolto nella valle, circondato da rilievi e paesaggi d’altura.',
+    },
+    {
+      src: '/photos/storia/palena-scorcio-porta.jpg',
+      alt: 'Scorcio con arco e case nel centro di Palena',
+      caption: 'Archi, salite e case addossate conservano il passo antico del centro storico.',
+    },
+    {
+      src: '/photos/storia/palena-torrente.jpg',
+      alt: 'Corso d’acqua e verde urbano a Palena',
+      caption: 'Acqua e vegetazione accompagnano i margini del paese verso il paesaggio montano.',
     },
   ]),
   rituals: [
@@ -343,18 +403,38 @@ const roccarasoExperience = {
       callouts: ['Alto Sangro', 'Sport invernali', 'Trekking estivo', 'Mountain bike'],
     },
   ],
-  gallery: createGallery('roccaraso-', '/photos/storia/roccaraso.webp', [
+  gallery: createGallery('roccaraso-', '/photos/storia/roccaraso-inverno.jpg', [
     {
-      alt: 'Veduta di Roccaraso tra architettura e paesaggio montano',
+      src: '/photos/storia/roccaraso-inverno.jpg',
+      alt: 'Roccaraso innevata tra boschi e montagne',
       caption: 'Roccaraso tra centro montano e paesaggi dell’Alto Sangro.',
     },
     {
-      alt: 'Dettaglio placeholder per architetture o monumenti di Roccaraso',
-      caption: 'Chiesa di Santa Maria Assunta e presenze architettoniche del paese.',
+      src: '/photos/storia/roccaraso-borgo-viadotto.jpg',
+      alt: 'Veduta del borgo di Roccaraso con viadotto e chiesa',
+      caption: 'Architetture del paese e paesaggio ferroviario d’altura.',
     },
     {
-      alt: 'Placeholder per sport o vita stagionale a Roccaraso',
-      caption: 'Turismo di montagna tra inverno ed estate.',
+      src: '/photos/storia/roccaraso-centro.jpg',
+      alt: 'Centro di Roccaraso tra piazza, fiori e vita del paese',
+      caption: 'Turismo di montagna e vita del centro tra inverno ed estate.',
+    },
+  ]),
+  detailGallery: createGallery('roccaraso-detail-', '/photos/storia/roccaraso-neve-boschi.jpg', [
+    {
+      src: '/photos/storia/roccaraso-neve-boschi.jpg',
+      alt: 'Veduta innevata di Roccaraso tra boschi e alberghi',
+      caption: 'Neve, boschi e pendii mostrano la vocazione invernale del paese.',
+    },
+    {
+      src: '/photos/storia/roccaraso-chiesa.jpg',
+      alt: 'Piccola chiesa ottagonale a Roccaraso',
+      caption: 'Anche gli edifici religiosi minori contribuiscono al volto architettonico del borgo.',
+    },
+    {
+      src: '/photos/storia/roccaraso-pista.jpg',
+      alt: 'Pista da sci con seggiovia a Roccaraso',
+      caption: 'Le piste raccontano il legame diretto tra Roccaraso e il turismo della neve.',
     },
   ]),
   rituals: [
@@ -437,18 +517,38 @@ const castelDiSangroExperience = {
       callouts: ['Alta valle del Sangro', 'Vicinanza alle montagne', 'Vocazione turistica'],
     },
   ],
-  gallery: createGallery('castel-di-sangro-', '/photos/storia/castel-di-sangro.webp', [
+  gallery: createGallery('castel-di-sangro-', '/photos/storia/castel-di-sangro-panorama.jpg', [
     {
-      alt: 'Veduta di Castel di Sangro tra architetture e valle',
-      caption: 'Centro storico di pietra e paesaggio dell’Alto Sangro.',
+      src: '/photos/storia/castel-di-sangro-panorama.jpg',
+      alt: 'Panorama di Castel di Sangro visto dall’alto',
+      caption: 'Castel di Sangro tra centro storico e paesaggio dell’Alto Sangro.',
     },
     {
-      alt: 'Dettaglio placeholder per monumenti o collezioni di Castel di Sangro',
-      caption: 'Santa Maria Assunta e Pinacoteca Patiniana.',
+      src: '/photos/storia/castel-di-sangro-santa-maria-assunta.jpg',
+      alt: 'Facciata della Basilica di Santa Maria Assunta a Castel di Sangro',
+      caption: 'Santa Maria Assunta e patrimonio religioso della città.',
     },
     {
-      alt: 'Placeholder per tradizioni o cucina di Castel di Sangro',
-      caption: 'Tradizioni locali e cucina della valle.',
+      src: '/photos/storia/castel-di-sangro-piazza.jpg',
+      alt: 'Piazza di Castel di Sangro con fontana e bandierine',
+      caption: 'Piazze, fontane e momenti pubblici del centro cittadino.',
+    },
+  ]),
+  detailGallery: createGallery('castel-di-sangro-detail-', '/photos/storia/castel-di-sangro-valle.jpg', [
+    {
+      src: '/photos/storia/castel-di-sangro-valle.jpg',
+      alt: 'Veduta della valle dell’Alto Sangro presso Castel di Sangro',
+      caption: 'La città si legge dentro un sistema ampio di valle, campi e rilievi appenninici.',
+    },
+    {
+      src: '/photos/storia/castel-di-sangro-belvedere.jpg',
+      alt: 'Scorcio urbano di Castel di Sangro visto dal basso',
+      caption: 'Dal fondovalle emergono il profilo urbano e le chiese che segnano il centro storico.',
+    },
+    {
+      src: '/photos/storia/castel-di-sangro-notte.jpg',
+      alt: 'Castel di Sangro illuminata di notte',
+      caption: 'Di sera il tessuto del borgo mette in risalto facciate, salite e punti monumentali.',
     },
   ]),
   rituals: [
@@ -531,18 +631,38 @@ const iserniaExperience = {
       callouts: ['Ruolo culturale', 'Funzione amministrativa', 'Architettura medievale e barocca'],
     },
   ],
-  gallery: createGallery('isernia-', '/photos/storia/transiberiana.webp', [
+  gallery: createGallery('isernia-', '/photos/storia/isernia-panorama.jpg', [
     {
-      alt: 'Placeholder panoramico per Isernia',
-      caption: 'Isernia tra storia urbana, monumenti e memoria del percorso.',
+      src: '/photos/storia/isernia-panorama.jpg',
+      alt: 'Panorama di Isernia nel paesaggio del Molise interno',
+      caption: 'Isernia tra centro storico e paesaggio del Molise interno.',
     },
     {
-      alt: 'Placeholder per monumenti o fontane di Isernia',
-      caption: 'Fontana Fraterna, cattedrale e centro storico.',
+      src: '/photos/storia/isernia-centro-storico.jpg',
+      alt: 'Scorcio del centro storico di Isernia',
+      caption: 'Scorci del centro storico tra palazzi, vicoli e torri.',
     },
     {
-      alt: 'Placeholder per tradizioni o cucina di Isernia',
-      caption: 'Tradizioni, artigianato e sapori della città.',
+      src: '/photos/storia/isernia-piazza-celestino-v.jpg',
+      alt: 'Piazza Celestino V nel centro di Isernia',
+      caption: 'Piazza Celestino V e spazi della città storica.',
+    },
+  ]),
+  detailGallery: createGallery('isernia-detail-', '/photos/storia/isernia-vicolo-torre.jpg', [
+    {
+      src: '/photos/storia/isernia-vicolo-torre.jpg',
+      alt: 'Vicolo del centro storico di Isernia con torre sullo sfondo',
+      caption: 'I vicoli del centro guidano lo sguardo verso torri, archi e passaggi della città storica.',
+    },
+    {
+      src: '/photos/storia/isernia-vicolo-campanile.jpg',
+      alt: 'Altro scorcio del centro storico di Isernia tra balconi e campanile',
+      caption: 'Balconi, lampioni e campanili definiscono la trama minuta del centro antico.',
+    },
+    {
+      src: '/photos/storia/isernia-sanfelice.jpg',
+      alt: 'Scorcio del quartiere San Felice a Isernia',
+      caption: 'Piccole piazze e fronti domestici restituiscono la dimensione quotidiana della città.',
     },
   ]),
   rituals: [
@@ -578,7 +698,7 @@ const storiaStops = [
       'Città medievale della Valle Peligna famosa per i confetti artigianali e per l’acquedotto medievale con 21 arcate che attraversa il centro storico.',
     story:
       'La città di Sulmona ha origini molto antiche. In epoca preromana il territorio era abitato dal popolo italico dei Peligni e con la conquista romana divenne un municipium. Oggi conserva un centro storico ricco di monumenti, tradizioni popolari, gastronomia e testimonianze artistiche.',
-    image: '/photos/storia/sulmona.webp',
+    image: '/photos/storia/sulmona-panorama-urbano.jpg',
     experience: sulmonaExperience,
   },
   {
@@ -589,7 +709,7 @@ const storiaStops = [
       'Borgo montano nel Parco della Majella, a circa 1100 metri di altitudine, tra faggete, sentieri e grandi panorami d’Appennino.',
     story:
       'Campo di Giove ha origini medievali e si sviluppò come centro montano legato alla transumanza e ai percorsi commerciali. Oggi conserva architetture in pietra, ricorrenze locali e un forte rapporto con il paesaggio della Majella.',
-    image: '/photos/storia/campo-di-giove.webp',
+    image: '/photos/storia/campo-di-giove-panorama.jpg',
     experience: campoDiGioveExperience,
   },
   {
@@ -600,7 +720,7 @@ const storiaStops = [
       'Borgo montano vicino al valico della Forchetta, tra Majella, Altipiani Maggiori e uno dei punti ferroviari più panoramici del percorso.',
     story:
       'Palena ha origini antiche e medievali e si sviluppò come centro pastorale e agricolo. Oggi mantiene il legame con San Falco, con la stazione ferroviaria e con il paesaggio d’altura che circonda il paese.',
-    image: '/photos/storia/palena.webp',
+    image: '/photos/storia/palena-panorama.jpg',
     experience: palenaExperience,
   },
   {
@@ -611,7 +731,7 @@ const storiaStops = [
       'Località montana dell’Alto Sangro, tra sport invernali, sentieri estivi e paesaggi aperti d’altitudine.',
     story:
       'Roccaraso ha origini medievali e si sviluppò come centro di montagna legato al commercio e alle attività del territorio. Oggi è una delle principali località turistiche dell’Appennino, frequentata in inverno e in estate.',
-    image: '/photos/storia/roccaraso.webp',
+    image: '/photos/storia/roccaraso-inverno.jpg',
     experience: roccarasoExperience,
   },
   {
@@ -622,7 +742,7 @@ const storiaStops = [
       'Centro dell’Alto Sangro tra origini fortificate, strade di pietra, luoghi d’arte e una forte vocazione culturale.',
     story:
       'Castel di Sangro nacque come insediamento fortificato medievale attorno al castello e si sviluppò come centro della valle. Oggi conserva vicoli, piazze, monumenti religiosi e una forte vita culturale.',
-    image: '/photos/storia/castel-di-sangro.webp',
+    image: '/photos/storia/castel-di-sangro-panorama.jpg',
     experience: castelDiSangroExperience,
   },
   {
@@ -633,7 +753,7 @@ const storiaStops = [
       'Città antica del Molise, tra il sito paleolitico di Isernia La Pineta, monumenti storici e una forte identità cittadina.',
     story:
       'Isernia affonda le sue radici nel Paleolitico e attraversa le epoche sannita, romana e medievale. Oggi è un centro culturale e amministrativo che unisce monumenti, tradizioni, artigianato e gastronomia.',
-    image: '/photos/storia/transiberiana.webp',
+    image: '/photos/storia/isernia-panorama.jpg',
     experience: iserniaExperience,
   },
 ];

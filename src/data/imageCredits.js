@@ -1,3 +1,51 @@
+const PROJECT_ARCHIVE_PATHS = [
+  '/photos/storia/sulmona-panorama-urbano.jpg',
+  '/photos/storia/sulmona-confetti.jpg',
+  '/photos/storia/sulmona-madonna-che-scappa.jpg',
+  '/photos/storia/sulmona-acquedotto-arcate.jpg',
+  '/photos/storia/sulmona-piazza-garibaldi.jpg',
+  '/photos/storia/sulmona-ovidio-centro.jpg',
+  '/photos/storia/campo-di-giove-panorama.jpg',
+  '/photos/storia/campo-di-giove-chiesa.jpg',
+  '/photos/storia/campo-di-giove-borgo.jpg',
+  '/photos/storia/campo-di-giove-panorama-autunno.jpg',
+  '/photos/storia/campo-di-giove-scale.jpg',
+  '/photos/storia/campo-di-giove-meridiana.jpg',
+  '/photos/storia/palena-panorama.jpg',
+  '/photos/storia/palena-chiesa-di-san-falco.jpg',
+  '/photos/storia/palena-fontana.jpg',
+  '/photos/storia/palena-panorama-invernale.jpg',
+  '/photos/storia/palena-scorcio-porta.jpg',
+  '/photos/storia/palena-torrente.jpg',
+  '/photos/storia/roccaraso-inverno.jpg',
+  '/photos/storia/roccaraso-borgo-viadotto.jpg',
+  '/photos/storia/roccaraso-centro.jpg',
+  '/photos/storia/roccaraso-neve-boschi.jpg',
+  '/photos/storia/roccaraso-chiesa.jpg',
+  '/photos/storia/roccaraso-pista.jpg',
+  '/photos/storia/castel-di-sangro-panorama.jpg',
+  '/photos/storia/castel-di-sangro-santa-maria-assunta.jpg',
+  '/photos/storia/castel-di-sangro-piazza.jpg',
+  '/photos/storia/castel-di-sangro-valle.jpg',
+  '/photos/storia/castel-di-sangro-belvedere.jpg',
+  '/photos/storia/castel-di-sangro-notte.jpg',
+  '/photos/storia/isernia-panorama.jpg',
+  '/photos/storia/isernia-centro-storico.jpg',
+  '/photos/storia/isernia-piazza-celestino-v.jpg',
+  '/photos/storia/isernia-vicolo-torre.jpg',
+  '/photos/storia/isernia-vicolo-campanile.jpg',
+  '/photos/storia/isernia-sanfelice.jpg',
+];
+
+const PROJECT_ARCHIVE = Object.fromEntries(
+  PROJECT_ARCHIVE_PATHS.map((path) => [
+    path,
+    {
+      label: 'Archivio fotografico fornito dal progetto',
+    },
+  ]),
+);
+
 const WIKIMEDIA_COMMONS = {
   '/photos/fermate/sulmona-fermata.webp': {
     label: 'Wikimedia Commons',
@@ -86,6 +134,7 @@ const WIKIMEDIA_COMMONS = {
   '/photos/journey/2011-sospensione.jpg': {
     label: 'Toni Pulsani (2018)',
   },
+  ...PROJECT_ARCHIVE,
 };
 
 function getUnsplashCredit(src) {
