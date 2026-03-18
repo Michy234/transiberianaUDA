@@ -4,6 +4,7 @@ import 'chartjs-adapter-date-fns';
 import { format } from 'date-fns';
 import { enUS, it as itLocale } from 'date-fns/locale';
 import { fetchStationData, STATIONS } from '../api/openmeteo';
+import { fetchArduinoSeries } from '../api/supabaseArduino';
 import { useI18n } from '../i18n/index.jsx';
 
 Chart.register(...registerables);
@@ -11,7 +12,10 @@ const CITY_COLORS = {
   sulmona: { border: '#6b9e7e', bg: 'rgba(107, 158, 126, 0.1)' },
   castel: { border: '#c9a227', bg: 'rgba(201, 162, 39, 0.1)' },
   campo: { border: '#e07a5f', bg: 'rgba(224, 122, 95, 0.1)' },
+  arduino: { border: '#22c55e', bg: 'rgba(34, 197, 94, 0.12)' },
 };
+
+const ARDUINO_KEY = 'arduino';
 
 function LoadingBubbles({ label }) {
   return (
@@ -45,6 +49,7 @@ export default function WeatherChart() {
       { value: 'sulmona', label: 'Sulmona' },
       { value: 'castel', label: 'Castel di Sangro' },
       { value: 'campo', label: 'Campo di Giove' },
+      { value: ARDUINO_KEY, label: t('meteo.chart.cities.arduino', 'Arduino') },
     ],
     [t],
   );
@@ -73,7 +78,7 @@ export default function WeatherChart() {
     if (!chartData?.length) return null;
     const scopedData =
       selectedCity === 'all'
-        ? chartData
+        ? chartData.filter((cityData) => cityData.key !== ARDUINO_KEY)
         : chartData.filter((cityData) => cityData.key === selectedCity);
 
     const metricBins = {
@@ -165,6 +170,15 @@ export default function WeatherChart() {
     setLoading(true);
     setError(null);
     try {
+      const now = new Date();
+      const since = new Date(
+        selectedPeriod === '24h'
+          ? now.getTime() - 24 * 60 * 60 * 1000
+          : selectedPeriod === '7d'
+            ? now.getTime() - 7 * 24 * 60 * 60 * 1000
+            : now.getTime() - 30 * 24 * 60 * 60 * 1000
+      ).toISOString();
+
       const cities = Object.keys(STATIONS);
       const results = await Promise.all(
         cities.map(async (cityKey) => {
@@ -172,8 +186,26 @@ export default function WeatherChart() {
           return { key: cityKey, ...data };
         })
       );
+
+      let arduinoData = null;
+      try {
+        const rows = await fetchArduinoSeries({ since, limit: 500 });
+        if (rows && rows.length) {
+          arduinoData = {
+            key: ARDUINO_KEY,
+            times: rows.map((row) => row.created_at),
+            temperature: rows.map((row) => row.temp),
+            humidity: rows.map((row) => row.humidity),
+            airQuality: rows.map((row) => row.air_quality),
+            co2: rows.map((row) => row.co2),
+            ammonia: rows.map((row) => row.nh4),
+          };
+        }
+      } catch {
+        arduinoData = null;
+      }
       
-      setChartData(results);
+      setChartData(arduinoData ? [...results, arduinoData] : results);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -196,18 +228,20 @@ export default function WeatherChart() {
     const datasets = [];
 
     chartData.forEach((cityData) => {
+      if (selectedCity === 'all' && cityData.key === ARDUINO_KEY) return;
       if (selectedCity !== 'all' && cityData.key !== selectedCity) return;
       const cityColor = CITY_COLORS[cityData.key];
       
       const metricConfig = metricOptions.find((m) => m.value === selectedMetric);
       const rawData = cityData[selectedMetric];
+      if (!rawData || !cityData.times) return;
         
       const dataPoints = cityData.times.map((time, i) => ({
         x: new Date(time),
         y: rawData[i]
       }));
 
-      const cityLabel = STATIONS[cityData.key]?.name || cityData.key;
+      const cityLabel = cityData.key === ARDUINO_KEY ? 'Arduino' : (STATIONS[cityData.key]?.name || cityData.key);
       const label = selectedCity === 'all' 
         ? `${cityLabel} - ${metricConfig.label}`
         : metricConfig.label;
