@@ -353,7 +353,11 @@
               "title": "Location",
               "body": "Thanks to its position in the Peligna Valley and its proximity to the mountains and natural parks of the Apennines, Sulmona is today also an important starting point for excursions and nature tourism.",
               "pullout": "Its location between the Peligna Valley and the Apennines makes Sulmona a natural stop between the city, the mountains and routes through the landscape.",
-              "callouts": ["Peligna Valley", "Apennine mountains", "Excursions and nature tourism"]
+              "callouts": [
+                "Peligna Valley",
+                "Apennine mountains",
+                "Excursions and nature tourism"
+              ]
             }
           ],
           "gallery": [
@@ -410,7 +414,12 @@
           "intro": "A mountain village in the Majella Park, around 1100 meters above sea level, among beech woods, trails and Apennine landscapes.",
           "body": "Campo di Giove has medieval origins and developed as a mountain center tied to transhumance. Today it preserves paved streets, stone houses, small squares and a strong natural vocation.",
           "quote": "Campo di Giove brings together mountain memory, local traditions and the landscapes of the Majella.",
-          "heroBadges": ["Majella Park", "Around 1100 meters", "Transhumance", "Beech woods and trekking"],
+          "heroBadges": [
+            "Majella Park",
+            "Around 1100 meters",
+            "Transhumance",
+            "Beech woods and trekking"
+          ],
           "stats": [
             {
               "label": "Origins",
@@ -515,7 +524,12 @@
           "intro": "A mountain village tied to the Majella and the high plateaus, near the Forchetta pass and one of the most panoramic railway points on the route.",
           "body": "Palena has ancient and medieval origins and developed as a pastoral and agricultural center. Today it maintains a close link with San Falco, with the railway station and with the high-altitude landscape.",
           "quote": "Palena brings together devotion, mountain landscape and railway memory.",
-          "heroBadges": ["Majella", "San Falco", "High plateaus", "Forchetta pass"],
+          "heroBadges": [
+            "Majella",
+            "San Falco",
+            "High plateaus",
+            "Forchetta pass"
+          ],
           "stats": [
             {
               "label": "Origins",
@@ -620,7 +634,12 @@
           "intro": "A mountain town in Alto Sangro, known for winter tourism and for outdoor activities that animate the town in summer too.",
           "body": "Roccaraso has medieval origins and developed as a mountain center linked to commerce. Today it combines religious and civil architecture, village traditions and a strong tourist vocation.",
           "quote": "Roccaraso brings together mountain architecture, village traditions and upland tourism.",
-          "heroBadges": ["Alto Sangro", "Santa Maria Assunta", "Winter sports", "Trekking and mountain bike"],
+          "heroBadges": [
+            "Alto Sangro",
+            "Santa Maria Assunta",
+            "Winter sports",
+            "Trekking and mountain bike"
+          ],
           "stats": [
             {
               "label": "Origins",
@@ -725,7 +744,12 @@
           "intro": "A center of Alto Sangro with fortified origins, stone streets, religious monuments and one of the main cultural poles of the valley.",
           "body": "Castel di Sangro was born as a medieval nucleus around the castle and developed as the center of the valley. Today it combines lanes, squares, sacred art, a museum and cultural activity.",
           "quote": "Castel di Sangro interweaves medieval memory, cultural life and the cuisine of Alto Sangro.",
-          "heroBadges": ["Upper Sangro Valley", "Santa Maria Assunta", "Patiniana Gallery", "Stone-built historic center"],
+          "heroBadges": [
+            "Upper Sangro Valley",
+            "Santa Maria Assunta",
+            "Patiniana Gallery",
+            "Stone-built historic center"
+          ],
           "stats": [
             {
               "label": "Origins",
@@ -831,7 +855,12 @@
           "intro": "An ancient city of Molise, known for the Paleolithic site of Isernia La Pineta and for its historic center with churches, palaces, museums and monumental fountains.",
           "body": "Isernia crosses the Samnite, Roman and medieval eras and today keeps a strategic role from a cultural and administrative point of view, together with a strong artisanal and gastronomic identity.",
           "quote": "Isernia brings together millenary roots, monuments, traditions and the flavors of inland Molise.",
-          "heroBadges": ["Isernia La Pineta", "Fontana Fraterna", "San Pietro Apostolo", "Inland Molise"],
+          "heroBadges": [
+            "Isernia La Pineta",
+            "Fontana Fraterna",
+            "San Pietro Apostolo",
+            "Inland Molise"
+          ],
           "stats": [
             {
               "label": "Origins",
@@ -1761,6 +1790,168 @@
         "tag": "Animals",
         "q": "Can I bring my dog?",
         "a": "Small dogs are generally allowed if kept in a carrier or in your arms. Guide dogs are always allowed; for any other case it is best to confirm the rules before booking."
+      }
+    ],
+    "decalogues": [
+      {
+        "id": "environment",
+        "eyebrow": "Civic education",
+        "title": "Environmental decalogue",
+        "body": "Ten concrete actions connecting home, territory and community: everyday sustainability, respect for parks and responsibility toward who comes after us.",
+        "groups": [
+          {
+            "id": "daily-life",
+            "title": "Everyday actions and lifestyle",
+            "items": [
+              {
+                "id": "3r",
+                "number": 1,
+                "title": "The 3 Rs: reduce, reuse, recycle",
+                "body": "Produce less waste, reuse what you can and sort recycling properly. Appliances and batteries always go to the recycling center."
+              },
+              {
+                "id": "single-use",
+                "number": 2,
+                "title": "Ditch single-use and keep beaches clean",
+                "body": "Choose bottles and canvas bags. At the sea take your trash away and use a pocket ashtray: cigarette butts pollute water and harm fish."
+              },
+              {
+                "id": "home-savings",
+                "number": 3,
+                "title": "Save water and energy at home",
+                "body": "Turn off lights, use LEDs, avoid overheating rooms and close the tap when not needed. Never pour frying oil or paint down the drain."
+              },
+              {
+                "id": "mobility",
+                "number": 4,
+                "title": "Move smart",
+                "body": "Walk, bike or take public transport more often: using the car less means cleaner air for everyone."
+              },
+              {
+                "id": "local-food",
+                "number": 5,
+                "title": "Buy local and seasonal food",
+                "body": "Choose local products to cut transport and consider eating less meat: it saves water and lowers pollution."
+              }
+            ]
+          },
+          {
+            "id": "future",
+            "title": "Territory, community and future",
+            "items": [
+              {
+                "id": "buy-less",
+                "number": 6,
+                "title": "Buy only what you need",
+                "body": "Clothes and objects have an environmental cost. Buy the essentials, second-hand when possible, and avoid unnecessary plastic packaging."
+              },
+              {
+                "id": "parks",
+                "number": 7,
+                "title": "Respect wilderness and parks",
+                "body": "In National Parks stay on the trails, leave no waste and avoid loud noises or drones that disturb wildlife."
+              },
+              {
+                "id": "future-mindset",
+                "number": 8,
+                "title": "Think about the future",
+                "body": "It is not enough to avoid damage: we also need to care for nature so we hand it down in good health."
+              },
+              {
+                "id": "take-action",
+                "number": 9,
+                "title": "Do your part and speak up",
+                "body": "If you see trash or pollution, report it to authorities. Join clean-up days for beaches and parks when you can."
+              },
+              {
+                "id": "guardian",
+                "number": 10,
+                "title": "Be a steward, not an owner",
+                "body": "Real progress is living in harmony with Earth, respecting its balances instead of trying to dominate it."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "digital",
+        "eyebrow": "Digital citizenship",
+        "title": "Decalogue for digital sustainability",
+        "body": "Technology and environment intersect more than it seems: hardware, energy, printing, data and online habits can all be lighter and more mindful.",
+        "groups": [
+          {
+            "id": "hardware",
+            "title": "Hardware and devices",
+            "items": [
+              {
+                "id": "raee",
+                "number": 1,
+                "title": "Recycle and dispose of electronics correctly",
+                "body": "E-waste contains valuable materials but also toxins: take it to recycling centers or stores that collect used devices, never to mixed trash."
+              },
+              {
+                "id": "use-longer",
+                "number": 2,
+                "title": "Use your devices longer",
+                "body": "The biggest impact of phones and PCs is production. Before replacing them, try repairing and resist the race to the latest model."
+              },
+              {
+                "id": "switch-off",
+                "number": 3,
+                "title": "Turn off what you are not using",
+                "body": "Standby and plugged-in chargers consume energy. Shut down the computer if idle for long and unplug what you do not need."
+              },
+              {
+                "id": "efficient-devices",
+                "number": 4,
+                "title": "Choose efficient, sustainable devices",
+                "body": "When you must buy, check energy efficiency and consider refurbished gear: it extends product life and avoids new production."
+              },
+              {
+                "id": "printing",
+                "number": 5,
+                "title": "Be mindful of printing",
+                "body": "Print only when necessary. If you must, use double-sided, reduce margins and prefer black and white."
+              }
+            ]
+          },
+          {
+            "id": "awareness",
+            "title": "Ethics, awareness and digital wellbeing",
+            "items": [
+              {
+                "id": "eco-search",
+                "number": 6,
+                "title": "Choose eco-friendly search engines",
+                "body": "Alternatives like Ecosia allocate part of profits to reforestation or renewables."
+              },
+              {
+                "id": "doomscrolling",
+                "number": 7,
+                "title": "Limit doomscrolling",
+                "body": "Endless scrolling wastes time, data and energy. Some digital detox helps both you and the planet."
+              },
+              {
+                "id": "bookmarks",
+                "number": 8,
+                "title": "Bookmark frequent sites",
+                "body": "If you visit the same sites often, save them: you avoid repeated searches and unnecessary data traffic."
+              },
+              {
+                "id": "ai-use",
+                "number": 9,
+                "title": "Use AI thoughtfully",
+                "body": "Generating text or images with AI needs a lot of computing power. Use it when it truly adds value, not for trivial requests."
+              },
+              {
+                "id": "spread-awareness",
+                "number": 10,
+                "title": "Raise awareness",
+                "body": "Digital pollution is hard to see: sharing these practices at school, with family and friends multiplies the positive impact."
+              }
+            ]
+          }
+        ]
       }
     ]
   },
