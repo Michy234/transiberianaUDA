@@ -83,6 +83,16 @@ export default function Navbar() {
   }, [updatePill]);
 
   useEffect(() => {
+    const activeLink = linkRefs.current.get(location.pathname);
+    const container = navPillRef.current;
+    if (!activeLink || !container || typeof ResizeObserver === 'undefined') return;
+    const observer = new ResizeObserver(() => updatePill());
+    observer.observe(activeLink);
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, [location.pathname, updatePill]);
+
+  useEffect(() => {
     if (!langMenuOpen) return;
     const handleClick = (event) => {
       if (!langMenuRef.current) return;
@@ -101,6 +111,13 @@ export default function Navbar() {
     };
   }, [langMenuOpen]);
 
+  useLayoutEffect(() => {
+    updatePill();
+    if (document?.fonts?.ready) {
+      document.fonts.ready.then(() => updatePill());
+    }
+  }, [lang, updatePill]);
+
   return (
     <>
 	      <motion.nav
@@ -115,7 +132,7 @@ export default function Navbar() {
         role="navigation"
         aria-label={t('nav.aria.main', 'Navigazione principale')}
       >
-        <div className="w-full max-w-none mx-auto px-5 sm:px-6 lg:px-10 2xl:px-16 flex items-center justify-between">
+        <div className="w-full max-w-[1400px] mx-auto px-5 sm:px-6 lg:px-10 2xl:px-16 flex items-center justify-between">
 	          <Link
               to="/"
               className="flex items-center gap-3 group"
@@ -157,10 +174,10 @@ export default function Navbar() {
 	                  key={link.path}
 	                  to={link.path}
 	                  ref={setLinkRef(link.path)}
-		                  className={`relative z-10 px-4 py-2 rounded-xl text-sm font-semibold transition-colors duration-200 ${
-		                    isActive ? 'text-primary-foreground' : 'text-foreground/60 hover:text-foreground'
-		                  } ${isMeteoLive ? 'bg-gradient-to-r from-primary/20 to-primary/10 border border-primary/30' : ''}`}
-		                >
+                  className={`relative z-10 px-4 py-2 rounded-xl text-sm font-semibold transition-colors duration-200 whitespace-nowrap box-border ${
+                    isActive ? 'text-primary-foreground' : 'text-foreground/60 hover:text-foreground'
+                  } ${isMeteoLive ? 'bg-gradient-to-r from-primary/20 to-primary/10 border border-primary/30' : ''}`}
+                >
 		                  {isMeteoLive && (
                         <CloudRain
                           size={16}
