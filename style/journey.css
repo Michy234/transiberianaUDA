@@ -19,7 +19,7 @@
     radial-gradient(1200px 800px at 15% 10%, rgba(39,174,96,0.18), transparent 62%),
     radial-gradient(1200px 800px at 90% 10%, rgba(243,156,18,0.16), transparent 62%),
     radial-gradient(1200px 900px at 50% 110%, rgba(41,128,185,0.12), transparent 60%),
-    url("/photos/storia/transiberiana.jpg");
+    url("/photos/storia/transiberiana.webp");
   background-size: auto, auto, auto, cover;
   background-position: center;
   filter: saturate(1.05) contrast(1.05);

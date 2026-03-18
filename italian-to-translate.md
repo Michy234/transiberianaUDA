@@ -197,13 +197,13 @@
 - L19: name: 'Campo di Giove',
 - L20: viaggiaName: 'Campo di Giove',
 - L24: desc: 'Ai piedi della Majella, incorniciata da fitti boschi e paesaggi mozzafiato.',
-- L25: photo: '/photos/fermate/campo-di-giove.jpg',
+- L25: photo: '/photos/fermate/campo-di-giove.webp',
 - L35: desc: 'Stazione isolata nel Quarto Santa Chiara, regno della natura selvaggia.',
 - L46: desc: 'La stazione più alta della linea, rinomata per il turismo montano invernale ed estivo.',
 - L52: name: 'Castel di Sangro',
 - L53: viaggiaName: 'Castel di Sangro',
 - L57: desc: 'Città dell\'acqua e della pesca a mosca, nodo cruciale dell\'Alta Valle del Sangro.',
-- L58: photo: '/photos/fermate/castel-di-sangro.jpg',
+- L58: photo: '/photos/fermate/castel-di-sangro.webp',
 - L76: origin: 'Campo di Giove',
 - L182: Esplora le stazioni storiche lungo la ferrovia più alta e panoramica d'Italia, un nastro d'acciaio che cuce parchi nazionali e riserve naturali.
 
@@ -250,8 +250,8 @@
 - L320: Lascia la tua email e ti avvisiamo appena aprono le prenotazioni per le prossime partenze.
 
 ## src/pages/Meteo.jsx
-- L13: castel: '/photos/fermate/castel-di-sangro.jpg',
-- L14: campo: '/photos/fermate/campo-di-giove.jpg',
+- L13: castel: '/photos/fermate/castel-di-sangro.webp',
+- L14: campo: '/photos/fermate/campo-di-giove.webp',
 - L118: {isDark ? 'Riscaldando i sensori...' : 'Raccogliendo i dati dai sensori...'}
 - L122: <div key={i} className="w-2.5 h-2.5 rounded-full bg-primary/30 animate-gentle-pulse" style={{ animationDelay: `${i * 0.3}s` }} />
 - L136: ? 'I sensori della stazione dormono profondamente. Il gufo meteorologo sta sorvegliando. Riprova tra qualche minuto.'
@@ -275,10 +275,10 @@
 - L22: tag: 'Cuore della rotta',
 - L25: desc: 'A quasi 800 metri di quota, Castel di Sangro è il vero cuore della Transiberiana. Circondata da montagne e boschi di faggio, è una meta ideale per amanti della natura, dello sci e degli arrosticini.',
 - L27: facts: ['⛷️ Comprensorio sciistico', '🥩 Arrosticini DOC', '🏰 Rocca Medievale', '🌲 Boschi di faggio'],
-- L28: photo: '/photos/fermate/castel-di-sangro.jpg',
+- L28: photo: '/photos/fermate/castel-di-sangro.webp',
 - L35: name: 'Campo di Giove',
 - L39: desc: 'Il borgo più alto della ferrovia, adagiato sull\'altopiano della Majella. D\'inverno diventa un paesaggio da fiaba, mentre in estate regala escursioni tra flora appenninica e panorami sconfinanti.',
-- L42: photo: '/photos/fermate/campo-di-giove.jpg',
+- L42: photo: '/photos/fermate/campo-di-giove.webp',
 
 ## src/sections/journey.js
 - L63: popupImg.alt = `Foto della stazione di ${s.name}`;

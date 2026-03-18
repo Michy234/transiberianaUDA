@@ -22,7 +22,7 @@
     radial-gradient(ellipse at 80% 30%, rgba(39,174,96,0.08) 0%, transparent 50%),
     radial-gradient(ellipse at 50% 100%, rgba(41,128,185,0.10) 0%, transparent 50%),
     linear-gradient(180deg, rgba(10,13,18,0.45) 0%, rgba(10,13,18,0.72) 70%, var(--bg-primary) 100%),
-    url("/photos/storia/transiberiana.jpg"),
+    url("/photos/storia/transiberiana.webp"),
     var(--bg-primary);
   z-index: 0;
   transition: background 0.4s ease;
@@ -37,7 +37,7 @@
     radial-gradient(ellipse at 80% 30%, rgba(39,174,96,0.03) 0%, transparent 50%),
     radial-gradient(ellipse at 50% 120%, rgba(41,128,185,0.06) 0%, transparent 55%),
     linear-gradient(180deg, rgba(246,244,239,0.35) 0%, rgba(246,244,239,0.86) 70%, var(--bg-primary) 100%),
-    url("/photos/storia/transiberiana.jpg"),
+    url("/photos/storia/transiberiana.webp"),
     var(--bg-primary);
 }
 
