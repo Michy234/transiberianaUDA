@@ -276,8 +276,8 @@ export default function Meteo() {
   const [state, setState] = useState(STATES.LOADING);
   const [showExtraStats, setShowExtraStats] = useState(false);
   const [showArduino, setShowArduino] = useState(false);
+  const [showArduinoDebug, setShowArduinoDebug] = useState(false);
   const [arduinoRows, setArduinoRows] = useState([]);
-  const [arduinoTotal, setArduinoTotal] = useState(null);
   const [arduinoLoading, setArduinoLoading] = useState(false);
   const [arduinoError, setArduinoError] = useState(null);
   const { isDark } = useTheme();
@@ -339,10 +339,8 @@ export default function Meteo() {
       setArduinoLoading(true);
       setArduinoError(null);
       const offset = reset ? 0 : arduinoRows.length;
-      const { rows, total } = await fetchArduinoRecords({ limit: 50, offset });
+      const { rows } = await fetchArduinoRecords({ limit: 50, offset });
       setArduinoRows((prev) => (reset ? rows : [...prev, ...rows]));
-      if (total !== null) setArduinoTotal(total);
-      if (reset && total === null) setArduinoTotal(rows.length);
     } catch (err) {
       setArduinoError(err?.message || 'Errore Supabase');
     } finally {
@@ -351,10 +349,22 @@ export default function Meteo() {
   };
 
   useEffect(() => {
-    if (!showArduino) return;
+    if (!showArduinoDebug) return;
     if (arduinoRows.length > 0) return;
     loadArduino(true);
-  }, [showArduino]);
+  }, [showArduinoDebug]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const toggleFn = () => setShowArduinoDebug((prev) => !prev);
+    window.demo = window.demo || {};
+    window.demo.toggle = toggleFn;
+    return () => {
+      if (window.demo?.toggle === toggleFn) {
+        delete window.demo.toggle;
+      }
+    };
+  }, []);
 
   return (
     <div className="min-h-[100dvh] pt-32 pb-24 px-6 md:px-12 max-w-[1400px] mx-auto">
@@ -423,8 +433,8 @@ export default function Meteo() {
               >
                 <Cpu size={16} weight="fill" />
                 {showArduino
-                  ? (isItalian ? 'Nascondi dati Arduino' : 'Hide Arduino data')
-                  : (isItalian ? 'Apri dati Arduino (Supabase)' : 'Open Arduino data (Supabase)')}
+                  ? (isItalian ? 'Nascondi grafico Arduino' : 'Hide Arduino chart')
+                  : (isItalian ? 'Apri grafico Arduino' : 'Open Arduino chart')}
               </button>
             </div>
 
@@ -439,18 +449,44 @@ export default function Meteo() {
                   <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
                     <div>
                       <h2 className="font-serif text-2xl md:text-3xl font-bold text-foreground">
-                        {isItalian ? 'Dati Arduino da Supabase' : 'Arduino data from Supabase'}
+                        {isItalian ? 'Andamento Arduino' : 'Arduino trends'}
                       </h2>
                       <p className="text-sm text-muted-foreground">
                         {isItalian
-                          ? 'Ultime letture archiviate: temperatura, umidita, qualita aria e gas rilevati.'
-                          : 'Latest stored readings: temperature, humidity, air quality and gas values.'}
+                          ? 'Grafico dedicato alle letture Arduino dal database Supabase.'
+                          : 'Dedicated chart for Arduino readings from Supabase.'}
                       </p>
+                    </div>
+                  </div>
+                  <div className="relative">
+                    <WeatherChart
+                      defaultCity="arduino"
+                      allowedCities={['arduino']}
+                      hideCitySelector
+                      compact
+                      hideStats
+                    />
+                  </div>
+                </div>
+              </motion.section>
+            )}
+
+            {showArduinoDebug && (
+              <motion.section
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.12, type: 'spring', stiffness: 120, damping: 22 }}
+                className="mb-8"
+              >
+                <div className="bg-card rounded-3xl p-6 md:p-8 shadow-[var(--shadow-card)] border border-border/30">
+                  <div className="flex items-center justify-between gap-4 mb-4">
+                    <div className="text-sm font-semibold text-muted-foreground">
+                      {isItalian ? 'Debug Arduino (console: demo.toggle())' : 'Arduino debug (console: demo.toggle())'}
                     </div>
                     <button
                       type="button"
                       onClick={() => loadArduino(true)}
-                      className="inline-flex items-center justify-center gap-2 rounded-2xl border border-border/60 bg-card px-5 py-2.5 text-sm font-semibold text-foreground shadow-[var(--shadow-subtle)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-card)]"
+                      className="inline-flex items-center justify-center gap-2 rounded-2xl border border-border/60 bg-card px-4 py-2 text-xs font-semibold text-foreground shadow-[var(--shadow-subtle)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-card)]"
                       disabled={arduinoLoading}
                     >
                       {arduinoLoading ? (isItalian ? 'Aggiornamento...' : 'Refreshing...') : (isItalian ? 'Aggiorna' : 'Refresh')}
@@ -465,8 +501,8 @@ export default function Meteo() {
                   )}
 
                   <div className="overflow-x-auto">
-                    <table className="w-full text-left text-sm">
-                      <thead className="text-xs uppercase text-muted-foreground">
+                    <table className="w-full text-left text-xs">
+                      <thead className="text-[11px] uppercase text-muted-foreground">
                         <tr className="border-b border-border/60">
                           <th className="py-2 pr-4">{isItalian ? 'Ora' : 'Time'}</th>
                           <th className="py-2 pr-4">{isItalian ? 'Temp (C)' : 'Temp (C)'}</th>
@@ -499,26 +535,6 @@ export default function Meteo() {
                         )}
                       </tbody>
                     </table>
-                  </div>
-
-                  <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                    <div className="text-xs text-muted-foreground">
-                      {arduinoTotal !== null
-                        ? (isItalian
-                          ? `Mostrati ${arduinoRows.length} di ${arduinoTotal}`
-                          : `Showing ${arduinoRows.length} of ${arduinoTotal}`)
-                        : (isItalian
-                          ? `Mostrati ${arduinoRows.length}`
-                          : `Showing ${arduinoRows.length}`)}
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => loadArduino(false)}
-                      className="inline-flex items-center justify-center gap-2 rounded-2xl border border-border/60 bg-card px-5 py-2.5 text-sm font-semibold text-foreground shadow-[var(--shadow-subtle)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-card)] disabled:opacity-60 disabled:cursor-not-allowed"
-                      disabled={arduinoLoading || (arduinoTotal !== null && arduinoRows.length >= arduinoTotal)}
-                    >
-                      {arduinoLoading ? (isItalian ? 'Caricamento...' : 'Loading...') : (isItalian ? 'Carica altri' : 'Load more')}
-                    </button>
                   </div>
                 </div>
               </motion.section>

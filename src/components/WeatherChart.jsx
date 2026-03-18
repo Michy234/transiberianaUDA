@@ -31,13 +31,19 @@ function LoadingBubbles({ label }) {
   );
 }
 
-export default function WeatherChart() {
+export default function WeatherChart({
+  defaultCity = 'all',
+  allowedCities = null,
+  hideCitySelector = false,
+  compact = false,
+  hideStats = false,
+}) {
   const { lang, t } = useI18n();
   const canvasRef = useRef(null);
   const chartRef = useRef(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedCity, setSelectedCity] = useState('all');
+  const [selectedCity, setSelectedCity] = useState(defaultCity);
   const [selectedMetric, setSelectedMetric] = useState('temperature');
   const [selectedPeriod, setSelectedPeriod] = useState('24h');
   const [chartData, setChartData] = useState(null);
@@ -53,6 +59,15 @@ export default function WeatherChart() {
     ],
     [t],
   );
+
+  const visibleCityOptions = useMemo(() => {
+    if (!allowedCities) return cityOptions;
+    return cityOptions.filter((opt) => allowedCities.includes(opt.value));
+  }, [allowedCities, cityOptions]);
+
+  useEffect(() => {
+    setSelectedCity(defaultCity);
+  }, [defaultCity]);
 
   const metricOptions = useMemo(
     () => [
@@ -360,15 +375,17 @@ export default function WeatherChart() {
   return (
     <div className="w-full">
       <div className="flex flex-wrap gap-4 mb-6">
-        <select
-          value={selectedCity}
-          onChange={(e) => setSelectedCity(e.target.value)}
-          className="px-4 py-2.5 rounded-xl bg-card border border-border font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
-        >
-          {cityOptions.map((opt) => (
-            <option key={opt.value} value={opt.value}>{opt.label}</option>
-          ))}
-        </select>
+        {!hideCitySelector && (
+          <select
+            value={selectedCity}
+            onChange={(e) => setSelectedCity(e.target.value)}
+            className="px-4 py-2.5 rounded-xl bg-card border border-border font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
+          >
+            {visibleCityOptions.map((opt) => (
+              <option key={opt.value} value={opt.value}>{opt.label}</option>
+            ))}
+          </select>
+        )}
 
         <select
           value={selectedPeriod}
@@ -398,7 +415,7 @@ export default function WeatherChart() {
         </div>
       </div>
 
-      <div className="relative h-[400px] w-full">
+      <div className={`relative w-full ${compact ? 'h-[260px]' : 'h-[400px]'}`}>
         {loading && (
           <div className="absolute inset-0 flex items-center justify-center bg-background/80 z-10">
             <LoadingBubbles label={t('meteo.chart.loading', 'Caricamento')} />
@@ -417,7 +434,8 @@ export default function WeatherChart() {
         <canvas ref={canvasRef} className="w-full h-full" />
       </div>
 
-      <div className="mt-6 bg-muted/30 border border-border rounded-2xl p-4 relative" aria-busy={loading ? 'true' : 'false'}>
+      {!hideStats && (
+        <div className="mt-6 bg-muted/30 border border-border rounded-2xl p-4 relative" aria-busy={loading ? 'true' : 'false'}>
         {loading && (
           <div className="absolute inset-0 flex items-center justify-center bg-background/80 z-10 rounded-2xl">
             <LoadingBubbles label={t('meteo.chart.loading', 'Caricamento')} />
@@ -426,7 +444,7 @@ export default function WeatherChart() {
 
         <div className="flex items-baseline justify-between gap-4 mb-3">
           <h3 className="font-semibold text-sm text-foreground">
-            {t('meteo.chart.stats.title', 'Statistiche')} ({selectedCity === 'all' ? t('meteo.chart.cities.allLower', 'tutte le città') : (STATIONS[selectedCity]?.name ?? selectedCity)})
+            {t('meteo.chart.stats.title', 'Statistiche')} ({selectedCity === 'all' ? t('meteo.chart.cities.allLower', 'tutte le città') : (selectedCity === ARDUINO_KEY ? 'Arduino' : (STATIONS[selectedCity]?.name ?? selectedCity))})
           </h3>
           <div className="text-xs text-muted-foreground">{t('meteo.chart.period', 'Periodo')}: {periodOptions.find((p) => p.value === selectedPeriod)?.label ?? selectedPeriod}</div>
         </div>
@@ -446,7 +464,8 @@ export default function WeatherChart() {
             </Fragment>
           ))}
         </div>
-      </div>
+        </div>
+      )}
     </div>
   );
 }
