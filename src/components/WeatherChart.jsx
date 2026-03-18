@@ -212,11 +212,24 @@ export default function WeatherChart() {
         ? `${cityLabel} - ${metricConfig.label}`
         : metricConfig.label;
 
+      const baseColor = selectedCity === 'all' ? cityColor.border : metricConfig.color;
+      const aboveFill = selectedCity === 'all' ? cityColor.bg : `${metricConfig.color}2b`;
+      const belowFill = selectedCity === 'all' ? 'rgba(59,130,246,0.15)' : `${metricConfig.color}33`;
+
       datasets.push({
         label,
         data: dataPoints,
-        borderColor: selectedCity === 'all' ? cityColor.border : metricConfig.color,
-        backgroundColor: selectedCity === 'all' ? cityColor.bg : `${metricConfig.color}20`,
+        borderColor: baseColor,
+        backgroundColor: (ctx) => {
+          const { chart } = ctx;
+          const { ctx: c } = chart;
+          const gradient = c.createLinearGradient(0, 0, 0, chart.height);
+          gradient.addColorStop(0, aboveFill);
+          gradient.addColorStop(0.5, aboveFill);
+          gradient.addColorStop(0.5, belowFill);
+          gradient.addColorStop(1, belowFill);
+          return gradient;
+        },
         borderWidth: 2.5,
         clip: 0,
         pointRadius: 0,
@@ -227,7 +240,11 @@ export default function WeatherChart() {
         capBezierPoints: true,
         borderCapStyle: 'round',
         borderJoinStyle: 'round',
-        fill: true,
+        fill: {
+          target: 'origin',
+          above: aboveFill,
+          below: belowFill,
+        },
       });
     });
 
