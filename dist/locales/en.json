@@ -73,7 +73,7 @@
           ]
         },
         "reverse": false,
-        "image": "/photos/journey/1888-inizio-costruzione.jpg",
+        "image": "/photos/journey/1888-inizio-costruzione.webp",
         "imageAlt": "Historic locomotive at a station, evoking the first years of the Sulmona-Isernia line",
         "stepId": "storia-1888"
       },
@@ -96,7 +96,7 @@
           ]
         },
         "reverse": true,
-        "image": "/photos/journey/1897-inaugurazione.jpg",
+        "image": "/photos/journey/1897-inaugurazione.webp",
         "imageAlt": "Historic postcard of Palena station around the opening years of the Transiberiana d'Abruzzo",
         "stepId": "storia-1897"
       },
@@ -119,7 +119,7 @@
           ]
         },
         "reverse": false,
-        "image": "/photos/journey/anni-40-guerra.jpg",
+        "image": "/photos/journey/anni-40-guerra.webp",
         "imageAlt": "Locomotive among destroyed railway structures during the Second World War",
         "stepId": "storia-anni-40"
       },
@@ -142,7 +142,7 @@
           ]
         },
         "reverse": true,
-        "image": "/photos/journey/anni-60-80-declino.jpg",
+        "image": "/photos/journey/anni-60-80-declino.webp",
         "imageAlt": "ALn railcar stopped at Castel di Sangro in 1976, symbol of the line's transition years",
         "stepId": "storia-anni-60-80"
       },
@@ -165,7 +165,7 @@
           ]
         },
         "reverse": false,
-        "image": "/photos/journey/2011-sospensione.jpg",
+        "image": "/photos/journey/2011-sospensione.webp",
         "imageAlt": "Tracks of the historic line disappearing into the valley, recalling the years of service suspension",
         "stepId": "storia-2011"
       },
@@ -188,7 +188,7 @@
           ]
         },
         "reverse": true,
-        "image": "/photos/journey/2014-rinascita-turistica.jpg",
+        "image": "/photos/journey/2014-rinascita-turistica.webp",
         "imageAlt": "Tourist train of the Ferrovia dei Parchi crossing woods and mountain scenery",
         "stepId": "storia-2014"
       }
@@ -353,27 +353,31 @@
               "title": "Location",
               "body": "Thanks to its position in the Peligna Valley and its proximity to the mountains and natural parks of the Apennines, Sulmona is today also an important starting point for excursions and nature tourism.",
               "pullout": "Its location between the Peligna Valley and the Apennines makes Sulmona a natural stop between the city, the mountains and routes through the landscape.",
-              "callouts": ["Peligna Valley", "Apennine mountains", "Excursions and nature tourism"]
+              "callouts": [
+                "Peligna Valley",
+                "Apennine mountains",
+                "Excursions and nature tourism"
+              ]
             }
           ],
           "gallery": [
             {
               "id": "aq1",
-              "src": "/photos/storia/sulmona.webp",
-              "alt": "View of Sulmona with a historic urban atmosphere",
+              "src": "/photos/storia/sulmona-panorama-urbano.webp",
+              "alt": "View of Sulmona with the medieval aqueduct and square",
               "caption": "Medieval aqueduct and Piazza Garibaldi."
             },
             {
               "id": "aq2",
-              "src": "/photos/storia/sulmona.webp",
-              "alt": "Placeholder detail for Sulmona architecture or craftsmanship",
-              "caption": "Artisanal sugared almonds and decorative flower compositions."
+              "src": "/photos/storia/sulmona-confetti.webp",
+              "alt": "Traditional confetti arrangement from Sulmona",
+              "caption": "Artisanal confetti and floral decorative compositions."
             },
             {
               "id": "aq3",
-              "src": "/photos/storia/sulmona.webp",
-              "alt": "Placeholder for a public square or ritual scene in Sulmona",
-              "caption": "City traditions and public celebrations."
+              "src": "/photos/storia/sulmona-madonna-che-scappa.webp",
+              "alt": "Madonna che Scappa in Piazza during the Easter celebration in Sulmona",
+              "caption": "Madonna che Scappa in Piazza and civic celebrations."
             }
           ],
           "rituals": [
@@ -396,8 +400,29 @@
           "closing": {
             "title": "History, traditions, gastronomy and landscape",
             "body": "Sulmona brings together ancient history, popular traditions, gastronomy and artistic heritage, making it one of the most interesting cultural centers in Abruzzo."
-          }
-        }
+          },
+          "detailGallery": [
+            {
+              "id": "sulmona-detail-1",
+              "src": "/photos/storia/sulmona-acquedotto-arcate.webp",
+              "alt": "Detail of the arches of Sulmona's medieval aqueduct",
+              "caption": "The sequence of 21 arches marks the walk along the edge of the square."
+            },
+            {
+              "id": "sulmona-detail-2",
+              "src": "/photos/storia/sulmona-piazza-garibaldi.webp",
+              "alt": "Piazza Garibaldi in Sulmona opening toward the mountains",
+              "caption": "Piazza Garibaldi opens as a broad civic space between houses, fountain and mountain backdrop."
+            },
+            {
+              "id": "sulmona-detail-3",
+              "src": "/photos/storia/sulmona-ovidio-centro.webp",
+              "alt": "Statue of Ovid in the center of Sulmona",
+              "caption": "The memory of Ovid reappears among public buildings and civic architecture."
+            }
+          ]
+        },
+        "image": "/photos/storia/sulmona-panorama-urbano.webp"
       },
       {
         "id": 2,
@@ -410,7 +435,12 @@
           "intro": "A mountain village in the Majella Park, around 1100 meters above sea level, among beech woods, trails and Apennine landscapes.",
           "body": "Campo di Giove has medieval origins and developed as a mountain center tied to transhumance. Today it preserves paved streets, stone houses, small squares and a strong natural vocation.",
           "quote": "Campo di Giove brings together mountain memory, local traditions and the landscapes of the Majella.",
-          "heroBadges": ["Majella Park", "Around 1100 meters", "Transhumance", "Beech woods and trekking"],
+          "heroBadges": [
+            "Majella Park",
+            "Around 1100 meters",
+            "Transhumance",
+            "Beech woods and trekking"
+          ],
           "stats": [
             {
               "label": "Origins",
@@ -464,21 +494,21 @@
           "gallery": [
             {
               "id": "campo-di-giove-1",
-              "src": "/photos/storia/campo-di-giove.webp",
-              "alt": "Mountain view of Campo di Giove in the Majella Park",
-              "caption": "Mountain landscape and beech woods of the Majella Park."
+              "src": "/photos/storia/campo-di-giove-panorama.webp",
+              "alt": "View of Campo di Giove at the foot of the Majella",
+              "caption": "Mountain landscape and village profile in the Majella Park."
             },
             {
               "id": "campo-di-giove-2",
-              "src": "/photos/storia/campo-di-giove.webp",
-              "alt": "Detail of the historic fabric of Campo di Giove",
-              "caption": "Paved streets, stone houses and village squares."
+              "src": "/photos/storia/campo-di-giove-chiesa.webp",
+              "alt": "Church of San Vincenzo in Campo di Giove",
+              "caption": "Church of San Vincenzo and the Majella landscape."
             },
             {
               "id": "campo-di-giove-3",
-              "src": "/photos/storia/campo-di-giove.webp",
-              "alt": "Placeholder for traditions or cuisine in Campo di Giove",
-              "caption": "Local traditions and mountain cooking."
+              "src": "/photos/storia/campo-di-giove-borgo.webp",
+              "alt": "Stone stairs and rooftops in the historic village of Campo di Giove",
+              "caption": "Stone lanes, masonry houses and village views."
             }
           ],
           "rituals": [
@@ -501,8 +531,29 @@
           "closing": {
             "title": "Majella, stone and mountain life",
             "body": "Campo di Giove preserves the memory of transhumance, stone architecture, local traditions and a strong vocation for the landscape of the Majella."
-          }
-        }
+          },
+          "detailGallery": [
+            {
+              "id": "campo-di-giove-detail-1",
+              "src": "/photos/storia/campo-di-giove-panorama-autunno.webp",
+              "alt": "Campo di Giove in autumn among slopes and village houses",
+              "caption": "The village lies at the foot of the Majella among autumn colors and upland fields."
+            },
+            {
+              "id": "campo-di-giove-detail-2",
+              "src": "/photos/storia/campo-di-giove-scale.webp",
+              "alt": "Stone stairway in the historic center of Campo di Giove",
+              "caption": "Stairs, arches and masonry walls preserve the compact rhythm of the mountain village."
+            },
+            {
+              "id": "campo-di-giove-detail-3",
+              "src": "/photos/storia/campo-di-giove-meridiana.webp",
+              "alt": "Sundial on a stone house in Campo di Giove",
+              "caption": "Stone details and sundials recall the slower pace of mountain life."
+            }
+          ]
+        },
+        "image": "/photos/storia/campo-di-giove-panorama.webp"
       },
       {
         "id": 3,
@@ -515,7 +566,12 @@
           "intro": "A mountain village tied to the Majella and the high plateaus, near the Forchetta pass and one of the most panoramic railway points on the route.",
           "body": "Palena has ancient and medieval origins and developed as a pastoral and agricultural center. Today it maintains a close link with San Falco, with the railway station and with the high-altitude landscape.",
           "quote": "Palena brings together devotion, mountain landscape and railway memory.",
-          "heroBadges": ["Majella", "San Falco", "High plateaus", "Forchetta pass"],
+          "heroBadges": [
+            "Majella",
+            "San Falco",
+            "High plateaus",
+            "Forchetta pass"
+          ],
           "stats": [
             {
               "label": "Origins",
@@ -569,21 +625,21 @@
           "gallery": [
             {
               "id": "palena-1",
-              "src": "/photos/storia/palena.webp",
-              "alt": "View of Palena between mountains and plateaus",
-              "caption": "Palena between the Majella, the plateaus and the railway landscape."
+              "src": "/photos/storia/palena-panorama.webp",
+              "alt": "View of Palena among woods and the ridges of the Majella",
+              "caption": "Palena between the Majella, uplands and the village landscape."
             },
             {
               "id": "palena-2",
-              "src": "/photos/storia/palena.webp",
-              "alt": "Placeholder detail for church or station in Palena",
-              "caption": "San Falco church and the memory of the station on the high plateaus."
+              "src": "/photos/storia/palena-chiesa-di-san-falco.webp",
+              "alt": "Church of San Falco in Palena",
+              "caption": "Church of San Falco and places of local devotion."
             },
             {
               "id": "palena-3",
-              "src": "/photos/storia/palena.webp",
-              "alt": "Placeholder for traditions or cuisine in Palena",
-              "caption": "Local traditions and the flavors of the mountain village."
+              "src": "/photos/storia/palena-fontana.webp",
+              "alt": "Historic stone fountain in the center of Palena",
+              "caption": "Stone fountains and views of the historic center."
             }
           ],
           "rituals": [
@@ -606,8 +662,29 @@
           "closing": {
             "title": "Palena between devotion and landscape",
             "body": "Palena brings together mountain roots, local faith, railway memory and a cuisine tied to upland life."
-          }
-        }
+          },
+          "detailGallery": [
+            {
+              "id": "palena-detail-1",
+              "src": "/photos/storia/palena-panorama-invernale.webp",
+              "alt": "Winter view of Palena among valley and mountains",
+              "caption": "The village appears gathered in the valley, surrounded by ridges and upland scenery."
+            },
+            {
+              "id": "palena-detail-2",
+              "src": "/photos/storia/palena-scorcio-porta.webp",
+              "alt": "Archway and houses in the center of Palena",
+              "caption": "Arches, climbs and attached houses preserve the old rhythm of the historic center."
+            },
+            {
+              "id": "palena-detail-3",
+              "src": "/photos/storia/palena-torrente.webp",
+              "alt": "Waterway and greenery at Palena",
+              "caption": "Water and vegetation accompany the edges of the village toward the mountain landscape."
+            }
+          ]
+        },
+        "image": "/photos/storia/palena-panorama.webp"
       },
       {
         "id": 4,
@@ -620,7 +697,12 @@
           "intro": "A mountain town in Alto Sangro, known for winter tourism and for outdoor activities that animate the town in summer too.",
           "body": "Roccaraso has medieval origins and developed as a mountain center linked to commerce. Today it combines religious and civil architecture, village traditions and a strong tourist vocation.",
           "quote": "Roccaraso brings together mountain architecture, village traditions and upland tourism.",
-          "heroBadges": ["Alto Sangro", "Santa Maria Assunta", "Winter sports", "Trekking and mountain bike"],
+          "heroBadges": [
+            "Alto Sangro",
+            "Santa Maria Assunta",
+            "Winter sports",
+            "Trekking and mountain bike"
+          ],
           "stats": [
             {
               "label": "Origins",
@@ -674,21 +756,21 @@
           "gallery": [
             {
               "id": "roccaraso-1",
-              "src": "/photos/storia/roccaraso.webp",
-              "alt": "View of Roccaraso between architecture and mountain landscape",
-              "caption": "Roccaraso between mountain town and the landscapes of Alto Sangro."
+              "src": "/photos/storia/roccaraso-inverno.webp",
+              "alt": "Snowy Roccaraso among woods and mountains",
+              "caption": "Roccaraso between the mountain town and the landscapes of Alto Sangro."
             },
             {
               "id": "roccaraso-2",
-              "src": "/photos/storia/roccaraso.webp",
-              "alt": "Placeholder detail for architecture or monuments of Roccaraso",
-              "caption": "Santa Maria Assunta church and the architectural traces of the town."
+              "src": "/photos/storia/roccaraso-borgo-viadotto.webp",
+              "alt": "View of Roccaraso with viaduct and church",
+              "caption": "Village architecture and high-altitude railway scenery."
             },
             {
               "id": "roccaraso-3",
-              "src": "/photos/storia/roccaraso.webp",
-              "alt": "Placeholder for sports or seasonal life in Roccaraso",
-              "caption": "Mountain tourism between winter and summer."
+              "src": "/photos/storia/roccaraso-centro.webp",
+              "alt": "Center of Roccaraso with square, flowers and daily life",
+              "caption": "Mountain tourism and town-center life between winter and summer."
             }
           ],
           "rituals": [
@@ -711,8 +793,29 @@
           "closing": {
             "title": "Roccaraso between architecture and tourism",
             "body": "Roccaraso weaves together mountain history, local architecture, village traditions and activities tied to the seasons of Alto Sangro."
-          }
-        }
+          },
+          "detailGallery": [
+            {
+              "id": "roccaraso-detail-1",
+              "src": "/photos/storia/roccaraso-neve-boschi.webp",
+              "alt": "Snowy view of Roccaraso among woods and hotels",
+              "caption": "Snow, woods and slopes immediately reveal the town's winter vocation."
+            },
+            {
+              "id": "roccaraso-detail-2",
+              "src": "/photos/storia/roccaraso-chiesa.webp",
+              "alt": "Small octagonal church in Roccaraso",
+              "caption": "Even minor religious buildings contribute to the architectural face of the village."
+            },
+            {
+              "id": "roccaraso-detail-3",
+              "src": "/photos/storia/roccaraso-pista.webp",
+              "alt": "Ski slope and chairlift in Roccaraso",
+              "caption": "The slopes express Roccaraso's direct link with snow tourism."
+            }
+          ]
+        },
+        "image": "/photos/storia/roccaraso-inverno.webp"
       },
       {
         "id": 5,
@@ -725,7 +828,12 @@
           "intro": "A center of Alto Sangro with fortified origins, stone streets, religious monuments and one of the main cultural poles of the valley.",
           "body": "Castel di Sangro was born as a medieval nucleus around the castle and developed as the center of the valley. Today it combines lanes, squares, sacred art, a museum and cultural activity.",
           "quote": "Castel di Sangro interweaves medieval memory, cultural life and the cuisine of Alto Sangro.",
-          "heroBadges": ["Upper Sangro Valley", "Santa Maria Assunta", "Patiniana Gallery", "Stone-built historic center"],
+          "heroBadges": [
+            "Upper Sangro Valley",
+            "Santa Maria Assunta",
+            "Patiniana Gallery",
+            "Stone-built historic center"
+          ],
           "stats": [
             {
               "label": "Origins",
@@ -779,21 +887,21 @@
           "gallery": [
             {
               "id": "castel-di-sangro-1",
-              "src": "/photos/storia/castel-di-sangro.webp",
-              "alt": "View of Castel di Sangro between architecture and valley",
-              "caption": "Stone-built historic center and the landscape of Alto Sangro."
+              "src": "/photos/storia/castel-di-sangro-panorama.webp",
+              "alt": "Panorama of Castel di Sangro seen from above",
+              "caption": "Castel di Sangro between the historic center and the Alto Sangro landscape."
             },
             {
               "id": "castel-di-sangro-2",
-              "src": "/photos/storia/castel-di-sangro.webp",
-              "alt": "Placeholder detail for monuments or collections in Castel di Sangro",
-              "caption": "Santa Maria Assunta and the Patiniana Gallery."
+              "src": "/photos/storia/castel-di-sangro-santa-maria-assunta.webp",
+              "alt": "Facade of Santa Maria Assunta in Castel di Sangro",
+              "caption": "Santa Maria Assunta and the city's religious heritage."
             },
             {
               "id": "castel-di-sangro-3",
-              "src": "/photos/storia/castel-di-sangro.webp",
-              "alt": "Placeholder for traditions or cuisine in Castel di Sangro",
-              "caption": "Local traditions and the cuisine of the valley."
+              "src": "/photos/storia/castel-di-sangro-piazza.webp",
+              "alt": "Square in Castel di Sangro with fountain and festive flags",
+              "caption": "Squares, fountains and public moments in the town center."
             }
           ],
           "rituals": [
@@ -816,8 +924,29 @@
           "closing": {
             "title": "Castel di Sangro between culture and valley",
             "body": "Castel di Sangro preserves medieval origins, places of art, urban traditions and a cuisine that reflects the landscape of Alto Sangro."
-          }
-        }
+          },
+          "detailGallery": [
+            {
+              "id": "castel-di-sangro-detail-1",
+              "src": "/photos/storia/castel-di-sangro-valle.webp",
+              "alt": "View of the Alto Sangro valley near Castel di Sangro",
+              "caption": "The city sits within a broad system of valley, fields and Apennine ridges."
+            },
+            {
+              "id": "castel-di-sangro-detail-2",
+              "src": "/photos/storia/castel-di-sangro-belvedere.webp",
+              "alt": "Urban view of Castel di Sangro seen from below",
+              "caption": "From the valley floor emerge the urban profile and churches that mark the historic center."
+            },
+            {
+              "id": "castel-di-sangro-detail-3",
+              "src": "/photos/storia/castel-di-sangro-notte.webp",
+              "alt": "Castel di Sangro illuminated at night",
+              "caption": "At night the village highlights facades, climbs and monumental focal points."
+            }
+          ]
+        },
+        "image": "/photos/storia/castel-di-sangro-panorama.webp"
       },
       {
         "id": 6,
@@ -825,13 +954,18 @@
         "title": "Isernia",
         "summary": "An ancient city of Molise, between the Paleolithic site of Isernia La Pineta, historic monuments and a strong urban identity.",
         "story": "Isernia sinks its roots into the Paleolithic and crosses the Samnite, Roman and medieval eras. Today it is a cultural and administrative center that brings together monuments, traditions, craftsmanship and gastronomy.",
-        "image": "/photos/storia/transiberiana.webp",
+        "image": "/photos/storia/isernia-panorama.webp",
         "experience": {
           "eyebrow": "Isernia",
           "intro": "An ancient city of Molise, known for the Paleolithic site of Isernia La Pineta and for its historic center with churches, palaces, museums and monumental fountains.",
           "body": "Isernia crosses the Samnite, Roman and medieval eras and today keeps a strategic role from a cultural and administrative point of view, together with a strong artisanal and gastronomic identity.",
           "quote": "Isernia brings together millenary roots, monuments, traditions and the flavors of inland Molise.",
-          "heroBadges": ["Isernia La Pineta", "Fontana Fraterna", "San Pietro Apostolo", "Inland Molise"],
+          "heroBadges": [
+            "Isernia La Pineta",
+            "Fontana Fraterna",
+            "San Pietro Apostolo",
+            "Inland Molise"
+          ],
           "stats": [
             {
               "label": "Origins",
@@ -885,21 +1019,21 @@
           "gallery": [
             {
               "id": "isernia-1",
-              "src": "/photos/storia/transiberiana.webp",
-              "alt": "Panoramic placeholder for Isernia",
-              "caption": "Isernia between urban history, monuments and the memory of the route."
+              "src": "/photos/storia/isernia-panorama.webp",
+              "alt": "Panorama of Isernia in the landscape of inland Molise",
+              "caption": "Isernia between the historic center and the landscape of inland Molise."
             },
             {
               "id": "isernia-2",
-              "src": "/photos/storia/transiberiana.webp",
-              "alt": "Placeholder for monuments or fountains of Isernia",
-              "caption": "Fontana Fraterna, the cathedral and the historic center."
+              "src": "/photos/storia/isernia-centro-storico.webp",
+              "alt": "Historic-center view in Isernia",
+              "caption": "Historic-center views among palaces, alleys and towers."
             },
             {
               "id": "isernia-3",
-              "src": "/photos/storia/transiberiana.webp",
-              "alt": "Placeholder for traditions or cuisine in Isernia",
-              "caption": "Traditions, craftsmanship and the flavors of the city."
+              "src": "/photos/storia/isernia-piazza-celestino-v.webp",
+              "alt": "Piazza Celestino V in central Isernia",
+              "caption": "Piazza Celestino V and spaces of the historic city."
             }
           ],
           "rituals": [
@@ -922,7 +1056,27 @@
           "closing": {
             "title": "Isernia between prehistory and historic city",
             "body": "Isernia brings together the Paleolithic site, monuments of the center, city traditions and a cuisine that tells the story of inland Molise."
-          }
+          },
+          "detailGallery": [
+            {
+              "id": "isernia-detail-1",
+              "src": "/photos/storia/isernia-vicolo-torre.webp",
+              "alt": "Historic lane in Isernia with tower in the background",
+              "caption": "The lanes of the center guide the eye toward towers, arches and passages of the old city."
+            },
+            {
+              "id": "isernia-detail-2",
+              "src": "/photos/storia/isernia-vicolo-campanile.webp",
+              "alt": "Another historic-center view in Isernia among balconies and bell tower",
+              "caption": "Balconies, lamps and bell towers define the fine-grained texture of the old center."
+            },
+            {
+              "id": "isernia-detail-3",
+              "src": "/photos/storia/isernia-sanfelice.webp",
+              "alt": "View of the San Felice quarter in Isernia",
+              "caption": "Small squares and domestic fronts reveal the everyday dimension of the city."
+            }
+          ]
         }
       }
     ],
@@ -976,7 +1130,7 @@
         "alt": "328m",
         "type": "Departure",
         "desc": "The city of sugared almonds and Ovid. Starting point of the historic itinerary.",
-        "photo": "/photos/fermate/sulmona-fermata.jpg",
+        "photo": "/photos/fermate/sulmona-fermata.webp",
         "glow": "rgba(34, 197, 94, 0.35)"
       },
       {
@@ -987,7 +1141,7 @@
         "alt": "1.064m",
         "type": "Stop",
         "desc": "At the foot of the Majella, framed by dense woods and breathtaking landscapes.",
-        "photo": "/photos/fermate/campo-di-giove.jpg",
+        "photo": "/photos/fermate/campo-di-giove.webp",
         "glow": "rgba(59, 130, 246, 0.35)"
       },
       {
@@ -998,7 +1152,7 @@
         "alt": "1.258m",
         "type": "Scenic stop",
         "desc": "An isolated station in Quarto Santa Chiara, a realm of untamed nature.",
-        "photo": "/photos/fermate/palena.jpg",
+        "photo": "/photos/fermate/palena.webp",
         "glow": "rgba(16, 185, 129, 0.32)"
       },
       {
@@ -1009,7 +1163,7 @@
         "alt": "1.268m",
         "type": "Stop",
         "desc": "The highest station on the line, famous for mountain tourism in both winter and summer.",
-        "photo": "/photos/fermate/roccaraso.jpg",
+        "photo": "/photos/fermate/roccaraso.webp",
         "glow": "rgba(59, 130, 246, 0.32)"
       },
       {
@@ -1020,7 +1174,7 @@
         "alt": "793m",
         "type": "Terminus",
         "desc": "Town of water and fly fishing, a key hub of the upper Sangro Valley.",
-        "photo": "/photos/fermate/castel-di-sangro.jpg",
+        "photo": "/photos/fermate/castel-di-sangro.webp",
         "glow": "rgba(14, 116, 144, 0.32)"
       }
     ]
@@ -1761,6 +1915,168 @@
         "tag": "Animals",
         "q": "Can I bring my dog?",
         "a": "Small dogs are generally allowed if kept in a carrier or in your arms. Guide dogs are always allowed; for any other case it is best to confirm the rules before booking."
+      }
+    ],
+    "decalogues": [
+      {
+        "id": "environment",
+        "eyebrow": "Civic education",
+        "title": "Environmental decalogue",
+        "body": "Ten concrete actions connecting home, territory and community: everyday sustainability, respect for parks and responsibility toward who comes after us.",
+        "groups": [
+          {
+            "id": "daily-life",
+            "title": "Everyday actions and lifestyle",
+            "items": [
+              {
+                "id": "3r",
+                "number": 1,
+                "title": "The 3 Rs: reduce, reuse, recycle",
+                "body": "Produce less waste, reuse what you can and sort recycling properly. Appliances and batteries always go to the recycling center."
+              },
+              {
+                "id": "single-use",
+                "number": 2,
+                "title": "Ditch single-use and keep beaches clean",
+                "body": "Choose bottles and canvas bags. At the sea take your trash away and use a pocket ashtray: cigarette butts pollute water and harm fish."
+              },
+              {
+                "id": "home-savings",
+                "number": 3,
+                "title": "Save water and energy at home",
+                "body": "Turn off lights, use LEDs, avoid overheating rooms and close the tap when not needed. Never pour frying oil or paint down the drain."
+              },
+              {
+                "id": "mobility",
+                "number": 4,
+                "title": "Move smart",
+                "body": "Walk, bike or take public transport more often: using the car less means cleaner air for everyone."
+              },
+              {
+                "id": "local-food",
+                "number": 5,
+                "title": "Buy local and seasonal food",
+                "body": "Choose local products to cut transport and consider eating less meat: it saves water and lowers pollution."
+              }
+            ]
+          },
+          {
+            "id": "future",
+            "title": "Territory, community and future",
+            "items": [
+              {
+                "id": "buy-less",
+                "number": 6,
+                "title": "Buy only what you need",
+                "body": "Clothes and objects have an environmental cost. Buy the essentials, second-hand when possible, and avoid unnecessary plastic packaging."
+              },
+              {
+                "id": "parks",
+                "number": 7,
+                "title": "Respect wilderness and parks",
+                "body": "In National Parks stay on the trails, leave no waste and avoid loud noises or drones that disturb wildlife."
+              },
+              {
+                "id": "future-mindset",
+                "number": 8,
+                "title": "Think about the future",
+                "body": "It is not enough to avoid damage: we also need to care for nature so we hand it down in good health."
+              },
+              {
+                "id": "take-action",
+                "number": 9,
+                "title": "Do your part and speak up",
+                "body": "If you see trash or pollution, report it to authorities. Join clean-up days for beaches and parks when you can."
+              },
+              {
+                "id": "guardian",
+                "number": 10,
+                "title": "Be a steward, not an owner",
+                "body": "Real progress is living in harmony with Earth, respecting its balances instead of trying to dominate it."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "digital",
+        "eyebrow": "Digital citizenship",
+        "title": "Decalogue for digital sustainability",
+        "body": "Technology and environment intersect more than it seems: hardware, energy, printing, data and online habits can all be lighter and more mindful.",
+        "groups": [
+          {
+            "id": "hardware",
+            "title": "Hardware and devices",
+            "items": [
+              {
+                "id": "raee",
+                "number": 1,
+                "title": "Recycle and dispose of electronics correctly",
+                "body": "E-waste contains valuable materials but also toxins: take it to recycling centers or stores that collect used devices, never to mixed trash."
+              },
+              {
+                "id": "use-longer",
+                "number": 2,
+                "title": "Use your devices longer",
+                "body": "The biggest impact of phones and PCs is production. Before replacing them, try repairing and resist the race to the latest model."
+              },
+              {
+                "id": "switch-off",
+                "number": 3,
+                "title": "Turn off what you are not using",
+                "body": "Standby and plugged-in chargers consume energy. Shut down the computer if idle for long and unplug what you do not need."
+              },
+              {
+                "id": "efficient-devices",
+                "number": 4,
+                "title": "Choose efficient, sustainable devices",
+                "body": "When you must buy, check energy efficiency and consider refurbished gear: it extends product life and avoids new production."
+              },
+              {
+                "id": "printing",
+                "number": 5,
+                "title": "Be mindful of printing",
+                "body": "Print only when necessary. If you must, use double-sided, reduce margins and prefer black and white."
+              }
+            ]
+          },
+          {
+            "id": "awareness",
+            "title": "Ethics, awareness and digital wellbeing",
+            "items": [
+              {
+                "id": "eco-search",
+                "number": 6,
+                "title": "Choose eco-friendly search engines",
+                "body": "Alternatives like Ecosia allocate part of profits to reforestation or renewables."
+              },
+              {
+                "id": "doomscrolling",
+                "number": 7,
+                "title": "Limit doomscrolling",
+                "body": "Endless scrolling wastes time, data and energy. Some digital detox helps both you and the planet."
+              },
+              {
+                "id": "bookmarks",
+                "number": 8,
+                "title": "Bookmark frequent sites",
+                "body": "If you visit the same sites often, save them: you avoid repeated searches and unnecessary data traffic."
+              },
+              {
+                "id": "ai-use",
+                "number": 9,
+                "title": "Use AI thoughtfully",
+                "body": "Generating text or images with AI needs a lot of computing power. Use it when it truly adds value, not for trivial requests."
+              },
+              {
+                "id": "spread-awareness",
+                "number": 10,
+                "title": "Raise awareness",
+                "body": "Digital pollution is hard to see: sharing these practices at school, with family and friends multiplies the positive impact."
+              }
+            ]
+          }
+        ]
       }
     ]
   },

@@ -10,11 +10,71 @@ import ImageCredit from '../components/ImageCredit';
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 const DEFAULT_STATIONS = [
-  { id: 1, name: 'Sulmona', alt: '328m', type: 'Partenza', desc: "La città dei confetti e di Ovidio. Punto di partenza dell'itinerario storico." },
-  { id: 2, name: 'Campo di Giove', alt: '1.064m', type: 'Sosta', desc: 'Ai piedi della Majella, incorniciata da fitti boschi e paesaggi mozzafiato.' },
-  { id: 3, name: 'Palena', alt: '1.258m', type: 'Punto panoramico', desc: 'Stazione isolata nel Quarto Santa Chiara, regno della natura selvaggia.' },
-  { id: 4, name: 'Roccaraso', alt: '1.268m', type: 'Sosta', desc: 'La stazione più alta della linea, rinomata per il turismo montano invernale ed estivo.' },
-  { id: 5, name: 'Castel di Sangro', alt: '793m', type: 'Capolinea', desc: "Città dell'acqua e della pesca a mosca, nodo cruciale dell'Alta Valle del Sangro." }
+  {
+    id: 1,
+    name: 'Sulmona',
+    alt: '328m',
+    type: 'Partenza',
+    desc: "La città dei confetti e di Ovidio. Punto di partenza dell'itinerario storico.",
+    photo: '/photos/fermate/sulmona-fermata.webp',
+    photoPosition: 'center center',
+    notes: {
+      it: ['Centro storico', 'Confetti artigianali'],
+      en: ['Historic center', 'Artisanal confetti'],
+    },
+  },
+  {
+    id: 2,
+    name: 'Campo di Giove',
+    alt: '1.064m',
+    type: 'Sosta',
+    desc: 'Ai piedi della Majella, incorniciata da fitti boschi e paesaggi mozzafiato.',
+    photo: '/photos/fermate/campo-di-giove.webp',
+    photoPosition: 'center center',
+    notes: {
+      it: ['Boschi della Majella', 'Borgo di pietra'],
+      en: ['Majella woods', 'Stone village'],
+    },
+  },
+  {
+    id: 3,
+    name: 'Palena',
+    alt: '1.258m',
+    type: 'Punto panoramico',
+    desc: 'Stazione isolata nel Quarto Santa Chiara, regno della natura selvaggia.',
+    photo: '/photos/fermate/palena.webp',
+    photoPosition: 'center center',
+    notes: {
+      it: ['Sosta fotografica', 'Altopiano selvaggio'],
+      en: ['Photo stop', 'Wild plateau'],
+    },
+  },
+  {
+    id: 4,
+    name: 'Roccaraso',
+    alt: '1.268m',
+    type: 'Sosta',
+    desc: 'La stazione più alta della linea, rinomata per il turismo montano invernale ed estivo.',
+    photo: '/photos/fermate/roccaraso.webp',
+    photoPosition: 'center center',
+    notes: {
+      it: ['Alta quota', 'Turismo di montagna'],
+      en: ['High altitude', 'Mountain tourism'],
+    },
+  },
+  {
+    id: 5,
+    name: 'Castel di Sangro',
+    alt: '793m',
+    type: 'Capolinea',
+    desc: "Città dell'acqua e della pesca a mosca, nodo cruciale dell'Alta Valle del Sangro.",
+    photo: '/photos/fermate/castel-di-sangro.webp',
+    photoPosition: 'center center',
+    notes: {
+      it: ['Alta Valle del Sangro', 'Acqua e paesaggio'],
+      en: ['Upper Sangro Valley', 'Water and landscape'],
+    },
+  },
 ];
 
 const DEFAULT_TIMELINE = [
@@ -369,7 +429,11 @@ export default function Journey() {
   const snapTriggerRef = useRef(null);
   const [reduceMotion, setReduceMotion] = useState(false);
   const [activePopupId, setActivePopupId] = useState(null);
-  const stations = tm('journey.stations', DEFAULT_STATIONS);
+  const stationDefaultsById = Object.fromEntries(DEFAULT_STATIONS.map((station) => [station.id, station]));
+  const stations = tm('journey.stations', DEFAULT_STATIONS).map((station, index) => {
+    const fallbackStation = stationDefaultsById[station.id] || DEFAULT_STATIONS[index] || {};
+    return { ...fallbackStation, ...station };
+  });
   const timeline = tm('journey.timeline', DEFAULT_TIMELINE).map((item, index) => ({
     ...item,
     image:
@@ -565,18 +629,62 @@ export default function Journey() {
               key={station.id}
               data-journey-step={`fermata-${station.id}`}
               data-journey-fade
-              className="bg-card rounded-3xl p-8 md:p-12 shadow-[var(--shadow-elevated)] border border-border/40"
+              className="group relative overflow-hidden rounded-3xl border border-border/40 bg-card p-8 shadow-[var(--shadow-elevated)] md:p-12"
             >
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-primary/8 text-primary font-semibold text-sm mb-6">
-                  <MapPin weight="fill" size={16} />
-                  {station.type} · {station.alt}
+              <div className="relative grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(320px,360px)] lg:items-center">
+                <div className="lg:pr-6">
+                  <div className="mb-5 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground/75">
+                    {isItalian ? 'Tappa' : 'Stop'} {String(station.id).padStart(2, '0')}
+                  </div>
+                  <h3 className="mb-4 text-3xl font-serif font-bold tracking-tight text-foreground md:text-4xl">
+                    {station.name}
+                  </h3>
+                  <div className="mb-5 h-px w-20 bg-border/70" aria-hidden="true" />
+                  <p className="max-w-[34ch] text-lg leading-relaxed text-muted-foreground">
+                    {station.desc}
+                  </p>
+
+                  {station.notes?.[lang] || station.notes?.it ? (
+                    <div className="mt-6 flex flex-wrap gap-3">
+                      {(station.notes?.[lang] || station.notes?.it).map((note) => (
+                        <div
+                          key={`${station.id}-${note}`}
+                          className="inline-flex items-center gap-2 rounded-2xl border border-border/50 bg-secondary/65 px-4 py-2 text-sm text-foreground/85 shadow-[var(--shadow-subtle)]"
+                        >
+                          <span className="h-2 w-2 rounded-full bg-primary/70" aria-hidden="true" />
+                          {note}
+                        </div>
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
+
+                {station.photo ? (
+                  <div className="relative">
+                    <div className="relative aspect-[4/3] overflow-hidden rounded-[1.75rem] border border-border/50 bg-secondary/60 shadow-[var(--shadow-card)]">
+                      <img
+                        src={station.photo}
+                        alt={isItalian ? `Veduta di ${station.name}` : `View of ${station.name}`}
+                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        style={{ objectPosition: station.photoPosition || 'center center' }}
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-background/50 via-transparent to-transparent" aria-hidden="true" />
+                      <div className="absolute bottom-4 left-4">
+                        <div className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-black/22 px-3 py-1.5 text-[13px] font-medium text-white/88 shadow-[var(--shadow-subtle)] backdrop-blur-sm">
+                          <span className="h-2 w-2 rounded-full bg-primary/85" aria-hidden="true" />
+                          {station.type} · {station.alt}
+                        </div>
+                      </div>
+                      <ImageCredit
+                        src={station.photo}
+                        className="absolute right-3 top-3 rounded-full bg-black/45 px-3 py-1 text-[10px] text-white/90 backdrop-blur-sm"
+                        linkClassName="text-white/90 hover:text-white"
+                      />
+                    </div>
+                  </div>
+                ) : null}
               </div>
-              <h3 className="text-3xl md:text-4xl font-serif font-bold tracking-tight mb-4 text-foreground">
-                {station.name}
-              </h3>
-              <p className="text-lg text-muted-foreground leading-relaxed max-w-[60ch]">
-                {station.desc}
-              </p>
             </article>
           ))}
         </div>
