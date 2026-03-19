@@ -259,16 +259,19 @@ export default function Home() {
         </div>
 
         {/* Right Image (45%) with overlap */}
-        <div className="w-full lg:w-[45%] min-h-[64vh] sm:min-h-[52vh] lg:min-h-0 relative px-4 sm:px-6 lg:px-8 pt-24 sm:pt-28 md:pt-32 lg:pt-28 pb-2 sm:pb-4 md:pb-6 lg:pb-8 flex items-center justify-center order-1 lg:order-2">
-          <motion.div 
-            ref={heroFrameRef}
-            onMouseMove={handleHeroMove}
-            onMouseLeave={resetHeroMotion}
+        <div className="w-full lg:w-[45%] min-h-[64vh] sm:min-h-[52vh] lg:min-h-0 relative px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 md:pt-28 lg:pt-20 pb-2 sm:pb-4 md:pb-6 lg:pb-8 flex items-center justify-center order-1 lg:order-2">
+          <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
-            className="group w-full h-[clamp(500px,66vh,840px)] sm:h-[clamp(580px,70vh,900px)] lg:h-[min(82vh,880px)] max-w-[620px] lg:max-w-[720px] xl:max-w-[800px] 2xl:max-w-[860px] relative rounded-3xl overflow-hidden shadow-[var(--shadow-elevated)] lg:-ml-8"
+            className="w-full h-[clamp(500px,66vh,840px)] sm:h-[clamp(580px,70vh,900px)] lg:h-[min(82vh,880px)] max-w-[620px] lg:max-w-[720px] xl:max-w-[800px] 2xl:max-w-[860px] lg:-ml-8"
           >
+            <div
+              ref={heroFrameRef}
+              onMouseMove={handleHeroMove}
+              onMouseLeave={resetHeroMotion}
+              className="group relative h-full w-full rounded-3xl overflow-hidden shadow-[var(--shadow-elevated)]"
+            >
             <div className="absolute inset-0 rounded-media-frame" style={{ '--media-radius': '1.5rem' }}>
               {heroSlides.map((slide, index) => {
                 const isActive = index === activeSlideIndex;
@@ -359,6 +362,7 @@ export default function Home() {
                 </div>
               </div>
             </motion.div>
+            </div>
           </motion.div>
         </div>
       </section>
