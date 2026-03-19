@@ -420,11 +420,11 @@ export default function Home() {
                   {isItalian ? 'Sezione in aggiornamento' : 'Section updating'}
                 </div>
                 <h2 className="mt-5 text-3xl font-serif font-bold tracking-tight text-foreground md:text-4xl">
-                  {isItalian ? 'Il percorso narrativo non e disponibile in questo momento' : 'The narrative journey is not available right now'}
+                  {isItalian ? 'Il percorso narrativo non è disponibile in questo momento' : 'The narrative journey is not available right now'}
                 </h2>
                 <p className="mt-4 max-w-[58ch] text-base leading-relaxed text-muted-foreground">
                   {isItalian
-                    ? 'La home resta accessibile, ma questa sezione e stata temporaneamente isolata per evitare errori di rendering durante l\'aggiornamento della demo.'
+                    ? 'La home resta accessibile, ma questa sezione è stata temporaneamente isolata per evitare errori di rendering durante l\'aggiornamento della demo.'
                     : 'The home page remains accessible, but this section has been temporarily isolated to prevent rendering errors while the demo is being updated.'}
                 </p>
               </div>

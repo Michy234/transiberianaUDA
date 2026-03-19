@@ -33,7 +33,7 @@ export default function CookiePopup() {
       </div>
       <p className="mt-2 text-sm text-muted-foreground">
         {isItalian
-          ? 'Questa demo usa solo preferenze tecniche locali per ricordare tema, lingua e la chiusura di questo avviso. Non raccoglie dati personali e non offre un modulo email attivo.'
+          ? 'Questa demo usa solo preferenze tecniche locali per ricordare il tema, la lingua e la chiusura di questo avviso. Non raccoglie dati personali e non offre un modulo email attivo.'
           : 'This demo only uses local technical preferences to remember theme, language, and dismissal of this notice. It does not collect personal data and it does not offer an active email form.'}
       </p>
       <div className="mt-4 flex flex-col gap-2">
@@ -41,7 +41,7 @@ export default function CookiePopup() {
           to="/cookie-policy"
           className="inline-flex w-full items-center justify-center rounded-2xl border border-border/70 bg-card px-4 py-2 text-sm font-semibold text-foreground transition-all hover:shadow-[var(--shadow-card)]"
         >
-          {isItalian ? 'Leggi la cookie policy' : 'Read the cookie policy'}
+          {isItalian ? "Leggi l'informativa sui cookie" : 'Read the cookie policy'}
         </Link>
         <button
           type="button"

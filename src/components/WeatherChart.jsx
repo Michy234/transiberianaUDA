@@ -80,7 +80,7 @@ export default function WeatherChart({
     () => [
       { value: 'temperature', label: t('meteo.chart.metrics.temperature', 'Temperatura (°C)'), color: '#e63946' },
       { value: 'humidity', label: t('meteo.chart.metrics.humidity', 'Umidità (%)'), color: '#457b9d' },
-      { value: 'soilHumidity', label: t('meteo.chart.metrics.soilHumidity', 'Umidità terreno (%)'), color: '#0ea5e9' },
+      { value: 'soilHumidity', label: t('meteo.chart.metrics.soilHumidity', 'Umidità del terreno (%)'), color: '#0ea5e9' },
       { value: 'airQuality', label: t('meteo.chart.metrics.airQuality', "Qualità dell'aria (AQI)"), color: '#2a9d8f' },
       { value: 'co2', label: t('meteo.chart.metrics.co2', 'CO2 (ppm)'), color: '#8f4ae0' },
       { value: 'ammonia', label: t('meteo.chart.metrics.ammonia', 'NH3 (µg/m³)'), color: '#f59e0b' },

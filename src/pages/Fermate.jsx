@@ -373,7 +373,7 @@ export default function Fermate() {
                   <div className="flex items-center justify-between gap-4 mb-6">
                     <div>
                       <div className="text-sm font-semibold text-muted-foreground italic">
-                        {t('stops.trainline.eyebrow', 'Orari, biglietti e disponibilita')}
+                        {t('stops.trainline.eyebrow', 'Orari, biglietti e disponibilità')}
                       </div>
                       <div className="mt-2 flex items-center gap-3 text-sm font-semibold text-foreground">
                         <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center">

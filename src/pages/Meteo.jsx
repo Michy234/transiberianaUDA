@@ -91,7 +91,7 @@ function getWeatherIcon(code) {
   return <Snowflake size={48} weight="duotone" className="text-cyan-300" />;
 }
 
-function CityWeatherCard({ city, data, delay, t }) {
+function CityWeatherCard({ city, data, delay, t, isItalian }) {
   const weatherCode = data?.weatherCode ?? 0;
   const photoSrc = CITY_PHOTOS[city.key];
   const hasTemperature = Number.isFinite(data?.temperature);
@@ -104,48 +104,84 @@ function CityWeatherCard({ city, data, delay, t }) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, type: 'spring', stiffness: 100, damping: 20 }}
-      className="bg-card p-6 rounded-3xl shadow-[var(--shadow-card)] relative overflow-hidden group hover:shadow-[var(--shadow-card-hover)] hover:scale-[1.02] transition-all duration-300 block"
+      className="relative block overflow-hidden rounded-3xl border border-border/60 bg-card shadow-[var(--shadow-card)] transition-all duration-300 group hover:scale-[1.02] hover:shadow-[var(--shadow-card-hover)]"
     >
       {photoSrc && (
         <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
           <img
             src={photoSrc}
             alt=""
-            className="absolute inset-0 w-full h-full object-cover scale-105 blur-[1px] opacity-55"
+            className="absolute inset-0 h-full w-full scale-105 object-cover opacity-34 blur-[3px] transition-all duration-700 group-hover:scale-110 group-hover:opacity-42"
             loading="lazy"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/55 via-background/30 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-card/96 via-card/88 to-card/52" />
         </div>
       )}
-      <div className="relative z-10">
-        <div className="flex items-center gap-2 mb-3">
-          <MapPin size={16} className="text-primary" weight="fill" />
-          <h3 className="font-serif font-bold text-lg text-foreground">{city.name}</h3>
-        </div>
-        <div className="flex items-center gap-3 mb-4">
-          <div className="text-5xl">
-            {getWeatherIcon(weatherCode)}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(107,158,126,0.16),transparent_34%)]" aria-hidden="true" />
+      <div className="relative z-10 flex min-h-[300px] flex-col justify-between p-6">
+        <div>
+          <div className="mb-6 inline-flex items-center gap-2 rounded-2xl border border-border/60 bg-card/80 px-4 py-2 text-sm font-semibold text-primary shadow-[var(--shadow-subtle)] backdrop-blur-xl">
+            <MapPin size={16} className="text-primary" weight="fill" />
+            {isItalian ? 'Stazione meteo' : 'Weather station'}
           </div>
-          <div className="text-4xl font-bold tracking-tighter text-foreground" style={{ fontVariantNumeric: 'tabular-nums' }}>
-            {hasTemperature ? `${data.temperature.toFixed(1)}°C` : '—'}
+          <div className="mb-5">
+            <div className="text-sm font-semibold italic text-muted-foreground">
+              {isItalian ? 'Condizioni attuali' : 'Current conditions'}
+            </div>
+            <div className="mt-3 flex items-center gap-4">
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border border-border/60 bg-card/76 shadow-[var(--shadow-subtle)] backdrop-blur-xl">
+                {getWeatherIcon(weatherCode)}
+              </div>
+              <div className="text-5xl font-bold tracking-tighter text-foreground sm:text-6xl" style={{ fontVariantNumeric: 'tabular-nums' }}>
+                {hasTemperature ? `${data.temperature.toFixed(1)}°C` : '—'}
+              </div>
+            </div>
           </div>
+          <h3 className="font-serif text-3xl font-bold tracking-tight text-foreground">
+            {city.name}
+          </h3>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {city.altitude}m
+          </p>
         </div>
-        <div className="flex gap-4 text-sm text-muted-foreground">
-          <span className="flex items-center gap-1">
-            <CloudRain size={14} /> {data?.humidity ?? '—'}%
-          </span>
-          <span className="flex items-center gap-1">
-            <Wind size={14} /> {data?.pressure ?? '—'} hPa
-          </span>
+        <div className="rounded-3xl border border-border/60 bg-card/72 p-4 shadow-[var(--shadow-subtle)] backdrop-blur-xl">
+          <div className="flex flex-wrap gap-3">
+            <div className="flex min-w-[140px] flex-1 items-center gap-3 rounded-2xl bg-background/58 px-3 py-3">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                <CloudRain size={16} />
+              </div>
+              <div>
+                <div className="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">
+                  {isItalian ? 'Umidità' : 'Humidity'}
+                </div>
+                <div className="text-sm font-semibold text-foreground">
+                  {data?.humidity ?? '—'}%
+                </div>
+              </div>
+            </div>
+            <div className="flex min-w-[140px] flex-1 items-center gap-3 rounded-2xl bg-background/58 px-3 py-3">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                <Wind size={16} />
+              </div>
+              <div>
+                <div className="text-[11px] font-semibold uppercase tracking-[0.08em] text-muted-foreground">
+                  {isItalian ? 'Pressione' : 'Pressure'}
+                </div>
+                <div className="text-sm font-semibold text-foreground">
+                  {data?.pressure ?? '—'} hPa
+                </div>
+              </div>
+            </div>
+          </div>
+          <p className="mt-4 text-sm font-medium text-muted-foreground">
+            {t('meteo.cards.forecastCta', 'Clicca per previsioni complete')}
+          </p>
         </div>
-        <p className="text-xs text-muted-foreground mt-2">
-          {city.altitude}m • {t('meteo.cards.forecastCta', 'Clicca per previsioni complete')}
-        </p>
       </div>
       {photoSrc ? (
         <ImageCredit
           src={photoSrc}
-          className="absolute top-3 right-3 rounded-full bg-black/45 px-2 py-0.5 text-[9px] text-white/90"
+          className="absolute right-4 top-4 rounded-full bg-black/45 px-3 py-1 text-[10px] text-white/90"
           linkClassName="text-white/90 hover:text-white"
         />
       ) : null}
@@ -411,6 +447,7 @@ export default function Meteo() {
                   data={weatherData[city.key]} 
                   delay={0.1 + index * 0.1}
                   t={t}
+                  isItalian={isItalian}
                 />
               ))}
             </div>

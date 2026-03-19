@@ -42,7 +42,7 @@
       "metrics": {
         "temperature": "Temperatura (°C)",
         "humidity": "Umidità (%)",
-        "soilHumidity": "Umidità terreno (%)",
+        "soilHumidity": "Umidità del terreno (%)",
         "airQuality": "Qualità dell'aria (AQI)",
         "co2": "CO2 (ppm)",
         "ammonia": "NH3 (µg/m³)"

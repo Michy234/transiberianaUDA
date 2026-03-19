@@ -215,8 +215,8 @@ export default function ComeSalire() {
     return null;
   }
 
-  const stationListLabel = t('activities.stationListAria', 'Seleziona una fermata della Transiberiana d Abruzzo');
-  const detailAria = t('activities.detailAria', 'Dettagli attivita per {{name}}', { name: activeStop.name });
+  const stationListLabel = t('activities.stationListAria', "Seleziona una fermata della Transiberiana d'Abruzzo");
+  const detailAria = t('activities.detailAria', 'Dettagli attività per {{name}}', { name: activeStop.name });
 
   return (
     <div className="min-h-[100dvh] px-6 pb-24 pt-32 md:px-12">
@@ -229,7 +229,7 @@ export default function ComeSalire() {
             className="inline-flex items-center gap-2 rounded-2xl bg-primary/8 px-4 py-2 text-sm font-semibold text-primary"
           >
             <Sparkle weight="fill" size={16} />
-            {t('activities.badge', 'Attivita consigliate')}
+            {t('activities.badge', 'Attività consigliate')}
           </motion.div>
 
           <motion.h1

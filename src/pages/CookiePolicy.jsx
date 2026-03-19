@@ -10,7 +10,7 @@ export default function CookiePolicy() {
     ? [
         { label: 'Profilazione', value: 'Non attiva in questa demo.' },
         { label: 'Analytics', value: 'Non attivi in questa demo.' },
-        { label: 'Strumenti tecnici', value: 'Tema, lingua e chiusura avviso informativo.' },
+        { label: 'Strumenti tecnici', value: "Tema, lingua e chiusura dell'avviso informativo." },
       ]
     : [
         { label: 'Profiling', value: 'Not active in this demo.' },
@@ -32,7 +32,7 @@ export default function CookiePolicy() {
           list: [
             'transiberiana-theme: memorizza il tema chiaro o scuro scelto dall\'utente.',
             'lang: memorizza la lingua dell\'interfaccia selezionata dall\'utente.',
-            'transiberiana-cookie-notice-dismissed: memorizza la chiusura dell\'avviso informativo sulla policy.',
+            "transiberiana-cookie-notice-dismissed: memorizza la chiusura dell'avviso informativo sui cookie.",
           ],
         },
         {

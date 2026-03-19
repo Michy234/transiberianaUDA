@@ -810,7 +810,7 @@ export default function InfoUtili() {
                 <p className="rounded-2xl border border-primary/10 bg-card/80 px-4 py-3 text-sm leading-relaxed text-foreground/82">
                   {isItalian
                     ? 'Per richieste su accessibilità e assistenza, fai riferimento alle informazioni ufficiali pubblicate dal gestore: questa demo non offre un canale email dedicato.'
-                    : 'For accessibility and assistance requests, refer to the official information published by the operator: this demo does not provide a dedicated email channel.'}
+                    : 'For accessibility and assistance requests, refer to the official information provided by the operator: this demo does not provide a dedicated contact email address.'}
                 </p>
               </div>
             </SidePanel>

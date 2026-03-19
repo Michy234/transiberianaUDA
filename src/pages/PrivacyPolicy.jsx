@@ -10,7 +10,7 @@ export default function PrivacyPolicy() {
     ? [
         { label: 'Stato del sito', value: 'Demo scolastica non ufficiale pubblicata su Vercel.' },
         { label: 'Dati attivi', value: 'Preferenze tecniche locali, richieste meteo verso Open-Meteo e dati tecnici di navigazione.' },
-        { label: 'Moduli', value: 'Il form email presente nella home è disattivato e non deve essere usato.' },
+        { label: 'Moduli', value: 'Il modulo email presente nella home è disattivato e non deve essere usato.' },
       ]
     : [
         { label: 'Site status', value: 'Unofficial school demo published on Vercel.' },

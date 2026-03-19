@@ -86,7 +86,7 @@ const DEFAULT_TIMELINE = [
     popup: {
       title: 'Cantieri tra montagne e borghi',
       intro:
-        'Alla fine dell’Ottocento molti centri dell’Appennino centrale erano difficili da raggiungere e trasportare persone o merci richiedeva tempi lunghi e percorsi impervi.',
+        'Alla fine dell’Ottocento molti centri dell’Appennino centrale erano difficili da raggiungere e il trasporto di persone o merci richiedeva tempi lunghi e percorsi impervi.',
       paragraphs: [
         'Lo Stato italiano scelse quindi di costruire una ferrovia interna tra Sulmona e Isernia, indipendente dalle linee costiere e capace di collegare borghi come Palena, Rivisondoli e Pescocostanzo con un asse est-ovest stabile.',
         'Il progetto era molto complesso: bisognava mantenere pendenze accettabili, evitare curve troppo strette e restare vicini ai centri abitati, intervenendo con scavi, murature, ponti e viadotti su terreni spesso instabili.',
@@ -726,7 +726,7 @@ export default function Journey() {
                 </h2>
                 <p className="text-lg text-muted-foreground leading-relaxed max-w-[50ch]">
                   {isItalian
-                    ? 'Modulo dimostrativo non attivo. In questa versione non vengono raccolte email e non e possibile inviare richieste o prenotazioni.'
+                    ? 'Modulo dimostrativo non attivo. In questa versione non vengono raccolti indirizzi email e non è possibile inviare richieste o prenotazioni.'
                     : 'Demonstration form not active. This version does not collect emails and cannot be used to send requests or bookings.'}
                 </p>
               </div>
@@ -739,12 +739,12 @@ export default function Journey() {
                     </div>
                     <div>
                       <div className="font-semibold text-foreground">
-                        {isItalian ? 'Demo non conforme per raccolta contatti' : 'Demo not compliant for contact collection'}
+                        {isItalian ? 'Demo non conforme per la raccolta di contatti' : 'Demo not intended for contact collection'}
                       </div>
                       <p className="mt-1 text-muted-foreground">
                         {isItalian
-                          ? 'Per questa demo il modulo resta visibile solo come riferimento grafico, ma e disattivato e non deve essere usato.'
-                          : 'In this demo the form remains visible only as a visual reference, but it is disabled and must not be used.'}
+                          ? 'Per questa demo il modulo resta visibile solo come riferimento grafico, ma è disattivato e non deve essere usato.'
+                          : 'In this demo the form remains visible only as a visual placeholder, but it is disabled and must not be used.'}
                       </p>
                     </div>
                   </div>
@@ -773,7 +773,7 @@ export default function Journey() {
                 </button>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                   {isItalian
-                    ? 'Prima di un eventuale uso reale questa sezione dovra essere sostituita con un flusso conforme e con contatti ufficiali del titolare.'
+                    ? 'Prima di un eventuale uso reale questa sezione dovrà essere sostituita con un flusso conforme e con i contatti ufficiali del titolare.'
                     : 'Before any real use, this section must be replaced with a compliant flow and official controller contacts.'}
                 </p>
               </form>

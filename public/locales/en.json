@@ -4,13 +4,13 @@
     "storia": "History",
     "fermate": "Stops",
     "attivita": "Activities",
-    "info": "Useful Info",
+    "info": "Practical Info",
     "meteo": "Live Weather",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
     "aria": {
       "main": "Main navigation",
-      "homeLink": "Transiberiana d'Abruzzo - Back to home",
+      "homeLink": "Transiberiana d'Abruzzo - Return to the home page",
       "mobile": "Navigation menu"
     }
   },
@@ -37,7 +37,7 @@
       "nextSlide": "Next image"
     },
     "stats": {
-      "altitude": "Max altitude",
+      "altitude": "Maximum altitude",
       "weather": "Live weather",
       "stops": "Stops"
     },
@@ -84,7 +84,7 @@
       },
       {
         "year": "1897",
-        "title": "The line is inaugurated",
+        "title": "The line opens",
         "desc": "On September 18, 1897 the Transiberiana d'Abruzzo was inaugurated with a celebratory train, immediately becoming a crucial link for people, goods and mountain communities.",
         "popup": {
           "title": "The day the railway changed the mountains",
@@ -161,7 +161,7 @@
           "paragraphs": [
             "In October 2010 traffic stopped between Castel di Sangro and Carpinone; in December 2011 the last active section between Sulmona and Castel di Sangro was also closed.",
             "Up to that point the line was still used by local and interregional trains, in some cases classified as the Pescara-Napoli Espresso, with journeys of about five hours.",
-            "The closure caused strong disappointment among residents and railway enthusiasts, but it also sparked the mobilisation that later led to the tourist rebirth of the route."
+            "The closure caused strong disappointment among residents and railway enthusiasts, but it also sparked the mobilisation that later led to the route's revival as a tourist railway."
           ],
           "highlights": [
             "October 2010: stop on Castel di Sangro-Carpinone",
@@ -176,8 +176,8 @@
       },
       {
         "year": "2014",
-        "title": "Tourist rebirth",
-        "desc": "After the success of the first historic trains promoted by Le Rotaie, on May 17, 2014 the line was reborn as a tourist railway with Fondazione FS's 'Binari Senza Tempo' project.",
+        "title": "Tourist revival",
+        "desc": "After the success of the first historic train services promoted by Le Rotaie, on May 17, 2014 the line was revived as a tourist railway through Fondazione FS's 'Binari Senza Tempo' project.",
         "popup": {
           "title": "From grassroots rescue to the Railway of the Parks",
           "intro": "Immediately after the suspension, associations, enthusiasts and local communities recognised the extraordinary tourist potential of the line.",
@@ -204,7 +204,7 @@
         "name": "Sulmona",
         "alt": "328m",
         "type": "Departure",
-        "desc": "The city of sugared almonds and Ovid. Starting point of the historic itinerary."
+        "desc": "City of sugared almonds and Ovid, and the starting point of the historic route."
       },
       {
         "id": 2,
@@ -218,7 +218,7 @@
         "name": "Palena",
         "alt": "1.258m",
         "type": "Scenic stop",
-        "desc": "An isolated station in Quarto Santa Chiara, a realm of untamed nature."
+        "desc": "An isolated station in Quarto Santa Chiara, surrounded by wild, unspoiled nature."
       },
       {
         "id": 4,
@@ -232,7 +232,7 @@
         "name": "Castel di Sangro",
         "alt": "793m",
         "type": "Terminus",
-        "desc": "Town of water and fly fishing, a key hub of the upper Sangro Valley."
+        "desc": "Town of water and fly fishing, and a key center in the Upper Sangro Valley."
       }
     ],
     "stops": {
@@ -1134,7 +1134,7 @@
         "trainlineCode": "20737",
         "alt": "328m",
         "type": "Departure",
-        "desc": "The city of sugared almonds and Ovid. Starting point of the historic itinerary.",
+        "desc": "City of sugared almonds and Ovid, and the starting point of the historic route.",
         "photo": "/photos/fermate/sulmona-fermata.webp",
         "glow": "rgba(34, 197, 94, 0.35)"
       },
@@ -1156,7 +1156,7 @@
         "trainlineCode": "21371",
         "alt": "1.258m",
         "type": "Scenic stop",
-        "desc": "An isolated station in Quarto Santa Chiara, a realm of untamed nature.",
+        "desc": "An isolated station in Quarto Santa Chiara, surrounded by wild, unspoiled nature.",
         "photo": "/photos/fermate/palena.webp",
         "glow": "rgba(16, 185, 129, 0.32)"
       },
@@ -1178,7 +1178,7 @@
         "trainlineCode": "19856",
         "alt": "793m",
         "type": "Terminus",
-        "desc": "Town of water and fly fishing, a key hub of the upper Sangro Valley.",
+        "desc": "Town of water and fly fishing, and a key center in the Upper Sangro Valley.",
         "photo": "/photos/fermate/castel-di-sangro.webp",
         "glow": "rgba(14, 116, 144, 0.32)"
       }
@@ -2144,6 +2144,6 @@
     "badge": "Error 404",
     "title": "Page not found",
     "body": "The page you are looking for does not exist or has been moved. You can go back to the home page and continue the journey.",
-    "cta": "Back to home"
+    "cta": "Back home"
   }
 }

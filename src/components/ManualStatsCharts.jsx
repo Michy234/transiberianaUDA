@@ -97,15 +97,15 @@ export default function ManualStatsCharts({ tourismData, seasonalStats, isItalia
     <div className="grid md:grid-cols-2 gap-6">
       <div className="rounded-2xl border border-border/60 bg-background/70 p-5">
         <div className="text-sm font-semibold text-muted-foreground mb-3">
-          {isItalian ? 'Distribuzione turisti' : 'Tourists distribution'}
+          {isItalian ? 'Distribuzione dei turisti' : 'Tourists distribution'}
         </div>
         <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_220px] md:items-center">
           <div className="relative h-48">
-            <canvas ref={pieRef} role="img" aria-label={isItalian ? 'Distribuzione turisti per stagione' : 'Tourists distribution by season'} />
+            <canvas ref={pieRef} role="img" aria-label={isItalian ? 'Distribuzione dei turisti per stagione' : 'Tourists distribution by season'} />
           </div>
           <ul
             className="grid gap-2"
-            aria-label={isItalian ? 'Legenda distribuzione turisti' : 'Tourists distribution legend'}
+            aria-label={isItalian ? 'Legenda della distribuzione dei turisti' : 'Tourists distribution legend'}
           >
             {tourismLegend.map((item) => (
               <li
@@ -130,10 +130,10 @@ export default function ManualStatsCharts({ tourismData, seasonalStats, isItalia
       </div>
       <div className="rounded-2xl border border-border/60 bg-background/70 p-5">
         <div className="text-sm font-semibold text-muted-foreground mb-3">
-          {isItalian ? 'Andamento temperature' : 'Temperature trend'}
+          {isItalian ? 'Andamento delle temperature' : 'Temperature trend'}
         </div>
         <div className="relative h-40">
-          <canvas ref={lineRef} role="img" aria-label={isItalian ? 'Grafico stagionale temperature' : 'Seasonal temperature chart'} />
+          <canvas ref={lineRef} role="img" aria-label={isItalian ? 'Grafico stagionale delle temperature' : 'Seasonal temperature chart'} />
         </div>
       </div>
     </div>

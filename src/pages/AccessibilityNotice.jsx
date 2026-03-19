@@ -8,13 +8,13 @@ export default function AccessibilityNotice() {
 
   const meta = isItalian
     ? [
-        { label: 'Tipo documento', value: 'Avvertenza di accessibilità per demo, non dichiarazione formale di conformità.' },
+        { label: 'Tipo documento', value: 'Avvertenza di accessibilità per la demo, non dichiarazione formale di conformità.' },
         { label: 'Target attuale', value: 'Uso scolastico, esplorativo e dimostrativo.' },
         { label: 'Interventi già presenti', value: 'Focus visibile, navigazione da tastiera in molte aree, alternative testuali e supporto alla riduzione del movimento.' },
       ]
     : [
         { label: 'Document type', value: 'Accessibility notice for a demo, not a formal declaration of compliance.' },
-        { label: 'Current target', value: 'School, exploratory, and demonstrative use.' },
+        { label: 'Current use', value: 'For school, exploratory, and demonstration purposes.' },
         { label: 'Existing measures', value: 'Visible focus, keyboard navigation in many areas, text alternatives, and reduced-motion support.' },
       ];
 
@@ -42,7 +42,7 @@ export default function AccessibilityNotice() {
             'Non è ancora stato eseguito un audit WCAG completo pagina per pagina.',
             'Le scelte visive e animate del prototipo richiedono ancora test manuali più estesi con tastiera e tecnologie assistive.',
             'Questa versione non sostituisce una verifica formale prima di una pubblicazione istituzionale o commerciale.',
-            'Alcuni dialoghi e menu richiedono ancora rifinitura sul focus trap e sul ripristino del focus.',
+            'Alcuni dialoghi e menu richiedono ancora rifiniture nella gestione del focus trap e nel ripristino del focus.',
           ],
         },
         {
@@ -87,14 +87,14 @@ export default function AccessibilityNotice() {
             'Screen reader and keyboard testing across all routes.',
             'A formal accessibility declaration if the project becomes an official website or a service covered by specific obligations.',
           ],
-          note: 'As long as the project remains a school demo, this page works as an informational transparency notice.',
+          note: 'As long as the project remains a school demo, this page serves as an informational note for internal transparency.',
         },
       ];
 
   return (
     <LegalPageLayout
       badge={isItalian ? 'Accessibilità' : 'Accessibility'}
-      title={isItalian ? 'Accessibilità e avvertenze demo' : 'Accessibility and demo notice'}
+      title={isItalian ? 'Accessibilità e avvertenze demo' : 'Accessibility and demo information'}
       intro={
         isItalian
           ? 'Questa pagina descrive lo stato attuale dell\'accessibilità della demo e i passi necessari prima di una pubblicazione definitiva.'
