@@ -1,6 +1,6 @@
-import React, { useRef } from 'react';
-import { motion } from 'framer-motion';
-import { ArrowDown, ArrowRight, CloudRain, MapPin, Tree } from '@phosphor-icons/react';
+import React, { useEffect, useRef, useState } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
+import { ArrowDown, ArrowLeft, ArrowRight, CloudRain, MapPin, Tree } from '@phosphor-icons/react';
 import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
@@ -8,8 +8,49 @@ import Journey from './Journey';
 import { useI18n } from '../i18n/index.jsx';
 import ImageCredit from '../components/ImageCredit';
 import SectionErrorBoundary from '../components/SectionErrorBoundary';
+import homeSouvenirPhoto from '../assets/photohome/WhatsApp Image 2026-03-16 at 12.26.50 PM.jpeg';
+import homeSulmonaPhoto from '../assets/photohome/WhatsApp Image 2026-03-16 at 12.26.51 PM.jpeg';
+import homeTrainStopPhoto from '../assets/photohome/WhatsApp Image 2026-03-16 at 12.38.29 PM.jpeg';
 
 gsap.registerPlugin(ScrollToPlugin);
+
+const HERO_SLIDES = [
+  {
+    src: '/photos/storia/transiberiana.webp',
+    creditSrc: '/photos/storia/transiberiana.webp',
+    altKey: 'home.heroImageAlt',
+    altFallback: 'Treno storico che attraversa un viadotto immerso nella vegetazione delle montagne abruzzesi',
+    labelKey: 'home.hero.slideLabelViaduct',
+    labelFallback: 'Viadotto storico',
+    objectPosition: 'center center',
+  },
+  {
+    src: homeTrainStopPhoto,
+    altKey: 'home.heroImageAltStation',
+    altFallback: 'Passeggeri accanto al treno storico fermo nella stazione di Campo di Giove',
+    labelKey: 'home.hero.slideLabelStation',
+    labelFallback: 'Campo di Giove',
+    objectPosition: 'center center',
+  },
+  {
+    src: homeSulmonaPhoto,
+    altKey: 'home.heroImageAltSulmona',
+    altFallback: 'Statua monumentale e campanili nel centro storico di Sulmona sotto un cielo limpido',
+    labelKey: 'home.hero.slideLabelSulmona',
+    labelFallback: 'Sulmona',
+    objectPosition: 'center 32%',
+  },
+  {
+    src: homeSouvenirPhoto,
+    altKey: 'home.heroImageAltSouvenir',
+    altFallback: "Souvenir artigianali colorati esposti su un banco di legno lungo il percorso della Transiberiana d'Abruzzo",
+    labelKey: 'home.hero.slideLabelSouvenir',
+    labelFallback: 'Artigianato locale',
+    objectPosition: 'center center',
+  },
+];
+
+const HERO_SLIDE_INTERVAL = 15000;
 
 function getNavOffset() {
   if (typeof window === 'undefined') return 0;
@@ -17,21 +58,107 @@ function getNavOffset() {
   return nav ? nav.offsetHeight + 8 : 0;
 }
 
-function prefersReducedMotion() {
-  return typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-}
-
 export default function Home() {
   const journeyRef = useRef(null);
+  const heroFrameRef = useRef(null);
+  const slideImageRefs = useRef([]);
+  const [activeSlideIndex, setActiveSlideIndex] = useState(0);
   const { t, lang } = useI18n();
+  const reducedMotion = useReducedMotion();
   const isItalian = lang === 'it';
+  const heroSlides = HERO_SLIDES.map((slide) => ({
+    ...slide,
+    alt: t(slide.altKey, slide.altFallback),
+  }));
+
+  useEffect(() => {
+    if (heroSlides.length <= 1) return undefined;
+
+    const intervalId = window.setInterval(() => {
+      setActiveSlideIndex((currentIndex) => (currentIndex + 1) % heroSlides.length);
+    }, HERO_SLIDE_INTERVAL);
+
+    return () => window.clearInterval(intervalId);
+  }, [heroSlides.length]);
+
+  useEffect(() => {
+    slideImageRefs.current.forEach((image) => {
+      if (image) {
+        gsap.set(image, { x: 0, y: 0 });
+      }
+    });
+
+    if (heroFrameRef.current) {
+      gsap.set(heroFrameRef.current, { scale: 1, rotateX: 0, rotateY: 0 });
+    }
+  }, [activeSlideIndex]);
+
+  const handleSlideChange = (direction) => {
+    setActiveSlideIndex((currentIndex) => {
+      const nextIndex = currentIndex + direction;
+      return (nextIndex + heroSlides.length) % heroSlides.length;
+    });
+  };
+
+  const handleHeroMove = (event) => {
+    if (reducedMotion) return;
+
+    const frame = heroFrameRef.current;
+    const activeImage = slideImageRefs.current[activeSlideIndex];
+    if (!frame || !activeImage) return;
+
+    const rect = frame.getBoundingClientRect();
+    const xProgress = (event.clientX - rect.left) / rect.width - 0.5;
+    const yProgress = (event.clientY - rect.top) / rect.height - 0.5;
+
+    gsap.to(frame, {
+      scale: 1,
+      rotateY: xProgress * 5,
+      rotateX: -yProgress * 5,
+      duration: 0.35,
+      ease: 'power3.out',
+      transformPerspective: 900,
+      transformOrigin: 'center center',
+    });
+
+    gsap.to(activeImage, {
+      x: xProgress * 18,
+      y: yProgress * 14,
+      duration: 0.5,
+      ease: 'power3.out',
+    });
+  };
+
+  const resetHeroMotion = () => {
+    const frame = heroFrameRef.current;
+    const activeImage = slideImageRefs.current[activeSlideIndex];
+
+    if (frame) {
+      gsap.to(frame, {
+        scale: 1,
+        rotateX: 0,
+        rotateY: 0,
+        duration: 0.45,
+        ease: 'power3.out',
+      });
+    }
+
+    if (activeImage) {
+      gsap.to(activeImage, {
+        x: 0,
+        y: 0,
+        duration: 0.6,
+        ease: 'power3.out',
+      });
+    }
+  };
 
   const handleStartJourney = () => {
     const target = journeyRef.current;
     if (!target || typeof window === 'undefined') return;
 
     const offset = getNavOffset();
-    if (prefersReducedMotion()) {
+    if (reducedMotion) {
       const top = target.getBoundingClientRect().top + window.scrollY - offset;
       window.scrollTo({ top, behavior: 'auto' });
       return;
@@ -132,25 +259,68 @@ export default function Home() {
         </div>
 
         {/* Right Image (45%) with overlap */}
-        <div className="w-full lg:w-[45%] min-h-[64vh] sm:min-h-[52vh] lg:min-h-0 relative px-4 sm:px-6 lg:px-8 pt-2 pb-0 sm:pt-3 sm:pb-0 md:py-6 lg:py-8 flex items-center justify-center order-1 lg:order-2">
+        <div className="w-full lg:w-[45%] min-h-[64vh] sm:min-h-[52vh] lg:min-h-0 relative px-4 sm:px-6 lg:px-8 pt-24 sm:pt-28 md:pt-32 lg:pt-28 pb-2 sm:pb-4 md:pb-6 lg:pb-8 flex items-center justify-center order-1 lg:order-2">
           <motion.div 
+            ref={heroFrameRef}
+            onMouseMove={handleHeroMove}
+            onMouseLeave={resetHeroMotion}
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
-            className="w-full h-full max-w-[560px] lg:max-w-none relative rounded-3xl overflow-hidden shadow-[var(--shadow-elevated)] lg:-ml-12"
+            className="group w-full h-[clamp(500px,66vh,840px)] sm:h-[clamp(580px,70vh,900px)] lg:h-[min(82vh,880px)] max-w-[620px] lg:max-w-[720px] xl:max-w-[800px] 2xl:max-w-[860px] relative rounded-3xl overflow-hidden shadow-[var(--shadow-elevated)] lg:-ml-8"
           >
-            <img 
-              src="/photos/storia/transiberiana.webp" 
-              alt={t(
-                'home.heroImageAlt',
-                'Treno storico che attraversa un viadotto immerso nella vegetazione delle montagne abruzzesi',
-              )} 
-              className="object-cover w-full h-full"
-              loading="eager"
-            />
+            <div className="absolute inset-0">
+              {heroSlides.map((slide, index) => {
+                const isActive = index === activeSlideIndex;
+                return (
+                  <motion.img
+                    key={slide.src}
+                    ref={(node) => {
+                      slideImageRefs.current[index] = node;
+                    }}
+                    src={slide.src}
+                    alt={isActive ? slide.alt : ''}
+                    aria-hidden={!isActive}
+                    className="absolute inset-0 h-full w-full object-cover"
+                    style={{ objectPosition: slide.objectPosition }}
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                    animate={{
+                      opacity: isActive ? 1 : 0,
+                      scale: isActive ? 1 : 1.06,
+                    }}
+                    transition={
+                      reducedMotion
+                        ? { duration: 0 }
+                        : {
+                            opacity: { duration: 1.1, ease: [0.22, 1, 0.36, 1] },
+                            scale: { duration: HERO_SLIDE_INTERVAL / 1000, ease: 'linear' },
+                          }
+                    }
+                  />
+                );
+              })}
+            </div>
+            <div className="absolute inset-y-0 left-4 right-4 z-20 flex items-center justify-between pointer-events-none">
+              <button
+                type="button"
+                onClick={() => handleSlideChange(-1)}
+                className="pointer-events-auto inline-flex h-11 w-11 items-center justify-center rounded-full bg-black/35 text-white/90 opacity-100 backdrop-blur-sm transition-all duration-300 hover:bg-black/50 hover:text-white focus-visible:ring-2 focus-visible:ring-white/80 md:translate-x-[-8px] md:opacity-0 md:group-hover:translate-x-0 md:group-hover:opacity-100"
+                aria-label={t('home.hero.previousSlide', 'Immagine precedente')}
+              >
+                <ArrowLeft size={18} weight="bold" />
+              </button>
+              <button
+                type="button"
+                onClick={() => handleSlideChange(1)}
+                className="pointer-events-auto inline-flex h-11 w-11 items-center justify-center rounded-full bg-black/35 text-white/90 opacity-100 backdrop-blur-sm transition-all duration-300 hover:bg-black/50 hover:text-white focus-visible:ring-2 focus-visible:ring-white/80 md:translate-x-[8px] md:opacity-0 md:group-hover:translate-x-0 md:group-hover:opacity-100"
+                aria-label={t('home.hero.nextSlide', 'Immagine successiva')}
+              >
+                <ArrowRight size={18} weight="bold" />
+              </button>
+            </div>
             <ImageCredit
-              src="/photos/storia/transiberiana.webp"
-              className="absolute top-4 right-4 rounded-full bg-black/45 px-3 py-1 text-[10px] text-white/90"
+              src={heroSlides[activeSlideIndex]?.creditSrc || heroSlides[activeSlideIndex]?.src}
+              className="absolute top-4 right-4 z-20 rounded-full bg-black/45 px-3 py-1 text-[10px] text-white/90"
               linkClassName="text-white/90 hover:text-white"
             />
 
