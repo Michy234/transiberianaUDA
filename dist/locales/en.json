@@ -2115,11 +2115,13 @@
       "metrics": {
         "temperature": "Temperature (°C)",
         "humidity": "Humidity (%)",
+        "soilHumidity": "Soil humidity (%)",
         "airQuality": "Air quality (AQI)",
         "co2": "CO2 (ppm)",
         "ammonia": "NH3 (µg/m³)"
       },
       "periods": {
+        "2h": "2 hours",
         "24h": "24 hours",
         "7d": "7 days",
         "30d": "30 days"
