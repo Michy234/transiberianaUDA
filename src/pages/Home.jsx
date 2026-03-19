@@ -8,11 +8,21 @@ import Journey from './Journey';
 import { useI18n } from '../i18n/index.jsx';
 import ImageCredit from '../components/ImageCredit';
 import SectionErrorBoundary from '../components/SectionErrorBoundary';
-import homeSouvenirPhoto from '../assets/photohome/WhatsApp Image 2026-03-16 at 12.26.50 PM.jpeg';
-import homeSulmonaPhoto from '../assets/photohome/WhatsApp Image 2026-03-16 at 12.26.51 PM.jpeg';
-import homeTrainStopPhoto from '../assets/photohome/WhatsApp Image 2026-03-16 at 12.38.29 PM.jpeg';
 
 gsap.registerPlugin(ScrollToPlugin);
+
+const homePhotoModules = import.meta.glob('../assets/photohome/*.{png,jpg,jpeg,webp,avif}', {
+  eager: true,
+  import: 'default',
+});
+
+const homePhotoSlides = Object.entries(homePhotoModules)
+  .sort(([leftPath], [rightPath]) => leftPath.localeCompare(rightPath, undefined, { numeric: true, sensitivity: 'base' }))
+  .map(([, src]) => ({
+    src,
+    creditSrc: src,
+    objectPosition: 'center center',
+  }));
 
 const HERO_SLIDES = [
   {
@@ -20,34 +30,9 @@ const HERO_SLIDES = [
     creditSrc: '/photos/storia/transiberiana.webp',
     altKey: 'home.heroImageAlt',
     altFallback: 'Treno storico che attraversa un viadotto immerso nella vegetazione delle montagne abruzzesi',
-    labelKey: 'home.hero.slideLabelViaduct',
-    labelFallback: 'Viadotto storico',
     objectPosition: 'center center',
   },
-  {
-    src: homeTrainStopPhoto,
-    altKey: 'home.heroImageAltStation',
-    altFallback: 'Passeggeri accanto al treno storico fermo nella stazione di Campo di Giove',
-    labelKey: 'home.hero.slideLabelStation',
-    labelFallback: 'Campo di Giove',
-    objectPosition: 'center center',
-  },
-  {
-    src: homeSulmonaPhoto,
-    altKey: 'home.heroImageAltSulmona',
-    altFallback: 'Statua monumentale e campanili nel centro storico di Sulmona sotto un cielo limpido',
-    labelKey: 'home.hero.slideLabelSulmona',
-    labelFallback: 'Sulmona',
-    objectPosition: 'center 32%',
-  },
-  {
-    src: homeSouvenirPhoto,
-    altKey: 'home.heroImageAltSouvenir',
-    altFallback: "Souvenir artigianali colorati esposti su un banco di legno lungo il percorso della Transiberiana d'Abruzzo",
-    labelKey: 'home.hero.slideLabelSouvenir',
-    labelFallback: 'Artigianato locale',
-    objectPosition: 'center center',
-  },
+  ...homePhotoSlides,
 ];
 
 const HERO_SLIDE_INTERVAL = 15000;
@@ -66,9 +51,16 @@ export default function Home() {
   const { t, lang } = useI18n();
   const reducedMotion = useReducedMotion();
   const isItalian = lang === 'it';
-  const heroSlides = HERO_SLIDES.map((slide) => ({
+  const heroSlides = HERO_SLIDES.map((slide, index) => ({
     ...slide,
-    alt: t(slide.altKey, slide.altFallback),
+    alt: slide.altKey
+      ? t(slide.altKey, slide.altFallback)
+      : t(
+          'home.heroImageAltGeneric',
+          isItalian
+            ? `Fotografia ${index} della Transiberiana d'Abruzzo`
+            : `Transiberiana d'Abruzzo photo ${index}`,
+        ),
   }));
 
   useEffect(() => {
