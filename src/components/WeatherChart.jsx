@@ -37,6 +37,7 @@ export default function WeatherChart({
   hideCitySelector = false,
   compact = false,
   hideStats = false,
+  minTimeWindowHours = null,
 }) {
   const { lang, t } = useI18n();
   const canvasRef = useRef(null);
@@ -73,6 +74,7 @@ export default function WeatherChart({
     () => [
       { value: 'temperature', label: t('meteo.chart.metrics.temperature', 'Temperatura (°C)'), color: '#e63946' },
       { value: 'humidity', label: t('meteo.chart.metrics.humidity', 'Umidità (%)'), color: '#457b9d' },
+      { value: 'soilHumidity', label: t('meteo.chart.metrics.soilHumidity', 'Umidità terreno (%)'), color: '#0ea5e9' },
       { value: 'airQuality', label: t('meteo.chart.metrics.airQuality', "Qualità dell'aria (AQI)"), color: '#2a9d8f' },
       { value: 'co2', label: t('meteo.chart.metrics.co2', 'CO2 (ppm)'), color: '#8f4ae0' },
       { value: 'ammonia', label: t('meteo.chart.metrics.ammonia', 'NH3 (µg/m³)'), color: '#f59e0b' },
@@ -82,6 +84,7 @@ export default function WeatherChart({
 
   const periodOptions = useMemo(
     () => [
+      { value: '2h', label: t('meteo.chart.periods.2h', '2 ore') },
       { value: '24h', label: t('meteo.chart.periods.24h', '24 ore') },
       { value: '7d', label: t('meteo.chart.periods.7d', '7 giorni') },
       { value: '30d', label: t('meteo.chart.periods.30d', '30 giorni') },
@@ -91,14 +94,16 @@ export default function WeatherChart({
 
   const stats = useMemo(() => {
     if (!chartData?.length) return null;
+    const includeArduinoInAll = selectedMetric === 'soilHumidity';
     const scopedData =
       selectedCity === 'all'
-        ? chartData.filter((cityData) => cityData.key !== ARDUINO_KEY)
+        ? chartData.filter((cityData) => cityData.key !== ARDUINO_KEY || includeArduinoInAll)
         : chartData.filter((cityData) => cityData.key === selectedCity);
 
     const metricBins = {
       temperature: (v) => Math.round(v * 10) / 10,
       humidity: (v) => Math.round(v),
+      soilHumidity: (v) => Math.round(v),
       airQuality: (v) => Math.round(v),
       co2: (v) => Math.round(v),
       ammonia: (v) => Math.round(v * 10) / 10,
@@ -170,6 +175,8 @@ export default function WeatherChart({
         return `${value.toFixed(1)}°C`;
       case 'humidity':
         return `${Math.round(value)}%`;
+      case 'soilHumidity':
+        return `${Math.round(value)}%`;
       case 'airQuality':
         return `${Math.round(value)} AQI`;
       case 'co2':
@@ -187,7 +194,9 @@ export default function WeatherChart({
     try {
       const now = new Date();
       const since = new Date(
-        selectedPeriod === '24h'
+        selectedPeriod === '2h'
+          ? now.getTime() - 2 * 60 * 60 * 1000
+          : selectedPeriod === '24h'
           ? now.getTime() - 24 * 60 * 60 * 1000
           : selectedPeriod === '7d'
             ? now.getTime() - 7 * 24 * 60 * 60 * 1000
@@ -211,6 +220,7 @@ export default function WeatherChart({
             times: rows.map((row) => row.created_at),
             temperature: rows.map((row) => row.temp),
             humidity: rows.map((row) => row.humidity),
+            soilHumidity: rows.map((row) => row.soil_moisture ?? row.humidity ?? null),
             airQuality: rows.map((row) => row.air_quality),
             co2: rows.map((row) => row.co2),
             ammonia: rows.map((row) => row.nh4),
@@ -241,9 +251,10 @@ export default function WeatherChart({
 
     const ctx = canvasRef.current.getContext('2d');
     const datasets = [];
+    const showArduinoInAll = selectedMetric === 'soilHumidity';
 
     chartData.forEach((cityData) => {
-      if (selectedCity === 'all' && cityData.key === ARDUINO_KEY) return;
+      if (selectedCity === 'all' && cityData.key === ARDUINO_KEY && !showArduinoInAll) return;
       if (selectedCity !== 'all' && cityData.key !== selectedCity) return;
       const cityColor = CITY_COLORS[cityData.key];
       
@@ -297,6 +308,16 @@ export default function WeatherChart({
       });
     });
 
+    const useMinWindow =
+      Number.isFinite(minTimeWindowHours) &&
+      minTimeWindowHours > 0 &&
+      (selectedCity === ARDUINO_KEY ||
+        (Array.isArray(allowedCities) && allowedCities.length === 1 && allowedCities[0] === ARDUINO_KEY));
+    const now = new Date();
+    const minWindowStart = useMinWindow
+      ? new Date(now.getTime() - minTimeWindowHours * 60 * 60 * 1000)
+      : null;
+
     chartRef.current = new Chart(ctx, {
       type: 'line',
       data: { datasets },
@@ -331,7 +352,7 @@ export default function WeatherChart({
                 const x = items?.[0]?.parsed?.x;
                 if (x === null || x === undefined) return '';
                 const date = new Date(x);
-                return selectedPeriod === '24h'
+                return selectedPeriod === '24h' || selectedPeriod === '2h'
                   ? format(date, 'HH:mm', { locale: dateLocale })
                   : format(date, 'dd MMM', { locale: dateLocale });
               },
@@ -346,9 +367,11 @@ export default function WeatherChart({
         scales: {
           x: {
             type: 'time',
+            min: minWindowStart,
+            max: useMinWindow ? now : undefined,
             time: {
-              unit: selectedPeriod === '24h' ? 'hour' : 'day',
-              tooltipFormat: selectedPeriod === '24h' ? 'HH:mm' : 'dd MMM',
+              unit: selectedPeriod === '7d' || selectedPeriod === '30d' ? 'day' : 'hour',
+              tooltipFormat: selectedPeriod === '24h' || selectedPeriod === '2h' ? 'HH:mm' : 'dd MMM',
               displayFormats: {
                 hour: 'HH:mm',
                 day: 'dd MMM'
@@ -370,7 +393,16 @@ export default function WeatherChart({
         chartRef.current.destroy();
       }
     };
-  }, [chartData, dateLocale, metricOptions, selectedMetric, selectedPeriod, selectedCity]);
+  }, [
+    allowedCities,
+    chartData,
+    dateLocale,
+    metricOptions,
+    minTimeWindowHours,
+    selectedMetric,
+    selectedPeriod,
+    selectedCity,
+  ]);
 
   return (
     <div className="w-full">

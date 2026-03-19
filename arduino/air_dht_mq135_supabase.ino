@@ -2,11 +2,18 @@
 #include <HTTPClient.h>
 #include <DHT.h>
 #include <MQUnifiedsensor.h>
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
 
 // ── Configurazione ──────────────────────────────────────────
-#define DHT_PIN     4
+#define DHT_PIN     14
 #define DHT_TYPE    DHT11
 #define MQ_PIN      35
+#define SOIL_PIN    34
+
+#define SCREEN_SDA  21
+#define SCREEN_SCL  22
+
 
 #define Board                   ("ESP-32")
 #define Pin                     (35) // GPIO 34 (Analogico ADC1)
@@ -24,22 +31,33 @@ const char* SUPA_KEY   = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhY
 // ────────────────────────────────────────────────────────────
 
 DHT dht(DHT_PIN, DHT_TYPE);
+LiquidCrystal_I2C lcd(0x27, 16, 2); 
 
 void setup() {
   Serial.begin(115200);
   dht.begin();
   MQ135.setRegressionMethod(1); 
-  MQ135.init(); 
+  MQ135.init();
+  Wire.begin(SCREEN_SDA, SCREEN_SCL); 
+  lcd.init(); 
+  lcd.backlight();
 
   Serial.print("Riscaldamento e calibrazione...");
+  lcd.setCursor(0, 0);
+  lcd.print("Calibrazione");
   float calcR0 = 0;
   for(int i = 1; i<=10; i ++) {
     MQ135.update(); 
     calcR0 += MQ135.calibrate(RatioMQ135CleanAir);
     delay(100);
+    lcd.setCursor(6, 1);
+    lcd.print("%");
   }
   MQ135.setR0(calcR0/10);
   Serial.println(" Pronto!");
+  lcd.setCursor(0, 1);
+  lcd.print("Finita !!!");
+
 
   WiFi.begin(ssid, password);
   Serial.print("Connessione WiFi");
@@ -48,6 +66,11 @@ void setup() {
     Serial.print(".");
   }
   Serial.println(" OK — IP: " + WiFi.localIP().toString());
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Pronto");
+  delay(500);
+  lcd.clear();
 }
 
 void loop() {
@@ -55,7 +78,10 @@ void loop() {
   float temp     = dht.readTemperature();
   float humidity = dht.readHumidity();
   int   airRaw   = analogRead(MQ_PIN);
-  int airMap = map(35, 0, 1023, 0, 100);
+  int airMap = map(airRaw, 0, 4095, 0, 100);
+  int soilRaw = analogRead(SOIL_PIN);
+  int soilMoisture = map(soilRaw, 4095, 0, 0, 100);
+  soilMoisture = constrain(soilMoisture, 0, 100);
 
   // Stima CO2
   MQ135.setA(110.47); MQ135.setB(-2.862); 
@@ -74,12 +100,35 @@ void loop() {
 
   if (isnan(temp) || isnan(humidity)) {
     Serial.println("Errore DHT11, riprovo...");
-    delay(5000);
-    return;
+    delay(200);
   }
 
-  Serial.printf("T=%.1f°C  H=%.1f%%  CO2=%.2f  NH4=%.2f  Toluene=%.2f\n",
-               temp, humidity, CO2, NH4, Toluene);
+  Serial.printf("T=%.1f°C  H=%.1f%%  CO2=%.2f  NH4=%.2f  Toluene=%.2f SoilMoisture=%d\n",
+               temp, humidity, CO2, NH4, Toluene, soilMoisture);
+
+  lcd.clear();
+  lcd.setCursor(0, 0); 
+  lcd.print("TEMP: ");
+  lcd.setCursor(6, 0);
+  lcd.print(temp);
+  lcd.setCursor(10, 0);
+  lcd.print((char)223);
+  lcd.setCursor(11, 0);
+  lcd.print("C");
+
+  lcd.setCursor(0, 1); 
+  lcd.print("RH: ");
+  lcd.setCursor(4, 1);
+  lcd.print(humidity);
+  lcd.setCursor(6, 1);
+  lcd.print("%");
+
+  lcd.setCursor(7, 1); 
+  lcd.print(" GAS: ");
+  lcd.setCursor(13, 1);
+  lcd.print(airMap);
+  lcd.setCursor(15, 1);
+  lcd.print("%");
 
   if (WiFi.status() == WL_CONNECTED) {
     HTTPClient http;
@@ -94,12 +143,13 @@ void loop() {
                   ",\"air_quality\":" + String(airMap) +
                   ",\"co2\":"         + String(CO2, 2) +
                   ",\"nh4\":"         + String(NH4, 2) +
-                  ",\"toluene\":"     + String(Toluene, 2) + "}";
+                  ",\"toluene\":"     + String(Toluene, 2) + 
+                  ",\"soil_moisture\":"+ String(soilMoisture) + "}";
 
     int code = http.POST(body);
     Serial.println(code == 201 ? "✓ Inviato" : "✗ Errore HTTP " + String(code));
     http.end();
-  }
+}
 
-  delay(30000);  // ogni 30 secondi
+  delay(5000);  // ogni 30 secondi
 }

@@ -463,6 +463,7 @@ export default function Meteo() {
                           <th className="py-2 pr-4">{isItalian ? 'Ora' : 'Time'}</th>
                           <th className="py-2 pr-4">{isItalian ? 'Temp (C)' : 'Temp (C)'}</th>
                           <th className="py-2 pr-4">{isItalian ? 'Umidita' : 'Humidity'}</th>
+                          <th className="py-2 pr-4">{isItalian ? 'Umidita terreno' : 'Soil humidity'}</th>
                           <th className="py-2 pr-4">{isItalian ? 'AQ' : 'AQ'}</th>
                           <th className="py-2 pr-4">CO2</th>
                           <th className="py-2 pr-4">NH4</th>
@@ -472,7 +473,7 @@ export default function Meteo() {
                       <tbody className="text-foreground">
                         {arduinoRows.length === 0 && !arduinoLoading ? (
                           <tr>
-                            <td className="py-4 text-muted-foreground" colSpan={7}>
+                            <td className="py-4 text-muted-foreground" colSpan={8}>
                               {isItalian ? 'Nessun dato disponibile.' : 'No data available.'}
                             </td>
                           </tr>
@@ -482,6 +483,7 @@ export default function Meteo() {
                               <td className="py-2 pr-4">{formatTimestamp(row.created_at)}</td>
                               <td className="py-2 pr-4">{row.temp ?? '—'}</td>
                               <td className="py-2 pr-4">{row.humidity ?? '—'}</td>
+                              <td className="py-2 pr-4">{row.soil_moisture ?? '—'}</td>
                               <td className="py-2 pr-4">{row.air_quality ?? '—'}</td>
                               <td className="py-2 pr-4">{row.co2 ?? '—'}</td>
                               <td className="py-2 pr-4">{row.nh4 ?? '—'}</td>
@@ -688,6 +690,7 @@ export default function Meteo() {
                     hideCitySelector
                     compact
                     hideStats
+                    minTimeWindowHours={2}
                   />
                 </div>
               </div>
