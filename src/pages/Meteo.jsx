@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CloudRain, Wind, Thermometer, MapPin, Leaf, CloudSun, Sun, Cloud, Snowflake, Cpu } from '@phosphor-icons/react';
+import { CloudRain, Wind, Thermometer, MapPin, Leaf, CloudSun, Sun, Cloud, Snowflake } from '@phosphor-icons/react';
 import { useTheme } from '../components/ThemeContext';
 import WeatherChart from '../components/WeatherChart';
 import { fetchCurrentConditions, STATIONS } from '../api/openmeteo';
@@ -275,7 +275,6 @@ export default function Meteo() {
   const [weatherData, setWeatherData] = useState({});
   const [state, setState] = useState(STATES.LOADING);
   const [showExtraStats, setShowExtraStats] = useState(false);
-  const [showArduino, setShowArduino] = useState(false);
   const [showArduinoDebug, setShowArduinoDebug] = useState(false);
   const [arduinoRows, setArduinoRows] = useState([]);
   const [arduinoLoading, setArduinoLoading] = useState(false);
@@ -426,50 +425,7 @@ export default function Meteo() {
                   ? (isItalian ? 'Nascondi statistiche manuali' : 'Hide manual stats')
                   : (isItalian ? 'Mostra statistiche manuali' : 'Show manual stats')}
               </button>
-              <button
-                type="button"
-                onClick={() => setShowArduino((prev) => !prev)}
-                className="inline-flex items-center justify-center gap-2 rounded-2xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-elevated)] transition-all duration-300 hover:translate-y-[-1px] hover:shadow-[0_18px_48px_-26px_rgba(0,0,0,0.35)] focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-background"
-              >
-                <Cpu size={16} weight="fill" />
-                {showArduino
-                  ? (isItalian ? 'Nascondi grafico Arduino' : 'Hide Arduino chart')
-                  : (isItalian ? 'Apri grafico Arduino' : 'Open Arduino chart')}
-              </button>
             </div>
-
-            {showArduino && (
-              <motion.section
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.08, type: 'spring', stiffness: 120, damping: 20 }}
-                className="mb-8"
-              >
-                <div className="bg-card rounded-3xl p-6 md:p-8 shadow-[var(--shadow-card)] border border-border/30">
-                  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-                    <div>
-                      <h2 className="font-serif text-2xl md:text-3xl font-bold text-foreground">
-                        {isItalian ? 'Andamento Arduino' : 'Arduino trends'}
-                      </h2>
-                      <p className="text-sm text-muted-foreground">
-                        {isItalian
-                          ? 'Grafico dedicato alle letture Arduino dal database Supabase.'
-                          : 'Dedicated chart for Arduino readings from Supabase.'}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="relative">
-                    <WeatherChart
-                      defaultCity="arduino"
-                      allowedCities={['arduino']}
-                      hideCitySelector
-                      compact
-                      hideStats
-                    />
-                  </div>
-                </div>
-              </motion.section>
-            )}
 
             {showArduinoDebug && (
               <motion.section
@@ -705,6 +661,37 @@ export default function Meteo() {
                 </div>
               </div>
             </motion.div>
+
+            <motion.section
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.58, type: 'spring', stiffness: 120, damping: 20 }}
+              className="mt-8"
+            >
+              <div className="bg-card rounded-3xl p-6 md:p-8 shadow-[var(--shadow-card)] border border-border/30">
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+                  <div>
+                    <h2 className="font-serif text-2xl md:text-3xl font-bold text-foreground">
+                      {isItalian ? 'Andamento Arduino' : 'Arduino trends'}
+                    </h2>
+                    <p className="text-sm text-muted-foreground">
+                      {isItalian
+                        ? 'Grafico dedicato alle letture Arduino dal database Supabase.'
+                        : 'Dedicated chart for Arduino readings from Supabase.'}
+                    </p>
+                  </div>
+                </div>
+                <div className="relative">
+                  <WeatherChart
+                    defaultCity="arduino"
+                    allowedCities={['arduino']}
+                    hideCitySelector
+                    compact
+                    hideStats
+                  />
+                </div>
+              </div>
+            </motion.section>
           </motion.div>
         )}
       </AnimatePresence>
