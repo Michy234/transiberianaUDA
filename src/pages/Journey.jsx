@@ -404,19 +404,21 @@ function TimelineItem({
         whileInView={imageMotion.whileInView}
         viewport={{ once: true, margin: "-100px" }}
         transition={imageMotion.transition}
-        className="w-full md:w-5/12 aspect-[4/3] rounded-3xl bg-secondary overflow-hidden shadow-[var(--shadow-card)] relative"
+        className="relative w-full aspect-[4/3] rounded-3xl bg-secondary shadow-[var(--shadow-card)] md:w-5/12"
       >
-         <img 
-           src={image}
-           alt={imageAlt || `${title} - ${year}`} 
-           className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-           loading="lazy"
-         />
-         <ImageCredit
-           src={image}
-           className="absolute bottom-3 right-3 rounded-full bg-black/45 px-3 py-1 text-[10px] text-white/90"
-           linkClassName="text-white/90 hover:text-white"
-         />
+        <div className="rounded-media-frame relative h-full w-full" style={{ '--media-radius': '1.5rem' }}>
+          <img 
+            src={image}
+            alt={imageAlt || `${title} - ${year}`} 
+            className="rounded-media-content h-full w-full object-cover hover:scale-105 transition-transform duration-700"
+            loading="lazy"
+          />
+          <ImageCredit
+            src={image}
+            className="absolute bottom-3 right-3 rounded-full bg-black/45 px-3 py-1 text-[10px] text-white/90"
+            linkClassName="text-white/90 hover:text-white"
+          />
+        </div>
       </motion.div>
     </div>
   );
@@ -661,26 +663,28 @@ export default function Journey() {
 
                 {station.photo ? (
                   <div className="relative">
-                    <div className="relative aspect-[4/3] overflow-hidden rounded-[1.75rem] border border-border/50 bg-secondary/60 shadow-[var(--shadow-card)]">
-                      <img
-                        src={station.photo}
-                        alt={isItalian ? `Veduta di ${station.name}` : `View of ${station.name}`}
-                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                        style={{ objectPosition: station.photoPosition || 'center center' }}
-                        loading="lazy"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-background/50 via-transparent to-transparent" aria-hidden="true" />
-                      <div className="absolute bottom-4 left-4">
-                        <div className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-black/22 px-3 py-1.5 text-[13px] font-medium text-white/88 shadow-[var(--shadow-subtle)] backdrop-blur-sm">
-                          <span className="h-2 w-2 rounded-full bg-primary/85" aria-hidden="true" />
-                          {station.type} · {station.alt}
+                    <div className="relative aspect-[4/3] rounded-[1.75rem] border border-border/50 bg-secondary/60 shadow-[var(--shadow-card)]">
+                      <div className="rounded-media-frame relative h-full w-full" style={{ '--media-radius': '1.75rem' }}>
+                        <img
+                          src={station.photo}
+                          alt={isItalian ? `Veduta di ${station.name}` : `View of ${station.name}`}
+                          className="rounded-media-content h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          style={{ objectPosition: station.photoPosition || 'center center' }}
+                          loading="lazy"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-background/50 via-transparent to-transparent" aria-hidden="true" />
+                        <div className="absolute bottom-4 left-4">
+                          <div className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-black/22 px-3 py-1.5 text-[13px] font-medium text-white/88 shadow-[var(--shadow-subtle)] backdrop-blur-sm">
+                            <span className="h-2 w-2 rounded-full bg-primary/85" aria-hidden="true" />
+                            {station.type} · {station.alt}
+                          </div>
                         </div>
+                        <ImageCredit
+                          src={station.photo}
+                          className="absolute right-3 top-3 rounded-full bg-black/45 px-3 py-1 text-[10px] text-white/90 backdrop-blur-sm"
+                          linkClassName="text-white/90 hover:text-white"
+                        />
                       </div>
-                      <ImageCredit
-                        src={station.photo}
-                        className="absolute right-3 top-3 rounded-full bg-black/45 px-3 py-1 text-[10px] text-white/90 backdrop-blur-sm"
-                        linkClassName="text-white/90 hover:text-white"
-                      />
                     </div>
                   </div>
                 ) : null}

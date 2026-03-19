@@ -269,7 +269,7 @@ export default function Home() {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
             className="group w-full h-[clamp(500px,66vh,840px)] sm:h-[clamp(580px,70vh,900px)] lg:h-[min(82vh,880px)] max-w-[620px] lg:max-w-[720px] xl:max-w-[800px] 2xl:max-w-[860px] relative rounded-3xl overflow-hidden shadow-[var(--shadow-elevated)] lg:-ml-8"
           >
-            <div className="absolute inset-0">
+            <div className="absolute inset-0 rounded-media-frame" style={{ '--media-radius': '1.5rem' }}>
               {heroSlides.map((slide, index) => {
                 const isActive = index === activeSlideIndex;
                 return (
@@ -281,19 +281,17 @@ export default function Home() {
                     src={slide.src}
                     alt={isActive ? slide.alt : ''}
                     aria-hidden={!isActive}
-                    className="absolute inset-0 h-full w-full object-cover"
+                    className="rounded-media-content absolute -inset-8 h-[calc(100%+4rem)] w-[calc(100%+4rem)] max-w-none object-cover"
                     style={{ objectPosition: slide.objectPosition }}
                     loading={index === 0 ? 'eager' : 'lazy'}
                     animate={{
                       opacity: isActive ? 1 : 0,
-                      scale: isActive ? 1 : 1.06,
                     }}
                     transition={
                       reducedMotion
                         ? { duration: 0 }
                         : {
                             opacity: { duration: 1.1, ease: [0.22, 1, 0.36, 1] },
-                            scale: { duration: HERO_SLIDE_INTERVAL / 1000, ease: 'linear' },
                           }
                     }
                   />

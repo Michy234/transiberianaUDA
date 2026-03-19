@@ -225,6 +225,24 @@
   }
 }
 
+@layer utilities {
+  .rounded-media-frame {
+    overflow: hidden;
+    isolation: isolate;
+    border-radius: var(--media-radius, 1.5rem);
+    clip-path: inset(0 round var(--media-radius, 1.5rem));
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
+  }
+
+  .rounded-media-content {
+    border-radius: var(--media-radius, 1.5rem);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    outline: 1px solid transparent;
+    will-change: transform;
+  }
+}
+
 /* ═══════════════════════════════════════
    NATURE ANIMATIONS
    ═══════════════════════════════════════ */
