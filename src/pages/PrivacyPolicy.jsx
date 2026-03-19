@@ -10,7 +10,7 @@ export default function PrivacyPolicy() {
     ? [
         { label: 'Stato del sito', value: 'Demo scolastica non ufficiale pubblicata su Vercel.' },
         { label: 'Dati attivi', value: 'Preferenze tecniche locali, richieste meteo verso Open-Meteo e dati tecnici di navigazione.' },
-        { label: 'Moduli', value: 'Il form email presente nella home e disattivato e non deve essere usato.' },
+        { label: 'Moduli', value: 'Il form email presente nella home è disattivato e non deve essere usato.' },
       ]
     : [
         { label: 'Site status', value: 'Unofficial school demo published on Vercel.' },
@@ -23,8 +23,8 @@ export default function PrivacyPolicy() {
         {
           title: 'Natura del progetto',
           paragraphs: [
-            'Questo sito e pubblicato come progetto scolastico dimostrativo non ufficiale. Non e il sito ufficiale della Transiberiana d\'Abruzzo, non eroga servizi commerciali e non gestisce prenotazioni o newsletter.',
-            'Prima di un eventuale utilizzo pubblico definitivo o commerciale, questa informativa dovra essere aggiornata con i dati reali del titolare del trattamento e con un recapito dedicato.',
+            'Questo sito è pubblicato come progetto scolastico dimostrativo non ufficiale. Non è il sito ufficiale della Transiberiana d\'Abruzzo, non eroga servizi commerciali e non gestisce prenotazioni o newsletter.',
+            'Prima di un eventuale utilizzo pubblico definitivo o commerciale, questa informativa dovrà essere aggiornata con i dati reali del titolare del trattamento e con un recapito dedicato.',
           ],
         },
         {
@@ -35,10 +35,10 @@ export default function PrivacyPolicy() {
             'Richieste verso il servizio Open-Meteo necessarie alla sezione meteo live.',
             'Dati trasmessi solo se l\'utente apre volontariamente link esterni verso servizi di terze parti, come Google Maps, Trainline o TripAdvisor.',
           ],
-          note: 'Il modulo email presente nella home e disattivato: non raccoglie dati, non invia messaggi e non deve essere usato per conferire informazioni personali.',
+          note: 'Il modulo email presente nella home è disattivato: non raccoglie dati, non invia messaggi e non deve essere usato per conferire informazioni personali.',
         },
         {
-          title: 'Finalita e basi del trattamento nello stato attuale',
+          title: 'Finalità e basi del trattamento nello stato attuale',
           list: [
             'Fornire la normale visualizzazione tecnica del sito demo.',
             'Ricordare preferenze strettamente funzionali richieste dall\'utente, come lingua e tema.',
@@ -46,13 +46,13 @@ export default function PrivacyPolicy() {
             'Documentare in modo trasparente il funzionamento della demo e i suoi limiti.',
           ],
           paragraphs: [
-            'Nello stato attuale non viene svolta attivita di marketing, profilazione, newsletter o vendita online.',
+            'Nello stato attuale non viene svolta attività di marketing, profilazione, newsletter o vendita online.',
           ],
         },
         {
           title: 'Destinatari e servizi di terze parti',
           paragraphs: [
-            'Per motivi tecnici, parte dei dati di navigazione puo transitare tramite il provider di hosting della demo, attualmente indicato come Vercel, e tramite il servizio Open-Meteo per la sezione meteo.',
+            'Per motivi tecnici, parte dei dati di navigazione può transitare tramite il provider di hosting della demo, attualmente indicato come Vercel, e tramite il servizio Open-Meteo per la sezione meteo.',
             'I servizi esterni come Google Maps, Trainline e TripAdvisor non vengono caricati automaticamente nelle pagine tramite embed invasivi: vengono aperti solo su iniziativa dell\'utente tramite link.',
           ],
         },
@@ -67,10 +67,10 @@ export default function PrivacyPolicy() {
         {
           title: 'Diritti e contatti',
           paragraphs: [
-            'Poiche il sito e una demo scolastica non ufficiale e non e destinato alla raccolta attiva di dati personali, al momento non viene pubblicato un recapito dedicato per richieste privacy tramite il sito.',
-            'Prima di un uso reale o istituzionale dovranno essere pubblicati il titolare del trattamento, i contatti diretti e le modalita per esercitare i diritti previsti dal GDPR.',
+            'Poiché il sito è una demo scolastica non ufficiale e non è destinato alla raccolta attiva di dati personali, al momento non viene pubblicato un recapito dedicato per richieste privacy tramite il sito.',
+            'Prima di un uso reale o istituzionale dovranno essere pubblicati il titolare del trattamento, i contatti diretti e le modalità per esercitare i diritti previsti dal GDPR.',
           ],
-          note: 'Finche questa demo resta in questa forma, non inserire dati personali nei campi non attivi o in eventuali contenuti dimostrativi.',
+          note: 'Finché questa demo resta in questa forma, non inserire dati personali nei campi non attivi o in eventuali contenuti dimostrativi.',
         },
       ]
     : [

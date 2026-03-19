@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
 import {
   ArrowLeft,
@@ -12,6 +12,7 @@ import {
   X,
 } from '@phosphor-icons/react';
 import ImageCredit from '../ImageCredit';
+import { useDialogAccessibility } from '../../hooks/useDialogAccessibility';
 
 const CHAPTER_ICONS = [Scroll, Buildings, Sparkle, StarFour, Mountains];
 const CHAPTER_ACCENTS = [
@@ -21,6 +22,8 @@ const CHAPTER_ACCENTS = [
   'rgba(212, 165, 116, 0.18)',
   'rgba(107, 158, 126, 0.16)',
 ];
+
+const STORY_OVERLAY_INERT_SELECTORS = ['nav', 'footer'];
 
 function scrollToSection(id) {
   const section = document.getElementById(id);
@@ -430,32 +433,22 @@ function FallbackExperience({ stop, t }) {
 }
 
 export default function StoryExperienceOverlay({ stop, onClose, t }) {
-  useEffect(() => {
-    if (!stop) return undefined;
+  const overlayRef = useRef(null);
+  const closeButtonRef = useRef(null);
 
-    const previousBodyOverflow = document.body.style.overflow;
-    const previousRootOverscroll = document.documentElement.style.overscrollBehavior;
-
-    document.body.style.overflow = 'hidden';
-    document.documentElement.style.overscrollBehavior = 'none';
-
-    const onKeyDown = (event) => {
-      if (event.key === 'Escape') onClose();
-    };
-
-    document.addEventListener('keydown', onKeyDown);
-
-    return () => {
-      document.body.style.overflow = previousBodyOverflow;
-      document.documentElement.style.overscrollBehavior = previousRootOverscroll;
-      document.removeEventListener('keydown', onKeyDown);
-    };
-  }, [onClose, stop]);
+  useDialogAccessibility({
+    isOpen: Boolean(stop),
+    containerRef: overlayRef,
+    initialFocusRef: closeButtonRef,
+    onClose,
+    inertSelectors: STORY_OVERLAY_INERT_SELECTORS,
+  });
 
   if (!stop) return null;
 
   return (
     <motion.div
+      ref={overlayRef}
       className="fixed inset-0 z-50 bg-background/96 backdrop-blur-2xl"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -502,6 +495,7 @@ export default function StoryExperienceOverlay({ stop, onClose, t }) {
               </div>
 
               <button
+                ref={closeButtonRef}
                 type="button"
                 onClick={onClose}
                 className="flex h-11 w-11 items-center justify-center rounded-full border border-border/60 bg-card/72 text-foreground transition-colors duration-200 hover:bg-card"

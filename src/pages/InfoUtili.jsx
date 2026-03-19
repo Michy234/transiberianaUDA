@@ -6,7 +6,6 @@ import {
   CaretDown,
   Clock,
   Devices,
-  EnvelopeSimple,
   Leaf,
   MapPin,
   Snowflake,
@@ -22,7 +21,6 @@ import { useI18n } from '../i18n/index.jsx';
 const TRIPADVISOR_URL =
   'https://www.tripadvisor.it/Attraction_Review-g194928-d12914784-Reviews-Transiberiana_d_Italia-Sulmona_Province_of_L_Aquila_Abruzzo.html';
 const FERROVIA_DEI_PARCHI_URL = 'https://www.ferroviadeiparchi.it';
-const ACCESSIBILITY_EMAIL = 'mailto:info@ferroviadeiparchi.it';
 
 const DEFAULT_OVERVIEW = [
   { id: 'departure', label: 'Partenza', value: 'Sulmona, binario 1' },
@@ -575,7 +573,8 @@ function FaqItem({ item, isOpen, onToggle, reduceMotion }) {
 
 export default function InfoUtili() {
   const reduceMotion = useReducedMotion();
-  const { t, tm } = useI18n();
+  const { t, tm, lang } = useI18n();
+  const isItalian = lang === 'it';
 
   const overview = tm('info.overview', DEFAULT_OVERVIEW);
   const checklist = tm('info.checklist', DEFAULT_CHECKLIST);
@@ -674,13 +673,18 @@ export default function InfoUtili() {
               </div>
 
                 <a
-                  href={ACCESSIBILITY_EMAIL}
-                  className="mt-4 inline-flex items-center gap-2 rounded-full bg-primary/8 px-3 py-2 text-sm font-semibold text-primary transition-colors duration-200 hover:bg-primary/12 hover:text-foreground"
-                  aria-label={t('info.accessibilityAria', 'Scrivi per richiedere supporto su accessibilità e assistenza')}
-              >
-                <EnvelopeSimple size={17} className="text-primary" />
-                {t('info.actions.accessibility', 'Richiedi supporto per accessibilità')}
-              </a>
+                  href={FERROVIA_DEI_PARCHI_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full bg-primary/8 px-3 py-2 text-sm font-semibold text-primary transition-colors duration-200 hover:bg-primary/12 hover:text-foreground"
+                  aria-label={t(
+                    'info.accessibilityAria',
+                    'Apri il sito ufficiale per verificare le informazioni su accessibilità e assistenza',
+                  )}
+                >
+                  <Sparkle size={17} className="text-primary" weight="fill" />
+                  {t('info.actions.accessibility', 'Verifica accessibilità sul sito ufficiale')}
+                </a>
 
               <div
                 className="mt-8 grid gap-3 sm:grid-cols-2 xl:max-w-3xl"
@@ -795,13 +799,6 @@ export default function InfoUtili() {
               </p>
               <div className="mt-5 flex flex-col gap-3 sm:flex-row xl:flex-col">
                 <a
-                  href={ACCESSIBILITY_EMAIL}
-                  className="inline-flex items-center justify-center gap-2 rounded-2xl border border-primary/14 bg-card/85 dark:bg-card/60 px-4 py-3 text-sm font-semibold text-foreground transition-all duration-300 hover:border-primary/26 hover:shadow-[var(--shadow-subtle)]"
-                >
-                  <EnvelopeSimple size={17} weight="fill" className="text-primary" />
-                  {t('info.support.mailLabel', 'Scrivi a info@ferroviadeiparchi.it')}
-                </a>
-                <a
                   href={FERROVIA_DEI_PARCHI_URL}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -810,6 +807,11 @@ export default function InfoUtili() {
                   <Ticket size={17} weight="fill" />
                   {t('info.support.siteLabel', 'Controlla sito e disponibilità')}
                 </a>
+                <p className="rounded-2xl border border-primary/10 bg-card/80 px-4 py-3 text-sm leading-relaxed text-foreground/82">
+                  {isItalian
+                    ? 'Per richieste su accessibilità e assistenza, fai riferimento alle informazioni ufficiali pubblicate dal gestore: questa demo non offre un canale email dedicato.'
+                    : 'For accessibility and assistance requests, refer to the official information published by the operator: this demo does not provide a dedicated email channel.'}
+                </p>
               </div>
             </SidePanel>
           </motion.div>

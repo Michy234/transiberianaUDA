@@ -10,8 +10,16 @@ const STATIONS = {
 };
 
 const VARS = 'temperature_2m,relative_humidity_2m,surface_pressure,precipitation';
+const CURRENT_VARS = 'temperature_2m,relative_humidity_2m,surface_pressure,weather_code';
 const AIR_QUALITY_VARS = ['european_aqi', 'carbon_dioxide', 'ammonia'];
 const DEFAULT_TIMEOUT_MS = 12_000;
+
+function formatLocalDate(value) {
+  const year = value.getFullYear();
+  const month = String(value.getMonth() + 1).padStart(2, '0');
+  const day = String(value.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
 
 async function fetchJson(url, { timeoutMs = DEFAULT_TIMEOUT_MS } = {}) {
   const controller = new AbortController();
@@ -35,15 +43,16 @@ async function fetchJson(url, { timeoutMs = DEFAULT_TIMEOUT_MS } = {}) {
 
 function getPeriodDates(period) {
   const now   = new Date();
-  const today = now.toISOString().split('T')[0];
+  const today = formatLocalDate(now);
 
   const sub = (days) => {
     const d = new Date(now);
     d.setDate(d.getDate() - days);
-    return d.toISOString().split('T')[0];
+    return formatLocalDate(d);
   };
 
   switch (period) {
+    case '2h':   return { start: sub(1),   end: today };
     case '24h':  return { start: sub(1),   end: today };
     case '7d':   return { start: sub(7),   end: today };
     case '30d':  return { start: sub(30),  end: today };
@@ -59,13 +68,13 @@ export async function fetchStationData(stationKey, period) {
 
   let url;
   let airUrl;
-  const isShort = (period === '24h' || period === '7d');
-  const windowHours = period === '24h' ? 24 : 7 * 24;
+  const isShort = (period === '2h' || period === '24h' || period === '7d');
+  const windowHours = period === '2h' ? 2 : period === '24h' ? 24 : 7 * 24;
 
   if (isShort) {
-    const pastDays = period === '24h' ? 2 : 8;
+    const pastDays = period === '2h' ? 1 : period === '24h' ? 2 : 8;
     url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}`
-      + `&hourly=${VARS}&past_days=${pastDays}&forecast_days=1`
+      + `&hourly=${VARS},weather_code&past_days=${pastDays}&forecast_days=1`
       + `&timezone=auto`;
     airUrl = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}`
       + `&hourly=${AIR_QUALITY_VARS.join(',')}&past_days=${pastDays}&forecast_days=1`
@@ -177,18 +186,29 @@ export async function fetchStationData(stationKey, period) {
 
 export async function fetchCurrentConditions() {
   const results = {};
-  await Promise.allSettled(
+  const settled = await Promise.allSettled(
     Object.entries(STATIONS).map(async ([key, { lat, lon, name }]) => {
-      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,surface_pressure&timezone=auto`;
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=${CURRENT_VARS}&timezone=auto`;
       const json = await fetchJson(url, { timeoutMs: DEFAULT_TIMEOUT_MS });
+      const current = json?.current;
+      if (!current || !Number.isFinite(current.temperature_2m)) return;
       results[key] = {
         name,
-        temperature: json.current.temperature_2m,
-        humidity:    json.current.relative_humidity_2m,
-        pressure:    json.current.surface_pressure,
+        temperature: current.temperature_2m,
+        humidity: current.relative_humidity_2m,
+        pressure: current.surface_pressure,
+        weatherCode: current.weather_code,
       };
     })
   );
+
+  if (Object.keys(results).length === 0) {
+    const allRejected = settled.every((entry) => entry.status === 'rejected');
+    if (allRejected) {
+      throw new Error('Open-Meteo unavailable');
+    }
+  }
+
   return results;
 }
 

@@ -6,7 +6,7 @@ const legalLinks = [
   { path: '/privacy', it: 'Privacy Policy', en: 'Privacy Policy' },
   { path: '/cookie-policy', it: 'Cookie Policy', en: 'Cookie Policy' },
   { path: '/note-legali', it: 'Note legali', en: 'Legal notice' },
-  { path: '/accessibilita', it: 'Accessibilita e demo', en: 'Accessibility and demo' },
+  { path: '/accessibilita', it: 'Accessibilità e demo', en: 'Accessibility and demo' },
 ];
 
 export default function SiteFooter() {
@@ -23,13 +23,13 @@ export default function SiteFooter() {
             </div>
             <p className="mt-3 max-w-[64ch] text-sm leading-relaxed text-foreground/82">
               {isItalian
-                ? 'Questa applicazione e pubblicata come demo scolastica non ufficiale. Non rappresenta un servizio commerciale attivo, non gestisce prenotazioni e non invita al conferimento di dati personali tramite moduli.'
+                ? 'Questa applicazione è pubblicata come demo scolastica non ufficiale. Non rappresenta un servizio commerciale attivo, non gestisce prenotazioni e non invita al conferimento di dati personali tramite moduli.'
                 : 'This application is published as an unofficial school demo. It is not an active commercial service, it does not manage bookings, and it does not invite users to submit personal data through forms.'}
             </p>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
               {isItalian
-                ? 'Ultimo aggiornamento delle informazioni legali: 17 marzo 2026.'
-                : 'Last legal information update: March 17, 2026.'}
+                ? 'Ultimo aggiornamento delle informazioni legali: 19 marzo 2026.'
+                : 'Last legal information update: March 19, 2026.'}
             </p>
           </div>
 

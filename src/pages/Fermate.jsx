@@ -99,12 +99,22 @@ function TrainlineLogo() {
   );
 }
 
+function formatLocalDateTime(value) {
+  const year = value.getFullYear();
+  const month = String(value.getMonth() + 1).padStart(2, '0');
+  const day = String(value.getDate()).padStart(2, '0');
+  const hours = String(value.getHours()).padStart(2, '0');
+  const minutes = String(value.getMinutes()).padStart(2, '0');
+  const seconds = String(value.getSeconds()).padStart(2, '0');
+  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+}
+
 function buildTrainlineLink({ originCode, destinationCode, originName, destinationName, interfaceLang }) {
-  if (!originCode || !destinationCode) {
+  if (!originCode || !destinationCode || originCode === destinationCode) {
     return 'https://www.thetrainline.com/journey-planner/';
   }
   const when = new Date();
-  const outwardDate = when.toISOString().slice(0, 19);
+  const outwardDate = formatLocalDateTime(when);
   const override =
     TRAINLINE_ROUTE_OVERRIDES.find(
       (item) => item.origin === originName && item.destination === destinationName
@@ -196,8 +206,12 @@ export default function Fermate() {
   const [destination, setDestination] = useState(stations[stations.length - 1].name);
 
   const destinationOptions = useMemo(() => {
-    return stations.map((station) => station.name);
-  }, [stations]);
+    return stations.filter((station) => station.name !== origin).map((station) => station.name);
+  }, [origin, stations]);
+
+  const originOptions = useMemo(() => {
+    return stations.filter((station) => station.name !== destination).map((station) => station.name);
+  }, [destination, stations]);
 
   const originCodes = useMemo(() => {
     return stations.reduce((acc, station) => {
@@ -209,6 +223,39 @@ export default function Fermate() {
   useEffect(() => {
     setSelectedStation((current) => stations.find((station) => station.id === current.id) || stations[0]);
   }, [stations]);
+
+  useEffect(() => {
+    if (!stations.some((station) => station.name === origin)) {
+      setOrigin(stations[0]?.name ?? '');
+    }
+    if (!stations.some((station) => station.name === destination)) {
+      setDestination(stations[stations.length - 1]?.name ?? '');
+    }
+  }, [destination, origin, stations]);
+
+  useEffect(() => {
+    if (origin !== destination) return;
+    const fallbackDestination = stations.find((station) => station.name !== origin)?.name;
+    if (fallbackDestination) {
+      setDestination(fallbackDestination);
+    }
+  }, [destination, origin, stations]);
+
+  const isTrainlineSelectionValid = Boolean(
+    origin &&
+    destination &&
+    origin !== destination &&
+    originCodes[origin] &&
+    originCodes[destination],
+  );
+
+  const trainlineHref = buildTrainlineLink({
+    originCode: originCodes[origin],
+    destinationCode: originCodes[destination],
+    originName: origin,
+    destinationName: destination,
+    interfaceLang: t('stops.trainline.lang', 'it'),
+  });
 
   return (
     <div className="min-h-[100dvh] pt-32 pb-24 px-6 md:px-12 max-w-[1400px] mx-auto">
@@ -336,16 +383,15 @@ export default function Fermate() {
                       </div>
                     </div>
                     <a
-                      href={buildTrainlineLink({
-                        originCode: originCodes[origin],
-                        destinationCode: originCodes[destination],
-                        originName: origin,
-                        destinationName: destination,
-                        interfaceLang: t('stops.trainline.lang', 'it'),
-                      })}
+                      href={trainlineHref}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center gap-3 rounded-2xl bg-primary px-5 py-3 text-sm md:text-base font-semibold text-primary-foreground shadow-[var(--shadow-elevated)] transition-all duration-300 hover:translate-y-[-1px] hover:shadow-[0_18px_48px_-26px_rgba(0,0,0,0.35)] focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-background"
+                      className={`inline-flex items-center gap-3 rounded-2xl px-5 py-3 text-sm md:text-base font-semibold shadow-[var(--shadow-elevated)] transition-all duration-300 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-background ${
+                        isTrainlineSelectionValid
+                          ? 'bg-primary text-primary-foreground hover:translate-y-[-1px] hover:shadow-[0_18px_48px_-26px_rgba(0,0,0,0.35)]'
+                          : 'bg-muted text-muted-foreground pointer-events-none shadow-none'
+                      }`}
+                      aria-disabled={!isTrainlineSelectionValid}
                     >
                       {t('stops.trainline.cta', 'Acquista su Trainline')}
                       <NavigationArrow size={16} weight="bold" />
@@ -360,9 +406,9 @@ export default function Fermate() {
                         value={origin}
                         onChange={(event) => setOrigin(event.target.value)}
                       >
-                        {stations.map((station) => (
-                          <option key={station.id} value={station.name}>
-                            {station.name}
+                        {originOptions.map((option) => (
+                          <option key={option} value={option}>
+                            {option}
                           </option>
                         ))}
                       </select>
@@ -382,6 +428,12 @@ export default function Fermate() {
                       </select>
                     </label>
                   </div>
+
+                  {!isTrainlineSelectionValid && (
+                    <p className="mt-4 text-xs font-medium text-muted-foreground">
+                      {t('stops.trainline.selectionHint', 'Seleziona due fermate diverse per aprire la ricerca Trainline.')}
+                    </p>
+                  )}
 
                   <div className="mt-6 flex items-center justify-between gap-4 rounded-2xl border border-border/60 bg-background/70 px-4 py-3">
                     <div className="text-sm font-semibold text-muted-foreground">

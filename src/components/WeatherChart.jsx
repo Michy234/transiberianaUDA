@@ -69,6 +69,13 @@ export default function WeatherChart({
     setSelectedCity(defaultCity);
   }, [defaultCity]);
 
+  useEffect(() => {
+    if (visibleCityOptions.some((option) => option.value === selectedCity)) return;
+    if (visibleCityOptions[0]) {
+      setSelectedCity(visibleCityOptions[0].value);
+    }
+  }, [selectedCity, visibleCityOptions]);
+
   const metricOptions = useMemo(
     () => [
       { value: 'temperature', label: t('meteo.chart.metrics.temperature', 'Temperatura (°C)'), color: '#e63946' },
@@ -202,13 +209,28 @@ export default function WeatherChart({
             : now.getTime() - 30 * 24 * 60 * 60 * 1000
       ).toISOString();
 
-      const cities = Object.keys(STATIONS);
-      const results = await Promise.all(
-        cities.map(async (cityKey) => {
+      const availableWeatherStations = Object.keys(STATIONS).filter(
+        (cityKey) => !allowedCities || allowedCities.includes(cityKey),
+      );
+      const weatherStationKeys =
+        selectedCity === 'all'
+          ? availableWeatherStations
+          : selectedCity === ARDUINO_KEY
+            ? []
+            : availableWeatherStations.includes(selectedCity)
+              ? [selectedCity]
+              : [];
+
+      const weatherResults = await Promise.allSettled(
+        weatherStationKeys.map(async (cityKey) => {
           const data = await fetchStationData(cityKey, selectedPeriod);
           return { key: cityKey, ...data };
-        })
+        }),
       );
+      const results = weatherResults
+        .filter((entry) => entry.status === 'fulfilled')
+        .map((entry) => entry.value)
+        .filter((entry) => Array.isArray(entry.times) && entry.times.length > 0);
 
       let arduinoData = null;
       try {
@@ -238,13 +260,19 @@ export default function WeatherChart({
         arduinoData = null;
       }
       
-      setChartData(arduinoData ? [...results, arduinoData] : results);
+      const nextChartData = arduinoData ? [...results, arduinoData] : results;
+      if (nextChartData.length === 0) {
+        throw new Error(t('meteo.chart.noData', 'Nessun dato disponibile per il periodo selezionato.'));
+      }
+
+      setChartData(nextChartData);
     } catch (err) {
+      setChartData(null);
       setError(err.message);
     } finally {
       setLoading(false);
     }
-  }, [selectedPeriod]);
+  }, [allowedCities, selectedCity, selectedPeriod, t]);
 
   useEffect(() => {
     loadData();

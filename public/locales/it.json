@@ -20,6 +20,11 @@
       "itinerary": "Scopri l'itinerario"
     },
     "scrollHint": "Scorri per iniziare il viaggio",
+    "heroImageAltGeneric": "Fotografia della Transiberiana d'Abruzzo",
+    "hero": {
+      "previousSlide": "Immagine precedente",
+      "nextSlide": "Immagine successiva"
+    },
     "stats": {
       "altitude": "Altitudine max",
       "weather": "Meteo live",

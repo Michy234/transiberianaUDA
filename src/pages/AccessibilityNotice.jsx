@@ -8,9 +8,9 @@ export default function AccessibilityNotice() {
 
   const meta = isItalian
     ? [
-        { label: 'Tipo documento', value: 'Avvertenza accessibilita per demo, non dichiarazione formale di conformita.' },
+        { label: 'Tipo documento', value: 'Avvertenza di accessibilità per demo, non dichiarazione formale di conformità.' },
         { label: 'Target attuale', value: 'Uso scolastico, esplorativo e dimostrativo.' },
-        { label: 'Interventi gia presenti', value: 'Focus visibile, navigazione da tastiera in molte aree, alternative testuali e supporto riduzione movimento.' },
+        { label: 'Interventi già presenti', value: 'Focus visibile, navigazione da tastiera in molte aree, alternative testuali e supporto alla riduzione del movimento.' },
       ]
     : [
         { label: 'Document type', value: 'Accessibility notice for a demo, not a formal declaration of compliance.' },
@@ -23,25 +23,26 @@ export default function AccessibilityNotice() {
         {
           title: 'Stato del documento',
           paragraphs: [
-            'Questa pagina non costituisce una dichiarazione di accessibilita formale ai sensi della normativa applicabile ai siti istituzionali o ai servizi coperti da obblighi specifici.',
-            'Serve invece a descrivere in modo trasparente lo stato di accessibilita della demo scolastica e le azioni gia introdotte nel progetto.',
+            'Questa pagina non costituisce una dichiarazione di accessibilità formale ai sensi della normativa applicabile ai siti istituzionali o ai servizi coperti da obblighi specifici.',
+            'Serve invece a descrivere in modo trasparente lo stato di accessibilità della demo scolastica e le azioni già introdotte nel progetto.',
           ],
         },
         {
-          title: 'Accorgimenti gia adottati',
+          title: 'Accorgimenti già adottati',
           list: [
             'Uso diffuso di titoli, etichette e attributi ARIA nelle parti principali del sito.',
             'Focus visibile per la navigazione da tastiera.',
             'Supporto al tema chiaro/scuro e gestione della preferenza di movimento ridotto in alcune sezioni animate.',
-            'Messaggi contestuali piu chiari per contenuti demo non attivi.',
+            'Messaggi contestuali più chiari per contenuti demo non attivi.',
           ],
         },
         {
           title: 'Limiti attuali della demo',
           list: [
-            'Non e ancora stato eseguito un audit WCAG completo pagina per pagina.',
-            'Le scelte visive e animate del prototipo richiedono ancora test manuali piu estesi con tastiera e tecnologie assistive.',
+            'Non è ancora stato eseguito un audit WCAG completo pagina per pagina.',
+            'Le scelte visive e animate del prototipo richiedono ancora test manuali più estesi con tastiera e tecnologie assistive.',
             'Questa versione non sostituisce una verifica formale prima di una pubblicazione istituzionale o commerciale.',
+            'Alcuni dialoghi e menu richiedono ancora rifinitura sul focus trap e sul ripristino del focus.',
           ],
         },
         {
@@ -49,9 +50,9 @@ export default function AccessibilityNotice() {
           list: [
             'Audit WCAG 2.1 AA.',
             'Verifiche con screen reader e test da tastiera su tutte le route.',
-            'Eventuale dichiarazione di accessibilita formale se il progetto diventera un sito ufficiale o un servizio coperto da obblighi specifici.',
+            'Eventuale dichiarazione di accessibilità formale se il progetto diventerà un sito ufficiale o un servizio coperto da obblighi specifici.',
           ],
-          note: 'Finche il progetto resta una demo scolastica, questa pagina ha funzione informativa e di trasparenza interna.',
+          note: 'Finché il progetto resta una demo scolastica, questa pagina ha funzione informativa e di trasparenza interna.',
         },
       ]
     : [
@@ -92,11 +93,11 @@ export default function AccessibilityNotice() {
 
   return (
     <LegalPageLayout
-      badge={isItalian ? 'Accessibilita' : 'Accessibility'}
-      title={isItalian ? 'Accessibilita e avvertenze demo' : 'Accessibility and demo notice'}
+      badge={isItalian ? 'Accessibilità' : 'Accessibility'}
+      title={isItalian ? 'Accessibilità e avvertenze demo' : 'Accessibility and demo notice'}
       intro={
         isItalian
-          ? 'Questa pagina descrive lo stato attuale dell\'accessibilita della demo e i passi necessari prima di una pubblicazione definitiva.'
+          ? 'Questa pagina descrive lo stato attuale dell\'accessibilità della demo e i passi necessari prima di una pubblicazione definitiva.'
           : 'This page describes the current accessibility status of the demo and the steps required before a definitive publication.'
       }
       meta={meta}

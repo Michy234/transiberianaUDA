@@ -33,8 +33,8 @@ export default function CookiePopup() {
       </div>
       <p className="mt-2 text-sm text-muted-foreground">
         {isItalian
-          ? 'Questa demo usa solo preferenze tecniche locali per ricordare tema, lingua e la chiusura di questo avviso. Non usare il modulo email: e disattivato.'
-          : 'This demo only uses local technical preferences to remember theme, language, and dismissal of this notice. Do not use the email form: it is disabled.'}
+          ? 'Questa demo usa solo preferenze tecniche locali per ricordare tema, lingua e la chiusura di questo avviso. Non raccoglie dati personali e non offre un modulo email attivo.'
+          : 'This demo only uses local technical preferences to remember theme, language, and dismissal of this notice. It does not collect personal data and it does not offer an active email form.'}
       </p>
       <div className="mt-4 flex flex-col gap-2">
         <Link

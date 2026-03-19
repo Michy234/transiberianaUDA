@@ -1,28 +1,44 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowDown, ArrowLeft, ArrowRight, CloudRain, MapPin, Tree } from '@phosphor-icons/react';
 import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
-import Journey from './Journey';
 import { useI18n } from '../i18n/index.jsx';
 import ImageCredit from '../components/ImageCredit';
 import SectionErrorBoundary from '../components/SectionErrorBoundary';
 
 gsap.registerPlugin(ScrollToPlugin);
 
-const homePhotoModules = import.meta.glob('../assets/photohome/*.{png,jpg,jpeg,webp,avif}', {
+const homePhotoModules = import.meta.glob('../assets/photohome/*.{jpg,jpeg,webp,avif}', {
   eager: true,
   import: 'default',
 });
 
-const homePhotoSlides = Object.entries(homePhotoModules)
-  .sort(([leftPath], [rightPath]) => leftPath.localeCompare(rightPath, undefined, { numeric: true, sensitivity: 'base' }))
-  .map(([, src]) => ({
-    src,
-    creditSrc: src,
-    objectPosition: 'center center',
-  }));
+const HOME_ASSET_PRIORITY = ['avif', 'webp', 'jpg', 'jpeg', 'png'];
+
+function getAssetPriority(path) {
+  const extension = path.split('.').pop()?.toLowerCase() || '';
+  const priority = HOME_ASSET_PRIORITY.indexOf(extension);
+  return priority === -1 ? HOME_ASSET_PRIORITY.length : priority;
+}
+
+const homePhotoSlides = Array.from(
+  Object.entries(homePhotoModules)
+    .sort(([leftPath], [rightPath]) => leftPath.localeCompare(rightPath, undefined, { numeric: true, sensitivity: 'base' }))
+    .reduce((acc, [path, src]) => {
+      const baseKey = path.replace(/\.[^.]+$/, '');
+      const priority = getAssetPriority(path);
+      const current = acc.get(baseKey);
+
+      if (!current || priority < current.priority) {
+        acc.set(baseKey, { src, creditSrc: src, objectPosition: 'center center', priority });
+      }
+
+      return acc;
+    }, new Map())
+    .values(),
+).map(({ priority, ...slide }) => slide);
 
 const HERO_SLIDES = [
   {
@@ -36,6 +52,7 @@ const HERO_SLIDES = [
 ];
 
 const HERO_SLIDE_INTERVAL = 15000;
+const Journey = lazy(() => import('./Journey'));
 
 function getNavOffset() {
   if (typeof window === 'undefined') return 0;
@@ -48,6 +65,11 @@ export default function Home() {
   const heroFrameRef = useRef(null);
   const slideImageRefs = useRef([]);
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
+  const [isHeroPaused, setIsHeroPaused] = useState(false);
+  const [isMobileLayout, setIsMobileLayout] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia('(max-width: 1023px)').matches,
+  );
+  const [loadedSlideIndexes, setLoadedSlideIndexes] = useState(() => new Set([0, 1].filter((index) => index < HERO_SLIDES.length)));
   const { t, lang } = useI18n();
   const reducedMotion = useReducedMotion();
   const isItalian = lang === 'it';
@@ -64,14 +86,43 @@ export default function Home() {
   }));
 
   useEffect(() => {
-    if (heroSlides.length <= 1) return undefined;
+    setLoadedSlideIndexes((current) => {
+      const next = new Set(current);
+      next.add(activeSlideIndex);
+
+      if (heroSlides.length > 1) {
+        next.add((activeSlideIndex + 1) % heroSlides.length);
+        next.add((activeSlideIndex - 1 + heroSlides.length) % heroSlides.length);
+      }
+
+      return next;
+    });
+  }, [activeSlideIndex, heroSlides.length]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined;
+    const media = window.matchMedia('(max-width: 1023px)');
+    const updateLayout = () => setIsMobileLayout(media.matches);
+    updateLayout();
+
+    if (media.addEventListener) {
+      media.addEventListener('change', updateLayout);
+      return () => media.removeEventListener('change', updateLayout);
+    }
+
+    media.addListener(updateLayout);
+    return () => media.removeListener(updateLayout);
+  }, []);
+
+  useEffect(() => {
+    if (reducedMotion || isHeroPaused || heroSlides.length <= 1) return undefined;
 
     const intervalId = window.setInterval(() => {
       setActiveSlideIndex((currentIndex) => (currentIndex + 1) % heroSlides.length);
     }, HERO_SLIDE_INTERVAL);
 
     return () => window.clearInterval(intervalId);
-  }, [heroSlides.length]);
+  }, [heroSlides.length, reducedMotion, isHeroPaused]);
 
   useEffect(() => {
     slideImageRefs.current.forEach((image) => {
@@ -145,6 +196,16 @@ export default function Home() {
     }
   };
 
+  const pauseHeroAutoplay = () => setIsHeroPaused(true);
+  const resumeHeroAutoplay = (event) => {
+    if (event?.currentTarget?.contains?.(event.relatedTarget)) return;
+    setIsHeroPaused(false);
+  };
+  const handleHeroLeave = (event) => {
+    resetHeroMotion();
+    resumeHeroAutoplay(event);
+  };
+
   const handleStartJourney = () => {
     const target = journeyRef.current;
     if (!target || typeof window === 'undefined') return;
@@ -163,12 +224,133 @@ export default function Home() {
     });
   };
 
+  const heroCarousel = (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95, y: 20 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
+      className={
+        isMobileLayout
+          ? 'mb-8 w-full h-[clamp(220px,28vh,300px)]'
+          : 'w-full h-[clamp(360px,48vh,560px)] sm:h-[clamp(420px,54vh,720px)] lg:h-[min(82vh,880px)] max-w-[620px] lg:max-w-[720px] xl:max-w-[800px] 2xl:max-w-[860px] lg:-ml-8'
+      }
+    >
+      <div
+        ref={heroFrameRef}
+        onMouseMove={handleHeroMove}
+        onMouseLeave={handleHeroLeave}
+        onMouseEnter={pauseHeroAutoplay}
+        onFocusCapture={pauseHeroAutoplay}
+        onBlurCapture={resumeHeroAutoplay}
+        className="group relative h-full w-full rounded-3xl overflow-hidden shadow-[var(--shadow-elevated)]"
+      >
+        <div className="absolute inset-0 rounded-media-frame" style={{ '--media-radius': '1.5rem' }}>
+          {heroSlides.map((slide, index) => {
+            const isActive = index === activeSlideIndex;
+            const isLoaded = loadedSlideIndexes.has(index);
+
+            if (!isLoaded) {
+              return null;
+            }
+
+            return (
+              <motion.img
+                key={slide.src}
+                ref={(node) => {
+                  slideImageRefs.current[index] = node;
+                }}
+                src={slide.src}
+                alt={isActive ? slide.alt : ''}
+                aria-hidden={!isActive}
+                className="rounded-media-content absolute -inset-8 h-[calc(100%+4rem)] w-[calc(100%+4rem)] max-w-none object-cover"
+                style={{ objectPosition: slide.objectPosition }}
+                loading={index === 0 ? 'eager' : 'lazy'}
+                animate={{
+                  opacity: isActive ? 1 : 0,
+                }}
+                transition={
+                  reducedMotion
+                    ? { duration: 0 }
+                    : {
+                        opacity: { duration: 1.1, ease: [0.22, 1, 0.36, 1] },
+                      }
+                }
+              />
+            );
+          })}
+        </div>
+        <div className="absolute inset-y-0 left-4 right-4 z-20 flex items-center justify-between pointer-events-none">
+          <button
+            type="button"
+            onClick={() => handleSlideChange(-1)}
+            className="pointer-events-auto inline-flex h-11 w-11 items-center justify-center rounded-full bg-black/35 text-white/90 opacity-100 backdrop-blur-sm transition-all duration-300 hover:bg-black/50 hover:text-white focus-visible:ring-2 focus-visible:ring-white/80 md:translate-x-[-8px] md:opacity-0 md:group-hover:translate-x-0 md:group-hover:opacity-100 md:group-focus-within:translate-x-0 md:group-focus-within:opacity-100"
+            aria-label={t('home.hero.previousSlide', 'Immagine precedente')}
+          >
+            <ArrowLeft size={18} weight="bold" />
+          </button>
+          <button
+            type="button"
+            onClick={() => handleSlideChange(1)}
+            className="pointer-events-auto inline-flex h-11 w-11 items-center justify-center rounded-full bg-black/35 text-white/90 opacity-100 backdrop-blur-sm transition-all duration-300 hover:bg-black/50 hover:text-white focus-visible:ring-2 focus-visible:ring-white/80 md:translate-x-[8px] md:opacity-0 md:group-hover:translate-x-0 md:group-hover:opacity-100 md:group-focus-within:translate-x-0 md:group-focus-within:opacity-100"
+            aria-label={t('home.hero.nextSlide', 'Immagine successiva')}
+          >
+            <ArrowRight size={18} weight="bold" />
+          </button>
+        </div>
+        <ImageCredit
+          src={heroSlides[activeSlideIndex]?.creditSrc || heroSlides[activeSlideIndex]?.src}
+          className="absolute top-4 right-4 z-20 rounded-full bg-black/45 px-3 py-1 text-[10px] text-white/90"
+          linkClassName="text-white/90 hover:text-white"
+        />
+
+        {!isMobileLayout && (
+          <motion.div
+            initial={{ y: 40, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.9, type: 'spring', stiffness: 100, damping: 20 }}
+            className="hidden lg:block absolute bottom-6 left-6 right-6 z-20 bg-card/90 backdrop-blur-lg p-5 rounded-2xl shadow-[var(--shadow-card)] border border-border/40"
+          >
+            <div className="grid grid-cols-3 gap-4 text-foreground">
+              <div>
+                <div className="text-muted-foreground text-xs font-semibold mb-1" style={{ fontVariant: 'small-caps' }}>
+                  {t('home.stats.altitude', 'Altitudine max')}
+                </div>
+                <div className="text-xl font-bold flex items-center gap-1.5" style={{ fontVariantNumeric: 'tabular-nums' }}>
+                  <Tree weight="fill" className="text-primary" size={18} />
+                  1.268m
+                </div>
+              </div>
+              <div>
+                <div className="text-muted-foreground text-xs font-semibold mb-1" style={{ fontVariant: 'small-caps' }}>
+                  {t('home.stats.weather', 'Meteo live')}
+                </div>
+                <div className="text-xl font-bold flex items-center gap-1.5" style={{ fontVariantNumeric: 'tabular-nums' }}>
+                  <CloudRain weight="fill" className="text-primary-light" size={18} />
+                  8°C
+                </div>
+              </div>
+              <div>
+                <div className="text-muted-foreground text-xs font-semibold mb-1" style={{ fontVariant: 'small-caps' }}>
+                  {t('home.stats.stops', 'Fermate')}
+                </div>
+                <div className="text-xl font-bold flex items-center gap-1.5" style={{ fontVariantNumeric: 'tabular-nums' }}>
+                  <MapPin weight="fill" className="text-wood" size={18} />
+                  21
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </div>
+    </motion.div>
+  );
+
   return (
     <div className="w-full relative overflow-hidden bg-background">
       {/* Asymmetric Hero */}
       <section className="min-h-[100dvh] w-full flex flex-col lg:flex-row relative">
         {/* Left Content (55%) */}
-        <div className="w-full lg:w-[55%] flex flex-col justify-center px-6 md:px-12 lg:px-20 pt-0 lg:pt-32 pb-16 z-10 relative order-2 lg:order-1 -mt-6 lg:mt-0">
+        <div className="w-full lg:w-[55%] flex flex-col justify-center px-6 md:px-12 lg:px-20 pt-24 md:pt-10 lg:pt-32 pb-14 md:pb-16 z-10 relative order-1 lg:order-1">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -176,7 +358,7 @@ export default function Home() {
             className="max-w-xl"
           >
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-primary/8 text-primary text-sm font-semibold tracking-tight mb-8">
+            <div className="hidden lg:inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-primary/8 text-primary text-sm font-semibold tracking-tight mb-8">
               <span className="w-2 h-2 rounded-full bg-primary animate-gentle-pulse" aria-hidden="true"></span>
               {t('home.badge', 'Prossima partenza: {{city}}', { city: 'Sulmona' })}
             </div>
@@ -186,6 +368,8 @@ export default function Home() {
               <span className="text-primary italic">{t('home.title.brand', 'Transiberiana')}</span> <br />
               {t('home.title.tail', "d'Abruzzo")}
             </h1>
+
+            {isMobileLayout ? heroCarousel : null}
             
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-[50ch] mb-10">
               {t(
@@ -193,37 +377,6 @@ export default function Home() {
                 "Un'esperienza autentica a bordo di carrozze d'epoca. Attraversa i Parchi Nazionali e i borghi più belli dell'Appennino Centrale.",
               )}
             </p>
-
-            <motion.div
-              initial={{ y: 24, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.45, type: 'spring', stiffness: 90, damping: 18 }}
-              className="mb-8 bg-card/85 backdrop-blur-xl p-5 rounded-2xl shadow-[var(--shadow-card)] border border-border/40 lg:hidden"
-            >
-              <div className="grid grid-cols-3 gap-4 text-foreground">
-                <div>
-                  <div className="text-muted-foreground text-xs font-semibold mb-1" style={{ fontVariant: 'small-caps' }}>Altitudine max</div>
-                  <div className="text-xl font-bold flex items-center gap-1.5" style={{ fontVariantNumeric: 'tabular-nums' }}>
-                    <Tree weight="fill" className="text-primary" size={18} />
-                    1.268m
-                  </div>
-                </div>
-                <div>
-                  <div className="text-muted-foreground text-xs font-semibold mb-1" style={{ fontVariant: 'small-caps' }}>Meteo live</div>
-                  <div className="text-xl font-bold flex items-center gap-1.5" style={{ fontVariantNumeric: 'tabular-nums' }}>
-                    <CloudRain weight="fill" className="text-primary-light" size={18} />
-                    8°C
-                  </div>
-                </div>
-                <div>
-                  <div className="text-muted-foreground text-xs font-semibold mb-1" style={{ fontVariant: 'small-caps' }}>Fermate</div>
-                  <div className="text-xl font-bold flex items-center gap-1.5" style={{ fontVariantNumeric: 'tabular-nums' }}>
-                    <MapPin weight="fill" className="text-wood" size={18} />
-                    21
-                  </div>
-                </div>
-              </div>
-            </motion.div>
 
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
               <button 
@@ -251,112 +404,11 @@ export default function Home() {
         </div>
 
         {/* Right Image (45%) with overlap */}
-        <div className="w-full lg:w-[45%] min-h-[64vh] sm:min-h-[52vh] lg:min-h-0 relative px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 md:pt-28 lg:pt-20 pb-2 sm:pb-4 md:pb-6 lg:pb-8 flex items-center justify-center order-1 lg:order-2">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
-            className="w-full h-[clamp(500px,66vh,840px)] sm:h-[clamp(580px,70vh,900px)] lg:h-[min(82vh,880px)] max-w-[620px] lg:max-w-[720px] xl:max-w-[800px] 2xl:max-w-[860px] lg:-ml-8"
-          >
-            <div
-              ref={heroFrameRef}
-              onMouseMove={handleHeroMove}
-              onMouseLeave={resetHeroMotion}
-              className="group relative h-full w-full rounded-3xl overflow-hidden shadow-[var(--shadow-elevated)]"
-            >
-            <div className="absolute inset-0 rounded-media-frame" style={{ '--media-radius': '1.5rem' }}>
-              {heroSlides.map((slide, index) => {
-                const isActive = index === activeSlideIndex;
-                return (
-                  <motion.img
-                    key={slide.src}
-                    ref={(node) => {
-                      slideImageRefs.current[index] = node;
-                    }}
-                    src={slide.src}
-                    alt={isActive ? slide.alt : ''}
-                    aria-hidden={!isActive}
-                    className="rounded-media-content absolute -inset-8 h-[calc(100%+4rem)] w-[calc(100%+4rem)] max-w-none object-cover"
-                    style={{ objectPosition: slide.objectPosition }}
-                    loading={index === 0 ? 'eager' : 'lazy'}
-                    animate={{
-                      opacity: isActive ? 1 : 0,
-                    }}
-                    transition={
-                      reducedMotion
-                        ? { duration: 0 }
-                        : {
-                            opacity: { duration: 1.1, ease: [0.22, 1, 0.36, 1] },
-                          }
-                    }
-                  />
-                );
-              })}
-            </div>
-            <div className="absolute inset-y-0 left-4 right-4 z-20 flex items-center justify-between pointer-events-none">
-              <button
-                type="button"
-                onClick={() => handleSlideChange(-1)}
-                className="pointer-events-auto inline-flex h-11 w-11 items-center justify-center rounded-full bg-black/35 text-white/90 opacity-100 backdrop-blur-sm transition-all duration-300 hover:bg-black/50 hover:text-white focus-visible:ring-2 focus-visible:ring-white/80 md:translate-x-[-8px] md:opacity-0 md:group-hover:translate-x-0 md:group-hover:opacity-100"
-                aria-label={t('home.hero.previousSlide', 'Immagine precedente')}
-              >
-                <ArrowLeft size={18} weight="bold" />
-              </button>
-              <button
-                type="button"
-                onClick={() => handleSlideChange(1)}
-                className="pointer-events-auto inline-flex h-11 w-11 items-center justify-center rounded-full bg-black/35 text-white/90 opacity-100 backdrop-blur-sm transition-all duration-300 hover:bg-black/50 hover:text-white focus-visible:ring-2 focus-visible:ring-white/80 md:translate-x-[8px] md:opacity-0 md:group-hover:translate-x-0 md:group-hover:opacity-100"
-                aria-label={t('home.hero.nextSlide', 'Immagine successiva')}
-              >
-                <ArrowRight size={18} weight="bold" />
-              </button>
-            </div>
-            <ImageCredit
-              src={heroSlides[activeSlideIndex]?.creditSrc || heroSlides[activeSlideIndex]?.src}
-              className="absolute top-4 right-4 z-20 rounded-full bg-black/45 px-3 py-1 text-[10px] text-white/90"
-              linkClassName="text-white/90 hover:text-white"
-            />
-
-            {/* Warm Floating Stats Card (desktop) */}
-            <motion.div 
-              initial={{ y: 40, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.9, type: 'spring', stiffness: 100, damping: 20 }}
-              className="hidden lg:block absolute bottom-6 left-6 right-6 z-20 bg-card/90 backdrop-blur-lg p-5 rounded-2xl shadow-[var(--shadow-card)] border border-border/40"
-            >
-              <div className="grid grid-cols-3 gap-4 text-foreground">
-                <div>
-                  <div className="text-muted-foreground text-xs font-semibold mb-1" style={{ fontVariant: 'small-caps' }}>
-                    {t('home.stats.altitude', 'Altitudine max')}
-                  </div>
-                  <div className="text-xl font-bold flex items-center gap-1.5" style={{ fontVariantNumeric: 'tabular-nums' }}>
-                    <Tree weight="fill" className="text-primary" size={18} />
-                    1.268m
-                  </div>
-                </div>
-                <div>
-                  <div className="text-muted-foreground text-xs font-semibold mb-1" style={{ fontVariant: 'small-caps' }}>
-                    {t('home.stats.weather', 'Meteo live')}
-                  </div>
-                  <div className="text-xl font-bold flex items-center gap-1.5" style={{ fontVariantNumeric: 'tabular-nums' }}>
-                    <CloudRain weight="fill" className="text-primary-light" size={18} />
-                    8°C
-                  </div>
-                </div>
-                <div>
-                  <div className="text-muted-foreground text-xs font-semibold mb-1" style={{ fontVariant: 'small-caps' }}>
-                    {t('home.stats.stops', 'Fermate')}
-                  </div>
-                  <div className="text-xl font-bold flex items-center gap-1.5" style={{ fontVariantNumeric: 'tabular-nums' }}>
-                    <MapPin weight="fill" className="text-wood" size={18} />
-                    21
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-            </div>
-          </motion.div>
-        </div>
+        {!isMobileLayout && (
+          <div className="w-full lg:w-[45%] min-h-[44vh] sm:min-h-[50vh] lg:min-h-0 relative px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 md:pt-16 lg:pt-20 pb-2 sm:pb-4 md:pb-6 lg:pb-8 flex items-center justify-center order-2 lg:order-2">
+            {heroCarousel}
+          </div>
+        )}
       </section>
 
       <section ref={journeyRef} aria-label="Journey scroll" className="pt-2">
@@ -379,7 +431,19 @@ export default function Home() {
             </div>
           )}
         >
-          <Journey />
+          <Suspense
+            fallback={(
+              <div className="mx-auto max-w-5xl px-6 pb-24">
+                <div className="rounded-3xl border border-border/60 bg-card/80 p-8 shadow-[var(--shadow-elevated)] backdrop-blur-xl">
+                  <div className="inline-flex items-center gap-2 rounded-2xl bg-primary/8 px-4 py-2 text-sm font-semibold text-primary">
+                    {isItalian ? 'Caricamento percorso' : 'Loading journey'}
+                  </div>
+                </div>
+              </div>
+            )}
+          >
+            <Journey />
+          </Suspense>
         </SectionErrorBoundary>
       </section>
 

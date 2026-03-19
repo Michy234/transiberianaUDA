@@ -1,22 +1,31 @@
-import React, { useLayoutEffect } from 'react';
+import React, { lazy, Suspense, useLayoutEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { ThemeProvider } from './components/ThemeContext';
 import Navbar from './components/layout/Navbar';
 import SiteFooter from './components/layout/SiteFooter';
 import CookiePopup from './components/CookiePopup';
-import Home from './pages/Home';
-import Storia from './pages/Storia';
-import Fermate from './pages/Fermate';
-import Meteo from './pages/Meteo';
-import ComeSalire from './pages/ComeSalire';
-import InfoUtili from './pages/InfoUtili';
-import PrivacyPolicy from './pages/PrivacyPolicy';
-import CookiePolicy from './pages/CookiePolicy';
-import LegalNotice from './pages/LegalNotice';
-import AccessibilityNotice from './pages/AccessibilityNotice';
-import NotFound from './pages/NotFound';
 import './globals.css';
+
+const Home = lazy(() => import('./pages/Home'));
+const Storia = lazy(() => import('./pages/Storia'));
+const Fermate = lazy(() => import('./pages/Fermate'));
+const Meteo = lazy(() => import('./pages/Meteo'));
+const ComeSalire = lazy(() => import('./pages/ComeSalire'));
+const InfoUtili = lazy(() => import('./pages/InfoUtili'));
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
+const CookiePolicy = lazy(() => import('./pages/CookiePolicy'));
+const LegalNotice = lazy(() => import('./pages/LegalNotice'));
+const AccessibilityNotice = lazy(() => import('./pages/AccessibilityNotice'));
+const NotFound = lazy(() => import('./pages/NotFound'));
+
+function RouteFallback() {
+  return (
+    <div className="flex min-h-[45vh] items-center justify-center px-6 py-16 text-sm text-muted-foreground" aria-live="polite">
+      Caricamento contenuti...
+    </div>
+  );
+}
 
 function MainRoutes() {
   const location = useLocation();
@@ -54,7 +63,6 @@ function ScrollToTop() {
     };
 
     reset();
-    requestAnimationFrame(reset);
   }, [pathname]);
 
   return null;
@@ -68,7 +76,9 @@ function App() {
         <div className="flex min-h-[100dvh] flex-col overflow-x-hidden bg-background">
           <Navbar />
           <main className="flex-1 w-full relative">
-            <MainRoutes />
+            <Suspense fallback={<RouteFallback />}>
+              <MainRoutes />
+            </Suspense>
           </main>
           <SiteFooter />
         </div>

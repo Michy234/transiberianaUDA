@@ -1,53 +1,72 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useContext, useState, useEffect, useLayoutEffect, useCallback } from 'react';
 
 const ThemeContext = createContext(undefined);
 
 const STORAGE_KEY = 'transiberiana-theme';
 
-function getInitialTheme() {
-  // 1. Check localStorage
-  if (typeof window !== 'undefined') {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored === 'light' || stored === 'dark') return stored;
-    
-    // 2. Check system preference
-    if (window.matchMedia?.('(prefers-color-scheme: dark)').matches) {
-      return 'dark';
-    }
+function readStoredTheme() {
+  if (typeof window === 'undefined') return null;
+
+  try {
+    const stored = window.localStorage.getItem(STORAGE_KEY);
+    return stored === 'light' || stored === 'dark' ? stored : null;
+  } catch (error) {
+    return null;
   }
-  // 3. Default to light
+}
+
+function writeStoredTheme(nextTheme) {
+  if (typeof window === 'undefined') return;
+
+  try {
+    window.localStorage.setItem(STORAGE_KEY, nextTheme);
+  } catch (error) {
+    // Ignore storage failures so the UI can still render.
+  }
+}
+
+function getInitialTheme() {
+  const stored = readStoredTheme();
+  if (stored) return stored;
+
+  if (typeof window !== 'undefined' && window.matchMedia?.('(prefers-color-scheme: dark)').matches) {
+    return 'dark';
+  }
+
   return 'light';
 }
 
 export function ThemeProvider({ children }) {
   const [theme, setThemeState] = useState(getInitialTheme);
 
-  // Apply theme to DOM
   const applyTheme = useCallback((newTheme) => {
+    if (typeof document === 'undefined') return;
+
     document.documentElement.setAttribute('data-theme', newTheme);
-    // Update meta theme-color for mobile browsers
+    document.documentElement.style.colorScheme = newTheme;
+
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
     if (metaThemeColor) {
       metaThemeColor.setAttribute('content', newTheme === 'dark' ? '#2D1F1B' : '#FAF9F6');
     }
   }, []);
 
-  // Sync theme on mount and changes
-  useEffect(() => {
+  useLayoutEffect(() => {
     applyTheme(theme);
   }, [theme, applyTheme]);
 
-  // Listen for system preference changes
   useEffect(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) return undefined;
+
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleChange = (e) => {
-      // Only auto-switch if user hasn't manually set a preference
-      const stored = localStorage.getItem(STORAGE_KEY);
+      const stored = readStoredTheme();
       if (!stored) {
         const newTheme = e.matches ? 'dark' : 'light';
         setThemeState(newTheme);
       }
     };
+
     mediaQuery.addEventListener('change', handleChange);
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
@@ -55,14 +74,15 @@ export function ThemeProvider({ children }) {
   const toggle = useCallback(() => {
     setThemeState((prev) => {
       const next = prev === 'dark' ? 'light' : 'dark';
-      localStorage.setItem(STORAGE_KEY, next);
+      writeStoredTheme(next);
       return next;
     });
   }, []);
 
   const setTheme = useCallback((newTheme) => {
-    localStorage.setItem(STORAGE_KEY, newTheme);
-    setThemeState(newTheme);
+    const normalizedTheme = newTheme === 'dark' ? 'dark' : 'light';
+    writeStoredTheme(normalizedTheme);
+    setThemeState(normalizedTheme);
   }, []);
 
   const isDark = theme === 'dark';

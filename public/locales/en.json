@@ -31,6 +31,11 @@
       "itinerary": "Explore the itinerary"
     },
     "scrollHint": "Scroll to start the journey",
+    "heroImageAltGeneric": "Transiberiana d'Abruzzo photo",
+    "hero": {
+      "previousSlide": "Previous image",
+      "nextSlide": "Next image"
+    },
     "stats": {
       "altitude": "Max altitude",
       "weather": "Live weather",
@@ -1709,12 +1714,12 @@
     "subtitle": "A practical guide to understand how departure works, what to expect on board and which details are worth checking before you book.",
     "bookingAria": "Open the official website for calendar and tickets in a new tab",
     "tripadvisorAria": "Open TripAdvisor reviews in a new tab",
-    "accessibilityAria": "Write to request accessibility and assistance support",
+    "accessibilityAria": "Open the official website to check accessibility and assistance information",
     "overviewAria": "Quick trip summary",
     "actions": {
       "booking": "Calendar and tickets",
       "tripadvisor": "TripAdvisor reviews",
-      "accessibility": "Ask for accessibility support"
+      "accessibility": "Check accessibility on the official website"
     },
     "overview": [
       {
@@ -1791,7 +1796,7 @@
       "eyebrow": "Check before booking",
       "title": "Accessibility and assistance",
       "body": "For wheelchairs, reduced mobility or specific needs, it is better to ask first and book after you get confirmation.",
-      "mailLabel": "Write to info@ferroviadeiparchi.it",
+      "mailLabel": "Official accessibility information",
       "siteLabel": "Check website and availability"
     },
     "categories": [

@@ -6,6 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import { useI18n } from '../i18n/index.jsx';
 import ImageCredit from '../components/ImageCredit';
+import { useDialogAccessibility } from '../hooks/useDialogAccessibility';
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
@@ -255,11 +256,24 @@ function TimelineItem({
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const popupRef = useRef(null);
   const triggerRef = useRef(null);
+  const closeButtonRef = useRef(null);
+  const popupDialogId = `${stepId}-popup-dialog`;
+  const popupHeadingId = `${stepId}-popup-title`;
+  const popupIntroId = `${stepId}-popup-intro`;
 
   const closePopup = () => {
     setIsPopupOpen(false);
     if (onPopupToggle) onPopupToggle(stepId, false);
   };
+
+  useDialogAccessibility({
+    isOpen: isPopupOpen,
+    containerRef: popupRef,
+    initialFocusRef: closeButtonRef,
+    returnFocusRef: triggerRef,
+    onClose: closePopup,
+    lockScroll: false,
+  });
 
   useEffect(() => {
     if (!isPopupOpen) return undefined;
@@ -270,16 +284,10 @@ function TimelineItem({
       closePopup();
     };
 
-    const handleKeyDown = (event) => {
-      if (event.key === 'Escape') closePopup();
-    };
-
     document.addEventListener('mousedown', handlePointerDown);
-    document.addEventListener('keydown', handleKeyDown);
 
     return () => {
       document.removeEventListener('mousedown', handlePointerDown);
-      document.removeEventListener('keydown', handleKeyDown);
     };
   }, [isPopupOpen]);
 
@@ -338,6 +346,8 @@ function TimelineItem({
                 });
               }}
               aria-expanded={isPopupOpen}
+              aria-controls={popupDialogId}
+              aria-haspopup="dialog"
               className="mt-5 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/8 px-4 py-2 text-sm font-semibold text-primary transition-colors duration-300 hover:bg-primary/12"
             >
               {isPopupOpen ? lessInfoLabel : moreInfoLabel}
@@ -352,23 +362,28 @@ function TimelineItem({
               {isPopupOpen ? (
                 <motion.div
                   ref={popupRef}
+                  id={popupDialogId}
                   initial={{ opacity: 0, y: 10, scale: 0.98 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 8, scale: 0.98 }}
                   transition={{ duration: 0.22, ease: 'easeOut' }}
                   className="absolute left-0 top-full z-30 mt-4 w-full max-w-[32rem] rounded-[28px] border border-border/60 bg-card/95 p-5 shadow-[var(--shadow-elevated)] backdrop-blur-xl"
+                  role="dialog"
+                  aria-labelledby={popupHeadingId}
+                  aria-describedby={popupIntroId}
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div>
                       <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-muted-foreground">
                         {popupLabel}
                       </p>
-                      <h4 className="mt-2 text-2xl font-serif font-bold tracking-tight text-foreground">
+                      <h4 id={popupHeadingId} className="mt-2 text-2xl font-serif font-bold tracking-tight text-foreground">
                         {popup.title}
                       </h4>
                     </div>
 
                     <button
+                      ref={closeButtonRef}
                       type="button"
                       onClick={closePopup}
                       className="flex h-10 w-10 items-center justify-center rounded-full border border-border/60 bg-background/80 text-foreground transition-colors duration-200 hover:bg-background"
@@ -378,7 +393,7 @@ function TimelineItem({
                     </button>
                   </div>
 
-                  <p className="mt-4 text-sm leading-relaxed text-foreground/85">{popup.intro}</p>
+                  <p id={popupIntroId} className="mt-4 text-sm leading-relaxed text-foreground/85">{popup.intro}</p>
 
                   <div className="mt-4 space-y-3">
                     {popup.paragraphs?.map((paragraph) => (

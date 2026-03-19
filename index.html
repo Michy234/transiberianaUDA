@@ -4,8 +4,30 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Transiberiana d'Abruzzo — Viaggio in treno storico tra i Parchi Nazionali e i borghi dell'Appennino Centrale. Meteo live, fermate, orari e info utili." />
+    <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content="#FAF9F6" />
     <title>Transiberiana d'Abruzzo</title>
+    <script>
+      (function () {
+        try {
+          var storageKey = 'transiberiana-theme';
+          var stored = window.localStorage.getItem(storageKey);
+          var theme = stored === 'dark' || stored === 'light'
+            ? stored
+            : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+
+          document.documentElement.setAttribute('data-theme', theme);
+          document.documentElement.style.colorScheme = theme;
+
+          var metaThemeColor = document.querySelector('meta[name="theme-color"]');
+          if (metaThemeColor) {
+            metaThemeColor.setAttribute('content', theme === 'dark' ? '#2D1F1B' : '#FAF9F6');
+          }
+        } catch (error) {
+          // Ignore storage or browser capability errors during first paint.
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

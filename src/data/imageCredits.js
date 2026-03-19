@@ -137,6 +137,27 @@ const WIKIMEDIA_COMMONS = {
   ...PROJECT_ARCHIVE,
 };
 
+const LOCAL_ARCHIVE_CREDIT = {
+  label: 'Archivio fotografico fornito dal progetto',
+};
+
+function getImportedAssetCredit(src) {
+  if (!src.includes('/assets/')) return null;
+
+  const pathname = decodeURIComponent(src.split('?')[0]);
+  const basename = pathname.split('/').pop() || '';
+
+  if (/^WhatsApp Image 2026-03-16 at 12\.26\.5[01] PM-.*\.(jpeg|jpg|png|webp|avif)$/i.test(basename)) {
+    return LOCAL_ARCHIVE_CREDIT;
+  }
+
+  if (/^[a-f0-9-]{12,}\.(jpeg|jpg|png|webp|avif)$/i.test(basename)) {
+    return LOCAL_ARCHIVE_CREDIT;
+  }
+
+  return null;
+}
+
 function getUnsplashCredit(src) {
   const match = src.match(/images\.unsplash\.com\/photo-([^?]+)/);
   if (!match) return null;
@@ -152,5 +173,7 @@ export function getImageCredit(src) {
   const clean = src.split('?')[0];
   const unsplash = getUnsplashCredit(clean);
   if (unsplash) return unsplash;
+  const importedAsset = getImportedAssetCredit(clean);
+  if (importedAsset) return importedAsset;
   return WIKIMEDIA_COMMONS[clean] || null;
 }

@@ -10,7 +10,7 @@ export default function LegalNotice() {
     ? [
         { label: 'Affiliazione', value: 'Il sito non dichiara alcuna affiliazione ufficiale con i marchi o gli enti citati.' },
         { label: 'Pubblicazione', value: 'Demo tecnica pubblicata tramite Vercel.' },
-        { label: 'Servizi attivi', value: 'Nessun servizio di prenotazione, newsletter o vendita e gestito dal sito demo.' },
+        { label: 'Servizi attivi', value: 'Nessun servizio di prenotazione, newsletter o vendita è gestito dal sito demo.' },
       ]
     : [
         { label: 'Affiliation', value: 'The website does not claim any official affiliation with the brands or entities mentioned.' },
@@ -23,14 +23,14 @@ export default function LegalNotice() {
         {
           title: 'Avvertenza generale',
           paragraphs: [
-            'Questo sito e una demo scolastica non ufficiale costruita a fini didattici. I contenuti hanno finalita di studio, prototipazione e sperimentazione.',
+            'Questo sito è una demo scolastica non ufficiale costruita a fini didattici. I contenuti hanno finalità di studio, prototipazione e sperimentazione.',
             'Il sito non sostituisce le informazioni pubblicate dai soggetti ufficiali eventualmente citati nelle pagine.',
           ],
         },
         {
           title: 'Marchi, nomi e riferimenti del progetto',
           paragraphs: [
-            'I nomi, i loghi e i riferimenti visivi eventualmente mostrati nel progetto restano di proprieta dei rispettivi titolari.',
+            'I nomi, i loghi e i riferimenti visivi eventualmente mostrati nel progetto restano di proprietà dei rispettivi titolari.',
             'La loro presenza in questa demo non deve essere interpretata come partnership commerciale, sponsorizzazione o affiliazione ufficiale del progetto scolastico.',
           ],
         },
@@ -38,15 +38,16 @@ export default function LegalNotice() {
           title: 'Immagini, fonti e crediti',
           paragraphs: [
             'Le immagini locali usate nel progetto riportano crediti e fonti ove disponibili. Le licenze note sono documentate nei file di supporto del progetto.',
-            'La demo utilizza inoltre font auto-ospitati con lo stesso aspetto visivo della versione precedente, cosi da ridurre il caricamento di risorse da terze parti.',
+            'Le immagini importate localmente dalla home e dagli altri percorsi mostrano un credito sintetico quando il file sorgente è riconosciuto, così da mantenere la tracciabilità anche sugli asset di progetto.',
+            'La demo utilizza inoltre font auto-ospitati con lo stesso aspetto visivo della versione precedente, così da ridurre il caricamento di risorse da terze parti.',
           ],
         },
         {
           title: 'Dati e servizi esterni',
           list: [
-            'Open-Meteo e usato per i dati della sezione meteo live.',
+            'Open-Meteo è usato per i dati della sezione meteo live.',
             'Google Maps, Trainline e TripAdvisor vengono aperti come servizi esterni solo su iniziativa dell\'utente.',
-            'L\'hosting della demo e indicato come Vercel.',
+            'L\'hosting della demo è indicato come Vercel.',
           ],
         },
         {
@@ -58,7 +59,7 @@ export default function LegalNotice() {
             'FAQ e linee guida cookie del Garante per la protezione dei dati personali.',
             'Guidelines 2/2023 dell\'European Data Protection Board sul perimetro tecnico dell\'art. 5(3) ePrivacy.',
           ],
-          note: 'Nel repository e presente anche un dossier in Markdown con checklist e fonti commentate, utile per il contesto scolastico e di revisione del progetto.',
+          note: 'Nel repository è presente anche un dossier in Markdown con checklist e fonti commentate, utile per il contesto scolastico e di revisione del progetto.',
         },
       ]
     : [

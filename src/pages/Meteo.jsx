@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CloudRain, Wind, Thermometer, MapPin, Leaf, CloudSun, Sun, Cloud, Snowflake } from '@phosphor-icons/react';
 import { useTheme } from '../components/ThemeContext';
@@ -94,6 +94,7 @@ function getWeatherIcon(code) {
 function CityWeatherCard({ city, data, delay, t }) {
   const weatherCode = data?.weatherCode ?? 0;
   const photoSrc = CITY_PHOTOS[city.key];
+  const hasTemperature = Number.isFinite(data?.temperature);
   
   return (
     <motion.a
@@ -104,7 +105,6 @@ function CityWeatherCard({ city, data, delay, t }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, type: 'spring', stiffness: 100, damping: 20 }}
       className="bg-card p-6 rounded-3xl shadow-[var(--shadow-card)] relative overflow-hidden group hover:shadow-[var(--shadow-card-hover)] hover:scale-[1.02] transition-all duration-300 block"
-      role="region"
     >
       {photoSrc && (
         <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
@@ -127,7 +127,7 @@ function CityWeatherCard({ city, data, delay, t }) {
             {getWeatherIcon(weatherCode)}
           </div>
           <div className="text-4xl font-bold tracking-tighter text-foreground" style={{ fontVariantNumeric: 'tabular-nums' }}>
-            {data?.temperature ? `${data.temperature.toFixed(1)}°C` : '—'}
+            {hasTemperature ? `${data.temperature.toFixed(1)}°C` : '—'}
           </div>
         </div>
         <div className="flex gap-4 text-sm text-muted-foreground">
@@ -289,39 +289,38 @@ export default function Meteo() {
     { key: 'campo', ...STATIONS.campo },
   ];
 
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const data = await fetchCurrentConditions();
-        setWeatherData(data);
-        setState(STATES.READY);
-      } catch (err) {
+  const loadData = useCallback(async ({ silent = false } = {}) => {
+    if (!silent) {
+      setState(STATES.LOADING);
+    }
+
+    try {
+      const data = await fetchCurrentConditions();
+      setWeatherData(data);
+      setState(Object.keys(data).length > 0 ? STATES.READY : STATES.EMPTY);
+    } catch (err) {
+      if (!silent) {
+        setWeatherData({});
         setState(STATES.ERROR);
       }
-    };
+    }
+  }, []);
 
-    const loadTimer = setTimeout(() => {
+  useEffect(() => {
+    const loadTimer = window.setTimeout(() => {
       loadData();
     }, 1000);
 
-    return () => clearTimeout(loadTimer);
-  }, []);
-
-  const updateLoop = () => {
-    const interval = setInterval(async () => {
-      try {
-        const data = await fetchCurrentConditions();
-        setWeatherData(data);
-      } catch (e) {}
-    }, 60000);
-    return interval;
-  };
+    return () => window.clearTimeout(loadTimer);
+  }, [loadData]);
 
   useEffect(() => {
     if (state !== STATES.READY) return;
-    const interval = updateLoop();
-    return () => clearInterval(interval);
-  }, [state]);
+    const interval = window.setInterval(() => {
+      loadData({ silent: true });
+    }, 60000);
+    return () => window.clearInterval(interval);
+  }, [loadData, state]);
 
   const formatTimestamp = (value) => {
     if (!value) return '—';
@@ -348,13 +347,14 @@ export default function Meteo() {
   };
 
   useEffect(() => {
+    if (!import.meta.env.DEV) return;
     if (!showArduinoDebug) return;
     if (arduinoRows.length > 0) return;
     loadArduino(true);
-  }, [showArduinoDebug]);
+  }, [arduinoRows.length, showArduinoDebug]);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (!import.meta.env.DEV || typeof window === 'undefined') return;
     const toggleFn = () => setShowArduinoDebug((prev) => !prev);
     window.demo = window.demo || {};
     window.demo.toggle = toggleFn;
@@ -390,7 +390,7 @@ export default function Meteo() {
         
         {state === STATES.ERROR && (
           <motion.div key="error" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            <ErrorState isDark={isDark} t={t} onRetry={() => { setState(STATES.LOADING); setTimeout(() => setState(STATES.READY), 1500); }} />
+            <ErrorState isDark={isDark} t={t} onRetry={() => loadData()} />
           </motion.div>
         )}
 
@@ -427,7 +427,7 @@ export default function Meteo() {
               </button>
             </div>
 
-            {showArduinoDebug && (
+            {import.meta.env.DEV && showArduinoDebug && (
               <motion.section
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}

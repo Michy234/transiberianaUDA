@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Subway, Translate, List, X, Sun, Moon, CloudRain } from '@phosphor-icons/react';
 import { useTheme } from '../ThemeContext';
 import { useI18n } from '../../i18n/index.jsx';
+import { useDialogAccessibility } from '../../hooks/useDialogAccessibility';
 
 const navLinks = [
   { path: '/', key: 'nav.home', label: 'Home' },
@@ -14,6 +15,8 @@ const navLinks = [
   { path: '/meteo', key: 'nav.meteo', label: 'Meteo Live' },
 ];
 
+const MOBILE_MENU_INERT_SELECTORS = ['main', 'footer'];
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -23,6 +26,9 @@ export default function Navbar() {
   const location = useLocation();
   const navPillRef = useRef(null);
   const langMenuRef = useRef(null);
+  const mobileMenuDialogRef = useRef(null);
+  const mobileMenuCloseRef = useRef(null);
+  const mobileMenuTriggerRef = useRef(null);
   const linkRefs = useRef(new Map());
   const [pill, setPill] = useState(null);
 
@@ -117,6 +123,15 @@ export default function Navbar() {
       document.fonts.ready.then(() => updatePill());
     }
   }, [lang, updatePill]);
+
+  useDialogAccessibility({
+    isOpen: mobileMenuOpen,
+    containerRef: mobileMenuDialogRef,
+    initialFocusRef: mobileMenuCloseRef,
+    returnFocusRef: mobileMenuTriggerRef,
+    onClose: () => setMobileMenuOpen(false),
+    inertSelectors: MOBILE_MENU_INERT_SELECTORS,
+  });
 
   return (
     <>
@@ -277,10 +292,12 @@ export default function Navbar() {
             
             {/* Mobile Toggle */}
             <button
+              ref={mobileMenuTriggerRef}
               className="lg:hidden w-10 h-10 rounded-xl bg-card/70 border border-border/50 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-card transition-all duration-200 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label={mobileMenuOpen ? t('nav.closeMenu', 'Chiudi menu') : t('nav.openMenu', 'Apri menu')}
               aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-navigation-dialog"
             >
               {mobileMenuOpen ? <X size={18} /> : <List size={18} />}
             </button>
@@ -292,14 +309,26 @@ export default function Navbar() {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
+            ref={mobileMenuDialogRef}
+            id="mobile-navigation-dialog"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             className="fixed inset-0 z-40 bg-background/95 backdrop-blur-2xl flex flex-col justify-center items-center p-6"
             role="dialog"
+            aria-modal="true"
             aria-label={t('nav.aria.mobile', 'Menu di navigazione')}
           >
+            <button
+              ref={mobileMenuCloseRef}
+              type="button"
+              onClick={() => setMobileMenuOpen(false)}
+              className="absolute right-6 top-6 inline-flex h-11 w-11 items-center justify-center rounded-full border border-border/60 bg-card/72 text-foreground transition-colors duration-200 hover:bg-card"
+              aria-label={t('nav.closeMenu', 'Chiudi menu')}
+            >
+              <X size={18} weight="bold" />
+            </button>
             <nav className="flex flex-col w-full max-w-sm gap-3">
               {navLinks.map((link, i) => {
                 const label = t(link.key, link.label);

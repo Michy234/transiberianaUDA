@@ -55,9 +55,9 @@ export default function CookiePolicy() {
           title: 'Come gestire le preferenze locali',
           paragraphs: [
             'Le preferenze possono essere azzerate cancellando i dati del browser oppure cambiando direttamente tema e lingua dal sito.',
-            'L\'avviso informativo puo essere nuovamente visualizzato cancellando i dati del browser associati al sito.',
+            'L\'avviso informativo può essere nuovamente visualizzato cancellando i dati del browser associati al sito.',
           ],
-          note: 'Se in futuro il progetto aggiungera analytics, mappe incorporate o altri strumenti non strettamente necessari, questa policy e il relativo banner dovranno essere aggiornati prima della pubblicazione.',
+          note: 'Se in futuro il progetto aggiungerà analytics, mappe incorporate o altri strumenti non strettamente necessari, questa policy e il relativo banner dovranno essere aggiornati prima della pubblicazione.',
         },
       ]
     : [
