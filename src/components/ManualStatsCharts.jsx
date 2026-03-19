@@ -11,6 +11,11 @@ export default function ManualStatsCharts({ tourismData, seasonalStats, isItalia
   const lineRef = useRef(null);
   const pieChartRef = useRef(null);
   const lineChartRef = useRef(null);
+  const tourismLegend = tourismData.map((item, index) => ({
+    color: COLORS[index % COLORS.length],
+    label: isItalian ? item.season.it : item.season.en,
+    share: isItalian ? item.share.it : item.share.en,
+  }));
 
   useEffect(() => {
     if (!pieRef.current) return;
@@ -94,8 +99,33 @@ export default function ManualStatsCharts({ tourismData, seasonalStats, isItalia
         <div className="text-sm font-semibold text-muted-foreground mb-3">
           {isItalian ? 'Distribuzione turisti' : 'Tourists distribution'}
         </div>
-        <div className="relative h-40">
-          <canvas ref={pieRef} role="img" aria-label={isItalian ? 'Distribuzione turisti per stagione' : 'Tourists distribution by season'} />
+        <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_220px] md:items-center">
+          <div className="relative h-48">
+            <canvas ref={pieRef} role="img" aria-label={isItalian ? 'Distribuzione turisti per stagione' : 'Tourists distribution by season'} />
+          </div>
+          <ul
+            className="grid gap-2"
+            aria-label={isItalian ? 'Legenda distribuzione turisti' : 'Tourists distribution legend'}
+          >
+            {tourismLegend.map((item) => (
+              <li
+                key={item.label}
+                className="flex items-center justify-between gap-3 rounded-2xl border border-border/50 bg-background/60 px-3 py-2"
+              >
+                <span className="flex items-center gap-2 text-sm font-semibold text-foreground">
+                  <span
+                    className="h-3 w-3 rounded-full shrink-0"
+                    style={{ backgroundColor: item.color }}
+                    aria-hidden="true"
+                  />
+                  {item.label}
+                </span>
+                <span className="text-xs text-muted-foreground text-right">
+                  {item.share}
+                </span>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
       <div className="rounded-2xl border border-border/60 bg-background/70 p-5">
