@@ -690,7 +690,6 @@ export default function Meteo() {
                     hideCitySelector
                     compact
                     hideStats
-                    minTimeWindowHours={2}
                   />
                 </div>
               </div>

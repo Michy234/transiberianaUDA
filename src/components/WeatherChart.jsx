@@ -37,7 +37,6 @@ export default function WeatherChart({
   hideCitySelector = false,
   compact = false,
   hideStats = false,
-  minTimeWindowHours = null,
 }) {
   const { lang, t } = useI18n();
   const canvasRef = useRef(null);
@@ -213,7 +212,16 @@ export default function WeatherChart({
 
       let arduinoData = null;
       try {
-        const rows = await fetchArduinoSeries({ since, limit: 500 });
+        let rows = await fetchArduinoSeries({ since, limit: 500 });
+        const needsArduinoFallback =
+          (!rows || rows.length === 0) &&
+          (selectedCity === ARDUINO_KEY ||
+            (Array.isArray(allowedCities) && allowedCities.length === 1 && allowedCities[0] === ARDUINO_KEY));
+
+        if (needsArduinoFallback) {
+          rows = await fetchArduinoSeries({ limit: 500 });
+        }
+
         if (rows && rows.length) {
           arduinoData = {
             key: ARDUINO_KEY,
@@ -308,16 +316,6 @@ export default function WeatherChart({
       });
     });
 
-    const useMinWindow =
-      Number.isFinite(minTimeWindowHours) &&
-      minTimeWindowHours > 0 &&
-      (selectedCity === ARDUINO_KEY ||
-        (Array.isArray(allowedCities) && allowedCities.length === 1 && allowedCities[0] === ARDUINO_KEY));
-    const now = new Date();
-    const minWindowStart = useMinWindow
-      ? new Date(now.getTime() - minTimeWindowHours * 60 * 60 * 1000)
-      : null;
-
     chartRef.current = new Chart(ctx, {
       type: 'line',
       data: { datasets },
@@ -367,8 +365,6 @@ export default function WeatherChart({
         scales: {
           x: {
             type: 'time',
-            min: minWindowStart,
-            max: useMinWindow ? now : undefined,
             time: {
               unit: selectedPeriod === '7d' || selectedPeriod === '30d' ? 'day' : 'hour',
               tooltipFormat: selectedPeriod === '24h' || selectedPeriod === '2h' ? 'HH:mm' : 'dd MMM',
@@ -393,16 +389,7 @@ export default function WeatherChart({
         chartRef.current.destroy();
       }
     };
-  }, [
-    allowedCities,
-    chartData,
-    dateLocale,
-    metricOptions,
-    minTimeWindowHours,
-    selectedMetric,
-    selectedPeriod,
-    selectedCity,
-  ]);
+  }, [allowedCities, chartData, dateLocale, metricOptions, selectedMetric, selectedPeriod, selectedCity]);
 
   return (
     <div className="w-full">

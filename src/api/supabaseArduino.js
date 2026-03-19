@@ -1,7 +1,13 @@
 const SUPABASE_URL = import.meta.env.VITE_SUPA_URL || 'https://amhbcbfxoosnakvvhclw.supabase.co/rest/v1/sensor_data';
 const SUPABASE_KEY = import.meta.env.VITE_SUPA_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFtaGJjYmZ4b29zbmFrdnZoY2x3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0ODExMTIsImV4cCI6MjA4OTA1NzExMn0.X_xun96MRTFyFhKyMjfdXzfeDvFx6kkw4VivR88sjV8';
 
-const DEFAULT_COLUMNS = ['temp', 'humidity', 'soil_moisture', 'air_quality', 'created_at', 'co2', 'nh4', 'toluene'];
+const DEFAULT_COLUMNS = '*';
+
+function buildSelect(columns) {
+  if (!columns || columns === '*') return '*';
+  if (Array.isArray(columns)) return columns.join(',');
+  return String(columns);
+}
 
 function getHeaders() {
   return {
@@ -25,7 +31,7 @@ export async function fetchArduinoRecords({ limit = 50, offset = 0, columns = DE
     throw new Error('Supabase configuration missing');
   }
 
-  const select = encodeURIComponent(columns.join(','));
+  const select = encodeURIComponent(buildSelect(columns));
   const url = `${SUPABASE_URL}?select=${select}&order=created_at.desc&limit=${limit}&offset=${offset}`;
 
   const res = await fetch(url, { headers: getHeaders() });
@@ -44,7 +50,7 @@ export async function fetchArduinoSeries({ since, limit = 500, columns = DEFAULT
     throw new Error('Supabase configuration missing');
   }
 
-  const select = encodeURIComponent(columns.join(','));
+  const select = encodeURIComponent(buildSelect(columns));
   const sinceParam = since ? `&created_at=gte.${encodeURIComponent(since)}` : '';
   const url = `${SUPABASE_URL}?select=${select}&order=created_at.asc&limit=${limit}${sinceParam}`;
 
