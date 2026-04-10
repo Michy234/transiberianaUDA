@@ -1,2 +1,5 @@
 node_modules
 riassunto.MD
+.env
+.env.local
+arduino/arduino_secrets.h
