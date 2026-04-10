@@ -1,5 +1,5 @@
-const SUPABASE_URL = import.meta.env.VITE_SUPA_URL || 'https://amhbcbfxoosnakvvhclw.supabase.co/rest/v1/sensor_data';
-const SUPABASE_KEY = import.meta.env.VITE_SUPA_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFtaGJjYmZ4b29zbmFrdnZoY2x3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0ODExMTIsImV4cCI6MjA4OTA1NzExMn0.X_xun96MRTFyFhKyMjfdXzfeDvFx6kkw4VivR88sjV8';
+const SUPABASE_URL = import.meta.env.VITE_SUPA_URL;
+const SUPABASE_KEY = import.meta.env.VITE_SUPA_KEY;
 
 const DEFAULT_COLUMNS = '*';
 
