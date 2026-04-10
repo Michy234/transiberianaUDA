@@ -24,8 +24,8 @@
 
 MQUnifiedsensor MQ135(Board, Voltage_Resolution, ADC_Bit_Resolution, Pin, Type);
 
-const char* ssid       = "IISMATTEI";
-const char* password   = "BlackSheep29*";
+const char* ssid       = "ssid";
+const char* password   = "pwd";
 const char* SUPA_URL   = "https://amhbcbfxoosnakvvhclw.supabase.co/rest/v1/sensor_data";
 const char* SUPA_KEY   = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFtaGJjYmZ4b29zbmFrdnZoY2x3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM0ODExMTIsImV4cCI6MjA4OTA1NzExMn0.X_xun96MRTFyFhKyMjfdXzfeDvFx6kkw4VivR88sjV8";  // anon key
 // ────────────────────────────────────────────────────────────
